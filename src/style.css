@@ -33,9 +33,14 @@ body {
 
 .editor {
   flex-grow: 1;
+  background: transparent;
 }
 .cm-editor {
   height: 100%;
+  background: transparent;
+}
+.cm-gutters {
+  background: transparent !important;
 }
 select {
   background-color: #222;
