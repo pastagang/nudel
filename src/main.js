@@ -107,7 +107,7 @@ session.on("sync", () => {
   if (session.getDocuments().length === 0) {
     session.setActiveDocuments([
       { id: "slot1", target: "strudel" },
-      { id: "slot2", target: "hydra" },
+      { id: "slot2", target: "strudel" },
     ]);
   }
 
