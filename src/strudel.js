@@ -6,7 +6,7 @@ import {
   evaluate,
   silence,
 } from "@strudel/core";
-// import { Framer } from "@strudel/draw";
+import { Framer } from "@strudel/draw";
 import { registerSoundfonts } from "@strudel/soundfonts";
 import { transpiler } from "@strudel/transpiler";
 import {
@@ -16,12 +16,17 @@ import {
   samples,
   webaudioOutput,
 } from "@strudel/webaudio";
+import {
+  highlightMiniLocations,
+  updateMiniLocations,
+} from "@strudel/codemirror";
+
+export const editorViews = new Map();
+controls.createParam("docId");
 
 export class StrudelSession {
   constructor({ onError }) {
-    this.init().then(() => {
-      console.log("strudel init done", this.repl);
-    });
+    this.init();
     this.patterns = {};
     this.pPatterns = {};
     this.allTransform = undefined;
@@ -62,20 +67,51 @@ export class StrudelSession {
 
     this.repl = repl({
       defaultOutput: webaudioOutput,
-      afterEval: (options) => {
-        // assumes docId is injected at end end as a comment
-        /* const docId = options.code.split("//").slice(-1)[0];
-      if (!docId) return;
-      const miniLocations = options.meta?.miniLocations;
-      updateDocumentsContext(docId, { miniLocations }); */
-      },
-      beforeEval: () => {},
       onSchedulerError: (e) => this.onError(`${e}`),
-      onEvalError: (e) => this.onError(`${e}`),
       getTime: () => getAudioContext().currentTime,
       transpiler,
     });
     this.injectPatternMethods();
+
+    this.initHighlighting();
+  }
+
+  initHighlighting() {
+    let lastFrame /* : number | null  */ = null;
+    this.framer = new Framer(
+      () => {
+        const phase = this.repl.scheduler.now();
+        if (lastFrame === null) {
+          lastFrame = phase;
+          return;
+        }
+        if (!this.repl.scheduler.pattern) {
+          return;
+        }
+        // queries the stack of strudel patterns for the current time
+        const allHaps = this.repl.scheduler.pattern.queryArc(
+          Math.max(lastFrame, phase - 1 / 10), // make sure query is not larger than 1/10 s
+          phase
+        );
+        // filter out haps that are not active right now
+        const currentFrame = allHaps.filter(
+          (hap) => phase >= hap.whole.begin && phase <= hap.endClipped
+        );
+        // iterate over each strudel doc
+        Object.keys(this.patterns).forEach((docId) => {
+          // filter out haps belonging to this document (docId is set in eval)
+          const haps = currentFrame.filter((h) => h.value.docId === docId);
+          // update codemirror view to highlight this frame's haps
+          const view = editorViews.get(docId);
+          console.log(docId, haps);
+          highlightMiniLocations(view, phase || 0, haps || []);
+        });
+      },
+      (err) => {
+        console.error("[strudel] draw error", err);
+      }
+    );
+    this.framer.start(); // tbd allow disabling highlighting
   }
 
   hush() {
@@ -93,7 +129,6 @@ export class StrudelSession {
         // allows muting a pattern x with x_ or _x
         return silence;
       }
-      console.log("p", id);
       if (id === "$") {
         // allows adding anonymous patterns with $:
         id = `$${self.anonymousIndex}`;
@@ -134,14 +169,16 @@ export class StrudelSession {
       !conversational && this.hush();
       const { body: code, docId } = msg;
       // little hack that injects the docId at the end of the code to make it available in afterEval
-      /* const { pattern } =  */ await evaluate(
-        //`${code}//${docId}`,
+      let { pattern, meta } = await evaluate(
         code,
         transpiler
         // { id: '?' }
       );
-      let pattern = silence;
 
+      const view = editorViews.get(docId);
+      updateMiniLocations(view, meta?.miniLocations || []);
+
+      // let pattern = silence;
       if (Object.keys(this.pPatterns).length) {
         let patterns = Object.values(this.pPatterns);
         pattern = stack(...patterns);
@@ -150,14 +187,17 @@ export class StrudelSession {
         pattern = this.allTransform(pattern);
       }
 
-      console.log("eval done", this.pPatterns);
-      if (pattern) {
-        //this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
-        this.patterns[docId] = pattern; // docId is needed for highlighting
-        console.log("this.patterns", this.patterns);
-        const allPatterns = stack(...Object.values(this.patterns));
-        await this.repl.scheduler.setPattern(allPatterns, true);
+      if (!pattern) {
+        return;
       }
+      console.log("evaluated patterns", this.pPatterns);
+      this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
+      console.log("this.patterns", this.patterns);
+      const allPatterns = stack(...Object.values(this.patterns));
+
+      await this.repl.scheduler.setPattern(allPatterns, true);
+
+      console.log("afterEval", meta);
     } catch (err) {
       console.error(err);
       this.onError(`${err}`);

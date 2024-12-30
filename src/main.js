@@ -6,7 +6,8 @@ import { yCollab } from "y-codemirror.next";
 import { Session } from "@flok-editor/session";
 import { flashField, evalKeymap, remoteEvalFlash } from "@flok-editor/cm-eval";
 import { UndoManager } from "yjs";
-import { StrudelSession } from "./strudel";
+import { highlightExtension } from "@strudel/codemirror";
+import { StrudelSession, editorViews } from "./strudel";
 
 import "./style.css";
 
@@ -23,6 +24,7 @@ const flokBasicSetup = (doc) => {
 
   return [
     flashField(),
+    highlightExtension,
     remoteEvalFlash(doc),
     Prec.high(evalKeymap(doc, { web, defaultMode: "document" })),
     yCollab(text, doc.session.awareness, { undoManager }),
@@ -53,6 +55,7 @@ const createEditor = (doc) => {
     state,
     parent: editorEl,
   });
+  editorViews.set(doc.id, view);
 
   const targetEl = document.querySelector(`#${doc.id} .target`);
   targetEl.value = doc.target;
