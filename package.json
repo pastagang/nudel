@@ -24,6 +24,13 @@
     "y-protocols": "^1.0.5",
     "y-webrtc": "^10.2.5",
     "y-websocket": "^1.5.0",
-    "yjs": "^13.5.51"
+    "yjs": "^13.5.51",
+    "@strudel/codemirror": "^1.1.0",
+    "@strudel/core": "^1.1.0",
+    "@strudel/mini": "^1.1.0",
+    "@strudel/soundfonts": "^1.1.0",
+    "@strudel/tonal": "^1.1.0",
+    "@strudel/transpiler": "^1.1.0",
+    "@strudel/webaudio": "^1.1.0"
   }
 }
