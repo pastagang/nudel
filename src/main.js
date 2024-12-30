@@ -53,7 +53,10 @@ const createEditor = (doc) => {
         keymap.of([
           ...stopKeys.map((key) => ({
             key,
-            run: () => doc.evaluate("$: silence", { from: null, to: null }),
+            run: () => {
+              doc.evaluate("$: silence", { from: null, to: null });
+              return true;
+            },
           })),
         ])
       ),
