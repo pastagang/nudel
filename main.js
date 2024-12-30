@@ -127,6 +127,12 @@ const flokBasicSetup = (doc) => {
 
 const createEditor = (doc) => {
   console.log("createEditor", doc);
+  if (!["slot1", "slot2"].includes(doc.id)) {
+    console.warn(
+      `ignoring doc with id "${doc.id}". only slot1 and slot2 is allowed rn..`
+    );
+    return;
+  }
   const state = EditorState.create({
     doc: doc.content,
     extensions: [
