@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --base /nudelsalat",
-    "preview": "vite preview"
+    "preview": "vite preview --base /nudelsalat"
   },
   "devDependencies": {
     "vite": "^5.0.12"

@@ -172,13 +172,11 @@ const handleEvalHydra = (msg) => {
   // evaluate hydra code here...
 };
 
-const { port, protocol } = window.location;
-const isSecure = protocol === "https:";
 const session = new Session("default", {
   // changed this part to what flok.cc uses
   hostname: "flok.cc",
-  port: parseInt(port),
-  isSecure,
+  port: "", //parseInt(port),
+  isSecure: true,
 });
 window.session = session;
 
