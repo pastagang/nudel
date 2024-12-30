@@ -103,7 +103,7 @@ export class StrudelSession {
           const haps = currentFrame.filter((h) => h.value.docId === docId);
           // update codemirror view to highlight this frame's haps
           const view = editorViews.get(docId);
-          console.log(docId, haps);
+          // console.log(docId, haps);
           highlightMiniLocations(view, phase || 0, haps || []);
         });
       },
