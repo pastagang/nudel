@@ -197,7 +197,7 @@ export class StrudelSession {
 
       await this.repl.scheduler.setPattern(allPatterns, true);
 
-      console.log("afterEval", meta);
+      //console.log("afterEval", meta);
     } catch (err) {
       console.error(err);
       this.onError(`${err}`);

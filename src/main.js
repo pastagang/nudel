@@ -2,6 +2,7 @@ import { EditorView, basicSetup } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { EditorState, Prec } from "@codemirror/state";
+import { keymap } from "@codemirror/view";
 import { yCollab } from "y-codemirror.next";
 import { Session } from "@flok-editor/session";
 import { flashField, evalKeymap, remoteEvalFlash } from "@flok-editor/cm-eval";
@@ -39,6 +40,7 @@ const createEditor = (doc) => {
     );
     return;
   }
+  const stopKeys = ["Ctrl-.", "Alt-."];
   const state = EditorState.create({
     doc: doc.content,
     extensions: [
@@ -47,6 +49,14 @@ const createEditor = (doc) => {
       javascript(),
       EditorView.lineWrapping,
       oneDark,
+      Prec.highest(
+        keymap.of([
+          ...stopKeys.map((key) => ({
+            key,
+            run: () => doc.evaluate("$: silence", { from: null, to: null }),
+          })),
+        ])
+      ),
     ],
   });
 
@@ -54,6 +64,7 @@ const createEditor = (doc) => {
   const view = new EditorView({
     state,
     parent: editorEl,
+    // extensions: [kabelsalatTheme],
   });
   editorViews.set(doc.id, view);
 
