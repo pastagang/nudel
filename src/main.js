@@ -75,7 +75,7 @@ const handleEvalHydra = (msg) => {
   // evaluate hydra code here...
 };
 
-const session = new Session("default", {
+const session = new Session("nudelsalat", {
   // changed this part to what flok.cc uses
   hostname: "flok.cc",
   port: "", //parseInt(port),
