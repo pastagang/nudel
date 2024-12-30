@@ -126,6 +126,7 @@ const flokBasicSetup = (doc) => {
 };
 
 const createEditor = (doc) => {
+  console.log("createEditor", doc);
   const state = EditorState.create({
     doc: doc.content,
     extensions: [
