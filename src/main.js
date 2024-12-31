@@ -34,7 +34,7 @@ const flokBasicSetup = (doc) => {
 
 const createEditor = (doc) => {
   console.log("createEditor", doc);
-  if (!["slot1", "slot2"].includes(doc.id)) {
+  if (!["1", "2", "3", "4", "5", "6", "7", "8"].includes(doc.id)) {
     console.warn(
       `ignoring doc with id "${doc.id}". only slot1 and slot2 is allowed rn..`
     );
@@ -63,14 +63,14 @@ const createEditor = (doc) => {
     ],
   });
 
-  const editorEl = document.querySelector(`#${doc.id} .editor`);
+  const editorEl = document.querySelector(`#slot-${doc.id} .editor`);
   const view = new EditorView({
     state,
     parent: editorEl,
   });
   editorViews.set(doc.id, view);
 
-  const targetEl = document.querySelector(`#${doc.id} .target`);
+  const targetEl = document.querySelector(`#slot-${doc.id} .target`);
   targetEl.value = doc.target;
 
   targetEl.addEventListener("change", (e) => {
@@ -86,7 +86,7 @@ const handleEvalHydra = (msg) => {
   // evaluate hydra code here...
 };
 
-const session = new Session("nudelsalat", {
+const session = new Session("pastagang", {
   // changed this part to what flok.cc uses
   hostname: "flok.cc",
   port: "", //parseInt(port),
