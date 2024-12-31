@@ -53,7 +53,8 @@ let theme = EditorView.theme(
 );
 
 const highlightStyle = HighlightStyle.define([
-  { tag: tags.keyword, color: colors.fuchsia300 },
+  { tag: tags.labelName, color: "#7dd3fc" },
+  { tag: tags.keyword, color: colors.teal600 },
   { tag: tags.literal, color: colors.whitish },
   { tag: tags.squareBracket, color: colors.amber },
   { tag: tags.punctuation, color: colors.fuchsia300 },
