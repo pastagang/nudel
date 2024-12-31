@@ -18,6 +18,7 @@
     "@codemirror/view": "^6.9.3",
     "@flok-editor/cm-eval": "^1.0.1",
     "@flok-editor/session": "^1.1.0",
+    "@lezer/highlight": "^1.2.1",
     "@strudel/codemirror": "^1.1.0",
     "@strudel/core": "^1.1.0",
     "@strudel/draw": "^1.1.0",

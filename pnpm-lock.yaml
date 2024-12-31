@@ -26,6 +26,9 @@ importers:
       '@flok-editor/session':
         specifier: ^1.1.0
         version: 1.1.0(y-indexeddb@9.0.12(yjs@13.6.21))(y-protocols@1.0.6(yjs@13.6.21))(y-webrtc@10.3.0(bufferutil@4.0.9)(utf-8-validate@6.0.5)(yjs@13.6.21))(y-websocket@1.5.4(bufferutil@4.0.9)(utf-8-validate@6.0.5)(yjs@13.6.21))(yjs@13.6.21)
+      '@lezer/highlight':
+        specifier: ^1.2.1
+        version: 1.2.1
       '@strudel/codemirror':
         specifier: ^1.1.0
         version: 1.1.0(@codemirror/lint@6.8.4)
