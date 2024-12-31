@@ -1,6 +1,5 @@
 import { EditorView, basicSetup } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
-import { oneDark } from "@codemirror/theme-one-dark";
 import { EditorState, Prec } from "@codemirror/state";
 import { keymap } from "@codemirror/view";
 import { yCollab } from "y-codemirror.next";
@@ -9,6 +8,7 @@ import { flashField, evalKeymap, remoteEvalFlash } from "@flok-editor/cm-eval";
 import { UndoManager } from "yjs";
 import { highlightExtension } from "@strudel/codemirror";
 import { StrudelSession, editorViews } from "./strudel";
+import { kabelsalatTheme } from "./theme";
 
 import "./style.css";
 
@@ -45,10 +45,10 @@ const createEditor = (doc) => {
     doc: doc.content,
     extensions: [
       basicSetup,
+      kabelsalatTheme,
       flokBasicSetup(doc),
       javascript(),
       EditorView.lineWrapping,
-      oneDark,
       Prec.highest(
         keymap.of([
           ...stopKeys.map((key) => ({
@@ -67,7 +67,6 @@ const createEditor = (doc) => {
   const view = new EditorView({
     state,
     parent: editorEl,
-    // extensions: [kabelsalatTheme],
   });
   editorViews.set(doc.id, view);
 
@@ -80,8 +79,6 @@ const createEditor = (doc) => {
   doc.session.on(`change-target:${doc.id}`, () => {
     targetEl.value = doc.target;
   });
-
-  return [state, view];
 };
 
 const handleEvalHydra = (msg) => {

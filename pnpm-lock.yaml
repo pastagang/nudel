@@ -11,12 +11,12 @@ importers:
       '@codemirror/lang-javascript':
         specifier: ^6.1.4
         version: 6.2.2
+      '@codemirror/language':
+        specifier: ^6.10.8
+        version: 6.10.8
       '@codemirror/state':
         specifier: ^6.2.0
         version: 6.5.0
-      '@codemirror/theme-one-dark':
-        specifier: ^6.1.1
-        version: 6.1.2
       '@codemirror/view':
         specifier: ^6.9.3
         version: 6.36.1
@@ -102,9 +102,6 @@ packages:
 
   '@codemirror/state@6.5.0':
     resolution: {integrity: sha512-MwBHVK60IiIHDcoMet78lxt6iw5gJOGSbNbOIVBHWVXIH4/Nq1+GQgLLGgI1KlnN86WDXsPudVaqYHKBIx7Eyw==}
-
-  '@codemirror/theme-one-dark@6.1.2':
-    resolution: {integrity: sha512-F+sH0X16j/qFLMAfbciKTxVOwkdAS336b7AXTKOZhy8BR3eH/RelsnLgLFINrpST63mmN2OuwUt0W2ndUgYwUA==}
 
   '@codemirror/view@6.36.1':
     resolution: {integrity: sha512-miD1nyT4m4uopZaDdO2uXU/LLHliKNYL9kB1C1wJHrunHLm/rpkb5QVSokqgw9hFqEZakrdlb/VGWX8aYZTslQ==}
@@ -1097,13 +1094,6 @@ snapshots:
   '@codemirror/state@6.5.0':
     dependencies:
       '@marijn/find-cluster-break': 1.0.2
-
-  '@codemirror/theme-one-dark@6.1.2':
-    dependencies:
-      '@codemirror/language': 6.10.8
-      '@codemirror/state': 6.5.0
-      '@codemirror/view': 6.36.1
-      '@lezer/highlight': 1.2.1
 
   '@codemirror/view@6.36.1':
     dependencies:
