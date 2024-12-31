@@ -190,9 +190,9 @@ export class StrudelSession {
       if (!pattern) {
         return;
       }
-      console.log("evaluated patterns", this.pPatterns);
+      //console.log("evaluated patterns", this.pPatterns);
       this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
-      console.log("this.patterns", this.patterns);
+      //console.log("this.patterns", this.patterns);
       const allPatterns = stack(...Object.values(this.patterns));
 
       await this.repl.scheduler.setPattern(allPatterns, true);

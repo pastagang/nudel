@@ -94,8 +94,8 @@ const session = new Session("nudelsalat", {
 });
 window.session = session;
 
-session.on("change", (...args) => console.log("change", ...args));
-session.on("message", (msg) => console.log("message", msg));
+/* session.on("change", (...args) => console.log("change", ...args));
+session.on("message", (msg) => console.log("message", msg)); */
 session.on("eval:hydra", handleEvalHydra);
 session.on("eval:strudel", (msg) => strudel.eval(msg));
 
