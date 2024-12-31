@@ -8,7 +8,7 @@ import { flashField, evalKeymap, remoteEvalFlash } from "@flok-editor/cm-eval";
 import { UndoManager } from "yjs";
 import { highlightExtension } from "@strudel/codemirror";
 import { StrudelSession, editorViews } from "./strudel";
-import { kabelsalatTheme } from "./theme";
+import { strudelTheme } from "./theme";
 
 import "./style.css";
 
@@ -45,7 +45,7 @@ const createEditor = (doc) => {
     doc: doc.content,
     extensions: [
       basicSetup,
-      kabelsalatTheme,
+      strudelTheme,
       flokBasicSetup(doc),
       javascript(),
       EditorView.lineWrapping,

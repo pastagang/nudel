@@ -28,7 +28,7 @@ body {
 }
 
 :root {
-  --foreground: #ffffff80;
+  --foreground: white;
 }
 
 .editor {

@@ -5,7 +5,7 @@ import { HighlightStyle } from "@codemirror/language";
 import { syntaxHighlighting } from "@codemirror/language";
 
 let colors = {
-  teal600: "#0d9488",
+  teal600: "#c084fc", // text
   teal400: "#2dd4bf",
   amber: "#d97706",
   violet400: "#a78bfa",
@@ -13,9 +13,9 @@ let colors = {
   indigo300: "#a5b4fc",
   indigo400: "#818cf8",
   fuchsia400: "#e879f9",
-  fuchsia300: "#f0abfc",
+  fuchsia300: "#78716c", // brackets
   fuchsia200: "#f5d0fe",
-  whitish: "#ddd",
+  whitish: "#d9f99d", // text
   stone400: "#a8a29e",
   stone500: "#78716c",
 };
@@ -61,4 +61,4 @@ const highlightStyle = HighlightStyle.define([
   { tag: tags.comment, color: colors.stone500, fontStyle: "italic" },
 ]);
 
-export let kabelsalatTheme = [theme, syntaxHighlighting(highlightStyle)];
+export let strudelTheme = [theme, syntaxHighlighting(highlightStyle)];
