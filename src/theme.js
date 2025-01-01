@@ -40,6 +40,7 @@ let theme = EditorView.theme(
       // sorry froos I'm turning this off because it's a power user feature
       // Let's add settings for this!!!!!!!!!!
       // "border-left-width": "11px",
+      // ok. i think it would anyway be better if the cursor had a nametag but i still haven't found where this happens in flok
     },
     ".cm-activeLine, .cm-activeLineGutter": {
       "background-color": "#aaaaaa20",
@@ -54,7 +55,7 @@ let theme = EditorView.theme(
     },
     ".cm-ySelectionInfo": {
       opacity: "1",
-      fontFamily: 'monospace',
+      fontFamily: "monospace",
       color: "black",
       padding: "3px 4px",
       fontSize: "0.8rem",
