@@ -6,17 +6,39 @@ import { yCollab } from "y-codemirror.next";
 import { Session } from "@flok-editor/session";
 import { flashField, evalKeymap, remoteEvalFlash } from "@flok-editor/cm-eval";
 import { UndoManager } from "yjs";
-import { highlightExtension } from "@strudel/codemirror";
-import { StrudelSession, editorViews } from "./strudel";
+import {
+  highlightExtension,
+  highlightMiniLocations,
+  updateMiniLocations,
+} from "@strudel/codemirror";
+import { StrudelSession } from "./strudel";
 import { strudelTheme } from "./theme";
 
 import "./style.css";
 
-const onError = (err) => {
+const editorViews = new Map();
+
+const onError = (err, docId) => {
+  console.log("onError", docId);
   console.error(err);
 };
 
-const strudel = new StrudelSession({ onError });
+const onHighlight = (docId, haps, phase) => {
+  // update codemirror view to highlight this frame's haps
+  const view = editorViews.get(docId);
+  // console.log(docId, haps);
+  highlightMiniLocations(view, phase || 0, haps || []);
+};
+const onUpdateMiniLocations = (docId, miniLocations) => {
+  const view = editorViews.get(docId);
+  updateMiniLocations(view, miniLocations);
+};
+
+const strudel = new StrudelSession({
+  onError,
+  onHighlight,
+  onUpdateMiniLocations,
+});
 
 const flokBasicSetup = (doc) => {
   const text = doc.getText();

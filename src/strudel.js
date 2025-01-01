@@ -16,22 +16,19 @@ import {
   samples,
   webaudioOutput,
 } from "@strudel/webaudio";
-import {
-  highlightMiniLocations,
-  updateMiniLocations,
-} from "@strudel/codemirror";
 
-export const editorViews = new Map();
 controls.createParam("docId");
 
 export class StrudelSession {
-  constructor({ onError }) {
+  constructor({ onError, onHighlight, onUpdateMiniLocations }) {
     this.init();
     this.patterns = {};
     this.pPatterns = {};
     this.allTransform = undefined;
     this.anonymousIndex = 0;
     this.onError = onError;
+    this.onHighlight = onHighlight;
+    this.onUpdateMiniLocations = onUpdateMiniLocations;
   }
   loadSamples() {
     const ds =
@@ -100,11 +97,9 @@ export class StrudelSession {
         // iterate over each strudel doc
         Object.keys(this.patterns).forEach((docId) => {
           // filter out haps belonging to this document (docId is set in eval)
-          const haps = currentFrame.filter((h) => h.value.docId === docId);
-          // update codemirror view to highlight this frame's haps
-          const view = editorViews.get(docId);
-          // console.log(docId, haps);
-          highlightMiniLocations(view, phase || 0, haps || []);
+          const haps =
+            currentFrame.filter((h) => h.value.docId === docId) || [];
+          this.onHighlight(docId, haps, phase || 0);
         });
       },
       (err) => {
@@ -165,9 +160,9 @@ export class StrudelSession {
   }
 
   async eval(msg, conversational = false) {
+    const { body: code, docId } = msg;
     try {
       !conversational && this.hush();
-      const { body: code, docId } = msg;
       // little hack that injects the docId at the end of the code to make it available in afterEval
       let { pattern, meta } = await evaluate(
         code,
@@ -175,8 +170,7 @@ export class StrudelSession {
         // { id: '?' }
       );
 
-      const view = editorViews.get(docId);
-      updateMiniLocations(view, meta?.miniLocations || []);
+      this.onUpdateMiniLocations(docId, meta?.miniLocations || []);
 
       // let pattern = silence;
       if (Object.keys(this.pPatterns).length) {
@@ -200,7 +194,7 @@ export class StrudelSession {
       //console.log("afterEval", meta);
     } catch (err) {
       console.error(err);
-      this.onError(`${err}`);
+      this.onError(`${err}`, docId);
     }
   }
 }

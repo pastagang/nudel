@@ -28,7 +28,7 @@
     "@strudel/transpiler": "^1.1.0",
     "@strudel/webaudio": "^1.1.0",
     "codemirror": "^6.0.1",
-    "y-codemirror.next": "github:felixroos/y-codemirror.next#58d462df84327bad8357e8192840e95414c43acd",
+    "y-codemirror.next": "github:felixroos/y-codemirror.next#c8528d36744b7fa62661fddf3d6493ce71b3dcc4",
     "y-indexeddb": "^9.0.9",
     "y-protocols": "^1.0.5",
     "y-webrtc": "^10.2.5",
