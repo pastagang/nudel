@@ -48,7 +48,8 @@ const createEditor = (doc) => {
       strudelTheme,
       flokBasicSetup(doc),
       javascript(),
-      EditorView.lineWrapping,
+      // TODO: add a setting for this
+      // EditorView.lineWrapping,
       Prec.highest(
         keymap.of([
           ...stopKeys.map((key) => ({
