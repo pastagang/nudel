@@ -107,3 +107,12 @@ button {
 button:hover {
   background-color: #333;
 }
+
+a {
+  color: #cccccc;
+}
+
+a:hover {
+  background-color: #cccccc;
+  color: black;
+}
