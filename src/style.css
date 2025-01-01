@@ -1,12 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
   height: 100%;
 }
 body {
-  background-color: #242424;
+  background-color: black;
   color: #ccc;
   margin: 0;
   font-family: monospace;
   height: 100%;
+  overscroll-behavior: contain;
 }
 
 .slots {
@@ -14,6 +19,13 @@ body {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
   height: 100%;
+  gap: 0px 10px;
+}
+
+@media screen and (max-width: 750px) {
+  .slots {
+    grid-template-columns: 1fr;
+  }
 }
 
 .slot {
@@ -21,6 +33,7 @@ body {
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
+  background-color: #242424;
 }
 
 .slot .title {
@@ -41,11 +54,65 @@ body {
 }
 .cm-gutters {
   background: transparent !important;
+  display: none !important;
+}
+.cm-focused {
+  /* stop the dashed line overlapping our own things */
+  outline: none !important;
+}
+
+.slot header {
+  background-color: black;
+  padding: 6px 0px;
+  padding-right: 6px;
+  display: flex;
+  gap: 6px;
 }
 select {
-  background-color: #222;
+  width: fit-content;
+  background-color: #111;
+  border: none;
   color: white;
-  border: 0;
+  font-size: 16px;
+  outline: 2px solid white;
+  outline-offset: -2px;
   padding: 4px;
-  outline: none;
+  cursor: pointer;
+
+  /* css hack to add padding to right of the chevron */
+  border-right: 5px solid #111;
+}
+select:hover {
+  background-color: #333;
+  border-right: 5px solid #333;
+}
+select:focus,
+button:focus {
+  outline: 3px solid rgb(0, 100, 255);
+  border-radius: 4px;
+}
+/* same as select basically */
+button {
+  background-color: #111;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border: 2px solid white;
+  padding: 4px;
+  cursor: pointer;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+a {
+  color: #cccccc;
+}
+
+a:hover {
+  background-color: #cccccc;
+  color: black;
 }

@@ -35,7 +35,11 @@ let theme = EditorView.theme(
     },
     ".cm-cursor": {
       "border-left-color": "#d9770696",
-      "border-left-width": "11px",
+      "border-left-width": "2px",
+
+      // sorry froos I'm turning this off because it's a power user feature
+      // Let's add settings for this!!!!!!!!!!
+      // "border-left-width": "11px",
     },
     ".cm-activeLine, .cm-activeLineGutter": {
       "background-color": "#aaaaaa20",
