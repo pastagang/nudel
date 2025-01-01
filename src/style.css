@@ -64,6 +64,9 @@ body {
   background-color: black;
   padding: 3px;
   padding-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 select {
   width: fit-content;
@@ -86,4 +89,18 @@ select:hover {
 select:focus {
   outline: 3px solid rgb(0, 100, 255);
   border-radius: 4px;
+}
+/* same as select basically */
+button {
+  background-color: #111;
+  border: none;
+  color: white;
+  font-size: 18px;
+  border: 2px solid white;
+  padding: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #333;
 }
