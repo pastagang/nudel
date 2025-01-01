@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  /* overscroll-behavior: contain; */
 }
 
 html {
@@ -12,6 +11,7 @@ body {
   margin: 0;
   font-family: monospace;
   height: 100%;
+  overscroll-behavior: contain;
 }
 
 .slots {
