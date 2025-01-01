@@ -138,6 +138,22 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 1000000;
   pointer-events: none;
+}
+
+dialog {
+  pointer-events: all;
+  max-width: 400px;
+}
+
+dialog button {
+  border: none;
+}
+
+label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
 }

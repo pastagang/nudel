@@ -14,7 +14,7 @@
         <p style="margin-top: 0px">by pastagang</p>
       </span>
       <nav>
-        <button id="settings" onclick="alert('todo')">⚙ Settings</button>
+        <button id="settings-button">⚙ Settings</button>
       </nav>
     </header>
     <div class="slots">
@@ -104,6 +104,56 @@
       <dialog id="settings-dialog">
         <h1>Settings</h1>
         <p>This is where settings can go!</p>
+        <form method="dialog">
+          <p>
+            <label for="settings-sample-checkbox">
+              <input type="checkbox" id="settings-sample-checkbox" />
+              Sample toggle
+            </label>
+          </p>
+          <br />
+          <p>
+            <label for="settings-sample-text">
+              <span>Sample text input:</span>
+              <input type="text" id="settings-sample-text" />
+            </label>
+            <br />
+          </p>
+          <p></p>
+
+          <h3>Sample option input</h3>
+          <!-- radio buttons -->
+          <p>
+            <label>
+              <input
+                type="radio"
+                name="settings-sample-radio"
+                value="option-1" />
+              Option 1
+            </label>
+          </p>
+          <p>
+            <label>
+              <input
+                type="radio"
+                name="settings-sample-radio"
+                value="option-2" />
+              Option 2
+            </label>
+          </p>
+          <p>
+            <label>
+              <input
+                type="radio"
+                name="settings-sample-radio"
+                value="option-3" />
+              Option 3
+            </label>
+          </p>
+
+          <br />
+          <button>Done</button>
+        </form>
       </dialog>
     </div>
 
