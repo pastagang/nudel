@@ -21,7 +21,7 @@ body {
   gap: 0px 10px;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 750px) {
   .slots {
     grid-template-columns: 1fr;
   }
