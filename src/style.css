@@ -62,15 +62,17 @@ body {
 
 .slot header {
   background-color: black;
-  padding: 3px;
-  padding-top: 6px;
+  padding: 6px 0px;
+  padding-right: 6px;
+  display: flex;
+  gap: 6px;
 }
 select {
   width: fit-content;
   background-color: #111;
   border: none;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   outline: 2px solid white;
   outline-offset: -2px;
   padding: 4px;
@@ -83,7 +85,24 @@ select:hover {
   background-color: #333;
   border-right: 5px solid #333;
 }
-select:focus {
+select:focus,
+button:focus {
   outline: 3px solid rgb(0, 100, 255);
   border-radius: 4px;
+}
+/* same as select basically */
+button {
+  background-color: #111;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border: 2px solid white;
+  padding: 4px;
+  cursor: pointer;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+button:hover {
+  background-color: #333;
 }
