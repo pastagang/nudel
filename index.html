@@ -104,51 +104,67 @@
       <dialog id="settings-dialog">
         <h1>Settings</h1>
         <p>This is where settings can go!</p>
+        <p>
+          <label for="settings-sample-checkbox">
+            <input type="checkbox" id="settings-sample-checkbox" />
+            Sample toggle
+          </label>
+        </p>
+        <br />
+        <p>
+          <label for="settings-sample-text">
+            <span>Sample text input:</span>
+            <input type="text" id="settings-sample-text" />
+          </label>
+          <br />
+        </p>
+        <p></p>
+
+        <h3>Sample option input</h3>
+        <!-- radio buttons -->
+        <p>
+          <label>
+            <input type="radio" name="settings-sample-radio" value="1" />
+            Option 1
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="radio" name="settings-sample-radio" value="2" />
+            Option 2
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="radio" name="settings-sample-radio" value="3" />
+            Option 3
+          </label>
+        </p>
+
+        <br />
+        <p><button id="settings-reset-button">Reset to defaults</button></p>
         <form method="dialog">
-          <p>
-            <label for="settings-sample-checkbox">
-              <input type="checkbox" id="settings-sample-checkbox" />
-              Sample toggle
-            </label>
-          </p>
-          <br />
-          <p>
-            <label for="settings-sample-text">
-              <span>Sample text input:</span>
-              <input type="text" id="settings-sample-text" />
-            </label>
-            <br />
-          </p>
-          <p></p>
-
-          <h3>Sample option input</h3>
-          <!-- radio buttons -->
-          <p>
-            <label>
-              <input type="radio" name="settings-sample-radio" value="1" />
-              Option 1
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="radio" name="settings-sample-radio" value="2" />
-              Option 2
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="radio" name="settings-sample-radio" value="3" />
-              Option 3
-            </label>
-          </p>
-
-          <br />
           <button>Done</button>
         </form>
       </dialog>
     </div>
 
+    <div class="dialog-container">
+      <dialog id="you-sure-dialog">
+        <h1>Are you sure?</h1>
+        <p>
+          Are you sure you want to
+          <span id="you-sure-action-description">do that</span>???
+        </p>
+        <p>
+          <button id="you-sure-yes-button">Yes</button>
+          <button id="you-sure-no-button">Cancel</button>
+        </p>
+      </dialog>
+    </div>
+
     <script type="module" src="./src/main.js"></script>
     <script type="module" src="./src/settings.js"></script>
+    <script type="module" src="./src/confirm.js"></script>
   </body>
 </html>

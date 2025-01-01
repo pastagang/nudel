@@ -1,3 +1,5 @@
+import { nudelConfirm } from "./confirm.js";
+
 const settingsButton = document.querySelector("#settings-button");
 const settingsDialog = document.querySelector("#settings-dialog");
 
@@ -33,6 +35,19 @@ function getSettingsFromLocalStorage() {
 function saveSettingsToLocalStorage(settings) {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(settings));
 }
+
+function setSettings(settings) {
+  saveSettingsToLocalStorage(settings);
+  applySettingsToDom(settings);
+}
+
+const resetButton = document.querySelector("#settings-reset-button");
+resetButton.addEventListener("click", async () => {
+  const response = await nudelConfirm();
+  if (response) {
+    setSettings(defaultSettings);
+  }
+});
 
 const sampleTextInput = document.querySelector("#settings-sample-text");
 const sampleToggleInput = document.querySelector("#settings-sample-checkbox");
