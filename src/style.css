@@ -65,7 +65,7 @@ body {
   background-color: black;
   padding: 6px 0px;
   padding-right: 6px;
-  /* display: flex; */
+  display: flex;
   gap: 6px;
 }
 select {
