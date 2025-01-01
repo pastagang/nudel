@@ -34,20 +34,16 @@ let theme = EditorView.theme(
       color: colors.stone500,
     },
     ".cm-cursor": {
-      "border-left-color": "#d9770696",
-      "border-left-width": "2px",
-
-      // sorry froos I'm turning this off because it's a power user feature
-      // Let's add settings for this!!!!!!!!!!
-      // "border-left-width": "11px",
-      // ok. i think it would anyway be better if the cursor had a nametag but i still haven't found where this happens in flok
-      // yes!
+      "border-left-color": "transparent",
+      // the regular cursor is hidden, because we're showing a nametag..
+      // the cursor is part of https://github.com/felixroos/y-codemirror.next
+      // i had to fork again because the scrollIntoView was messing with the global scroll
     },
     ".cm-activeLine, .cm-activeLineGutter": {
       "background-color": "#aaaaaa20",
     },
     ".cm-cursorLayer": {
-      // "animation-name": "inherit !important;", // disables blinking
+      "animation-name": "inherit !important;", // disables blinking
     },
     ".cm-matchingBracket": {
       "text-decoration": "underline 0.12rem",
@@ -58,10 +54,10 @@ let theme = EditorView.theme(
       opacity: "1",
       fontFamily: "monospace",
       color: "black",
-      padding: "3px 4px",
+      padding: "2px 2px",
       fontSize: "0.8rem",
       //"font-weight": "bold",
-      top: "1.25em",
+      top: "1.45em",
       "z-index": "1000",
     },
   },

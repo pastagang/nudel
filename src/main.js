@@ -28,7 +28,11 @@ const flokBasicSetup = (doc) => {
     highlightExtension,
     remoteEvalFlash(doc),
     Prec.high(evalKeymap(doc, { web, defaultMode: "document" })),
-    yCollab(text, doc.session.awareness, { undoManager }),
+    yCollab(text, doc.session.awareness, {
+      undoManager,
+      showLocalCaret: true,
+      scrollIntoView: false,
+    }),
   ];
 };
 

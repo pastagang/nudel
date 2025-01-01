@@ -57,8 +57,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       y-codemirror.next:
-        specifier: ^0.3.2
-        version: 0.3.5(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)(yjs@13.6.21)
+        specifier: github:felixroos/y-codemirror.next#58d462df84327bad8357e8192840e95414c43acd
+        version: https://codeload.github.com/felixroos/y-codemirror.next/tar.gz/58d462df84327bad8357e8192840e95414c43acd(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)(yjs@13.6.21)
       y-indexeddb:
         specifier: ^9.0.9
         version: 9.0.12(yjs@13.6.21)
@@ -1001,8 +1001,9 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
 
-  y-codemirror.next@0.3.5:
-    resolution: {integrity: sha512-VluNu3e5HfEXybnypnsGwKAj+fKLd4iAnR7JuX1Sfyydmn1jCBS5wwEL/uS04Ch2ib0DnMAOF6ZRR/8kK3wyGw==}
+  y-codemirror.next@https://codeload.github.com/felixroos/y-codemirror.next/tar.gz/58d462df84327bad8357e8192840e95414c43acd:
+    resolution: {tarball: https://codeload.github.com/felixroos/y-codemirror.next/tar.gz/58d462df84327bad8357e8192840e95414c43acd}
+    version: 0.3.2
     peerDependencies:
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
@@ -2272,7 +2273,7 @@ snapshots:
   xtend@4.0.2:
     optional: true
 
-  y-codemirror.next@0.3.5(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)(yjs@13.6.21):
+  y-codemirror.next@https://codeload.github.com/felixroos/y-codemirror.next/tar.gz/58d462df84327bad8357e8192840e95414c43acd(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)(yjs@13.6.21):
     dependencies:
       '@codemirror/state': 6.5.0
       '@codemirror/view': 6.36.1
