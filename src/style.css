@@ -65,7 +65,7 @@ body {
   background-color: black;
   padding: 6px 0px;
   padding-right: 6px;
-  display: flex;
+  /* display: flex; */
   gap: 6px;
 }
 select {
@@ -78,6 +78,7 @@ select {
   outline-offset: -2px;
   padding: 4px;
   cursor: pointer;
+  height: 30px;
 
   /* css hack to add padding to right of the chevron */
   border-right: 5px solid #111;
@@ -122,7 +123,6 @@ body > header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  /* padding: 6px; */
 }
 
 nav {
@@ -130,7 +130,7 @@ nav {
 }
 
 .dialog-container {
-  /* position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -138,5 +138,6 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100; */
+  z-index: 100;
+  pointer-events: none;
 }
