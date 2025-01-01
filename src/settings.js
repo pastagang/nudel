@@ -75,7 +75,7 @@ function applySettingsToNudel(settings) {
     usernameInput.value = settings.username;
   }
 
-  session.user = settings.username;
+  session.user = settings.username || "anonymous nudelfan";
 }
 
 if (usernameInput) {
