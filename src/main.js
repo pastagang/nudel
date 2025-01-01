@@ -79,6 +79,11 @@ const createEditor = (doc) => {
   doc.session.on(`change-target:${doc.id}`, () => {
     targetEl.value = doc.target;
   });
+
+  const runButton = document.querySelector(`#slot-${doc.id} .run`);
+  runButton.addEventListener("click", () => {
+    doc.evaluate(doc.content);
+  });
 };
 
 const handleEvalHydra = (msg) => {
