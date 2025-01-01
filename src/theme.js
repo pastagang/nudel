@@ -48,6 +48,16 @@ let theme = EditorView.theme(
       "text-underline-offset": "0.24rem",
       "text-decoration-color": colors.fuchsia300,
     },
+    ".cm-ySelectionInfo": {
+      opacity: "1",
+      fontFamily: 'monospace',
+      color: "black",
+      padding: "3px 4px",
+      fontSize: "0.8rem",
+      //"font-weight": "bold",
+      top: "1.25em",
+      "z-index": "1000",
+    },
   },
   { dark: true }
 );
