@@ -9,8 +9,13 @@
 
   <body>
     <header>
-      <h1 style="margin-bottom: 0px">nudelsalat</h1>
-      <p style="margin-top: 0px">by pastagang</p>
+      <span>
+        <h1 style="margin-bottom: 0px">nudelsalat</h1>
+        <p style="margin-top: 0px">by pastagang</p>
+      </span>
+      <nav>
+        <button id="settings" onclick="alert('todo')">⚙ Settings</button>
+      </nav>
     </header>
     <div class="slots">
       <div class="slot" id="slot-1">
@@ -94,6 +99,13 @@
         <div class="editor"></div>
       </div>
     </div>
+
+    <!-- <div class="dialog-container">
+      <dialog open>
+        <h1>Settings</h1>
+        <p>This is where settings can go!</p>
+      </dialog>
+    </div> -->
 
     <script type="module" src="./src/main.js"></script>
   </body>
