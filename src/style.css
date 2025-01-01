@@ -11,7 +11,7 @@ body {
   margin: 0;
   font-family: monospace;
   height: 100%;
-  overscroll-behavior: contain;
+  overscroll-behavior-x: contain;
 }
 
 .slots {
