@@ -1,17 +1,16 @@
 import { nudelConfirm } from "./confirm.js";
 
+//=======//
+// ADMIN //
+//=======//
+// Scroll down to configure settings ...
+
 const settingsButton = document.querySelector("#settings-button");
 const settingsDialog = document.querySelector("#settings-dialog");
 
 settingsButton.addEventListener("click", () => {
   settingsDialog.showModal();
 });
-
-const defaultSettings = {
-  sampleToggle: false,
-  sampleText: "hello world",
-  sampleOption: 2,
-};
 
 const LOCAL_STORAGE_KEY = "nudelsalat-settings-v0";
 
@@ -38,7 +37,11 @@ function saveSettingsToLocalStorage(settings) {
 
 function setSettings(settings) {
   saveSettingsToLocalStorage(settings);
-  applySettingsToDom(settings);
+  applySettingsToNudel(settings);
+}
+
+export function getSettings() {
+  return getSettingsFromLocalStorage();
 }
 
 const resetButton = document.querySelector("#settings-reset-button");
@@ -49,56 +52,37 @@ resetButton.addEventListener("click", async () => {
   }
 });
 
-const sampleTextInput = document.querySelector("#settings-sample-text");
-const sampleToggleInput = document.querySelector("#settings-sample-checkbox");
-const sampleOptionInputs = document.querySelectorAll(
-  'input[name="settings-sample-radio"]'
-);
+//========================//
+// SETTINGS CONFIGURATION //
+//========================//
+// Here's where you can make changes to the settings.
+
+const defaultSettings = {
+  username: "",
+};
+
+const usernameInput = document.querySelector("#settings-username");
 
 function inferSettingsFromDom() {
-  const chosenRadio = document.querySelector(
-    'input[name="settings-sample-radio"]:checked'
-  );
   const inferredSettings = {
-    sampleText: sampleTextInput?.value,
-    sampleToggle: sampleToggleInput?.checked,
+    username: usernameInput.value || defaultSettings.username,
   };
-  if (chosenRadio) {
-    inferredSettings.sampleOption = chosenRadio.value;
+  return inferredSettings;
+}
+
+function applySettingsToNudel(settings) {
+  if (usernameInput) {
+    usernameInput.value = settings.username;
   }
-  const settings = { ...defaultSettings, ...inferredSettings };
-  return settings;
+
+  session.user = settings.username;
 }
 
-function applySettingsToDom(settings) {
-  if (sampleTextInput) {
-    sampleTextInput.value = settings.sampleText;
-  }
-  if (sampleToggleInput) {
-    sampleToggleInput.checked = settings.sampleToggle;
-  }
-  sampleOptionInputs.forEach((input) => {
-    input.checked = input.value == settings.sampleOption;
+if (usernameInput) {
+  usernameInput.addEventListener("input", () => {
+    setSettings(inferSettingsFromDom());
   });
 }
-
-if (sampleTextInput) {
-  sampleTextInput.addEventListener("input", () => {
-    saveSettingsToLocalStorage(inferSettingsFromDom());
-  });
-}
-
-if (sampleToggleInput) {
-  sampleToggleInput.addEventListener("change", () => {
-    saveSettingsToLocalStorage(inferSettingsFromDom());
-  });
-}
-
-sampleOptionInputs.forEach((input) => {
-  input.addEventListener("change", () => {
-    saveSettingsToLocalStorage(inferSettingsFromDom());
-  });
-});
 
 const loadedSettings = getSettingsFromLocalStorage();
-applySettingsToDom(loadedSettings);
+applySettingsToNudel(loadedSettings);
