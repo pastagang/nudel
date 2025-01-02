@@ -29,17 +29,7 @@ export class StrudelSession {
     this.onError = onError;
     this.onHighlight = onHighlight;
     this.onUpdateMiniLocations = onUpdateMiniLocations;
-    this.enableAutoAnalyze = false;
-    this.hapAnalyzeSnippet = `
-    all(x => 
-      x.fmap(hap => {
-        if(hap.analyze == undefined) {
-          hap.analyze = 'flok-master';
-        }
-        return hap
-      })
-    )
-    `;
+    this.enableAutoAnalyze = true;
   }
 
   loadSamples() {
@@ -57,6 +47,7 @@ export class StrudelSession {
   async init() {
     initAudio();
 
+    // why do we need to await this stuff here?
     this.core = await import("@strudel/core");
     this.mini = await import("@strudel/mini");
     this.webaudio = await import("@strudel/webaudio");
@@ -179,12 +170,12 @@ export class StrudelSession {
   }
 
   async eval(msg, conversational = false) {
-    const {body: code, docId} = msg;
+    const { body: code, docId } = msg;
     try {
       !conversational && this.hush();
       // little hack that injects the docId at the end of the code to make it available in afterEval
-      let {pattern, meta} = await evaluate(
-        `${code}\n${this.enableAutoAnalyze ? this.hapAnalyzeSnippet : ""}`,
+      let { pattern, meta } = await evaluate(
+        code,
         transpiler
         // { id: '?' }
       );
@@ -198,6 +189,16 @@ export class StrudelSession {
       }
       if (this.allTransform) {
         pattern = this.allTransform(pattern);
+      }
+
+      // fft wiring
+      if (this.enableAutoAnalyze) {
+        pattern = pattern.fmap((hap) => {
+          if (hap.analyze == undefined) {
+            hap.analyze = "flok-master";
+          }
+          return hap;
+        });
       }
 
       if (!pattern) {
