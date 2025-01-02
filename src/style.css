@@ -67,7 +67,6 @@ body {
 
 .cm-line {
     font-size: 105%;
-    font-weight: 600;
     background: rgba(0, 0, 0, 0.7);
     max-width: fit-content;
     padding: 0px;
