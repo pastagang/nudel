@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <body style="background-color: #111">
     <script type="module">
@@ -8,35 +8,35 @@
       // + we can sandbox the evaluation
       // the js here is only for plumbing postMessages
       // + creating the strudel session
-      import { StrudelSession } from "./src/strudel";
+      import { StrudelSession } from './src/strudel';
       function send(type, msg) {
         window.parent.postMessage({ type, msg });
       }
       window.parent.highlights = {};
 
       const strudel = new StrudelSession({
-        onError: (...args) => send("onError", args),
+        onError: (...args) => send('onError', args),
         onHighlight: (...args) => {
           const [docId, phase, haps] = args;
           window.parent.highlights[docId] = haps; // set haps on window to skip serialization
-          send("onHighlight", [docId, phase]);
+          send('onHighlight', [docId, phase]);
         },
-        onUpdateMiniLocations: (...args) => send("onUpdateMiniLocations", args),
+        onUpdateMiniLocations: (...args) => send('onUpdateMiniLocations', args),
       });
 
       window.parent.strudel = strudel;
 
-      window.addEventListener("message", (event) => {
+      window.addEventListener('message', (event) => {
         if (event.origin !== window.location.origin) {
           return;
         }
         // console.log("received", event.data);
-        if (event.data.type === "eval") {
+        if (event.data.type === 'eval') {
           strudel.eval(event.data.msg);
         }
       });
 
-      console.log("strudel iframe loaded", strudel);
+      console.log('strudel iframe loaded', strudel);
     </script>
   </body>
 </html>

@@ -1,6 +1,6 @@
-const youSureDialog = document.querySelector("#you-sure-dialog");
-const yesButton = document.querySelector("#you-sure-yes-button");
-const noButton = document.querySelector("#you-sure-no-button");
+const youSureDialog = document.querySelector('#you-sure-dialog');
+const yesButton = document.querySelector('#you-sure-yes-button');
+const noButton = document.querySelector('#you-sure-no-button');
 
 export async function nudelConfirm() {
   youSureDialog.showModal();

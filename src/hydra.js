@@ -1,14 +1,13 @@
-import Hydra from "hydra-synth";
+import Hydra from 'hydra-synth';
 
 export class HydraSession {
-  constructor({onError, canvas, onHighlight}) {
+  constructor({ onError, canvas, onHighlight }) {
     this.initialized = false;
     this.onError = onError;
     this.canvas = canvas;
     this.onHighlight = onHighlight;
     this.init();
   }
-
 
   resize() {
     if (this.initialized) {
@@ -61,23 +60,21 @@ export class HydraSession {
     window.useStrudelCanvas = (s) => {
       if (window.parent.strudel == undefined) return;
       const canvas = window.parent.strudel.draw.getDrawContext().canvas;
-      canvas.style.display = "none";
-      s.init({src: canvas});
+      canvas.style.display = 'none';
+      s.init({ src: canvas });
     };
 
-    const clamp = (num, min, max) =>
-      Math.min(Math.max(num, min), max);
+    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
     // Enables Hydra to use Strudel frequency data
     // with `.scrollX(() => fft(1,0)` it will influence the x-axis, according to the fft data
     // first number is the index of the bucket, second is the number of buckets to aggregate the number too
     window.fft = (
-      index,//: number,
-      buckets,//: number = 8,
-      options,//?: { min?: number; max?: number; scale?: number; analyzerId?: string; },
+      index, //: number,
+      buckets, //: number = 8,
+      options, //?: { min?: number; max?: number; scale?: number; analyzerId?: string; },
     ) => {
-
-      const analyzerId = options?.analyzerId ?? "flok-master";
+      const analyzerId = options?.analyzerId ?? 'flok-master';
       const min = options?.min ?? -150;
       const scale = options?.scale ?? 1;
       const max = options?.max ?? 0;
@@ -97,33 +94,25 @@ export class HydraSession {
         return 0.5;
       }
 
-      const freq = strudel.webaudio.getAnalyzerData(
-        "frequency",
-        analyzerId,
-      )// as Array<number>;
+      const freq = strudel.webaudio.getAnalyzerData('frequency', analyzerId); // as Array<number>;
       const bucketSize = freq.length / buckets;
 
       // inspired from https://github.com/tidalcycles/strudel/blob/a7728e3d81fb7a0a2dff9f2f4bd9e313ddf138cd/packages/webaudio/scope.mjs#L53
-      const normalized = freq.map((it/*: number*/) => {
+      const normalized = freq.map((it /*: number*/) => {
         const norm = clamp((it - min) / (max - min), 0, 1);
         return norm * scale;
       });
 
-      return (
-        normalized
-          .slice(bucketSize * index, bucketSize * (index + 1))
-          .reduce((a, b) => a + b, 0) / bucketSize
-      );
+      return normalized.slice(bucketSize * index, bucketSize * (index + 1)).reduce((a, b) => a + b, 0) / bucketSize;
     };
 
     this.initialized = true;
-    console.log("Hydra initialized");
+    console.log('Hydra initialized');
   }
-
 
   async eval(msg, conversational = false) {
     if (!this.initialized) await this.init();
-    const {body: code, docId} = msg;
+    const { body: code, docId } = msg;
 
     try {
       await eval?.(`(async () => {

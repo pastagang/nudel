@@ -1,18 +1,18 @@
-import { nudelConfirm } from "./confirm.js";
+import { nudelConfirm } from './confirm.js';
 
 //=======//
 // ADMIN //
 //=======//
 // Scroll down to configure settings ...
 
-const settingsButton = document.querySelector("#settings-button");
-const settingsDialog = document.querySelector("#settings-dialog");
+const settingsButton = document.querySelector('#settings-button');
+const settingsDialog = document.querySelector('#settings-dialog');
 
-settingsButton.addEventListener("click", () => {
+settingsButton.addEventListener('click', () => {
   settingsDialog.showModal();
 });
 
-const LOCAL_STORAGE_KEY = "nudelsalat-settings-v0";
+const LOCAL_STORAGE_KEY = 'nudelsalat-settings-v0';
 
 function getSettingsFromLocalStorage() {
   const rawSettings = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -22,7 +22,7 @@ function getSettingsFromLocalStorage() {
     try {
       parsedSettings = { ...defaultSettings, ...JSON.parse(rawSettings) };
     } catch (e) {
-      console.warn("failed to parse settings. defaulting to defaults.", e);
+      console.warn('failed to parse settings. defaulting to defaults.', e);
     }
   }
 
@@ -44,8 +44,8 @@ export function getSettings() {
   return getSettingsFromLocalStorage();
 }
 
-const resetButton = document.querySelector("#settings-reset-button");
-resetButton.addEventListener("click", async () => {
+const resetButton = document.querySelector('#settings-reset-button');
+resetButton.addEventListener('click', async () => {
   const response = await nudelConfirm();
   if (response) {
     setSettings(defaultSettings);
@@ -58,10 +58,10 @@ resetButton.addEventListener("click", async () => {
 // Here's where you can make changes to the settings.
 
 const defaultSettings = {
-  username: "",
+  username: '',
 };
 
-const usernameInput = document.querySelector("#settings-username");
+const usernameInput = document.querySelector('#settings-username');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -75,11 +75,11 @@ function applySettingsToNudel(settings) {
     usernameInput.value = settings.username;
   }
 
-  session.user = settings.username || "anonymous nudelfan";
+  session.user = settings.username || 'anonymous nudelfan';
 }
 
 if (usernameInput) {
-  usernameInput.addEventListener("input", () => {
+  usernameInput.addEventListener('input', () => {
     setSettings(inferSettingsFromDom());
   });
 }

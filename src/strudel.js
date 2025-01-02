@@ -1,23 +1,10 @@
-import {
-  controls,
-  evalScope,
-  repl,
-  stack,
-  evaluate,
-  silence,
-} from "@strudel/core";
-import { Framer } from "@strudel/draw";
-import { registerSoundfonts } from "@strudel/soundfonts";
-import { transpiler } from "@strudel/transpiler";
-import {
-  getAudioContext,
-  initAudio,
-  registerSynthSounds,
-  samples,
-  webaudioOutput,
-} from "@strudel/webaudio";
+import { controls, evalScope, repl, stack, evaluate, silence } from '@strudel/core';
+import { Framer } from '@strudel/draw';
+import { registerSoundfonts } from '@strudel/soundfonts';
+import { transpiler } from '@strudel/transpiler';
+import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 
-controls.createParam("docId");
+controls.createParam('docId');
 
 export class StrudelSession {
   constructor({ onError, onHighlight, onUpdateMiniLocations }) {
@@ -33,8 +20,7 @@ export class StrudelSession {
   }
 
   loadSamples() {
-    const ds =
-      "https://raw.githubusercontent.com/felixroos/dough-samples/main/";
+    const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main/';
     return Promise.all([
       samples(`${ds}/tidal-drum-machines.json`),
       samples(`${ds}/piano.json`),
@@ -48,26 +34,22 @@ export class StrudelSession {
     initAudio();
 
     // why do we need to await this stuff here?
-    this.core = await import("@strudel/core");
-    this.mini = await import("@strudel/mini");
-    this.webaudio = await import("@strudel/webaudio");
-    this.draw = await import("@strudel/draw");
+    this.core = await import('@strudel/core');
+    this.mini = await import('@strudel/mini');
+    this.webaudio = await import('@strudel/webaudio');
+    this.draw = await import('@strudel/draw');
 
     await evalScope(
       this.core,
       this.mini,
       this.webaudio,
       this.draw,
-      import("@strudel/tonal"),
-      import("@strudel/soundfonts"),
-      controls
+      import('@strudel/tonal'),
+      import('@strudel/soundfonts'),
+      controls,
     );
     try {
-      await Promise.all([
-        this.loadSamples(),
-        registerSynthSounds(),
-        registerSoundfonts(),
-      ]);
+      await Promise.all([this.loadSamples(), registerSynthSounds(), registerSoundfonts()]);
     } catch (err) {
       this.onError(err);
     }
@@ -98,23 +80,20 @@ export class StrudelSession {
         // queries the stack of strudel patterns for the current time
         const allHaps = this.repl.scheduler.pattern.queryArc(
           Math.max(lastFrame, phase - 1 / 10), // make sure query is not larger than 1/10 s
-          phase
+          phase,
         );
         // filter out haps that are not active right now
-        const currentFrame = allHaps.filter(
-          (hap) => phase >= hap.whole.begin && phase <= hap.endClipped
-        );
+        const currentFrame = allHaps.filter((hap) => phase >= hap.whole.begin && phase <= hap.endClipped);
         // iterate over each strudel doc
         Object.keys(this.patterns).forEach((docId) => {
           // filter out haps belonging to this document (docId is set in eval)
-          const haps =
-            currentFrame.filter((h) => h.value.docId === docId) || [];
+          const haps = currentFrame.filter((h) => h.value.docId === docId) || [];
           this.onHighlight(docId, phase || 0, haps);
         });
       },
       (err) => {
-        console.error("[strudel] draw error", err);
-      }
+        console.error('[strudel] draw error', err);
+      },
     );
     this.framer.start(); // tbd allow disabling highlighting
   }
@@ -130,11 +109,11 @@ export class StrudelSession {
   injectPatternMethods() {
     const self = this;
     Pattern.prototype.p = function (id) {
-      if (typeof id === "string" && (id.startsWith("_") || id.endsWith("_"))) {
+      if (typeof id === 'string' && (id.startsWith('_') || id.endsWith('_'))) {
         // allows muting a pattern x with x_ or _x
         return silence;
       }
-      if (id === "$") {
+      if (id === '$') {
         // allows adding anonymous patterns with $:
         id = `$${self.anonymousIndex}`;
         self.anonymousIndex++;
@@ -176,7 +155,7 @@ export class StrudelSession {
       // little hack that injects the docId at the end of the code to make it available in afterEval
       let { pattern, meta } = await evaluate(
         code,
-        transpiler
+        transpiler,
         // { id: '?' }
       );
 
@@ -195,7 +174,7 @@ export class StrudelSession {
       if (this.enableAutoAnalyze) {
         pattern = pattern.fmap((value) => {
           if (value.analyze == undefined) {
-            value.analyze = "flok-master";
+            value.analyze = 'flok-master';
           }
           return value;
         });
