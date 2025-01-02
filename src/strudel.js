@@ -99,7 +99,7 @@ export class StrudelSession {
           // filter out haps belonging to this document (docId is set in eval)
           const haps =
             currentFrame.filter((h) => h.value.docId === docId) || [];
-          this.onHighlight(docId, haps, phase || 0);
+          this.onHighlight(docId, phase || 0, haps);
         });
       },
       (err) => {

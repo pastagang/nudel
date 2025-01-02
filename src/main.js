@@ -11,34 +11,11 @@ import {
   highlightMiniLocations,
   updateMiniLocations,
 } from "@strudel/codemirror";
-import { StrudelSession } from "./strudel";
 import { strudelTheme } from "./theme";
 
 import "./style.css";
 
 const editorViews = new Map();
-
-const onError = (err, docId) => {
-  console.log("onError", docId);
-  console.error(err);
-};
-
-const onHighlight = (docId, haps, phase) => {
-  // update codemirror view to highlight this frame's haps
-  const view = editorViews.get(docId);
-  // console.log(docId, haps);
-  highlightMiniLocations(view, phase || 0, haps || []);
-};
-const onUpdateMiniLocations = (docId, miniLocations) => {
-  const view = editorViews.get(docId);
-  updateMiniLocations(view, miniLocations);
-};
-
-const strudel = new StrudelSession({
-  onError,
-  onHighlight,
-  onUpdateMiniLocations,
-});
 
 const flokBasicSetup = (doc) => {
   const text = doc.getText();
@@ -113,11 +90,6 @@ const createEditor = (doc) => {
   });
 };
 
-const handleEvalHydra = (msg) => {
-  console.log("eval:hydra", msg);
-  // evaluate hydra code here...
-};
-
 const session = new Session("pastagang", {
   // changed this part to what flok.cc uses
   hostname: "flok.cc",
@@ -128,20 +100,60 @@ window.session = session;
 
 /* session.on("change", (...args) => console.log("change", ...args));
 session.on("message", (msg) => console.log("message", msg)); */
-session.on("eval:hydra", handleEvalHydra);
-session.on("eval:strudel", (msg) => strudel.eval(msg));
 
 session.on("sync", () => {
   // If session is empty, create two documents
   if (session.getDocuments().length === 0) {
     session.setActiveDocuments([
-      { id: "slot1", target: "strudel" },
-      { id: "slot2", target: "strudel" },
+      { id: "1", target: "strudel" },
+      { id: "2", target: "strudel" },
+      { id: "3", target: "strudel" },
+      { id: "4", target: "strudel" },
     ]);
   }
 
   // Create editors for each document
   session.getDocuments().map((doc) => createEditor(doc));
+});
+
+const handleEvalHydra = (msg) => {
+  console.log("eval:hydra", msg);
+  // evaluate hydra code here...
+};
+session.on("eval:hydra", handleEvalHydra);
+
+// strudel
+const strudelFrame = document.getElementById("strudel");
+session.on("eval:strudel", (msg) =>
+  strudelFrame.contentWindow.postMessage({ type: "eval", msg })
+);
+const strudelEventHandlers = {
+  onHighlight: (docId, phase) => {
+    // update codemirror view to highlight this frame's haps
+    const view = editorViews.get(docId);
+    // we need to set the haps on the window, as data sent through postMessage is serialized
+    // serialized haps won't work with highlightMiniLocations
+    // the strudel frame will set the needed phase and haps
+    const haps = window.highlights[docId] || [];
+    // console.log(window.highlights[docId]);
+    highlightMiniLocations(view, phase, haps);
+  },
+  onError: (err, docId) => {
+    console.log("onError", docId);
+    console.error(err);
+  },
+  onUpdateMiniLocations: (docId, miniLocations) => {
+    const view = editorViews.get(docId);
+    updateMiniLocations(view, miniLocations);
+  },
+};
+window.addEventListener("message", (event) => {
+  if (event.origin !== window.location.origin) {
+    return;
+  }
+  const handler = strudelEventHandlers[event.data.type];
+  // console.log(event.data.type, event.data.msg);
+  handler && handler(...event.data.msg);
 });
 
 session.initialize();

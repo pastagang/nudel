@@ -163,3 +163,7 @@ label {
   align-items: center;
   flex-wrap: wrap;
 }
+
+iframe#strudel {
+  display: none;
+}
