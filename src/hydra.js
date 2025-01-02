@@ -14,8 +14,7 @@ export class HydraSession {
     if (this.initialized) {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
-      this._hydra.height = window.innerHeight;
-      this._hydra.width = window.innerWidth;
+      this._hydra.setResolution(window.innerWidth, window.innerHeight);
     }
   }
 
