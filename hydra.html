@@ -5,6 +5,7 @@
       #canvas {
           width: 100%;
           height: 100%;
+          image-rendering: pixelated;
       }
   </style>
   <script>
@@ -41,6 +42,10 @@
           hydra.eval(event.data.msg);
         }
       });
+
+      window.onresize = () => {
+        hydra.resize();
+      }
 
       console.log("hydra iframe loaded", hydra);
     </script>
