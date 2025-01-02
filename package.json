@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^5.0.12"
+    "vite": "^5.0.12",
+    "prettier": "^3.3.3"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.1.4",
