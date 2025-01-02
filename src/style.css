@@ -55,6 +55,10 @@ body {
   background: transparent;
 }
 
+.cm-scroller {
+  overflow: hidden;
+}
+
 .cm-gutters {
   background: transparent !important;
   display: none !important;
