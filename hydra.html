@@ -43,9 +43,11 @@
         }
       });
 
-      window.onresize = () => {
-        hydra.resize();
-      }
+      let resizeDebounce;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeDebounce);
+        resizeDebounce = setTimeout(() => hydra.resize(), 200);
+      });
 
       console.log("hydra iframe loaded", hydra);
     </script>
