@@ -1,169 +1,199 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html {
-  height: 100%;
+    height: 100%;
 }
+
 body {
-  background-color: black;
-  color: #ccc;
-  margin: 0;
-  font-family: monospace;
-  height: 100%;
-  overscroll-behavior-x: contain;
+    background-color: black;
+    color: #ccc;
+    margin: 0;
+    font-family: monospace;
+    height: 100%;
+    overscroll-behavior-x: contain;
 }
 
 .slots {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  width: 100%;
-  height: 100%;
-  gap: 0px 10px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    height: 100%;
+    gap: 0px 10px;
 }
 
 @media screen and (max-width: 750px) {
-  .slots {
-    grid-template-columns: minmax(0, 1fr);
-  }
+    .slots {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 .slot {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  width: 100%;
-  background-color: #242424;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    background-color: #24242411;
 }
 
 .slot .title {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 :root {
-  --foreground: white;
+    --foreground: white;
 }
 
 .editor {
-  flex-grow: 1;
-  background: transparent;
+    flex-grow: 1;
+    background: transparent;
 }
+
 .cm-editor {
-  height: 100%;
-  background: transparent;
+    height: 100%;
+    background: transparent;
 }
+
 .cm-gutters {
-  background: transparent !important;
-  display: none !important;
+    background: transparent !important;
+    display: none !important;
 }
+
 .cm-focused {
-  /* stop the dashed line overlapping our own things */
-  outline: none !important;
+    /* stop the dashed line overlapping our own things */
+    outline: none !important;
 }
+
+.cm-line {
+    font-size: 105%;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.7);
+    max-width: fit-content;
+    padding: 0px;
+}
+
+.cm-activeLine {
+    background-color: rgba(0, 1, 0, 1) !important;
+}
+
 
 .slot header {
-  background-color: black;
-  padding: 6px 0px;
-  padding-right: 6px;
-  display: flex;
-  gap: 6px;
+    background-color: rgba(0, 0, 0, 0.18);
+    padding: 6px 0px;
+    padding-right: 6px;
+    display: flex;
+    gap: 6px;
 }
-select {
-  width: fit-content;
-  background-color: #111;
-  border: none;
-  color: white;
-  font-size: 16px;
-  outline: 2px solid white;
-  outline-offset: -2px;
-  padding: 4px;
-  cursor: pointer;
-  height: 30px;
 
-  /* css hack to add padding to right of the chevron */
-  border-right: 5px solid #111;
+select {
+    width: fit-content;
+    background-color: #111;
+    border: none;
+    color: white;
+    font-size: 16px;
+    outline: 2px solid white;
+    outline-offset: -2px;
+    padding: 4px;
+    cursor: pointer;
+    height: 30px;
+
+    /* css hack to add padding to right of the chevron */
+    border-right: 5px solid #111;
 }
+
 select:hover {
-  background-color: #333;
-  border-right: 5px solid #333;
+    background-color: #333;
+    border-right: 5px solid #333;
 }
+
 select:focus,
 button:focus {
-  outline: 3px solid rgb(0, 100, 255);
-  border-radius: 4px;
+    outline: 3px solid rgb(0, 100, 255);
+    border-radius: 4px;
 }
+
 /* same as select basically */
 button {
-  background-color: #111;
-  border: none;
-  color: white;
-  font-size: 16px;
-  border: 2px solid white;
-  padding: 4px 6px;
-  cursor: pointer;
-  height: 30px;
-  flex-shrink: 0;
-  white-space: nowrap;
+    background-color: #111;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border: 2px solid white;
+    padding: 4px 6px;
+    cursor: pointer;
+    height: 30px;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 button:hover {
-  background-color: #333;
+    background-color: #333;
 }
 
 a {
-  color: #cccccc;
+    color: #cccccc;
 }
 
 a:hover {
-  background-color: #cccccc;
-  color: black;
+    background-color: #cccccc;
+    color: black;
 }
 
 body > header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 nav {
-  padding: 3px;
+    padding: 3px;
 }
 
 .dialog-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000000;
-  pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000000;
+    pointer-events: none;
 }
 
 dialog {
-  pointer-events: all;
-  max-width: 400px;
-  border: 3px solid black;
-  outline: 1px solid white;
+    pointer-events: all;
+    max-width: 400px;
+    border: 3px solid black;
+    outline: 1px solid white;
 }
 
 dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.25);
 }
 
 dialog button {
-  border: none;
+    border: none;
 }
 
 label {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 iframe#strudel {
-  display: none;
+    display: none;
+}
+
+iframe#hydra {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
 }

@@ -6,6 +6,7 @@ export default defineConfig({
       input: {
         main: "index.html",
         strudel: "strudel.html", // iframe
+        hydra: "hydra.html", // iframe
       },
     },
   },

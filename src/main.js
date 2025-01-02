@@ -116,9 +116,11 @@ session.on("sync", () => {
   session.getDocuments().map((doc) => createEditor(doc));
 });
 
+// hydra
+const hydraFrame = document.getElementById("hydra");
 const handleEvalHydra = (msg) => {
   console.log("eval:hydra", msg);
-  // evaluate hydra code here...
+  hydraFrame.contentWindow.postMessage({type: "eval", msg});
 };
 session.on("eval:hydra", handleEvalHydra);
 
@@ -127,6 +129,7 @@ const strudelFrame = document.getElementById("strudel");
 session.on("eval:strudel", (msg) =>
   strudelFrame.contentWindow.postMessage({ type: "eval", msg })
 );
+
 const strudelEventHandlers = {
   onHighlight: (docId, phase) => {
     // update codemirror view to highlight this frame's haps
