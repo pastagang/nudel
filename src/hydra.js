@@ -50,8 +50,7 @@ export class HydraSession {
 		// initialized a streaming canvas with the strudel draw context canvas
 		// this allows us to use the strudel output
 		window.useStrudelCanvas = (s) => {
-			return
-			const canvas = window.strudel.draw.getDrawContext().canvas;
+			const canvas = window.parent.strudel.draw.getDrawContext().canvas;
 			canvas.style.display = "none";
 			s.init({src: canvas});
 		};
@@ -67,26 +66,28 @@ export class HydraSession {
 			buckets,//: number = 8,
 			options,//?: { min?: number; max?: number; scale?: number; analyzerId?: string; },
 		) => {
+
 			const analyzerId = options?.analyzerId ?? "flok-master";
 			const min = options?.min ?? -150;
 			const scale = options?.scale ?? 1;
 			const max = options?.max ?? 0;
 
+			const strudel = window.parent?.strudel;
 			// Strudel is not initialized yet, so we just return a default value
-			if (window.strudel == undefined) return 0.5;
+			if (strudel == undefined) return 0.5;
 
 			// If display settings are not enabled, we just return a default value
-			if (!(this._displaySettings.enableFft ?? true)) return 0.5;
+			// if (!(this._displaySettings.enableFft ?? true)) return 0.5;
 
 			// Enable auto-analyze
-			window.strudel.enableAutoAnalyze = true;
+			strudel.enableAutoAnalyze = true;
 
 			// If the analyzerId is not defined, we just return a default value
-			if (window.strudel.webaudio.analysers[analyzerId] == undefined) {
+			if (strudel.webaudio.analysers[analyzerId] == undefined) {
 				return 0.5;
 			}
 
-			const freq = window.strudel.webaudio.getAnalyzerData(
+			const freq = strudel.webaudio.getAnalyzerData(
 				"frequency",
 				analyzerId,
 			)// as Array<number>;

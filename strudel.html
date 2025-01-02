@@ -24,6 +24,8 @@
         onUpdateMiniLocations: (...args) => send("onUpdateMiniLocations", args),
       });
 
+      window.parent.strudel = strudel;
+
       window.addEventListener("message", (event) => {
         if (event.origin !== window.location.origin) {
           return;

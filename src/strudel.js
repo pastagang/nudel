@@ -29,7 +29,19 @@ export class StrudelSession {
     this.onError = onError;
     this.onHighlight = onHighlight;
     this.onUpdateMiniLocations = onUpdateMiniLocations;
+    this.enableAutoAnalyze = false;
+    this.hapAnalyzeSnippet = `
+    all(x => 
+      x.fmap(hap => {
+        if(hap.analyze == undefined) {
+          hap.analyze = 'flok-master';
+        }
+        return hap
+      })
+    )
+    `;
   }
+
   loadSamples() {
     const ds =
       "https://raw.githubusercontent.com/felixroos/dough-samples/main/";
@@ -44,12 +56,19 @@ export class StrudelSession {
 
   async init() {
     initAudio();
+
+    this.core = await import("@strudel/core");
+    this.mini = await import("@strudel/mini");
+    this.webaudio = await import("@strudel/webaudio");
+    this.draw = await import("@strudel/draw");
+
     await evalScope(
-      import("@strudel/core"),
-      import("@strudel/mini"),
+      this.core,
+      this.mini,
+      this.webaudio,
+      this.draw,
       import("@strudel/tonal"),
       import("@strudel/soundfonts"),
-      import("@strudel/webaudio"),
       controls
     );
     try {
@@ -160,12 +179,12 @@ export class StrudelSession {
   }
 
   async eval(msg, conversational = false) {
-    const { body: code, docId } = msg;
+    const {body: code, docId} = msg;
     try {
       !conversational && this.hush();
       // little hack that injects the docId at the end of the code to make it available in afterEval
-      let { pattern, meta } = await evaluate(
-        code,
+      let {pattern, meta} = await evaluate(
+        `${code}\n${this.enableAutoAnalyze ? this.hapAnalyzeSnippet : ""}`,
         transpiler
         // { id: '?' }
       );
