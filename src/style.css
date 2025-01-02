@@ -57,6 +57,7 @@ body {
 
 .cm-scroller {
   overflow: hidden;
+  padding: 0 8px;
 }
 
 .cm-gutters {
@@ -82,7 +83,7 @@ body {
 
 .slot header {
   /* background-color: rgba(0, 0, 0, 0.18); sorry lu, looks bad when hydra is running */
-  padding: 6px 0px;
+  padding: 6px 8px;
   padding-right: 6px;
   display: flex;
   gap: 6px;
@@ -146,6 +147,7 @@ body > header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  padding: 0 8px;
 }
 
 nav {
