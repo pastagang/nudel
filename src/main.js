@@ -118,11 +118,9 @@ session.on("sync", () => {
 
 // hydra
 const hydraFrame = document.getElementById("hydra");
-const handleEvalHydra = (msg) => {
-  console.log("eval:hydra", msg);
-  hydraFrame.contentWindow.postMessage({type: "eval", msg});
-};
-session.on("eval:hydra", handleEvalHydra);
+session.on("eval:hydra", (msg) =>
+  hydraFrame.contentWindow.postMessage({ type: "eval", msg })
+);
 
 // strudel
 const strudelFrame = document.getElementById("strudel");

@@ -193,11 +193,11 @@ export class StrudelSession {
 
       // fft wiring
       if (this.enableAutoAnalyze) {
-        pattern = pattern.fmap((hap) => {
-          if (hap.analyze == undefined) {
-            hap.analyze = "flok-master";
+        pattern = pattern.fmap((value) => {
+          if (value.analyze == undefined) {
+            value.analyze = "flok-master";
           }
-          return hap;
+          return value;
         });
       }
 
