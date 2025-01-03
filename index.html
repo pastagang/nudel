@@ -110,7 +110,7 @@
               <input type="text" id="settings-username" data-1p-ignore spellcheck="false" />
             </label>
           </p>
-          <!-- <br />
+          <br />
           <p>
             <label>
               <input type="checkbox" id="settings-strudel-enabled" />
@@ -122,7 +122,7 @@
               <input type="checkbox" id="settings-hydra-enabled" />
               Enable hydra
             </label>
-          </p> -->
+          </p>
           <br />
           <p>
             <button id="settings-reset-button" type="button">Reset to defaults</button>
@@ -146,10 +146,14 @@
       </dialog>
     </div>
 
-    <script type="module" src="./src/main.js"></script>
-    <script type="module" src="./src/settings.js"></script>
-    <script type="module" src="./src/confirm.js"></script>
-    <iframe src="/strudel" id="strudel"></iframe>
-    <iframe src="/hydra" id="hydra"></iframe>
+    <script type="module" src="/script.js"></script>
+
+    <!-- These now all get pulled in by script.js to avoid dependency issues -->
+    <!-- <script type="module" src="./src/main.js"></script> -->
+    <!-- <script type="module" src="./src/settings.js"></script> -->
+
+    <!-- These now get added/removed dynamically by settings.js -->
+    <!-- <iframe src="/strudel" id="strudel"></iframe> -->
+    <!-- <iframe src="/hydra" id="hydra"></iframe> -->
   </body>
 </html>
