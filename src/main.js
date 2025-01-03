@@ -130,25 +130,15 @@ session.on('eval:hydra', (msg) => Frame.hydra?.contentWindow.postMessage({ type:
 
 // strudel
 session.on('eval:strudel', (msg) => Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg }));
+// we need to access these variables from the iframe:
+window.editorViews = editorViews;
+window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
+window.updateMiniLocations = updateMiniLocations; // we cannot import this for some reason
 
 const strudelEventHandlers = {
-  onHighlight: (docId, phase) => {
-    // update codemirror view to highlight this frame's haps
-    const view = editorViews.get(docId);
-    // we need to set the haps on the window, as data sent through postMessage is serialized
-    // serialized haps won't work with highlightMiniLocations
-    // the strudel frame will set the needed phase and haps
-    const haps = window.highlights[docId] || [];
-    // console.log(window.highlights[docId]);
-    highlightMiniLocations(view, phase, haps);
-  },
   onError: (err, docId) => {
     console.log('onError', docId);
     console.error(err);
-  },
-  onUpdateMiniLocations: (docId, miniLocations) => {
-    const view = editorViews.get(docId);
-    updateMiniLocations(view, miniLocations);
   },
 };
 
