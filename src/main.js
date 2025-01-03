@@ -11,7 +11,7 @@ import { strudelTheme } from './theme';
 
 import './style.css';
 
-const editorViews = new Map();
+export const editorViews = new Map();
 
 const flokBasicSetup = (doc) => {
   const text = doc.getText();
@@ -110,13 +110,24 @@ session.on('sync', () => {
   session.getDocuments().map((doc) => createEditor(doc));
 });
 
+export function getHydraFrame() {
+  return document.getElementById('hydra');
+}
+
+export function getStrudelFrame() {
+  return document.getElementById('strudel');
+}
+
+export const Frame = {
+  hydra: getHydraFrame(),
+  strudel: getStrudelFrame(),
+};
+
 // hydra
-const hydraFrame = document.getElementById('hydra');
-session.on('eval:hydra', (msg) => hydraFrame.contentWindow.postMessage({ type: 'eval', msg }));
+session.on('eval:hydra', (msg) => Frame.hydra?.contentWindow.postMessage({ type: 'eval', msg }));
 
 // strudel
-const strudelFrame = document.getElementById('strudel');
-session.on('eval:strudel', (msg) => strudelFrame.contentWindow.postMessage({ type: 'eval', msg }));
+session.on('eval:strudel', (msg) => Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg }));
 
 const strudelEventHandlers = {
   onHighlight: (docId, phase) => {
@@ -138,6 +149,7 @@ const strudelEventHandlers = {
     updateMiniLocations(view, miniLocations);
   },
 };
+
 window.addEventListener('message', (event) => {
   if (event.origin !== window.location.origin) {
     return;
