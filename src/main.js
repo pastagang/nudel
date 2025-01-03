@@ -32,8 +32,6 @@ const flokBasicSetup = (doc) => {
   ];
 };
 
-const currentEditors = new Map();
-
 const createEditor = (doc) => {
   console.log('createEditor', doc);
   if (!['1', '2', '3', '4', '5', '6', '7', '8'].includes(doc.id)) {
@@ -65,21 +63,6 @@ const createEditor = (doc) => {
     ],
   });
 
-  const slotsEl = document.querySelector('.slots');
-
-  slotsEl.innerHTML =
-    slotsEl.innerHTML +
-    ` <div class=\"slot\" id=\"slot-${doc.id}\">\n` +
-    '        <header>\n' +
-    '          <select class="target">\n' +
-    '            <option value="strudel">strudel</option>\n' +
-    '            <option value="hydra">hydra</option>\n' +
-    '          </select>\n' +
-    '          <button class="run">▶ Run</button>\n' +
-    '        </header>\n' +
-    '        <div class="editor"></div>\n' +
-    '      </div>';
-
   const editorEl = document.querySelector(`#slot-${doc.id} .editor`);
   const view = new EditorView({
     state,
@@ -101,14 +84,7 @@ const createEditor = (doc) => {
   runButton.addEventListener('click', () => {
     doc.evaluate(doc.content);
   });
-
-  currentEditors.set(doc.id, { state });
 };
-
-function deleteEditor(id) {
-  editorViews.delete(id);
-  document.querySelector(`#slot-${id}`).remove();
-}
 
 const session = new Session('pastagang', {
   // changed this part to what flok.cc uses
@@ -131,20 +107,9 @@ session.on('sync', () => {
       { id: '4', target: 'strudel' },
     ]);
   }
-});
 
-session.on('change', (documents) => {
-  documents.map((doc) => {
-    if (!currentEditors.has(doc.id)) {
-      createEditor(doc);
-    }
-  });
-
-  currentEditors.keys().forEach((key) => {
-    if (!documents.find((doc) => doc.id === key)) {
-      deleteEditor(key);
-    }
-  });
+  // Create editors for each document
+  session.getDocuments().map((doc) => createEditor(doc));
 });
 
 export function getHydraFrame() {
@@ -161,12 +126,7 @@ export const Frame = {
 };
 
 // hydra
-session.on('eval:hydra', (msg) =>
-  Frame.hydra?.contentWindow.postMessage({
-    type: 'eval',
-    msg,
-  }),
-);
+session.on('eval:hydra', (msg) => Frame.hydra?.contentWindow.postMessage({ type: 'eval', msg }));
 
 // strudel
 session.on('eval:strudel', (msg) => Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg }));
