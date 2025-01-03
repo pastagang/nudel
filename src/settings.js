@@ -142,3 +142,14 @@ if (hydraCheckbox) {
 
 const loadedSettings = getSettingsFromLocalStorage();
 applySettingsToNudel(loadedSettings);
+
+//=======//
+// ABOUT //
+//=======//
+
+const aboutButton = document.querySelector('#about-button');
+const aboutDialog = document.querySelector('#about-dialog');
+const yesButton = document.querySelector('#about-yes-button');
+
+aboutButton.addEventListener('click', () => aboutDialog.showModal());
+yesButton.onclick = () => aboutDialog.close();

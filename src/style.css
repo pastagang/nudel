@@ -142,6 +142,9 @@ button:hover {
 a {
   color: #cccccc;
 }
+#about-dialog a {
+  color: #222;
+}
 
 a:hover {
   background-color: #cccccc;
