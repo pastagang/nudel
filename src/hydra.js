@@ -45,9 +45,9 @@ export class HydraSession {
       return () => {
         if (window.parent.strudel == undefined) return 1;
         // parse using the strudel mini parser
-        const reified = window.strudel.mini.minify(pattern);
+        const reified = window.parent.strudel.mini.minify(pattern);
 
-        const now = window.strudel.core.getTime();
+        const now = window.parent.strudel.core.getTime();
 
         // query the current value
         const arc = reified.queryArc(now, now);
