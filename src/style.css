@@ -8,11 +8,15 @@ html {
 
 body {
   background-color: #222;
-  color: #ccc;
+  color: white;
   margin: 0;
   font-family: monospace;
   height: 100%;
   overscroll-behavior-x: contain;
+}
+
+.title {
+  text-shadow: 2px 2px 0px black;
 }
 
 .slots {

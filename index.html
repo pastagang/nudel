@@ -9,7 +9,7 @@
 
   <body>
     <header>
-      <span>
+      <span class="title">
         <h1 style="margin-bottom: 0px">nudelsalat</h1>
         <p style="margin-top: 0px">by pastagang</p>
       </span>
@@ -103,52 +103,30 @@
     <div class="dialog-container">
       <dialog id="settings-dialog">
         <h1>Settings</h1>
-        <p>
-          <label for="settings-username">
-            <span>Username:</span>
-            <input type="text" id="settings-username" data-1p-ignore spellcheck="false" />
-          </label>
-          <br />
-        </p>
-        <!-- <p>
-          <label for="settings-sample-checkbox">
-            <input type="checkbox" id="settings-sample-checkbox" />
-            Sample toggle
-          </label>
-        </p>
-        <br />
-        <p>
-          <label for="settings-sample-text">
-            <span>Sample text input:</span>
-            <input type="text" id="settings-sample-text" />
-          </label>
-          <br />
-        </p>
-        <p></p>
-
-        <h3>Sample option input</h3>
-        <p>
-          <label>
-            <input type="radio" name="settings-sample-radio" value="1" />
-            Option 1
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type="radio" name="settings-sample-radio" value="2" />
-            Option 2
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type="radio" name="settings-sample-radio" value="3" />
-            Option 3
-          </label>
-        </p> -->
-
-        <br />
-        <p><button id="settings-reset-button">Reset to defaults</button></p>
         <form method="dialog">
+          <p>
+            <label for="settings-username">
+              <span>Username:</span>
+              <input type="text" id="settings-username" data-1p-ignore spellcheck="false" />
+            </label>
+          </p>
+          <br />
+          <p>
+            <label>
+              <input type="checkbox" id="settings-strudel-enabled" />
+              Enable strudel
+            </label>
+          </p>
+          <p>
+            <label>
+              <input type="checkbox" id="settings-hydra-enabled" />
+              Enable hydra
+            </label>
+          </p>
+          <br />
+          <p>
+            <button id="settings-reset-button" type="button">Reset to defaults</button>
+          </p>
           <button>Done</button>
         </form>
       </dialog>
@@ -168,10 +146,14 @@
       </dialog>
     </div>
 
-    <script type="module" src="./src/main.js"></script>
-    <script type="module" src="./src/settings.js"></script>
-    <script type="module" src="./src/confirm.js"></script>
-    <iframe src="/strudel" id="strudel"></iframe>
-    <iframe src="/hydra" id="hydra"></iframe>
+    <script type="module" src="/script.js"></script>
+
+    <!-- These now all get pulled in by script.js to avoid dependency issues -->
+    <!-- <script type="module" src="./src/main.js"></script> -->
+    <!-- <script type="module" src="./src/settings.js"></script> -->
+
+    <!-- These now get added/removed dynamically by settings.js -->
+    <!-- <iframe src="/strudel" id="strudel"></iframe> -->
+    <!-- <iframe src="/hydra" id="hydra"></iframe> -->
   </body>
 </html>
