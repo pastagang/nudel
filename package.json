@@ -10,10 +10,11 @@
     "codeformat": "prettier --write ."
   },
   "devDependencies": {
-    "vite": "^5.0.12",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "vite": "^5.0.12"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.18.4",
     "@codemirror/lang-javascript": "^6.1.4",
     "@codemirror/language": "^6.10.8",
     "@codemirror/state": "^6.2.0",

@@ -8,6 +8,7 @@ import { flashField, evalKeymap, remoteEvalFlash } from '@flok-editor/cm-eval';
 import { UndoManager } from 'yjs';
 import { highlightExtension, highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { strudelTheme } from './theme';
+import { autocompletion } from '@codemirror/autocomplete';
 
 import './style.css';
 
@@ -45,6 +46,7 @@ const createEditor = (doc) => {
       strudelTheme,
       flokBasicSetup(doc),
       javascript(),
+      autocompletion({ override: [] }),
       // TODO: add a setting for this
       // EditorView.lineWrapping,
       Prec.highest(
