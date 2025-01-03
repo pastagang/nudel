@@ -86,6 +86,12 @@ const createEditor = (doc) => {
   });
 };
 
+function deleteEditor(id) {
+  editorViews.delete(id);
+  currentEditors.delete(id);
+  document.querySelector(`#slot-${id}`).remove();
+}
+
 const session = new Session('pastagang', {
   // changed this part to what flok.cc uses
   hostname: 'flok.cc',
