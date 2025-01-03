@@ -39,8 +39,11 @@ let theme = EditorView.theme(
       // the cursor is part of https://github.com/felixroos/y-codemirror.next
       // i had to fork again because the scrollIntoView was messing with the global scroll
     },
-    '.cm-activeLine, .cm-activeLineGutter': {
-      'background-color': '#aaaaaa20',
+    '.cm-activeLine, .cm-activeLineGutter, .cm-line': {
+      'background-color': 'rgba(0,0,0,.7) !important',
+    },
+    '.cm-selectionBackground': {
+      'background-color': 'rgba(255,255,255,.7) !important',
     },
     '.cm-cursorLayer': {
       'animation-name': 'inherit !important;', // disables blinking
