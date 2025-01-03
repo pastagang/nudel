@@ -59,23 +59,39 @@ resetButton.addEventListener('click', async () => {
 
 const defaultSettings = {
   username: '',
+  strudelEnabled: true,
+  hydraEnabled: true,
 };
 
 const usernameInput = document.querySelector('#settings-username');
+const strudelCheckbox = document.querySelector('#settings-strudel-enabled');
+const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
-    username: usernameInput.value || defaultSettings.username,
+    username: usernameInput ? usernameInput.value : defaultSettings.username,
+    strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
+    hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
   };
   return inferredSettings;
 }
 
+let previousSettings = null;
 function applySettingsToNudel(settings) {
-  if (usernameInput) {
-    usernameInput.value = settings.username;
+  if (previousSettings?.username !== settings.username) {
+    if (usernameInput) usernameInput.value = settings.username;
+    session.user = settings.username || 'anonymous nudelfan';
   }
 
-  session.user = settings.username || 'anonymous nudelfan';
+  if (previousSettings?.strudelEnabled !== settings.strudelEnabled) {
+    strudelCheckbox.checked = settings.strudelEnabled;
+  }
+
+  if (previousSettings?.hydraEnabled !== settings.hydraEnabled) {
+    hydraCheckbox.checked = settings.hydraEnabled;
+  }
+
+  previousSettings = { ...settings };
 }
 
 if (usernameInput) {
