@@ -1,4 +1,4 @@
-import { controls, evalScope, repl, stack, evaluate, silence } from '@strudel/core';
+import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime } from '@strudel/core';
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
@@ -53,13 +53,13 @@ export class StrudelSession {
     } catch (err) {
       this.onError(err);
     }
-
-    this.repl = repl({
-      defaultOutput: webaudioOutput,
-      onSchedulerError: (e) => this.onError(`${e}`),
-      getTime: () => getAudioContext().currentTime,
-      transpiler,
+    const getTime = () => getAudioContext().currentTime;
+    this.scheduler = new Cyclist({
+      onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
+      getTime,
     });
+    setTime(() => this.scheduler.now()); // this is cursed
+
     this.injectPatternMethods();
 
     this.initHighlighting();
@@ -69,16 +69,16 @@ export class StrudelSession {
     let lastFrame /* : number | null  */ = null;
     this.framer = new Framer(
       () => {
-        const phase = this.repl.scheduler.now();
+        const phase = this.scheduler.now();
         if (lastFrame === null) {
           lastFrame = phase;
           return;
         }
-        if (!this.repl.scheduler.pattern) {
+        if (!this.scheduler.pattern) {
           return;
         }
         // queries the stack of strudel patterns for the current time
-        const allHaps = this.repl.scheduler.pattern.queryArc(
+        const allHaps = this.scheduler.pattern.queryArc(
           Math.max(lastFrame, phase - 1 / 10), // make sure query is not larger than 1/10 s
           phase,
         );
@@ -128,12 +128,12 @@ export class StrudelSession {
       this.allTransform = transform;
       return silence;
     };
-    /* const stop = () => this.repl.scheduler.stop();
-    const start = () => this.repl.scheduler.start();
-    const pause = () => this.repl.scheduler.pause();
-    const toggle = () => this.repl.scheduler.toggle(); */
-    const setCps = (cps) => this.repl.scheduler.setCps(cps);
-    const setCpm = (cpm) => this.repl.scheduler.setCps(cpm / 60);
+    /* const stop = () => this.scheduler.stop();
+    const start = () => this.scheduler.start();
+    const pause = () => this.scheduler.pause();
+    const toggle = () => this.scheduler.toggle(); */
+    const setCps = (cps) => this.scheduler.setCps(cps);
+    const setCpm = (cpm) => this.scheduler.setCps(cpm / 60);
     /* const cpm = register("cpm", function (cpm, pat) {
       return pat._fast(cpm / 60 / scheduler.cps);
     }); */
@@ -188,7 +188,7 @@ export class StrudelSession {
       //console.log("this.patterns", this.patterns);
       const allPatterns = stack(...Object.values(this.patterns));
 
-      await this.repl.scheduler.setPattern(allPatterns, true);
+      await this.scheduler.setPattern(allPatterns, true);
 
       //console.log("afterEval", meta);
     } catch (err) {
