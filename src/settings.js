@@ -63,22 +63,26 @@ const defaultSettings = {
   username: '',
   strudelEnabled: true,
   hydraEnabled: true,
+  defaultZenMode: false,
 };
 
 const usernameInput = document.querySelector('#settings-username');
 const strudelCheckbox = document.querySelector('#settings-strudel-enabled');
 const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
+const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mode');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
     username: usernameInput ? usernameInput.value : defaultSettings.username,
     strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
     hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
+    defaultZenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.defaultZenMode,
   };
   return inferredSettings;
 }
 
 let previousSettings = null;
+
 function applySettingsToNudel(settings) {
   if (previousSettings?.username !== settings.username) {
     if (usernameInput) usernameInput.value = settings.username;
@@ -121,6 +125,12 @@ function applySettingsToNudel(settings) {
     }
   }
 
+  defaultZenModeCheckbox.checked = settings.defaultZenMode;
+
+  if (settings.defaultZenMode && settings.defaultZenMode !== previousSettings?.hydraEnabled) {
+    document.querySelector('body').classList.add('zen-mode');
+  }
+
   previousSettings = { ...settings };
 }
 
@@ -142,6 +152,12 @@ if (hydraCheckbox) {
   });
 }
 
+if (defaultZenModeCheckbox) {
+  defaultZenModeCheckbox.addEventListener('change', () => {
+    setSettings(inferSettingsFromDom());
+  });
+}
+
 const loadedSettings = getSettingsFromLocalStorage();
 applySettingsToNudel(loadedSettings);
 
@@ -151,7 +167,12 @@ applySettingsToNudel(loadedSettings);
 
 const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
+const zenButton = document.querySelector('#zen-button');
 const yesButton = document.querySelector('#about-yes-button');
 
+console.dir(zenButton);
 aboutButton.addEventListener('click', () => aboutDialog.showModal());
 yesButton.onclick = () => aboutDialog.close();
+zenButton.onclick = () => {
+  document.querySelector('body').classList.toggle('zen-mode');
+};

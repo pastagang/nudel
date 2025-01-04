@@ -106,7 +106,6 @@ const createEditor = (doc) => {
   currentEditors.set(doc.id, { state });
 };
 
-
 function deleteEditor(id) {
   editorViews.delete(id);
   currentEditors.delete(id);

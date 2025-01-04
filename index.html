@@ -9,12 +9,13 @@
 
   <body>
     <marquee id="mantra" scrollamount="2" class="fade-in">make space</marquee>
-    <header>
+    <header class="page-title">
       <span class="title">
         <h1 style="margin-bottom: 0px">nudel</h1>
         <p style="margin-top: 0px">by pastagang</p>
       </span>
       <nav>
+        <button id="zen-button">Zen</button>
         <button id="about-button">? About</button>
         <button id="settings-button">⚙ Settings</button>
       </nav>
@@ -47,6 +48,12 @@
             </label>
           </p>
           <br />
+          <p>
+            <label>
+              <input type="checkbox" id="settings-default-zen-mode" />
+              Default to zen mode
+            </label>
+          </p>
           <p>
             <button id="settings-reset-button" type="button">Reset to defaults</button>
           </p>

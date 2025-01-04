@@ -149,6 +149,7 @@ button:hover {
 a {
   color: #cccccc;
 }
+
 #about-dialog a {
   color: #222;
 }
@@ -258,5 +259,56 @@ iframe#hydra {
   }
   100% {
     opacity: 1;
+  }
+}
+
+.zen-mode {
+  #mantra {
+    /*background: rgba(0,0,0,0.66);*/
+    background: transparent;
+  }
+  header {
+    flex-direction: row-reverse;
+  }
+
+  #settings-button {
+    display: none;
+  }
+  #about-button {
+    display: none;
+  }
+
+  .page-title {
+    padding-top: 0px;
+  }
+
+  #zen-button {
+    z-index: 1000;
+  }
+
+  button {
+    border: none;
+    background: rgba(0, 0, 0, 0.66);
+  }
+
+  select {
+    border: none;
+    outline: none;
+    background: rgba(0, 0, 0, 0.66);
+  }
+
+  .run {
+    display: none;
+  }
+
+  & .title {
+    display: none;
+  }
+
+  .slot {
+    header {
+      margin-bottom: -48px;
+      z-index: 1000;
+    }
   }
 }
