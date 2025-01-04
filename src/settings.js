@@ -39,6 +39,7 @@ function saveSettingsToLocalStorage(settings) {
 
 function setSettings(settings) {
   saveSettingsToLocalStorage(settings);
+  loadedSettings = settings;
   applySettingsToNudel(settings);
 }
 
@@ -64,12 +65,14 @@ const defaultSettings = {
   strudelEnabled: true,
   hydraEnabled: true,
   defaultZenMode: false,
+  vimMode: false,
 };
 
 const usernameInput = document.querySelector('#settings-username');
 const strudelCheckbox = document.querySelector('#settings-strudel-enabled');
 const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mode');
+const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -77,13 +80,14 @@ function inferSettingsFromDom() {
     strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
     hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
     defaultZenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.defaultZenMode,
+    vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
   };
   return inferredSettings;
 }
 
 let previousSettings = null;
 
-function applySettingsToNudel(settings) {
+export function applySettingsToNudel(settings) {
   if (previousSettings?.username !== settings.username) {
     if (usernameInput) usernameInput.value = settings.username;
     session.user = settings.username || 'anonymous nudelfan';
@@ -126,6 +130,7 @@ function applySettingsToNudel(settings) {
   }
 
   defaultZenModeCheckbox.checked = settings.defaultZenMode;
+  vimModeCheckbox.checked = settings.vimMode;
 
   if (settings.defaultZenMode && settings.defaultZenMode !== previousSettings?.hydraEnabled) {
     document.querySelector('body').classList.add('zen-mode');
@@ -158,8 +163,13 @@ if (defaultZenModeCheckbox) {
   });
 }
 
-const loadedSettings = getSettingsFromLocalStorage();
-applySettingsToNudel(loadedSettings);
+if (vimModeCheckbox) {
+  vimModeCheckbox.addEventListener('change', () => {
+    setSettings(inferSettingsFromDom());
+  });
+}
+
+export let loadedSettings = getSettingsFromLocalStorage();
 
 //=======//
 // ABOUT //
@@ -170,7 +180,6 @@ const aboutDialog = document.querySelector('#about-dialog');
 const zenButton = document.querySelector('#zen-button');
 const yesButton = document.querySelector('#about-yes-button');
 
-console.dir(zenButton);
 aboutButton.addEventListener('click', () => aboutDialog.showModal());
 yesButton.onclick = () => aboutDialog.close();
 zenButton.onclick = () => {

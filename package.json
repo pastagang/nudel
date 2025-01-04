@@ -19,6 +19,7 @@
     "@codemirror/language": "^6.10.8",
     "@codemirror/state": "^6.2.0",
     "@codemirror/view": "^6.9.3",
+    "@replit/codemirror-vim": "^6.2.1",
     "@flok-editor/cm-eval": "^1.0.1",
     "@flok-editor/session": "^1.1.0",
     "@lezer/highlight": "^1.2.1",

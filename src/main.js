@@ -11,6 +11,8 @@ import { strudelTheme } from './theme';
 import { autocompletion } from '@codemirror/autocomplete';
 
 import './style.css';
+import { applySettingsToNudel, loadedSettings } from './settings.js';
+import { vim } from '@replit/codemirror-vim';
 
 export const editorViews = new Map();
 
@@ -40,6 +42,7 @@ const createEditor = (doc) => {
     console.warn(`ignoring doc with id "${doc.id}". only slot1 and slot2 is allowed rn..`);
     return;
   }
+
   const stopKeys = ['Ctrl-.', 'Alt-.'];
   const state = EditorState.create({
     doc: doc.content,
@@ -48,6 +51,7 @@ const createEditor = (doc) => {
       strudelTheme,
       flokBasicSetup(doc),
       javascript(),
+      loadedSettings.vimMode ? vim() : [],
       autocompletion({ override: [] }),
       // TODO: add a setting for this
       // EditorView.lineWrapping,
@@ -194,3 +198,4 @@ window.addEventListener('message', (event) => {
 });
 
 session.initialize();
+applySettingsToNudel(loadedSettings);
