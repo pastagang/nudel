@@ -39,5 +39,10 @@ while we try to fix it / roll back to an earlier commit.
 you can create an issue to get invited as a maintainer of this repo.
 let's aim to be hierarchy free, so anyone is welcomed to change things they see fit.
 let's _not_ have a bdfl, or a small group of people having the last say.
-let's _not_ have hard rules to how we roll here. create a PR, or push directly to main.
+either create a PR, or push directly to main, both is fine.
 this project has been born out of a jam session, so let's carry that ethos into the code behind the jam.
+
+## flok compatibility
+
+it would be good to stay compatible to flok.cc (and potential other clients), so that people could choose their client.
+by compatible, i mean the overlapping features should behave similarly, and features that do not overlap should not cause problems.
