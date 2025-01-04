@@ -161,6 +161,7 @@ body > header {
   justify-content: space-between;
   align-items: flex-start;
   padding: 0 8px;
+  padding-top: 15px;
 }
 
 nav {
@@ -223,4 +224,37 @@ iframe#hydra {
   left: 0;
   width: 100vw;
   height: 100vh;
+}
+
+#mantra {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: black;
+}
+
+.fade-out {
+  animation: fade-out 1s forwards;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fade-in 1s forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
