@@ -124,8 +124,10 @@ function setSettingsFromDom() {
 
 const settingsButton = document.querySelector('#settings-button');
 const settingsDialog = document.querySelector('#settings-dialog');
+const doneButton = document.querySelector('#settings-done-button');
 settingsButton.addEventListener('click', () => {
   settingsDialog.showModal();
+  doneButton.focus();
 });
 
 const SETTINGS_LOCAL_STORAGE_KEY = 'nudelsalat-settings-v0';
@@ -166,8 +168,10 @@ const aboutDialog = document.querySelector('#about-dialog');
 const zenButton = document.querySelector('#zen-button');
 const yesButton = document.querySelector('#about-yes-button');
 
-aboutButton.addEventListener('click', () => aboutDialog.showModal());
-yesButton.onclick = () => aboutDialog.close();
+aboutButton.addEventListener('click', () => {
+  aboutDialog.showModal();
+  yesButton.focus();
+});
 zenButton.onclick = () => {
   const settings = getSettings();
   setSettings({ ...settings, zenMode: !settings.zenMode });
