@@ -11,7 +11,7 @@ import { strudelTheme } from './theme';
 import { autocompletion } from '@codemirror/autocomplete';
 
 import './style.css';
-import { applySettingsToNudel, loadedSettings } from './settings.js';
+import { applySettingsToNudel, getSettings } from './settings.js';
 import { vim } from '@replit/codemirror-vim';
 
 export const editorViews = new Map();
@@ -51,7 +51,7 @@ const createEditor = (doc) => {
       strudelTheme,
       flokBasicSetup(doc),
       javascript(),
-      loadedSettings.vimMode ? vim() : [],
+      getSettings().vimMode ? vim() : [],
       autocompletion({ override: [] }),
       // TODO: add a setting for this
       // EditorView.lineWrapping,
@@ -198,4 +198,4 @@ window.addEventListener('message', (event) => {
 });
 
 session.initialize();
-applySettingsToNudel(loadedSettings);
+applySettingsToNudel();

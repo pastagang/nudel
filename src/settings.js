@@ -2,69 +2,33 @@ import { updateMiniLocations } from '@strudel/codemirror';
 import { nudelConfirm } from './confirm.js';
 import { editorViews, Frame } from './main.js';
 
-//=======//
-// ADMIN //
-//=======//
-// Scroll down to configure settings ...
-
-const settingsButton = document.querySelector('#settings-button');
-const settingsDialog = document.querySelector('#settings-dialog');
-
-settingsButton.addEventListener('click', () => {
-  settingsDialog.showModal();
-});
-
-const LOCAL_STORAGE_KEY = 'nudelsalat-settings-v0';
-
-function getSettingsFromLocalStorage() {
-  const rawSettings = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  let parsedSettings = { ...defaultSettings };
-  if (rawSettings) {
-    try {
-      parsedSettings = { ...defaultSettings, ...JSON.parse(rawSettings) };
-    } catch (e) {
-      console.warn('failed to parse settings. defaulting to defaults.', e);
-    }
+//=====//
+// API //
+//=====//
+// Use these functions if you want to interact with settings from the outside.
+let loadedSettingsCache = null;
+export function getSettings() {
+  if (!loadedSettingsCache) {
+    loadedSettingsCache = getSettingsFromLocalStorage();
   }
-
-  // Re-affirm!
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(parsedSettings));
-  return parsedSettings;
+  return loadedSettingsCache;
 }
 
-function saveSettingsToLocalStorage(settings) {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(settings));
-}
-
-function setSettings(settings) {
+export function setSettings(settings) {
+  loadedSettingsCache = { ...settings };
   saveSettingsToLocalStorage(settings);
-  loadedSettings = settings;
   applySettingsToNudel(settings);
 }
-
-export function getSettings() {
-  return getSettingsFromLocalStorage();
-}
-
-const resetButton = document.querySelector('#settings-reset-button');
-resetButton.addEventListener('click', async () => {
-  const response = await nudelConfirm();
-  if (response) {
-    setSettings(defaultSettings);
-  }
-});
 
 //========================//
 // SETTINGS CONFIGURATION //
 //========================//
 // Here's where you can make changes to the settings.
-
 const defaultSettings = {
   username: '',
   strudelEnabled: true,
   hydraEnabled: true,
-  defaultZenMode: false,
+  zenMode: false,
   vimMode: false,
 };
 
@@ -79,21 +43,20 @@ function inferSettingsFromDom() {
     username: usernameInput ? usernameInput.value : defaultSettings.username,
     strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
     hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
-    defaultZenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.defaultZenMode,
+    zenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.zenMode,
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
   };
   return inferredSettings;
 }
 
-let previousSettings = null;
-
-export function applySettingsToNudel(settings) {
-  if (previousSettings?.username !== settings.username) {
+let appliedSettings = null;
+export function applySettingsToNudel(settings = getSettings()) {
+  if (appliedSettings?.username !== settings.username) {
     if (usernameInput) usernameInput.value = settings.username;
     session.user = settings.username || 'anonymous nudelfan';
   }
 
-  if (previousSettings?.strudelEnabled !== settings.strudelEnabled) {
+  if (appliedSettings?.strudelEnabled !== settings.strudelEnabled) {
     strudelCheckbox.checked = settings.strudelEnabled;
     if (settings.strudelEnabled) {
       if (!Frame.strudel) {
@@ -113,7 +76,7 @@ export function applySettingsToNudel(settings) {
     }
   }
 
-  if (previousSettings?.hydraEnabled !== settings.hydraEnabled) {
+  if (appliedSettings?.hydraEnabled !== settings.hydraEnabled) {
     hydraCheckbox.checked = settings.hydraEnabled;
     if (settings.hydraEnabled) {
       if (!Frame.hydra) {
@@ -129,52 +92,75 @@ export function applySettingsToNudel(settings) {
     }
   }
 
-  defaultZenModeCheckbox.checked = settings.defaultZenMode;
+  defaultZenModeCheckbox.checked = settings.zenMode;
   vimModeCheckbox.checked = settings.vimMode;
 
-  if (settings.defaultZenMode && settings.defaultZenMode !== previousSettings?.hydraEnabled) {
-    document.querySelector('body').classList.add('zen-mode');
+  if (settings.zenMode !== appliedSettings?.zenMode) {
+    if (settings.zenMode) {
+      document.querySelector('body').classList.add('zen-mode');
+    } else {
+      document.querySelector('body').classList.remove('zen-mode');
+    }
   }
 
-  previousSettings = { ...settings };
+  appliedSettings = { ...settings };
 }
 
-if (usernameInput) {
-  usernameInput.addEventListener('input', () => {
-    setSettings(inferSettingsFromDom());
-  });
+usernameInput?.addEventListener('input', setSettingsFromDom);
+strudelCheckbox?.addEventListener('change', setSettingsFromDom);
+hydraCheckbox?.addEventListener('change', setSettingsFromDom);
+defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
+vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
+
+function setSettingsFromDom() {
+  setSettings(inferSettingsFromDom());
 }
 
-if (strudelCheckbox) {
-  strudelCheckbox.addEventListener('change', () => {
-    setSettings(inferSettingsFromDom());
-  });
+//=========//
+// INNARDS //
+//=========//
+// You don't need to mess with these innards if you're [just] add/removing/changing settings.
+// But go ahead if you want to of course!
+
+const settingsButton = document.querySelector('#settings-button');
+const settingsDialog = document.querySelector('#settings-dialog');
+settingsButton.addEventListener('click', () => {
+  settingsDialog.showModal();
+});
+
+const SETTINGS_LOCAL_STORAGE_KEY = 'nudelsalat-settings-v0';
+
+function getSettingsFromLocalStorage() {
+  const rawSettings = localStorage.getItem(SETTINGS_LOCAL_STORAGE_KEY);
+  let parsedSettings = { ...defaultSettings };
+  if (rawSettings) {
+    try {
+      parsedSettings = { ...defaultSettings, ...JSON.parse(rawSettings) };
+    } catch (e) {
+      console.warn('failed to parse settings. defaulting to defaults.', e);
+    }
+  }
+
+  // Re-affirm!
+  localStorage.setItem(SETTINGS_LOCAL_STORAGE_KEY, JSON.stringify(parsedSettings));
+  return parsedSettings;
 }
 
-if (hydraCheckbox) {
-  hydraCheckbox.addEventListener('change', () => {
-    setSettings(inferSettingsFromDom());
-  });
+function saveSettingsToLocalStorage(settings) {
+  localStorage.setItem(SETTINGS_LOCAL_STORAGE_KEY, JSON.stringify(settings));
 }
 
-if (defaultZenModeCheckbox) {
-  defaultZenModeCheckbox.addEventListener('change', () => {
-    setSettings(inferSettingsFromDom());
-  });
-}
-
-if (vimModeCheckbox) {
-  vimModeCheckbox.addEventListener('change', () => {
-    setSettings(inferSettingsFromDom());
-  });
-}
-
-export let loadedSettings = getSettingsFromLocalStorage();
+const resetButton = document.querySelector('#settings-reset-button');
+resetButton.addEventListener('click', async () => {
+  const response = await nudelConfirm();
+  if (response) {
+    setSettings(defaultSettings);
+  }
+});
 
 //=======//
 // ABOUT //
 //=======//
-
 const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const zenButton = document.querySelector('#zen-button');
@@ -183,5 +169,6 @@ const yesButton = document.querySelector('#about-yes-button');
 aboutButton.addEventListener('click', () => aboutDialog.showModal());
 yesButton.onclick = () => aboutDialog.close();
 zenButton.onclick = () => {
-  document.querySelector('body').classList.toggle('zen-mode');
+  const settings = getSettings();
+  setSettings({ ...settings, zenMode: !settings.zenMode });
 };
