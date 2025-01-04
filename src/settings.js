@@ -31,6 +31,7 @@ const defaultSettings = {
   shaderEnabled: true,
   zenMode: false,
   vimMode: false,
+  welcomeMessage: true,
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -39,6 +40,7 @@ const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const shaderCheckbox = document.querySelector('#settings-shader-enabled');
 const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
+const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -48,6 +50,7 @@ function inferSettingsFromDom() {
     shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
     zenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.zenMode,
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
+    welcomeMessage: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage,
   };
   return inferredSettings;
 }
@@ -131,6 +134,7 @@ hydraCheckbox?.addEventListener('change', setSettingsFromDom);
 shaderCheckbox?.addEventListener('change', setSettingsFromDom);
 defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
 vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
+welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
 
 function setSettingsFromDom() {
   setSettings(inferSettingsFromDom());
@@ -196,3 +200,9 @@ zenButton.onclick = () => {
   const settings = getSettings();
   setSettings({ ...settings, zenMode: !settings.zenMode });
 };
+
+const { welcomeMessage } = getSettings();
+welcomeMessageCheckbox.checked = welcomeMessage;
+if (getSettings().welcomeMessage) {
+  aboutDialog.showModal();
+}
