@@ -28,6 +28,7 @@ const defaultSettings = {
   username: '',
   strudelEnabled: true,
   hydraEnabled: true,
+  shaderEnabled: true,
   zenMode: false,
   vimMode: false,
 };
@@ -35,6 +36,7 @@ const defaultSettings = {
 const usernameInput = document.querySelector('#settings-username');
 const strudelCheckbox = document.querySelector('#settings-strudel-enabled');
 const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
+const shaderCheckbox = document.querySelector('#settings-shader-enabled');
 const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 
@@ -43,6 +45,7 @@ function inferSettingsFromDom() {
     username: usernameInput ? usernameInput.value : defaultSettings.username,
     strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
     hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
+    shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
     zenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.zenMode,
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
   };
@@ -92,6 +95,22 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
+  if (appliedSettings?.shaderEnabled !== settings.shaderEnabled) {
+    shaderCheckbox.checked = settings.shaderEnabled;
+    if (settings.shaderEnabled) {
+      if (!Frame.shader) {
+        Frame.shader = document.createElement('iframe');
+        Frame.shader.src = '/shader';
+        Frame.shader.id = 'shader';
+        Frame.shader.sandbox = 'allow-scripts allow-same-origin';
+        document.body.appendChild(Frame.shader);
+      }
+    } else {
+      Frame.shader?.remove();
+      Frame.shader = null;
+    }
+  }
+
   defaultZenModeCheckbox.checked = settings.zenMode;
   vimModeCheckbox.checked = settings.vimMode;
 
@@ -109,6 +128,7 @@ export function applySettingsToNudel(settings = getSettings()) {
 usernameInput?.addEventListener('input', setSettingsFromDom);
 strudelCheckbox?.addEventListener('change', setSettingsFromDom);
 hydraCheckbox?.addEventListener('change', setSettingsFromDom);
+shaderCheckbox?.addEventListener('change', setSettingsFromDom);
 defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
 vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
 

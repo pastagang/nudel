@@ -78,6 +78,7 @@ const createEditor = (doc) => {
       '          <select class="target">\n' +
       '            <option value="strudel">strudel</option>\n' +
       '            <option value="hydra">hydra</option>\n' +
+      '            <option value="shader">shader</option>\n' +
       '          </select>\n' +
       '          <button class="run">▶ Run</button>\n' +
       '        </header>\n' +
@@ -157,12 +158,17 @@ export function getHydraFrame() {
   return document.getElementById('hydra');
 }
 
+export function getShaderFrame() {
+  return document.getElementById('shader');
+}
+
 export function getStrudelFrame() {
   return document.getElementById('strudel');
 }
 
 export const Frame = {
   hydra: getHydraFrame(),
+  shader: getShaderFrame(),
   strudel: getStrudelFrame(),
 };
 
@@ -173,6 +179,9 @@ session.on('eval:hydra', (msg) =>
     msg,
   }),
 );
+
+// shader
+session.on('eval:shader', (msg) => Frame.shader?.contentWindow.postMessage({ type: 'eval', msg }));
 
 // strudel
 session.on('eval:strudel', (msg) => Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg }));

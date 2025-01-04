@@ -221,6 +221,16 @@ iframe#strudel {
 
 iframe#hydra {
   border: 0;
+  z-index: -3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+iframe#shader {
+  border: 0;
   z-index: -2;
   position: fixed;
   top: 0;
