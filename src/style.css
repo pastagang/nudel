@@ -234,6 +234,7 @@ iframe#hydra {
   top: 0;
   z-index: 999;
   background-color: black;
+  text-shadow: 1px 1px 0px black;
 }
 
 .fade-out {
