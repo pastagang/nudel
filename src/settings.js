@@ -92,6 +92,7 @@ function applySettingsToNudel(settings) {
         Frame.strudel = document.createElement('iframe');
         Frame.strudel.src = '/strudel';
         Frame.strudel.id = 'strudel';
+        Frame.strudel.sandbox = 'allow-scripts allow-same-origin';
         document.body.appendChild(Frame.strudel);
       }
     } else {
@@ -111,6 +112,7 @@ function applySettingsToNudel(settings) {
         Frame.hydra = document.createElement('iframe');
         Frame.hydra.src = '/hydra';
         Frame.hydra.id = 'hydra';
+        Frame.hydra.sandbox = 'allow-scripts allow-same-origin';
         document.body.appendChild(Frame.hydra);
       }
     } else {
