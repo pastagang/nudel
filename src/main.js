@@ -73,17 +73,17 @@ const createEditor = (doc) => {
 
   slotsEl.insertAdjacentHTML(
     'beforeend',
-    ` <div class=\"slot\" id=\"slot-${doc.id}\">\n` +
-      '        <header>\n' +
-      '          <select class="target">\n' +
-      '            <option value="strudel">strudel</option>\n' +
-      '            <option value="hydra">hydra</option>\n' +
-      '            <option value="shader">shader</option>\n' +
-      '          </select>\n' +
-      '          <button class="run">▶ Run</button>\n' +
-      '        </header>\n' +
-      '        <div class="editor"></div>\n' +
-      '      </div>',
+    `<div class="slot" id="slot-${doc.id}">
+      <header>
+        <select class="target">
+          <option value="strudel">strudel</option>
+          <option value="hydra">hydra</option>
+          <option value="shader">shader</option>
+        </select>
+        <button class="run">▶ Run</button>
+      </header>
+    <div class="editor"></div>
+  </div>`,
   );
 
   const editorEl = document.querySelector(`#slot-${doc.id} .editor`);
@@ -190,20 +190,36 @@ window.editorViews = editorViews;
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
 window.updateMiniLocations = updateMiniLocations; // we cannot import this for some reason
 
-const strudelEventHandlers = {
-  onError: (err, docId) => {
-    console.log('onError', docId);
-    console.error(err);
-  },
+// error handling
+const setError = (message, docId) => {
+  console.error(message);
+  if (!docId) {
+    // todo: where to show global errors?
+    return;
+  }
+  const slot = document.querySelector(`#slot-${docId}`);
+  let errorEl = document.querySelector(`#slot-${docId} #error-${docId}`);
+
+  if (errorEl) {
+    errorEl.innerText = message;
+  } else {
+    slot.insertAdjacentHTML('beforeend', `<div class="error" id="error-${docId}">${message}</div>`);
+  }
 };
+const clearError = (docId) => {
+  document.querySelector(`#slot-${docId} #error-${docId}`)?.remove();
+};
+// clear local error when new eval comes in
+session.on('eval', (msg) => clearError(msg.docId));
 
 window.addEventListener('message', (event) => {
   if (event.origin !== window.location.origin) {
     return;
   }
-  const handler = strudelEventHandlers[event.data.type];
-  // console.log(event.data.type, event.data.msg);
-  handler && handler(...event.data.msg);
+  if (event.data.type === 'onError') {
+    const [err, docId] = event.data.msg;
+    setError(err, docId);
+  }
 });
 
 session.initialize();

@@ -120,7 +120,7 @@ export class HydraSession {
       })()`);
     } catch (error) {
       console.error(error);
-      this.onError(`${error}`);
+      this.onError(`${error}`, docId);
     }
   }
 }

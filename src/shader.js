@@ -292,7 +292,7 @@ export class ShaderSession {
       this.uniforms = this.instance.uniforms;
       console.log("Shader updated!")
     } catch (err) {
-      this.onError(`${err}`);
+      this.onError(`${err}`, msg.docId);
     }
   }
 }
