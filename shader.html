@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <body style="margin: 0">
+    <style>
+      #canvas {
+        width: 100%;
+        height: 100%;
+        image-rendering: pixelated;
+      }
+    </style>
+    <script>
+      window.global = window;
+    </script>
+    <script type="module">
+      import { ShaderSession } from './src/shader';
+      function send(type, msg) {
+        window.parent.postMessage({ type, msg });
+      }
+
+      const shader = new ShaderSession({
+        onError: (...args) => send('onError', args),
+        canvas: document.getElementById('canvas'),
+      });
+
+      window.parent.shader = shader;
+
+      window.addEventListener('message', (event) => {
+        if (event.origin !== window.location.origin) {
+          return;
+        }
+        if (event.data.type === 'eval') {
+          shader.eval(event.data.msg)
+        }
+      });
+
+      let resizeDebounce;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeDebounce);
+        resizeDebounce = setTimeout(() => shader.resize(), 200);
+      });
+
+      console.log('shader iframe loaded', shader);
+    </script>
+    <canvas id="canvas" />
+    />
+  </body>
+</html>
