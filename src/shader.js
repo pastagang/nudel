@@ -254,7 +254,7 @@ function initializeShaderInstance(gl, code) {
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
     // After sometime, if no update happened, stop the animation loop to save cpu cycles
-    if (instance.age++ < 100) requestAnimationFrame(instance.update);
+    if (instance.uniforms.iTime || instance.age++ < 100) requestAnimationFrame(instance.update);
     else instance.drawing = false;
   };
   instance.update();
