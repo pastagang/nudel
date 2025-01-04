@@ -169,5 +169,6 @@ const yesButton = document.querySelector('#about-yes-button');
 aboutButton.addEventListener('click', () => aboutDialog.showModal());
 yesButton.onclick = () => aboutDialog.close();
 zenButton.onclick = () => {
-  document.querySelector('body').classList.toggle('zen-mode');
+  const settings = getSettings();
+  setSettings({ ...settings, zenMode: !settings.zenMode });
 };
