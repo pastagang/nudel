@@ -137,6 +137,7 @@ button {
   height: 30px;
   flex-shrink: 0;
   white-space: nowrap;
+  line-height: 1;
 }
 
 button:hover {
@@ -164,6 +165,9 @@ body > header {
 
 nav {
   padding: 3px;
+  display: flex;
+  gap: 4px;
+  margin-right: -7px;
 }
 
 .dialog-container {
