@@ -42,7 +42,9 @@ body {
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
-  /* background-color: #24242411; sorry lu, looks bad when hydra is running */
+  background-color: #24242411;
+  /* sorry lu, looks bad when hydra is running */
+  /* hey its okay it wasnt me who added this :) -lu */
 }
 
 .slot .title {
