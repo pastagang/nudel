@@ -43,6 +43,7 @@ const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mod
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
+const welcomeUsernameInput = document.querySelector('#welcome-username');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -196,6 +197,31 @@ const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const zenButton = document.querySelector('#zen-button');
 const yesButton = document.querySelector('#about-yes-button');
+
+aboutDialog.addEventListener('show', () => {
+  const settings = getSettings();
+  if (welcomeUsernameInput) {
+    welcomeUsernameInput.value = settings.username;
+  }
+});
+
+welcomeUsernameInput?.addEventListener('input', () => {
+  const settings = getSettings();
+  setSettings({
+    ...settings,
+    username: welcomeUsernameInput.value,
+  });
+});
+
+yesButton.addEventListener('click', () => {
+  const settings = getSettings();
+  if (welcomeUsernameInput?.value) {
+    setSettings({
+      ...settings,
+      username: welcomeUsernameInput.value,
+    });
+  }
+});
 
 aboutButton.addEventListener('click', () => {
   aboutDialog.showModal();
