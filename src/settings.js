@@ -210,4 +210,5 @@ const { welcomeMessage } = getSettings();
 welcomeMessageCheckbox.checked = welcomeMessage;
 if (getSettings().welcomeMessage) {
   aboutDialog.showModal();
+  yesButton.focus();
 }
