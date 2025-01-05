@@ -63,6 +63,7 @@ let appliedSettings = null;
 export function applySettingsToNudel(settings = getSettings()) {
   if (appliedSettings?.username !== settings.username) {
     if (usernameInput) usernameInput.value = settings.username;
+    if (welcomeUsernameInput) welcomeUsernameInput.value = settings.username;
     session.user = settings.username || 'anonymous nudelfan';
   }
 
@@ -197,13 +198,6 @@ const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const zenButton = document.querySelector('#zen-button');
 const yesButton = document.querySelector('#about-yes-button');
-
-aboutDialog.addEventListener('show', () => {
-  const settings = getSettings();
-  if (welcomeUsernameInput) {
-    welcomeUsernameInput.value = settings.username;
-  }
-});
 
 welcomeUsernameInput?.addEventListener('input', () => {
   const settings = getSettings();
