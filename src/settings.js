@@ -31,6 +31,7 @@ const defaultSettings = {
   shaderEnabled: true,
   zenMode: false,
   vimMode: false,
+  lineWrapping: false,
   welcomeMessage: true,
 };
 
@@ -40,6 +41,7 @@ const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const shaderCheckbox = document.querySelector('#settings-shader-enabled');
 const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
+const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 
 function inferSettingsFromDom() {
@@ -50,6 +52,7 @@ function inferSettingsFromDom() {
     shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
     zenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.zenMode,
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
+    lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
     welcomeMessage: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage,
   };
   return inferredSettings;
@@ -116,6 +119,7 @@ export function applySettingsToNudel(settings = getSettings()) {
 
   defaultZenModeCheckbox.checked = settings.zenMode;
   vimModeCheckbox.checked = settings.vimMode;
+  lineWrappingCheckbox.checked = settings.lineWrapping;
 
   if (settings.zenMode !== appliedSettings?.zenMode) {
     if (settings.zenMode) {
@@ -135,6 +139,7 @@ shaderCheckbox?.addEventListener('change', setSettingsFromDom);
 defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
 vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
 welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
+lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
 
 function setSettingsFromDom() {
   setSettings(inferSettingsFromDom());

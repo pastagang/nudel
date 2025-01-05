@@ -53,8 +53,8 @@ const createEditor = (doc) => {
       javascript(),
       getSettings().vimMode ? vim() : [],
       autocompletion({ override: [] }),
-      // TODO: add a setting for this
-      // EditorView.lineWrapping,
+      // todo: reconfigure on change, search "reconfigure(" in the strudel repo
+      getSettings().lineWrapping ? EditorView.lineWrapping : [],
       Prec.highest(
         keymap.of([
           ...stopKeys.map((key) => ({
