@@ -21,6 +21,12 @@
       });
 
       window.parent.strudel = strudel;
+      console.log('[strudel] waiting for document click to init');
+      window.parent.document.addEventListener('click', async function interaction() {
+        window.parent.document.removeEventListener('click', interaction);
+        await strudel.initAudio();
+        console.log('[strudel] audio init done');
+      });
 
       window.addEventListener('message', (event) => {
         if (event.origin !== window.location.origin) {

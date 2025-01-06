@@ -2,13 +2,7 @@ import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime } fr
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
-import {
-  getAudioContext,
-  initAudioOnFirstClick,
-  registerSynthSounds,
-  samples,
-  webaudioOutput,
-} from '@strudel/webaudio';
+import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 
 controls.createParam('docId');
 
@@ -37,8 +31,6 @@ export class StrudelSession {
   }
 
   async init() {
-    initAudioOnFirstClick();
-
     // why do we need to await this stuff here?
     this.core = await import('@strudel/core');
     this.mini = await import('@strudel/mini');
@@ -69,6 +61,9 @@ export class StrudelSession {
     this.injectPatternMethods();
 
     this.initHighlighting();
+  }
+  initAudio() {
+    return initAudio();
   }
 
   initHighlighting() {
