@@ -37,7 +37,7 @@ const flokBasicSetup = (doc) => {
 const currentEditors = new Map();
 
 const createEditor = (doc) => {
-  console.log('createEditor', doc);
+  // console.log('createEditor', doc);
   if (!['1', '2', '3', '4', '5', '6', '7', '8'].includes(doc.id)) {
     console.warn(`ignoring doc with id "${doc.id}". only slot1 and slot2 is allowed rn..`);
     return;
