@@ -2,7 +2,13 @@ import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime } fr
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
-import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
+import {
+  getAudioContext,
+  initAudioOnFirstClick,
+  registerSynthSounds,
+  samples,
+  webaudioOutput,
+} from '@strudel/webaudio';
 
 controls.createParam('docId');
 
@@ -31,13 +37,7 @@ export class StrudelSession {
   }
 
   async init() {
-    initAudio()
-      .then(() => {
-        console.log('audio inited');
-      })
-      .catch((err) => {
-        console.log('audio init err', err);
-      });
+    initAudioOnFirstClick();
 
     // why do we need to await this stuff here?
     this.core = await import('@strudel/core');
