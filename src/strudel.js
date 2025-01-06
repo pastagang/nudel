@@ -8,7 +8,6 @@ controls.createParam('docId');
 
 export class StrudelSession {
   constructor({ onError, onHighlight, onUpdateMiniLocations }) {
-    this.init();
     this.patterns = {};
     this.pPatterns = {};
     this.allTransform = undefined;
@@ -17,6 +16,7 @@ export class StrudelSession {
     this.onHighlight = onHighlight;
     this.onUpdateMiniLocations = onUpdateMiniLocations;
     this.enableAutoAnalyze = true;
+    this.init();
   }
 
   loadSamples() {
@@ -31,7 +31,13 @@ export class StrudelSession {
   }
 
   async init() {
-    initAudio();
+    initAudio()
+      .then(() => {
+        console.log('audio inited');
+      })
+      .catch((err) => {
+        console.log('audio init err', err);
+      });
 
     // why do we need to await this stuff here?
     this.core = await import('@strudel/core');
