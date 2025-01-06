@@ -78,7 +78,10 @@ body {
 .cm-scroller {
   overflow: hidden;
   padding: 0 8px;
-  padding-bottom: 12px; /* to make sure nametag isnt cut off */
+}
+
+.cm-content {
+  padding-bottom: 16px !important; /* to make sure nametag isnt cut off */
 }
 
 .cm-gutters {
