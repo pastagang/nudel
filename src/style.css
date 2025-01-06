@@ -355,7 +355,7 @@ iframe#shader {
       padding: 0;
       z-index: 1000;
       position: sticky;
-      top: 8px; /* make space for mantra */
+      top: 4px; /* make space for mantra */
       align-self: flex-end;
       flex: 0 1 auto;
     }
