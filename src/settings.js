@@ -208,6 +208,7 @@ resetButton.addEventListener('click', async () => {
 //=======//
 const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
+const exportButton = document.querySelector('#export-button');
 const zenButton = document.querySelector('#zen-button');
 const yesButton = document.querySelector('#about-yes-button');
 
@@ -227,6 +228,25 @@ yesButton.addEventListener('click', () => {
       username: welcomeUsernameInput.value,
     });
   }
+});
+
+exportButton.addEventListener('click', () => {
+  const bundle = [];
+  editorViews.forEach((view, key) => {
+    bundle.push(`// panel ${key}`);
+    const doc = view.viewState.state.doc;
+    if (doc.children) {
+      doc.children.forEach((c) => {
+        bundle.push(...c.text);
+      });
+    } else {
+      bundle.push(doc.text);
+    }
+    bundle.push('\n\n');
+  });
+  const txt = bundle.join('\n');
+  navigator.clipboard.writeText(txt);
+  console.log(`Copied ${txt.length} bytes`);
 });
 
 aboutButton.addEventListener('click', () => {
