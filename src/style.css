@@ -331,9 +331,28 @@ iframe#shader {
   }
 
   .slot {
+    position: relative;
     header {
-      margin-bottom: -48px;
+      padding: 0;
       z-index: 1000;
+      position: absolute;
+      top: 0;
+      align-self: flex-end;
+      flex: 0 1 auto;
+    }
+    select {
+      font-size: 0.95em;
+      font-family: monospace;
+      background: transparent;
+      text-shadow:
+        1px 1px 0px black,
+        -1px -1px 0px black,
+        1px -1px 0px black,
+        -1px 1px 0px black;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      text-indent: 1px;
+      text-align: right;
     }
   }
 }
