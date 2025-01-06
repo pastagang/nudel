@@ -48,7 +48,7 @@ class UniformValue {
   // The value can be a function that will be called for each rendering frame
   set(value, pos = 0) {
     const idx = pos % this.value.length;
-    if (typeof value === "function") {
+    if (typeof value === 'function') {
       this.frameModifier[idx] = value(this.value[idx]);
     } else {
       this.value[idx] = value;
@@ -64,7 +64,7 @@ class UniformValue {
   // This function is called for every frame, allowing to run a smooth modifier
   _frameUpdate(elapsed) {
     this.value = this.value.map((value, idx) =>
-      this.frameModifier[idx] ? this.frameModifier[idx](value, elapsed) : value
+      this.frameModifier[idx] ? this.frameModifier[idx](value, elapsed) : value,
     );
     return this.value;
   }
@@ -98,31 +98,28 @@ function setupUniforms(instance) {
 
   // Collect every available uniforms
   let gl = instance.gl;
-  const numUniforms = instance.gl.getProgramParameter(
-    instance.program,
-    gl.ACTIVE_UNIFORMS,
-  );
+  const numUniforms = instance.gl.getProgramParameter(instance.program, gl.ACTIVE_UNIFORMS);
   for (let i = 0; i < numUniforms; ++i) {
     const inf = gl.getActiveUniform(instance.program, i);
 
     // Arrays have a `[0]` suffix in their name, drop that
-    const name = inf.name.replace("[0]", "");
+    const name = inf.name.replace('[0]', '');
 
     // Figure out how many values is this uniform, and how to update it.
     let count = inf.size;
-    let updateFunc = "uniform1fv";
+    let updateFunc = 'uniform1fv';
     switch (inf.type) {
       case gl.FLOAT_VEC2:
         count *= 2;
-        updateFunc = "uniform2fv";
+        updateFunc = 'uniform2fv';
         break;
       case gl.FLOAT_VEC3:
         count *= 3;
-        updateFunc = "uniform3fv";
+        updateFunc = 'uniform3fv';
         break;
       case gl.FLOAT_VEC4:
         count *= 4;
-        updateFunc = "uniform4fv";
+        updateFunc = 'uniform4fv';
         break;
     }
 
@@ -133,10 +130,7 @@ function setupUniforms(instance) {
     else instance.uniforms[name]._resize(count);
 
     // Record it's location for the 'updateUniforms' below.
-    instance.uniforms[name].loc = gl.getUniformLocation(
-      instance.program,
-      inf.name,
-    );
+    instance.uniforms[name].loc = gl.getUniformLocation(instance.program, inf.name);
     instance.uniforms[name].updateFunc = updateFunc;
 
     // Record the name so that unused uniform can be deleted below
@@ -153,9 +147,9 @@ function setupUniforms(instance) {
 function updateUniforms(gl, now, elapsed, uniforms) {
   Object.entries(uniforms).forEach(([name, uniform]) => {
     try {
-      if (name == "iTime") {
+      if (name == 'iTime') {
         gl.uniform1f(uniform.loc, now);
-      } else if (name == "iResolution") {
+      } else if (name == 'iResolution') {
         gl.uniform2f(uniform.loc, gl.canvas.width, gl.canvas.height);
       } else {
         const value = uniform._frameUpdate(elapsed);
@@ -164,7 +158,7 @@ function updateUniforms(gl, now, elapsed, uniforms) {
         gl[uniform.updateFunc](uniform.loc, value);
       }
     } catch (err) {
-      console.warn("uniform error");
+      console.warn('uniform error');
       console.error(err);
     }
   });
@@ -178,9 +172,8 @@ function setupContext(canvas) {
   canvas.width = width;
   canvas.height = height;
   const top = 60;
-  canvas.style =
-    `pointer-events:none;width:${width}px;height:${height}px;position:fixed;top:${top}px;left:23px`;
-  return canvas.getContext("webgl2");
+  canvas.style = `pointer-events:none;width:${width}px;height:${height}px;position:fixed;top:${top}px;left:23px`;
+  return canvas.getContext('webgl2');
 }
 
 function createProgram(gl, vertex, fragment) {
@@ -215,11 +208,7 @@ function initializeShaderInstance(gl, code) {
   const mkPositionArray = () => {
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
-      gl.STATIC_DRAW,
-    );
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     const vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
     gl.enableVertexAttribArray(0);
@@ -279,7 +268,7 @@ export class ShaderSession {
     this.instance = null;
   }
   resize() {
-    console.log("Not Implemented shader resize");
+    console.log('Not Implemented shader resize');
   }
   async eval(msg) {
     const code = mkFragmentShader(msg.body);
@@ -290,7 +279,7 @@ export class ShaderSession {
         reloadShaderInstanceCode(this.instance, code);
       }
       this.uniforms = this.instance.uniforms;
-      console.log("Shader updated!")
+      console.log('Shader updated!');
     } catch (err) {
       this.onError(`${err}`, msg.docId);
     }
