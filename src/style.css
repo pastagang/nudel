@@ -13,6 +13,8 @@ body {
   font-family: monospace;
   height: 100%;
   overscroll-behavior-x: contain;
+  display: flex;
+  flex-direction: column;
 }
 
 .title h1 {
@@ -34,6 +36,20 @@ body {
 @media screen and (max-width: 750px) {
   .slots {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media screen and (min-width: 751px) {
+  body.boxed-mode {
+    overflow: hidden;
+    // boxed layout
+    .slots {
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+    .slot {
+      overflow: auto;
+      min-width: 0;
+    }
   }
 }
 
@@ -338,8 +354,8 @@ iframe#shader {
     header {
       padding: 0;
       z-index: 1000;
-      position: absolute;
-      top: 0;
+      position: sticky;
+      top: 8px; /* make space for mantra */
       align-self: flex-end;
       flex: 0 1 auto;
     }
