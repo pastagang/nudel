@@ -105,7 +105,7 @@ const createEditor = (doc) => {
 
   const runButton = document.querySelector(`#slot-${doc.id} .run`);
   runButton.addEventListener('click', () => {
-    doc.evaluate(doc.content);
+    doc.evaluate(doc.content, { from: 0, to: doc.content.length });
   });
 
   currentEditors.set(doc.id, { state });
