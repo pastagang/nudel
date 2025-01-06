@@ -35,6 +35,37 @@ body {
   }
 }
 @media screen and (min-width: 751px) {
+  body.tabbed-mode {
+    overflow: hidden;
+    .slots {
+      display: grid;
+      grid-template-areas: "left right";
+      grid-template-columns: 50% 50%;
+      grid-row: 100vh;
+      gap: 0;
+    }
+    .slot:nth-child(2n + 1) {
+      grid-area: left;
+    }
+    .slot:nth-child(2n) {
+      grid-area: right;
+    }
+    .slot {
+      opacity: .5;
+      transform: scale(0.95);
+      filter: blur(1.5px);
+      z-index: 10;
+      pointer-events: none;
+      overflow: scroll;
+      &.active {
+        opacity: 1;
+        transform: scale(1);
+        filter: none;
+        z-index: 20;
+        pointer-events: initial;
+      }
+    }
+  }
   body.boxed-mode {
     .cm-scoller {
       overflow: auto !important;
