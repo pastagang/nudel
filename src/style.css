@@ -312,27 +312,12 @@ iframe#shader {
     background: transparent;
   }
 
-  #settings-button {
-    display: none;
-  }
-  #about-button {
-    display: none;
-  }
-  #export-button {
-    display: none;
-  }
-
   .page-title {
     padding-top: 0px;
   }
 
   #zen-button {
     z-index: 1000;
-  }
-
-  button {
-    border: none;
-    background: rgba(0, 0, 0, 0.66);
   }
 
   select {
@@ -376,15 +361,15 @@ iframe#shader {
   }
 }
 
-#zen-button {
+.dropdown {
   position: fixed;
   z-index: 1000;
-  bottom: 0;
+  top: 0;
   right: 0;
-}
-
-.dropdown {
-  position: relative;
+  button {
+    width: 100%;
+    text-align: left;
+  }
 }
 .dropdown-content {
   display: none;
