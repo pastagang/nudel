@@ -134,6 +134,7 @@ export function applySettingsToNudel(settings = getSettings()) {
       document.querySelector('body').classList.remove('zen-mode');
     }
   }
+
   if (settings.panelMode !== appliedSettings?.panelMode) {
     document.querySelector('body').classList.remove('scroll-mode', 'boxed-mode', 'tabbed-mode');
     switch (settings.panelMode) {
@@ -148,6 +149,9 @@ export function applySettingsToNudel(settings = getSettings()) {
         break;
     }
   }
+
+  panelModeSelectBurger.value = settings.panelMode;
+  panelModeSelect.value = settings.panelMode;
 
   appliedSettings = { ...settings };
 }
@@ -217,7 +221,7 @@ const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const exportButton = document.querySelector('#export-button');
 const zenButton = document.querySelector('#zen-button');
-const boxedButton = document.querySelector('#boxed-button');
+const panelModeSelectBurger = document.querySelector('#panel-mode-select-burger');
 const yesButton = document.querySelector('#about-yes-button');
 
 welcomeUsernameInput?.addEventListener('input', () => {
@@ -276,9 +280,9 @@ zenButton.onclick = () => {
   const settings = getSettings();
   setSettings({ ...settings, zenMode: !settings.zenMode });
 };
-boxedButton.onclick = () => {
+panelModeSelectBurger.onchange = () => {
   const settings = getSettings();
-  setSettings({ ...settings, boxedMode: !settings.boxedMode });
+  setSettings({ ...settings, panelMode: panelModeSelectBurger.value });
 };
 
 const { welcomeMessage } = getSettings();
