@@ -35,6 +35,10 @@ body {
   }
 }
 
+.tabs {
+  display: none;
+}
+
 @media screen and (min-width: 751px) {
   body.tabbed-mode {
     overflow: hidden;
@@ -44,7 +48,7 @@ body {
       grid-template-areas: 'left right';
       border-bottom: 0;
       grid-template-columns: 50% 50%;
-      grid-row: 24px;
+      height: 24px;
       gap: 0;
 
       & .left {
@@ -67,7 +71,7 @@ body {
       display: grid;
       grid-template-areas: 'left right';
       grid-template-columns: 50% 50%;
-      grid-row: 100vh;
+      height: calc(100vh - 24px);
       gap: 0;
     }
 
