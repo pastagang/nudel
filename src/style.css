@@ -311,9 +311,6 @@ iframe#shader {
     /*background: rgba(0,0,0,0.66);*/
     background: transparent;
   }
-  header {
-    flex-direction: row-reverse;
-  }
 
   #settings-button {
     display: none;
@@ -356,10 +353,11 @@ iframe#shader {
     position: relative;
     header {
       padding: 0;
+      padding-left: 4px;
       z-index: 1000;
       position: sticky;
       top: 4px; /* make space for mantra */
-      align-self: flex-end;
+      align-self: flex-start;
       flex: 0 1 auto;
     }
     select {
@@ -374,7 +372,6 @@ iframe#shader {
       -webkit-appearance: none;
       -moz-appearance: none;
       text-indent: 1px;
-      text-align: right;
     }
   }
 }
