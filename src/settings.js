@@ -208,6 +208,7 @@ resetButton.addEventListener('click', async () => {
 //=======//
 const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
+const exportButton = document.querySelector('#export-button');
 const zenButton = document.querySelector('#zen-button');
 const yesButton = document.querySelector('#about-yes-button');
 
@@ -227,6 +228,26 @@ yesButton.addEventListener('click', () => {
       username: welcomeUsernameInput.value,
     });
   }
+});
+
+// Return the lines of a panel view.
+function getDocumentText(view) {
+  const doc = view.viewState.state.doc;
+  console.log(doc);
+  return doc.children ? doc.children.flatmap((c) => c.text) : doc.text;
+}
+
+exportButton.addEventListener('click', () => {
+  const date = new Date().toISOString().substr(0, 16).replace('T', ' ');
+  const bundle = [`// "nudel ${date}" @by pastagang`, '//'];
+  editorViews.forEach((view, key) => {
+    bundle.push(`// panel ${key}`);
+    bundle.push(...getDocumentText(view));
+    bundle.push('\n\n');
+  });
+  const txt = bundle.join('\n');
+  navigator.clipboard.writeText(txt);
+  console.log(`Copied ${txt.length} bytes`);
 });
 
 aboutButton.addEventListener('click', () => {
