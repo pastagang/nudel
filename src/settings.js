@@ -230,18 +230,19 @@ yesButton.addEventListener('click', () => {
   }
 });
 
+// Return the lines of a panel view.
+function getDocumentText(view) {
+  const doc = view.viewState.state.doc;
+  console.log(doc);
+  return doc.children ? doc.children.flatmap((c) => c.text) : doc.text;
+}
+
 exportButton.addEventListener('click', () => {
-  const bundle = [];
+  const date = new Date().toISOString().substr(0, 16).replace('T', ' ');
+  const bundle = [`// "nudel ${date}" @by pastagang`, '//'];
   editorViews.forEach((view, key) => {
     bundle.push(`// panel ${key}`);
-    const doc = view.viewState.state.doc;
-    if (doc.children) {
-      doc.children.forEach((c) => {
-        bundle.push(...c.text);
-      });
-    } else {
-      bundle.push(doc.text);
-    }
+    bundle.push(...getDocumentText(view));
     bundle.push('\n\n');
   });
   const txt = bundle.join('\n');
