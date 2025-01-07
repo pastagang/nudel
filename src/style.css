@@ -22,7 +22,7 @@ body {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
   height: 100%;
-  gap: 8px 4px; /* other 4px are set on cm-scroller so clicking an edge focuses the code */
+  gap: 4px 4px; /* other 4px are set on cm-scroller so clicking an edge focuses the code */
   padding: 4px 0;
 }
 
@@ -30,9 +30,15 @@ body {
   .slots {
     grid-template-columns: minmax(0, 1fr);
   }
+  .cm-scoller {
+    overflow: hidden;
+  }
 }
 @media screen and (min-width: 751px) {
   body.boxed-mode {
+    .cm-scoller {
+      overflow: auto !important;
+    }
     overflow: hidden;
     // boxed layout
     .slots {
@@ -41,8 +47,18 @@ body {
       overflow: hidden;
     }
     .slot {
-      overflow: auto;
+      overflow: hidden;
+      position: relative;
       min-width: 0;
+      .editor {
+        height: 100%;
+        overflow: hidden;
+      }
+    }
+  }
+  body:not(.boxed-mode) {
+    .cm-scoller {
+      overflow: hidden;
     }
   }
 }
@@ -52,6 +68,21 @@ body {
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
+  header {
+    padding: 0px 4px;
+    align-self: flex-start;
+    flex: 0 1 auto;
+    z-index: 998;
+    /* position: sticky;
+  top: 0; */
+    select,
+    button {
+      background: rgba(0, 0, 0, 0.7);
+    }
+    display: flex;
+    gap: 6px;
+  }
+
   /* background-color: #24242411; */
   /* sorry lu, looks bad when hydra is running */
   /* hey its okay it wasnt me who added this :) -lu */
@@ -65,10 +96,6 @@ body {
     position: sticky;
     bottom: 0;
   }
-}
-
-.slot .title {
-  font-weight: 600;
 }
 
 :root {
@@ -86,7 +113,6 @@ body {
 }
 
 .cm-scroller {
-  overflow: hidden;
   padding: 0 4px;
   cursor: text;
 }
@@ -114,21 +140,6 @@ body {
 
 .cm-activeLine {
   background-color: rgba(0, 1, 0, 1) !important;
-}
-
-.slot header {
-  padding: 0px 4px;
-  align-self: flex-start;
-  flex: 0 1 auto;
-  z-index: 998;
-  position: sticky;
-  select,
-  button {
-    background: rgba(0, 0, 0, 0.7);
-  }
-  top: 0;
-  display: flex;
-  gap: 6px;
 }
 
 select {
@@ -328,7 +339,6 @@ iframe#shader {
   }
 
   .slot {
-    position: relative;
     header {
       .run {
         font-size: 0.95em;
