@@ -33,7 +33,7 @@ const defaultSettings = {
   panelMode: 'scroll', // "scroll" | "boxed" | |tabbed
   vimMode: false,
   lineWrapping: false,
-  lineNumbers: true,
+  lineNumbers: false,
   welcomeMessage: true,
 };
 
