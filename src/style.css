@@ -23,6 +23,7 @@ body {
   width: 100%;
   height: 100%;
   gap: 8px;
+  padding: 4px;
 }
 
 @media screen and (max-width: 750px) {
@@ -58,8 +59,8 @@ body {
     background-color: black;
     font-family: monospace;
     padding: 8px;
-    margin-bottom: 8px;
-    margin-left: 8px;
+    margin: 0;
+    border: 2px solid white;
     color: tomato;
     position: sticky;
     bottom: 0;
@@ -115,9 +116,13 @@ body {
 }
 
 .slot header {
-  /* background-color: rgba(0, 0, 0, 0.18); sorry lu, looks bad when hydra is running */
-  padding: 6px 8px;
-  padding-right: 6px;
+  padding: 0;
+  align-self: flex-start;
+  flex: 0 1 auto;
+  z-index: 998;
+  position: sticky;
+  background: #222;
+  top: 0;
   display: flex;
   gap: 6px;
 }
@@ -304,6 +309,9 @@ iframe#shader {
   #zen-button {
     z-index: 1000;
   }
+  .error {
+    border: 0;
+  }
 
   select {
     border: none;
@@ -321,14 +329,6 @@ iframe#shader {
 
   .slot {
     position: relative;
-    header {
-      padding: 0;
-      z-index: 1000;
-      position: sticky;
-      top: 0;
-      align-self: flex-start;
-      flex: 0 1 auto;
-    }
     select {
       font-size: 0.95em;
       font-family: monospace;
