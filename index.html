@@ -23,6 +23,14 @@
       </div>
     </div>
     <marquee id="mantra" scrollamount="2" class="fade-in">nudel is a space</marquee>
+    <div class="tabs">
+      <div class="left">
+        <!-- tabs will be created in main.js-->
+      </div>
+      <div class="right">
+        <!-- tabs will be created in main.js-->
+      </div>
+    </div>
 
     <div class="slots">
       <!-- Editor slots will be created in main.js-->
@@ -72,8 +80,12 @@
           </p>
           <p>
             <label>
-              <input type="checkbox" id="settings-default-boxed-mode" />
-              Boxed mode
+              Panel mode
+              <select id="settings-panel-mode">
+                <option value="scroll">Scroll</option>
+                <option value="boxed">Boxed</option>
+                <option value="tabbed">Tabbed</option>
+              </select>
             </label>
           </p>
           <p>
