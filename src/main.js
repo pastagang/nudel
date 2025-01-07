@@ -102,9 +102,11 @@ const createEditor = (doc) => {
 
   const slotsEl = document.querySelector('.slots');
 
+  const side = parseInt(doc.id) % 2 == 0 ? 'right' : 'left';
+
   slotsEl.insertAdjacentHTML(
     'beforeend',
-    `<div class="slot" id="slot-${doc.id}">
+    `<div class="slot ${side}" id="slot-${doc.id}">
       <header>
         <select class="target">
           ${supportedTargets.map((target) => `<option value="${target}">${target}</option>`).join('\n')}
@@ -114,6 +116,27 @@ const createEditor = (doc) => {
     <div class="editor"></div>
   </div>`,
   );
+
+  const tabsEl = document.querySelector(`.tabs .${side}`);
+  tabsEl.insertAdjacentHTML(
+    'beforeend',
+    `<button class="tab ${side}" id="tab-${doc.id}">
+            ${doc.id} ${doc.target}
+      </button>`,
+  );
+
+  document.querySelector(`#tab-${doc.id}`).addEventListener('click', () => {
+    tabsEl.querySelectorAll('.tab').forEach((tab) => {
+      tab.classList.remove('active');
+    });
+    document.querySelector(`#tab-${doc.id}`).classList.add('active');
+    editorViews.get(doc.id)?.focus();
+
+    slotsEl.querySelectorAll(`.slot.${side}`).forEach((slot) => {
+      slot.classList.remove('active');
+    });
+    slotsEl.querySelector(`#slot-${doc.id}`).classList.add('active');
+  });
 
   const editorEl = document.querySelector(`#slot-${doc.id} .editor`);
   const view = new EditorView({
