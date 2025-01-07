@@ -22,7 +22,7 @@ body {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
   height: 100%;
-  gap: 0px 10px;
+  gap: 8px;
 }
 
 @media screen and (max-width: 750px) {
@@ -36,6 +36,7 @@ body {
     // boxed layout
     .slots {
       flex: 1 1 auto;
+      flex-grow: 0;
       overflow: hidden;
     }
     .slot {
@@ -85,7 +86,7 @@ body {
 
 .cm-scroller {
   overflow: hidden;
-  padding: 0 8px;
+  padding: 0;
 }
 
 .cm-content {
@@ -161,6 +162,7 @@ button {
   flex-shrink: 0;
   white-space: nowrap;
   line-height: 1;
+  user-select: none;
 }
 
 button:hover {
@@ -263,6 +265,7 @@ iframe#shader {
 #mantra {
   position: fixed;
   top: 0;
+  pointer-events: none;
   z-index: 999;
   text-shadow:
     1px 1px 0px black,
@@ -296,9 +299,6 @@ iframe#shader {
     opacity: 1;
   }
 }
-.page-title {
-  padding-top: 0px;
-}
 
 .zen-mode {
   #zen-button {
@@ -323,10 +323,9 @@ iframe#shader {
     position: relative;
     header {
       padding: 0;
-      padding-left: 4px;
       z-index: 1000;
       position: sticky;
-      top: 4px; /* make space for mantra */
+      top: 0;
       align-self: flex-start;
       flex: 0 1 auto;
     }

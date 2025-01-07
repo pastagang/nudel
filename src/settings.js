@@ -210,6 +210,7 @@ const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const exportButton = document.querySelector('#export-button');
 const zenButton = document.querySelector('#zen-button');
+const boxedButton = document.querySelector('#boxed-button');
 const yesButton = document.querySelector('#about-yes-button');
 
 welcomeUsernameInput?.addEventListener('input', () => {
@@ -267,6 +268,10 @@ aboutButton.addEventListener('click', () => {
 zenButton.onclick = () => {
   const settings = getSettings();
   setSettings({ ...settings, zenMode: !settings.zenMode });
+};
+boxedButton.onclick = () => {
+  const settings = getSettings();
+  setSettings({ ...settings, boxedMode: !settings.boxedMode });
 };
 
 const { welcomeMessage } = getSettings();
