@@ -22,8 +22,8 @@ body {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
   height: 100%;
-  gap: 8px;
-  padding: 4px;
+  gap: 8px 4px; /* other 4px are set on cm-scroller so clicking an edge focuses the code */
+  padding: 4px 0;
 }
 
 @media screen and (max-width: 750px) {
@@ -87,7 +87,8 @@ body {
 
 .cm-scroller {
   overflow: hidden;
-  padding: 0;
+  padding: 0 4px;
+  cursor: text;
 }
 
 .cm-content {
@@ -116,12 +117,15 @@ body {
 }
 
 .slot header {
-  padding: 0;
+  padding: 0px 4px;
   align-self: flex-start;
   flex: 0 1 auto;
   z-index: 998;
   position: sticky;
-  background: #222;
+  select,
+  button {
+    background: rgba(0, 0, 0, 0.7);
+  }
   top: 0;
   display: flex;
   gap: 6px;
@@ -330,20 +334,20 @@ iframe#shader {
         font-size: 0.95em;
         font-family: monospace;
         border: 0;
-        background: none;
+        /* background: none; */
       }
       select {
         font-size: 0.95em;
         font-family: monospace;
-        background: transparent;
+        /* background: transparent; */
         text-shadow:
           1px 1px 0px black,
           -1px -1px 0px black,
           1px -1px 0px black,
           -1px 1px 0px black;
-        -webkit-appearance: none;
+        /* -webkit-appearance: none;
         -moz-appearance: none;
-        text-indent: 1px;
+        text-indent: 1px; */
       }
     }
   }
