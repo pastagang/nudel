@@ -240,6 +240,7 @@ function getDocumentText(view) {
 document.addEventListener('click', (e) => {
   const dropdown = document.querySelector('.dropdown');
   if (e.target.closest('.dropdown button')) {
+    e.preventDefault();
     dropdown.classList.toggle('open');
   } else {
     dropdown.classList.remove('open');
