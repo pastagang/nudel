@@ -3,24 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1" />
     <title>🍝 nudel</title>
   </head>
 
   <body>
-    <button id="zen-button">☮ Zen</button>
-    <marquee id="mantra" scrollamount="2" class="fade-in">nudel is a space</marquee>
-    <header class="page-title">
-      <span class="title">
-        <h1 style="margin-bottom: 0px">nudel</h1>
-        <p style="margin-top: 0px">by pastagang</p>
-      </span>
-      <nav>
-        <!-- <button id="zen-button">☮ Zen</button> -->
+    <div class="dropdown">
+      <button>☰</button>
+      <div class="dropdown-content">
         <button id="about-button">? About</button>
         <button id="settings-button">⚙ Settings</button>
-      </nav>
-    </header>
+        <button id="zen-button">☮ Zen</button>
+        <button id="boxed-button">☐ Boxed</button>
+        <button id="export-button">⇓ Export</button>
+        <div class="mcplant">
+          <button>🌱 McPlant</button>
+          <span class="tooltip">Vegetarianism propaganda in my burger menu?!</span>
+        </div>
+      </div>
+    </div>
+    <marquee id="mantra" scrollamount="2" class="fade-in">nudel is a space</marquee>
+
     <div class="slots">
       <!-- Editor slots will be created in main.js-->
     </div>

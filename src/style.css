@@ -17,20 +17,13 @@ body {
   flex-direction: column;
 }
 
-.title h1 {
-  text-shadow: 2px 2px 0px black;
-}
-
-.title p {
-  text-shadow: 1px 1px 0px black;
-}
-
 .slots {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
   height: 100%;
-  gap: 0px 10px;
+  gap: 8px 4px; /* other 4px are set on cm-scroller so clicking an edge focuses the code */
+  padding: 4px 0;
 }
 
 @media screen and (max-width: 750px) {
@@ -75,6 +68,7 @@ body {
     // boxed layout
     .slots {
       flex: 1 1 auto;
+      flex-grow: 0;
       overflow: hidden;
     }
     .slot {
@@ -96,8 +90,8 @@ body {
     background-color: black;
     font-family: monospace;
     padding: 8px;
-    margin-bottom: 8px;
-    margin-left: 8px;
+    margin: 0;
+    border: 2px solid white;
     color: tomato;
     position: sticky;
     bottom: 0;
@@ -124,7 +118,8 @@ body {
 
 .cm-scroller {
   overflow: hidden;
-  padding: 0 8px;
+  padding: 0 4px;
+  cursor: text;
 }
 
 .cm-content {
@@ -153,9 +148,16 @@ body {
 }
 
 .slot header {
-  /* background-color: rgba(0, 0, 0, 0.18); sorry lu, looks bad when hydra is running */
-  padding: 6px 8px;
-  padding-right: 6px;
+  padding: 0px 4px;
+  align-self: flex-start;
+  flex: 0 1 auto;
+  z-index: 998;
+  position: sticky;
+  select,
+  button {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  top: 0;
   display: flex;
   gap: 6px;
 }
@@ -200,6 +202,7 @@ button {
   flex-shrink: 0;
   white-space: nowrap;
   line-height: 1;
+  user-select: none;
 }
 
 button:hover {
@@ -302,8 +305,8 @@ iframe#shader {
 #mantra {
   position: fixed;
   top: 0;
+  pointer-events: none;
   z-index: 999;
-  background-color: black;
   text-shadow:
     1px 1px 0px black,
     -1px -1px 0px black,
@@ -338,42 +341,17 @@ iframe#shader {
 }
 
 .zen-mode {
-  #mantra {
-    /*background: rgba(0,0,0,0.66);*/
-    background: transparent;
-  }
-  header {
-    flex-direction: row-reverse;
-  }
-
-  #settings-button {
-    display: none;
-  }
-  #about-button {
-    display: none;
-  }
-
-  .page-title {
-    padding-top: 0px;
-  }
-
   #zen-button {
     z-index: 1000;
   }
-
-  button {
-    border: none;
-    background: rgba(0, 0, 0, 0.66);
+  .error {
+    border: 0;
   }
 
   select {
     border: none;
     outline: none;
     background: rgba(0, 0, 0, 0.66);
-  }
-
-  .run {
-    display: none;
   }
 
   & .title {
@@ -383,33 +361,63 @@ iframe#shader {
   .slot {
     position: relative;
     header {
-      padding: 0;
-      z-index: 1000;
-      position: sticky;
-      top: 4px; /* make space for mantra */
-      align-self: flex-end;
-      flex: 0 1 auto;
-    }
-    select {
-      font-size: 0.95em;
-      font-family: monospace;
-      background: transparent;
-      text-shadow:
-        1px 1px 0px black,
-        -1px -1px 0px black,
-        1px -1px 0px black,
-        -1px 1px 0px black;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      text-indent: 1px;
-      text-align: right;
+      .run {
+        font-size: 0.95em;
+        font-family: monospace;
+        border: 0;
+        /* background: none; */
+      }
+      select {
+        font-size: 0.95em;
+        font-family: monospace;
+        /* background: transparent; */
+        text-shadow:
+          1px 1px 0px black,
+          -1px -1px 0px black,
+          1px -1px 0px black,
+          -1px 1px 0px black;
+        /* -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px; */
+      }
     }
   }
 }
 
-#zen-button {
+.dropdown {
   position: fixed;
   z-index: 1000;
-  bottom: 0;
+  top: 0;
   right: 0;
+  button {
+    width: 100%;
+    text-align: left;
+  }
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  z-index: 1;
+}
+.dropdown.open .dropdown-content,
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.mcplant {
+  position: relative;
+}
+.tooltip {
+  display: none;
+  position: absolute;
+  right: 100%;
+  white-space: nowrap;
+  background: black;
+  color: white;
+  padding: 4px;
+}
+.mcplant:hover .tooltip {
+  display: block;
 }

@@ -84,7 +84,9 @@ export class StrudelSession {
           phase,
         );
         // filter out haps that are not active right now
-        const currentFrame = allHaps.filter((hap) => phase >= hap.whole.begin && phase <= hap.endClipped);
+        const currentFrame = allHaps.filter(
+          (hap) => hap.whole.begin && phase >= hap.whole.begin && phase <= hap.endClipped,
+        );
         // iterate over each strudel doc
         Object.keys(this.patterns).forEach((docId) => {
           // filter out haps belonging to this document (docId is set in eval)

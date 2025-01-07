@@ -208,7 +208,9 @@ resetButton.addEventListener('click', async () => {
 //=======//
 const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
+const exportButton = document.querySelector('#export-button');
 const zenButton = document.querySelector('#zen-button');
+const boxedButton = document.querySelector('#boxed-button');
 const yesButton = document.querySelector('#about-yes-button');
 
 welcomeUsernameInput?.addEventListener('input', () => {
@@ -229,6 +231,36 @@ yesButton.addEventListener('click', () => {
   }
 });
 
+// Return the lines of a panel view.
+function getDocumentText(view) {
+  const doc = view.viewState.state.doc;
+  console.log(doc);
+  return doc.children ? doc.children.flatmap((c) => c.text) : doc.text;
+}
+
+document.addEventListener('click', (e) => {
+  const dropdown = document.querySelector('.dropdown');
+  if (e.target.closest('.dropdown button')) {
+    e.preventDefault();
+    dropdown.classList.toggle('open');
+  } else {
+    dropdown.classList.remove('open');
+  }
+});
+
+exportButton.addEventListener('click', () => {
+  const date = new Date().toISOString().substr(0, 16).replace('T', ' ');
+  const bundle = [`// "nudel ${date}" @by pastagang`, '//'];
+  editorViews.forEach((view, key) => {
+    bundle.push(`// panel ${key}`);
+    bundle.push(...getDocumentText(view));
+    bundle.push('\n\n');
+  });
+  const txt = bundle.join('\n');
+  navigator.clipboard.writeText(txt);
+  console.log(`Copied ${txt.length} bytes`);
+});
+
 aboutButton.addEventListener('click', () => {
   aboutDialog.showModal();
   yesButton.focus();
@@ -236,6 +268,10 @@ aboutButton.addEventListener('click', () => {
 zenButton.onclick = () => {
   const settings = getSettings();
   setSettings({ ...settings, zenMode: !settings.zenMode });
+};
+boxedButton.onclick = () => {
+  const settings = getSettings();
+  setSettings({ ...settings, boxedMode: !settings.boxedMode });
 };
 
 const { welcomeMessage } = getSettings();
