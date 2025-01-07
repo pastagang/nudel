@@ -36,6 +36,8 @@ const flokBasicSetup = (doc) => {
 
 const currentEditors = new Map();
 
+const supportedTargets = ['strudel', 'hydra', 'shader'];
+
 const createEditor = (doc) => {
   // console.log('createEditor', doc);
   if (!['1', '2', '3', '4', '5', '6', '7', '8'].includes(doc.id)) {
@@ -76,9 +78,7 @@ const createEditor = (doc) => {
     `<div class="slot" id="slot-${doc.id}">
       <header>
         <select class="target">
-          <option value="strudel">strudel</option>
-          <option value="hydra">hydra</option>
-          <option value="shader">shader</option>
+          ${supportedTargets.map((target) => `<option value="${target}">${target}</option>`).join('\n')}
         </select>
         <button class="run">▶ Run</button>
       </header>
@@ -94,6 +94,10 @@ const createEditor = (doc) => {
   editorViews.set(doc.id, view);
 
   const targetEl = document.querySelector(`#slot-${doc.id} .target`);
+  if (!supportedTargets.includes(doc.target)) {
+    targetEl.insertAdjacentHTML('beforeend', `<option value="${doc.target}">? ${doc.target} ?</option>`);
+    console.warn(`unsupported target "${doc.target}" in doc "${doc.id}". evaluations will be ignored`);
+  }
   targetEl.value = doc.target;
 
   targetEl.addEventListener('change', (e) => {
