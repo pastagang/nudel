@@ -30,7 +30,7 @@ const defaultSettings = {
   hydraEnabled: true,
   shaderEnabled: true,
   zenMode: false,
-  boxedMode: false,
+  panelMode: 'scroll', // "scroll" | "boxed" | |tabbed
   vimMode: false,
   lineWrapping: false,
   welcomeMessage: true,
@@ -41,7 +41,7 @@ const strudelCheckbox = document.querySelector('#settings-strudel-enabled');
 const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const shaderCheckbox = document.querySelector('#settings-shader-enabled');
 const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mode');
-const defaultBoxedModeCheckbox = document.querySelector('#settings-default-boxed-mode');
+const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
@@ -54,7 +54,7 @@ function inferSettingsFromDom() {
     hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
     shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
     zenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.zenMode,
-    boxedMode: defaultBoxedModeCheckbox ? defaultBoxedModeCheckbox.checked : defaultSettings.boxedMode,
+    panelMode: panelModeSelect ? panelModeSelect.value : defaultSettings.panelMode,
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
     lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
     welcomeMessage: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage,
@@ -123,7 +123,7 @@ export function applySettingsToNudel(settings = getSettings()) {
   }
 
   defaultZenModeCheckbox.checked = settings.zenMode;
-  defaultBoxedModeCheckbox.checked = settings.boxedMode;
+  panelModeSelect.value = settings.boxedMode;
   vimModeCheckbox.checked = settings.vimMode;
   lineWrappingCheckbox.checked = settings.lineWrapping;
 
@@ -134,11 +134,18 @@ export function applySettingsToNudel(settings = getSettings()) {
       document.querySelector('body').classList.remove('zen-mode');
     }
   }
-  if (settings.boxedMode !== appliedSettings?.boxedMode) {
-    if (settings.boxedMode) {
-      document.querySelector('body').classList.add('boxed-mode');
-    } else {
-      document.querySelector('body').classList.remove('boxed-mode');
+  if (settings.panelMode !== appliedSettings?.panelMode) {
+    document.querySelector('body').classList.remove('scroll-mode', 'boxed-mode', 'tabbed-mode');
+    switch (settings.panelMode) {
+      case 'scroll':
+        document.querySelector('body').classList.add('scroll-mode');
+        break;
+      case 'boxed':
+        document.querySelector('body').classList.add('boxed-mode');
+        break;
+      case 'tabbed':
+        document.querySelector('body').classList.add('tabbed-mode');
+        break;
     }
   }
 
@@ -150,7 +157,7 @@ strudelCheckbox?.addEventListener('change', setSettingsFromDom);
 hydraCheckbox?.addEventListener('change', setSettingsFromDom);
 shaderCheckbox?.addEventListener('change', setSettingsFromDom);
 defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
-defaultBoxedModeCheckbox?.addEventListener('change', setSettingsFromDom);
+panelModeSelect?.addEventListener('change', setSettingsFromDom);
 vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
 welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
 lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);

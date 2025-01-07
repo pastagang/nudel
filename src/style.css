@@ -31,29 +31,59 @@ body {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
 @media screen and (min-width: 751px) {
   body.tabbed-mode {
     overflow: hidden;
+
+    .tabs {
+      display: grid;
+      grid-template-areas: 'left right';
+      border-bottom: 0;
+      grid-template-columns: 50% 50%;
+      grid-row: 24px;
+      gap: 0;
+
+      & .left {
+        grid-area: left;
+      }
+
+      & .right {
+        grid-area: right;
+      }
+
+      & .tab {
+        &.active {
+          background-color: rgba(255, 255, 255, 0.66);
+          color: black;
+        }
+      }
+    }
+
     .slots {
       display: grid;
-      grid-template-areas: "left right";
+      grid-template-areas: 'left right';
       grid-template-columns: 50% 50%;
       grid-row: 100vh;
       gap: 0;
     }
-    .slot:nth-child(2n + 1) {
+
+    .slot.left {
       grid-area: left;
     }
-    .slot:nth-child(2n) {
+
+    .slot.right {
       grid-area: right;
     }
+
     .slot {
-      opacity: .5;
+      opacity: 0.5;
       transform: scale(0.95);
       filter: blur(1.5px);
       z-index: 10;
       pointer-events: none;
       overflow: scroll;
+
       &.active {
         opacity: 1;
         transform: scale(1);
@@ -63,14 +93,17 @@ body {
       }
     }
   }
+
   body.boxed-mode {
     overflow: hidden;
-    // boxed layout
+
+    /* boxed layout */
     .slots {
       flex: 1 1 auto;
       flex-grow: 0;
       overflow: hidden;
     }
+
     .slot {
       overflow: auto;
       min-width: 0;
@@ -86,6 +119,7 @@ body {
   /* background-color: #24242411; */
   /* sorry lu, looks bad when hydra is running */
   /* hey its okay it wasnt me who added this :) -lu */
+
   .error {
     background-color: black;
     font-family: monospace;
@@ -153,10 +187,12 @@ body {
   flex: 0 1 auto;
   z-index: 998;
   position: sticky;
+
   select,
   button {
     background: rgba(0, 0, 0, 0.7);
   }
+
   top: 0;
   display: flex;
   gap: 6px;
@@ -344,6 +380,7 @@ iframe#shader {
   #zen-button {
     z-index: 1000;
   }
+
   .error {
     border: 0;
   }
@@ -360,6 +397,7 @@ iframe#shader {
 
   .slot {
     position: relative;
+
     header {
       .run {
         font-size: 0.95em;
@@ -367,6 +405,7 @@ iframe#shader {
         border: 0;
         /* background: none; */
       }
+
       select {
         font-size: 0.95em;
         font-family: monospace;
@@ -389,11 +428,13 @@ iframe#shader {
   z-index: 1000;
   top: 0;
   right: 0;
+
   button {
     width: 100%;
     text-align: left;
   }
 }
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -402,13 +443,16 @@ iframe#shader {
   background: white;
   z-index: 1;
 }
+
 .dropdown.open .dropdown-content,
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
 .mcplant {
   position: relative;
 }
+
 .tooltip {
   display: none;
   position: absolute;
@@ -418,6 +462,7 @@ iframe#shader {
   color: white;
   padding: 4px;
 }
+
 .mcplant:hover .tooltip {
   display: block;
 }
