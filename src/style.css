@@ -382,3 +382,34 @@ iframe#shader {
   bottom: 0;
   right: 0;
 }
+
+.dropdown {
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  z-index: 1;
+}
+.dropdown.open .dropdown-content,
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.mcplant {
+  position: relative;
+}
+.tooltip {
+  display: none;
+  position: absolute;
+  right: 100%;
+  white-space: nowrap;
+  background: black;
+  color: white;
+  padding: 4px;
+}
+.mcplant:hover .tooltip {
+  display: block;
+}
