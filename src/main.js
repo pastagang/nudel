@@ -1,7 +1,7 @@
-import { EditorView, basicSetup } from 'codemirror';
+import { EditorView, minimalSetup } from 'codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { EditorState, Prec } from '@codemirror/state';
-import { keymap } from '@codemirror/view';
+import { keymap, lineNumbers } from '@codemirror/view';
 import { yCollab } from 'y-codemirror.next';
 import { Session } from '@flok-editor/session';
 import { flashField, evalKeymap, remoteEvalFlash } from '@flok-editor/cm-eval';
@@ -9,10 +9,10 @@ import { UndoManager } from 'yjs';
 import { highlightExtension, highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { strudelTheme } from './theme';
 import { autocompletion } from '@codemirror/autocomplete';
-
-import './style.css';
 import { applySettingsToNudel, getSettings } from './settings.js';
 import { vim } from '@replit/codemirror-vim';
+import { Compartment } from '@codemirror/state';
+import './style.css';
 
 export const editorViews = new Map();
 
@@ -38,6 +38,36 @@ const currentEditors = new Map();
 
 const supportedTargets = ['strudel', 'hydra', 'shader'];
 
+// dynamic codemirror extensions
+const extensions = {
+  lineWrapping: (on) => (on ? EditorView.lineWrapping : []),
+  lineNumbers: (on) => (on ? lineNumbers() : []),
+};
+const compartments = Object.fromEntries(Object.keys(extensions).map((key) => [key, new Compartment()]));
+const reconfigureExtension = (key, value, view) => {
+  console.log('reconfigureExtension', key, value);
+  view.dispatch({
+    effects: compartments[key].reconfigure(extensions[key](value)),
+  });
+};
+const initialSettings = Object.keys(compartments).map((key) =>
+  compartments[key].of(extensions[key](getSettings()[key])),
+);
+console.log('initialSettings', initialSettings);
+export const updateExtensions = (settings, appliedSettings) => {
+  const keys = Object.keys(extensions);
+  console.log('keys', keys);
+  for (let index in keys) {
+    const key = keys[index];
+    for (let [_, view] of editorViews) {
+      if (settings[key] !== appliedSettings[key]) {
+        console.log('reconfigure', key, settings[key]);
+        reconfigureExtension(key, settings[key], view);
+      }
+    }
+  }
+};
+
 const createEditor = (doc) => {
   // console.log('createEditor', doc);
   if (!['1', '2', '3', '4', '5', '6', '7', '8'].includes(doc.id)) {
@@ -49,14 +79,13 @@ const createEditor = (doc) => {
   const state = EditorState.create({
     doc: doc.content,
     extensions: [
-      basicSetup,
+      minimalSetup,
       strudelTheme,
       flokBasicSetup(doc),
       javascript(),
       getSettings().vimMode ? vim() : [],
       autocompletion({ override: [] }),
-      // todo: reconfigure on change, search "reconfigure(" in the strudel repo
-      getSettings().lineWrapping ? EditorView.lineWrapping : [],
+      ...initialSettings,
       Prec.highest(
         keymap.of([
           ...stopKeys.map((key) => ({

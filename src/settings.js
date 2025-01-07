@@ -1,6 +1,6 @@
 import { updateMiniLocations } from '@strudel/codemirror';
 import { nudelConfirm } from './confirm.js';
-import { editorViews, Frame } from './main.js';
+import { editorViews, Frame, updateExtensions } from './main.js';
 
 //=====//
 // API //
@@ -33,6 +33,7 @@ const defaultSettings = {
   boxedMode: false,
   vimMode: false,
   lineWrapping: false,
+  lineNumbers: true,
   welcomeMessage: true,
 };
 
@@ -44,6 +45,7 @@ const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mod
 const defaultBoxedModeCheckbox = document.querySelector('#settings-default-boxed-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
+const lineNumbersCheckbox = document.querySelector('#settings-line-numbers');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 const welcomeUsernameInput = document.querySelector('#welcome-username');
 
@@ -57,6 +59,7 @@ function inferSettingsFromDom() {
     boxedMode: defaultBoxedModeCheckbox ? defaultBoxedModeCheckbox.checked : defaultSettings.boxedMode,
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
     lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
+    lineNumbers: lineNumbersCheckbox ? lineNumbersCheckbox.checked : defaultSettings.lineNumbers,
     welcomeMessage: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage,
   };
   return inferredSettings;
@@ -126,6 +129,7 @@ export function applySettingsToNudel(settings = getSettings()) {
   defaultBoxedModeCheckbox.checked = settings.boxedMode;
   vimModeCheckbox.checked = settings.vimMode;
   lineWrappingCheckbox.checked = settings.lineWrapping;
+  lineNumbersCheckbox.checked = settings.lineNumbers;
 
   if (settings.zenMode !== appliedSettings?.zenMode) {
     if (settings.zenMode) {
@@ -141,6 +145,7 @@ export function applySettingsToNudel(settings = getSettings()) {
       document.querySelector('body').classList.remove('boxed-mode');
     }
   }
+  updateExtensions(settings, appliedSettings);
 
   appliedSettings = { ...settings };
 }
@@ -154,6 +159,7 @@ defaultBoxedModeCheckbox?.addEventListener('change', setSettingsFromDom);
 vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
 welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
 lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
+lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
 
 function setSettingsFromDom() {
   setSettings(inferSettingsFromDom());
