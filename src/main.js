@@ -80,7 +80,7 @@ const createEditor = (doc) => {
         <select class="target">
           ${supportedTargets.map((target) => `<option value="${target}">${target}</option>`).join('\n')}
         </select>
-        <button class="run">▶ Run</button>
+        <button class="run">▶run</button>
       </header>
     <div class="editor"></div>
   </div>`,

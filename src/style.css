@@ -319,28 +319,32 @@ iframe#shader {
     background: rgba(0, 0, 0, 0.66);
   }
 
-  .run {
-    display: none;
-  }
-
   & .title {
     display: none;
   }
 
   .slot {
     position: relative;
-    select {
-      font-size: 0.95em;
-      font-family: monospace;
-      background: transparent;
-      text-shadow:
-        1px 1px 0px black,
-        -1px -1px 0px black,
-        1px -1px 0px black,
-        -1px 1px 0px black;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      text-indent: 1px;
+    header {
+      .run {
+        font-size: 0.95em;
+        font-family: monospace;
+        border: 0;
+        background: none;
+      }
+      select {
+        font-size: 0.95em;
+        font-family: monospace;
+        background: transparent;
+        text-shadow:
+          1px 1px 0px black,
+          -1px -1px 0px black,
+          1px -1px 0px black,
+          -1px 1px 0px black;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+      }
     }
   }
 }
