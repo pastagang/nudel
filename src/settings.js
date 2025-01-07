@@ -237,6 +237,15 @@ function getDocumentText(view) {
   return doc.children ? doc.children.flatmap((c) => c.text) : doc.text;
 }
 
+document.addEventListener('click', (e) => {
+  const dropdown = document.querySelector('.dropdown');
+  if (e.target.closest('.dropdown button')) {
+    dropdown.classList.toggle('open');
+  } else {
+    dropdown.classList.remove('open');
+  }
+});
+
 exportButton.addEventListener('click', () => {
   const date = new Date().toISOString().substr(0, 16).replace('T', ' ');
   const bundle = [`// "nudel ${date}" @by pastagang`, '//'];
