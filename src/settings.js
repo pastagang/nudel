@@ -252,7 +252,7 @@ yesButton.addEventListener('click', () => {
 function getDocumentText(view) {
   const doc = view.viewState.state.doc;
   console.log(doc);
-  return doc.children ? doc.children.flatmap((c) => c.text) : doc.text;
+  return doc.children ? doc.children.flatMap((c) => c.text) : doc.text;
 }
 
 document.addEventListener('click', (e) => {
@@ -266,16 +266,27 @@ document.addEventListener('click', (e) => {
 });
 
 exportButton.addEventListener('click', () => {
-  const date = new Date().toISOString().substr(0, 16).replace('T', ' ');
-  const bundle = [`// "nudel ${date}" @by pastagang`, '//'];
+  // Generate the dump
+  const date = new Date().toISOString();
+  const prettyDate = date.substr(0, 16).replace('T', ' ');
+  const bundle = [`// "nudel ${prettyDate}" @by pastagang`, '//'];
   editorViews.forEach((view, key) => {
     bundle.push(`// panel ${key}`);
     bundle.push(...getDocumentText(view));
     bundle.push('\n\n');
   });
   const txt = bundle.join('\n');
+
+  // Copy to the clipboard
   navigator.clipboard.writeText(txt);
   console.log(`Copied ${txt.length} bytes`);
+
+  // Download file
+  var hiddenElement = document.createElement('a');
+  hiddenElement.href = 'data:attachment/text,' + encodeURI(txt);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = `nuddle-export-${date}.txt`;
+  hiddenElement.click();
 });
 
 aboutButton.addEventListener('click', () => {
