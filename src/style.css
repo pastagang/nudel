@@ -463,21 +463,3 @@ iframe#shader {
 .dropdown:hover .dropdown-content {
   display: flex;
 }
-
-.mcplant {
-  position: relative;
-}
-
-.tooltip {
-  display: none;
-  position: absolute;
-  right: 100%;
-  white-space: nowrap;
-  background: black;
-  color: white;
-  padding: 4px;
-}
-
-.mcplant:hover .tooltip {
-  display: block;
-}
