@@ -212,7 +212,6 @@ body {
 }
 
 select {
-  width: fit-content;
   background-color: #111;
   border: none;
   color: white;
@@ -457,11 +456,12 @@ iframe#shader {
   top: 100%;
   background: white;
   z-index: 1;
+  flex-direction: column;
 }
 
 .dropdown.open .dropdown-content,
 .dropdown:hover .dropdown-content {
-  display: block;
+  display: flex;
 }
 
 .mcplant {
