@@ -1,9 +1,12 @@
 import { Session } from '@flok-editor/session';
 import { nudelAlert } from './alert.js';
 import { nudelConfirm } from './confirm.js';
-import { createEditor, deleteEditor, currentEditors } from './editor.js';
 import { applySettingsToNudel } from './settings.js';
+import { PastaMirror } from './editor.js';
 import './style.css';
+
+export const pastamirror = new PastaMirror();
+window.editorViews = pastamirror.editorViews;
 
 export const session = new Session('pastagang', {
   // changed this part to what flok.cc uses
@@ -30,14 +33,14 @@ session.on('sync', () => {
 
 session.on('change', (documents) => {
   documents.map((doc) => {
-    if (!currentEditors.has(doc.id)) {
-      createEditor(doc);
+    if (!pastamirror.currentEditors.has(doc.id)) {
+      pastamirror.createEditor(doc);
     }
   });
 
-  currentEditors.keys().forEach((key) => {
+  pastamirror.currentEditors.keys().forEach((key) => {
     if (!documents.find((doc) => doc.id === key)) {
-      deleteEditor(key);
+      pastamirror.deleteEditor(key);
     }
   });
 });

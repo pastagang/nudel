@@ -1,6 +1,6 @@
 import { updateMiniLocations } from '@strudel/codemirror';
 import { nudelConfirm } from './confirm.js';
-import { editorViews, Frame, updateExtensions } from './main.js';
+import { Frame, pastamirror } from './main.js';
 
 //=====//
 // API //
@@ -114,7 +114,7 @@ export function applySettingsToNudel(settings = getSettings()) {
       Frame.strudel?.remove();
       Frame.strudel = null;
       // Remove all highlighted haps
-      for (const view of editorViews.values()) {
+      for (const view of pastamirror.editorViews.values()) {
         updateMiniLocations(view, []);
       }
     }
@@ -173,8 +173,15 @@ export function applySettingsToNudel(settings = getSettings()) {
         document.querySelector('body').classList.add('tabbed-mode');
         break;
     }
+    /* if (settings.panelMode === 'boxed') {
+      console.log('now boxed');
+    // todo: enable scrollIntoView
+    } else {
+      console.log('not boxed anymore');
+     todo: disable scrollIntoView
+    } */
   }
-  updateExtensions(settings, appliedSettings);
+  pastamirror.updateExtensions(settings, appliedSettings);
 
   appliedSettings = { ...settings };
 }
@@ -273,7 +280,7 @@ exportButton.addEventListener('click', () => {
   const date = new Date().toISOString();
   const prettyDate = date.substr(0, 16).replace('T', ' ');
   const bundle = [`// "nudel ${prettyDate}" @by pastagang`, '//'];
-  editorViews.forEach((view, key) => {
+  pastamirror.editorViews.forEach((view, key) => {
     bundle.push(`// panel ${key}`);
     bundle.push(...getDocumentText(view));
     bundle.push('\n\n');
