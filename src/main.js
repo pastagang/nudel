@@ -1,6 +1,7 @@
 import { EditorView, minimalSetup } from 'codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { EditorState, Prec } from '@codemirror/state';
+import { bracketMatching } from '@codemirror/language';
 import { keymap, lineNumbers } from '@codemirror/view';
 import { yCollab } from 'y-codemirror.next';
 import { Session } from '@flok-editor/session';
@@ -8,7 +9,7 @@ import { flashField, evalKeymap, remoteEvalFlash } from '@flok-editor/cm-eval';
 import { UndoManager } from 'yjs';
 import { highlightExtension, highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { strudelTheme } from './theme';
-import { autocompletion } from '@codemirror/autocomplete';
+import { autocompletion, closeBrackets } from '@codemirror/autocomplete';
 import { applySettingsToNudel, getSettings } from './settings.js';
 import { vim } from '@replit/codemirror-vim';
 import { Compartment } from '@codemirror/state';
@@ -42,6 +43,7 @@ const supportedTargets = ['strudel', 'hydra', 'shader'];
 const extensions = {
   lineWrapping: (on) => (on ? EditorView.lineWrapping : []),
   lineNumbers: (on) => (on ? lineNumbers() : []),
+  closeBrackets: (on) => (on ? closeBrackets() : []),
 };
 const compartments = Object.fromEntries(Object.keys(extensions).map((key) => [key, new Compartment()]));
 const reconfigureExtension = (key, value, view) => {
@@ -85,6 +87,7 @@ const createEditor = (doc) => {
       javascript(),
       getSettings().vimMode ? vim() : [],
       autocompletion({ override: [] }),
+      bracketMatching({ brackets: '()[]{}<>' }),
       ...initialSettings,
       Prec.highest(
         keymap.of([

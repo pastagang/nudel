@@ -34,6 +34,7 @@ const defaultSettings = {
   vimMode: false,
   lineWrapping: false,
   lineNumbers: false,
+  closeBrackets: true,
   welcomeMessage: true,
 };
 
@@ -46,6 +47,7 @@ const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
 const lineNumbersCheckbox = document.querySelector('#settings-line-numbers');
+const closeBracketsCheckbox = document.querySelector('#settings-close-brackets');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 const welcomeUsernameInput = document.querySelector('#welcome-username');
 
@@ -60,13 +62,38 @@ function inferSettingsFromDom() {
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
     lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
     lineNumbers: lineNumbersCheckbox ? lineNumbersCheckbox.checked : defaultSettings.lineNumbers,
+    closeBrackets: closeBracketsCheckbox ? closeBracketsCheckbox.checked : defaultSettings.closeBrackets,
     welcomeMessage: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage,
   };
   return inferredSettings;
 }
+usernameInput?.addEventListener('input', setSettingsFromDom);
+strudelCheckbox?.addEventListener('change', setSettingsFromDom);
+hydraCheckbox?.addEventListener('change', setSettingsFromDom);
+shaderCheckbox?.addEventListener('change', setSettingsFromDom);
+defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
+panelModeSelect?.addEventListener('change', setSettingsFromDom);
+vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
+welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
+lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
+lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
+closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
+
+function setSettingsFromDom() {
+  setSettings(inferSettingsFromDom());
+}
 
 let appliedSettings = null;
 export function applySettingsToNudel(settings = getSettings()) {
+  defaultZenModeCheckbox.checked = settings.zenMode;
+  panelModeSelect.value = settings.boxedMode;
+  vimModeCheckbox.checked = settings.vimMode;
+  lineWrappingCheckbox.checked = settings.lineWrapping;
+  lineNumbersCheckbox.checked = settings.lineNumbers;
+  closeBracketsCheckbox.checked = settings.closeBrackets;
+  panelModeSelectBurger.value = settings.panelMode;
+  panelModeSelect.value = settings.panelMode;
+
   if (appliedSettings?.username !== settings.username) {
     if (usernameInput) usernameInput.value = settings.username;
     if (welcomeUsernameInput) welcomeUsernameInput.value = settings.username;
@@ -125,12 +152,6 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  defaultZenModeCheckbox.checked = settings.zenMode;
-  panelModeSelect.value = settings.boxedMode;
-  vimModeCheckbox.checked = settings.vimMode;
-  lineWrappingCheckbox.checked = settings.lineWrapping;
-  lineNumbersCheckbox.checked = settings.lineNumbers;
-
   if (settings.zenMode !== appliedSettings?.zenMode) {
     if (settings.zenMode) {
       document.querySelector('body').classList.add('zen-mode');
@@ -155,25 +176,7 @@ export function applySettingsToNudel(settings = getSettings()) {
   }
   updateExtensions(settings, appliedSettings);
 
-  panelModeSelectBurger.value = settings.panelMode;
-  panelModeSelect.value = settings.panelMode;
-
   appliedSettings = { ...settings };
-}
-
-usernameInput?.addEventListener('input', setSettingsFromDom);
-strudelCheckbox?.addEventListener('change', setSettingsFromDom);
-hydraCheckbox?.addEventListener('change', setSettingsFromDom);
-shaderCheckbox?.addEventListener('change', setSettingsFromDom);
-defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
-panelModeSelect?.addEventListener('change', setSettingsFromDom);
-vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
-welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
-lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
-lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
-
-function setSettingsFromDom() {
-  setSettings(inferSettingsFromDom());
 }
 
 //=========//
