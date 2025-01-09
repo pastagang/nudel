@@ -14,6 +14,8 @@ import { applySettingsToNudel, getSettings } from './settings.js';
 import { vim } from '@replit/codemirror-vim';
 import { Compartment } from '@codemirror/state';
 import './style.css';
+import { nudelConfirm } from './confirm.js';
+import { nudelAlert } from './alert.js';
 
 export const editorViews = new Map();
 
@@ -278,6 +280,14 @@ window.addEventListener('message', (event) => {
   if (event.data.type === 'onError') {
     const [err, docId] = event.data.msg;
     setError(err, docId);
+  }
+});
+
+const mcPlantButton = document.querySelector('#mcplant-button');
+mcPlantButton.addEventListener('click', async () => {
+  const result = await nudelConfirm('eat a mcplant');
+  if (result) {
+    nudelAlert('You eat the McPlant. It tastes just like a real burger.');
   }
 });
 
