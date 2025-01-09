@@ -19,24 +19,6 @@ import { nudelAlert } from './alert.js';
 
 export const editorViews = new Map();
 
-const flokBasicSetup = (doc) => {
-  const text = doc.getText();
-  const undoManager = new UndoManager(text);
-  const web = true;
-
-  return [
-    flashField(),
-    highlightExtension,
-    remoteEvalFlash(doc),
-    Prec.high(evalKeymap(doc, { web, defaultMode: 'document' })),
-    yCollab(text, doc.session.awareness, {
-      undoManager,
-      showLocalCaret: true,
-      scrollIntoView: false,
-    }),
-  ];
-};
-
 const currentEditors = new Map();
 
 const supportedTargets = ['strudel', 'hydra', 'shader'];
@@ -70,6 +52,24 @@ export const updateExtensions = (settings, appliedSettings) => {
       }
     }
   }
+};
+
+const flokBasicSetup = (doc) => {
+  const text = doc.getText();
+  const undoManager = new UndoManager(text);
+  const web = true;
+
+  return [
+    flashField(),
+    highlightExtension,
+    remoteEvalFlash(doc),
+    Prec.high(evalKeymap(doc, { web, defaultMode: 'document' })),
+    yCollab(text, doc.session.awareness, {
+      undoManager,
+      showLocalCaret: true,
+      scrollIntoView: false,
+    }),
+  ];
 };
 
 const createEditor = (doc) => {
