@@ -164,16 +164,14 @@ function updateUniforms(gl, now, elapsed, uniforms) {
   });
 }
 
-// Setup the canvas and return the WebGL context.
-function setupContext(canvas) {
-  // TODO: support custom size
+// Make the canvas small
+function smallCanvas(canvas) {
   const width = 400;
   const height = 300;
   canvas.width = width;
   canvas.height = height;
   const top = 60;
   canvas.style = `pointer-events:none;width:${width}px;height:${height}px;position:fixed;top:${top}px;left:23px`;
-  return canvas.getContext('webgl2');
 }
 
 function createProgram(gl, vertex, fragment) {
@@ -264,11 +262,21 @@ export class ShaderSession {
   constructor({ onError, canvas }) {
     this.onError = onError;
     this.canvas = canvas;
-    this.gl = setupContext(canvas);
+    smallCanvas(canvas);
+    this.gl = canvas.getContext('webgl2');
     this.instance = null;
   }
   resize() {
     console.log('Not Implemented shader resize');
+  }
+  // make the canvas fullscreen
+  fullscreen() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    this.canvas.style.width = "100%";
+    this.canvas.style.height = "100%";
+    this.canvas.style.top = "0";
+    this.canvas.style.left = "0";
   }
   async eval(msg) {
     const code = mkFragmentShader(msg.body);
@@ -279,6 +287,11 @@ export class ShaderSession {
         reloadShaderInstanceCode(this.instance, code);
       }
       this.uniforms = this.instance.uniforms;
+      if (code.indexOf("// size: fullscreen") > -1) {
+        this.fullscreen()
+      } else if (code.indexOf("// size: small") > -1) {
+        smallCanvas(this.canvas)
+      }
       console.log('Shader updated!');
     } catch (err) {
       this.onError(`${err}`, msg.docId);
