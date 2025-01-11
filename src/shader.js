@@ -176,12 +176,12 @@ function smallCanvas(canvas) {
 
 // Make the canvas fullscreen
 function fullscreenCanvas(canvas) {
-  canvasvas.width = window.innerWidth;
-  canvasvas.height = window.innerHeight;
-  canvasvas.style.width = '100%';
-  canvasvas.style.height = '100%';
-  canvasvas.style.top = '0';
-  canvasvas.style.left = '0';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
 }
 
 function createProgram(gl, vertex, fragment) {
