@@ -174,6 +174,16 @@ function smallCanvas(canvas) {
   canvas.style = `pointer-events:none;width:${width}px;height:${height}px;position:fixed;top:${top}px;left:23px`;
 }
 
+// Make the canvas fullscreen
+function fullscreenCanvas(canvas) {
+  canvasvas.width = window.innerWidth;
+  canvasvas.height = window.innerHeight;
+  canvasvas.style.width = '100%';
+  canvasvas.style.height = '100%';
+  canvasvas.style.top = '0';
+  canvasvas.style.left = '0';
+}
+
 function createProgram(gl, vertex, fragment) {
   const compile = (type, source) => {
     const shader = gl.createShader(type);
@@ -262,21 +272,12 @@ export class ShaderSession {
   constructor({ onError, canvas }) {
     this.onError = onError;
     this.canvas = canvas;
-    smallCanvas(canvas);
+    fullscreenCanvas(canvas);
     this.gl = canvas.getContext('webgl2');
     this.instance = null;
   }
   resize() {
     console.log('Not Implemented shader resize');
-  }
-  // make the canvas fullscreen
-  fullscreen() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.canvas.style.width = "100%";
-    this.canvas.style.height = "100%";
-    this.canvas.style.top = "0";
-    this.canvas.style.left = "0";
   }
   async eval(msg) {
     const code = mkFragmentShader(msg.body);
@@ -288,7 +289,7 @@ export class ShaderSession {
       }
       this.uniforms = this.instance.uniforms;
       if (code.indexOf("// size: fullscreen") > -1) {
-        this.fullscreen()
+        fullscreenCanvas(this.canvas)
       } else if (code.indexOf("// size: small") > -1) {
         smallCanvas(this.canvas)
       }
