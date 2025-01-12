@@ -119,3 +119,33 @@ mcPlantButton.addEventListener('click', async () => {
 
 session.initialize();
 applySettingsToNudel();
+
+//=======================================================================================
+// Hello. If you've come here to re-enable paste, then please think carefully.
+// Paste has been disabled as an experiment, to see if it affects various things.
+//
+// - Perhaps disabling paste can lower the overall quality and cleanliness of our code
+//   ... which might help to lower standards, and encourage more people to make stuff.
+//           It could help people to worry less, and "just type".
+//
+// - Paste allows people to force certain things to exist for a long time.
+//   ... which can give too much power to keen individuals.
+//          Let's disable paste for a while, to see if it encourages new trends to form.
+//
+// - Paste can be a crutch for me during learning.
+//   ... I learn much better when I have to manually type things out.
+//           Perhaps disabling paste can help me and others to learn better.
+//
+// - If paste is an option, we'll be tempted to build tools and languages that rely on it.
+//    ... I think we should build tools that are optimised for manual typing.
+//
+// - By disabling paste, we prioritise being in the moment, and creating with others in the open.
+//=======================================================================================
+addEventListener(
+  'paste',
+  (e) => {
+    e.preventDefault();
+    nudelAlert('Pasting is disabled until further notice for experimental purposes.');
+  },
+  { passive: false, capture: true },
+);
