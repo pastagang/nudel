@@ -5,7 +5,7 @@ import { Frame, pastamirror } from './main.js';
 //=====//
 // API //
 //=====//
-// Use these functions if you want to interact with settings from the outside.
+// Use these exported functions if you want to interact with settings from the outside.
 let loadedSettingsCache = null;
 export function getSettings() {
   if (!loadedSettingsCache) {
@@ -173,13 +173,6 @@ export function applySettingsToNudel(settings = getSettings()) {
         document.querySelector('body').classList.add('tabbed-mode');
         break;
     }
-    /* if (settings.panelMode === 'boxed') {
-      console.log('now boxed');
-    // todo: enable scrollIntoView
-    } else {
-      console.log('not boxed anymore');
-     todo: disable scrollIntoView
-    } */
   }
   pastamirror.updateExtensions(settings, appliedSettings);
 
