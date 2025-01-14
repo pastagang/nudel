@@ -288,10 +288,10 @@ export class ShaderSession {
         reloadShaderInstanceCode(this.instance, code);
       }
       this.uniforms = this.instance.uniforms;
-      if (code.indexOf("// size: fullscreen") > -1) {
-        fullscreenCanvas(this.canvas)
-      } else if (code.indexOf("// size: small") > -1) {
-        smallCanvas(this.canvas)
+      if (code.indexOf('// size: fullscreen') > -1) {
+        fullscreenCanvas(this.canvas);
+      } else if (code.indexOf('// size: small') > -1) {
+        smallCanvas(this.canvas);
       }
       console.log('Shader updated!');
     } catch (err) {
