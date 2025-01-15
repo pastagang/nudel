@@ -21,7 +21,7 @@ window.updateMiniLocations = updateMiniLocations; // we cannot import this for s
 // dynamic codemirror extensions
 
 export class PastaMirror {
-  supportedTargets = ['strudel', 'hydra', 'shader'];
+  supportedTargets = ['strudel', 'hydra', 'shader', 'kabelsalat'];
   editorViews = new Map();
   currentEditors = new Map();
   extensions = {
@@ -163,6 +163,34 @@ export class PastaMirror {
       effects: this.compartments[key].reconfigure(this.extensions[key](value)),
     });
   }
+  enableRemoteCursorTracking(session) {
+    const docs = session.getDocuments();
+    console.log('enable', docs);
+
+    docs.forEach((doc) => {
+      const collab = yCollab(text, doc.session.awareness, {
+        undoManager,
+        showLocalCaret: true,
+        scrollIntoView: true,
+      });
+      // const ext = doc.collabCompartment.of(collab);
+
+      view.dispatch({
+        effects: doc.collabCompartment.reconfigure(collab),
+      });
+    });
+
+    // walk over
+    /* view.dispatch({
+      effects: this.reconfigure(this.extensions[key](value)),
+    }); */
+  }
+  disableRemoteCursorTracking(session) {
+    console.log('disable', session); /* view.dispatch({
+      effects: this.reconfigure(this.extensions[key](value)),
+    }); */
+  }
+
   updateExtensions(settings, appliedSettings) {
     const keys = Object.keys(this.extensions);
     for (let index in keys) {

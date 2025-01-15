@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <body>
+    <script type="module">
+      import { SalatRepl } from '@kabelsalat/web';
+      const kabelsalat = new SalatRepl();
+      function send(type, msg) {
+        window.parent.postMessage({ type, msg });
+      }
+      window.parent.kabelsalat = kabelsalat;
+
+      console.log('[kabelsalat] waiting for document click to init');
+      window.parent.document.addEventListener('click', async function interaction() {
+        window.parent.document.removeEventListener('click', interaction);
+        try {
+          console.log('init ks', import.meta.url);
+          // http://localhost:5173/node_modules/.vite/deps/assets/worklet-B8fb_TPB.js
+          // without base:
+          // http://localhost:5173/assets/worklet-DzGFm3ry.js
+
+          await kabelsalat.audio.init();
+          console.log('[kabelsalat] audio init done');
+        } catch (err) {
+          console.error(`could not init kabelsalat: ${err.message}`);
+          console.dir(err);
+        }
+      });
+
+      window.addEventListener('message', (event) => {
+        if (event.origin !== window.location.origin) {
+          return;
+        }
+        // console.log("received", event.data);
+        if (event.data.type === 'eval') {
+          // console.log('eval', event.data.msg);
+          const { body: code, docId } = event.data.msg;
+          try {
+            kabelsalat.run(code);
+          } catch (err) {
+            send('onError', [`kabelsalat error: ${err.message}`, docId]);
+          }
+        }
+      });
+      console.log('kabelsalat iframe loaded', kabelsalat);
+    </script>
+  </body>
+</html>

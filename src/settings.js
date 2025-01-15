@@ -1,6 +1,6 @@
 import { updateMiniLocations } from '@strudel/codemirror';
 import { nudelConfirm } from './confirm.js';
-import { Frame, pastamirror } from './main.js';
+import { Frame, pastamirror, session } from './main.js';
 
 //=====//
 // API //
@@ -29,6 +29,7 @@ const defaultSettings = {
   strudelEnabled: true,
   hydraEnabled: true,
   shaderEnabled: true,
+  kabelsalatEnabled: true,
   zenMode: false,
   panelMode: 'scroll', // "scroll" | "boxed" | |tabbed
   vimMode: false,
@@ -42,6 +43,7 @@ const usernameInput = document.querySelector('#settings-username');
 const strudelCheckbox = document.querySelector('#settings-strudel-enabled');
 const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const shaderCheckbox = document.querySelector('#settings-shader-enabled');
+const kabelsalatCheckbox = document.querySelector('#settings-kabelsalat-enabled');
 const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mode');
 const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
@@ -57,6 +59,7 @@ function inferSettingsFromDom() {
     strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
     hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
     shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
+    kabelsalatEnabled: kabelsalatCheckbox ? kabelsalatCheckbox.checked : defaultSettings.kabelsalatEnabled,
     zenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.zenMode,
     panelMode: panelModeSelect ? panelModeSelect.value : defaultSettings.panelMode,
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
@@ -71,6 +74,7 @@ usernameInput?.addEventListener('input', setSettingsFromDom);
 strudelCheckbox?.addEventListener('change', setSettingsFromDom);
 hydraCheckbox?.addEventListener('change', setSettingsFromDom);
 shaderCheckbox?.addEventListener('change', setSettingsFromDom);
+kabelsalatCheckbox?.addEventListener('change', setSettingsFromDom);
 defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
 panelModeSelect?.addEventListener('change', setSettingsFromDom);
 vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
@@ -84,6 +88,20 @@ function setSettingsFromDom() {
 }
 
 let appliedSettings = null;
+
+function addFrame(key) {
+  Frame[key] = document.createElement('iframe');
+  Frame[key].src = `/${key}`;
+  Frame[key].id = key;
+  Frame[key].sandbox = 'allow-scripts allow-same-origin';
+  document.body.appendChild(Frame[key]);
+}
+
+function removeFrame(key) {
+  Frame[key]?.remove();
+  Frame[key] = null;
+}
+
 export function applySettingsToNudel(settings = getSettings()) {
   defaultZenModeCheckbox.checked = settings.zenMode;
   panelModeSelect.value = settings.boxedMode;
@@ -103,16 +121,9 @@ export function applySettingsToNudel(settings = getSettings()) {
   if (appliedSettings?.strudelEnabled !== settings.strudelEnabled) {
     strudelCheckbox.checked = settings.strudelEnabled;
     if (settings.strudelEnabled) {
-      if (!Frame.strudel) {
-        Frame.strudel = document.createElement('iframe');
-        Frame.strudel.src = '/strudel';
-        Frame.strudel.id = 'strudel';
-        Frame.strudel.sandbox = 'allow-scripts allow-same-origin';
-        document.body.appendChild(Frame.strudel);
-      }
+      !Frame.strudel && addFrame('strudel');
     } else {
-      Frame.strudel?.remove();
-      Frame.strudel = null;
+      removeFrame('strudel');
       // Remove all highlighted haps
       for (const view of pastamirror.editorViews.values()) {
         updateMiniLocations(view, []);
@@ -123,29 +134,25 @@ export function applySettingsToNudel(settings = getSettings()) {
   if (appliedSettings?.hydraEnabled !== settings.hydraEnabled) {
     hydraCheckbox.checked = settings.hydraEnabled;
     if (settings.hydraEnabled) {
-      if (!Frame.hydra) {
-        Frame.hydra = document.createElement('iframe');
-        Frame.hydra.src = '/hydra';
-        Frame.hydra.id = 'hydra';
-        Frame.hydra.sandbox = 'allow-scripts allow-same-origin';
-        document.body.appendChild(Frame.hydra);
-      }
+      !Frame.hydra && addFrame('hydra');
     } else {
-      Frame.hydra?.remove();
-      Frame.hydra = null;
+      removeFrame('hydra');
     }
   }
 
   if (appliedSettings?.shaderEnabled !== settings.shaderEnabled) {
     shaderCheckbox.checked = settings.shaderEnabled;
     if (settings.shaderEnabled) {
-      if (!Frame.shader) {
-        Frame.shader = document.createElement('iframe');
-        Frame.shader.src = '/shader';
-        Frame.shader.id = 'shader';
-        Frame.shader.sandbox = 'allow-scripts allow-same-origin';
-        document.body.appendChild(Frame.shader);
-      }
+      !Frame.shader && addFrame('shader');
+    } else {
+      removeFrame('shader');
+    }
+  }
+
+  if (appliedSettings?.kabelsalatEnabled !== settings.kabelsalatEnabled) {
+    kabelsalatCheckbox.checked = settings.kabelsalatEnabled;
+    if (settings.kabelsalatEnabled) {
+      !Frame.kabesalat && addFrame('kabelsalat');
     } else {
       Frame.shader?.remove();
       Frame.shader = null;

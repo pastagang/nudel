@@ -29,6 +29,9 @@ importers:
       '@flok-editor/session':
         specifier: ^1.1.0
         version: 1.1.0(y-indexeddb@9.0.12(yjs@13.6.21))(y-protocols@1.0.6(yjs@13.6.21))(y-webrtc@10.3.0(bufferutil@4.0.9)(utf-8-validate@6.0.5)(yjs@13.6.21))(y-websocket@1.5.4(bufferutil@4.0.9)(utf-8-validate@6.0.5)(yjs@13.6.21))(yjs@13.6.21)
+      '@kabelsalat/web':
+        specifier: ^0.3.0
+        version: 0.3.0
       '@lezer/highlight':
         specifier: ^1.2.1
         version: 1.2.1
@@ -279,6 +282,15 @@ packages:
       y-webrtc: ^10.2.4
       y-websocket: ^1.5.0
       yjs: ^13.5.50
+
+  '@kabelsalat/core@0.2.1':
+    resolution: {integrity: sha512-Uf7deuMGQ+J1l8EL97ElBtRH0mkrkRYiwPI5Y24hpXoGeiOKtoGgcW4Y0/cbaecZqYAPsa4mPXbeEqEpwe901A==}
+
+  '@kabelsalat/lib@0.3.0':
+    resolution: {integrity: sha512-TmNKCi2vRgcio0bVXBua6YOe6vM/R4V1v1Fk3sirk2wylR6l09EA9Rs19ptBWEqyFnO1Kkvtyi8k2QGFB0zdnw==}
+
+  '@kabelsalat/web@0.3.0':
+    resolution: {integrity: sha512-wFRcMIseDM/iciONOPIJ8z0YcNe4e0P71b237Gmq8WeImpR3+I/klfeaKwukPS8zk8GbCGbrPXYzr1IlIIZiGg==}
 
   '@lezer/common@1.2.3':
     resolution: {integrity: sha512-w7ojc8ejBqr2REPsWxJjrMFsA/ysDCFICn8zEOR9mrqzOu2amhITYuLD8ag6XZf0CFXDrhKqw7+tW8cX66NaDA==}
@@ -1365,6 +1377,17 @@ snapshots:
       yjs: 13.6.21
     transitivePeerDependencies:
       - supports-color
+
+  '@kabelsalat/core@0.2.1': {}
+
+  '@kabelsalat/lib@0.3.0':
+    dependencies:
+      '@kabelsalat/core': 0.2.1
+
+  '@kabelsalat/web@0.3.0':
+    dependencies:
+      '@kabelsalat/core': 0.2.1
+      '@kabelsalat/lib': 0.3.0
 
   '@lezer/common@1.2.3': {}
 

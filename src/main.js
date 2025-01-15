@@ -45,22 +45,11 @@ session.on('change', (documents) => {
   });
 });
 
-export function getHydraFrame() {
-  return document.getElementById('hydra');
-}
-
-export function getShaderFrame() {
-  return document.getElementById('shader');
-}
-
-export function getStrudelFrame() {
-  return document.getElementById('strudel');
-}
-
 export const Frame = {
-  hydra: getHydraFrame(),
-  shader: getShaderFrame(),
-  strudel: getStrudelFrame(),
+  hydra: document.getElementById('hydra'),
+  shader: document.getElementById('shader'),
+  strudel: document.getElementById('strudel'),
+  kabesalat: document.getElementById('kabelsalat'),
 };
 
 // hydra
@@ -73,9 +62,10 @@ session.on('eval:hydra', (msg) =>
 
 // shader
 session.on('eval:shader', (msg) => Frame.shader?.contentWindow.postMessage({ type: 'eval', msg }));
-
 // strudel
 session.on('eval:strudel', (msg) => Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg }));
+// kabelsalat
+session.on('eval:kabelsalat', (msg) => Frame.kabelsalat?.contentWindow.postMessage({ type: 'eval', msg }));
 
 // error handling
 const setError = (message, docId) => {
@@ -141,7 +131,7 @@ applySettingsToNudel();
 //
 // - By disabling paste, we prioritise being in the moment, and creating with others in the open.
 //=======================================================================================
-addEventListener(
+/* addEventListener(
   'paste',
   (e) => {
     e.preventDefault();
@@ -149,3 +139,4 @@ addEventListener(
   },
   { passive: false, capture: true },
 );
+ */
