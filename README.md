@@ -2,7 +2,7 @@
 
 nudel is a public jam space, made by [pastagang](https://www.pastagang.cc/)
 
-**join nudel at [nudel.cc](https://nudel.cc)**
+**join at [nudel.cc](https://nudel.cc)**
 
 everyone is in the same room. anyone is encouraged to join in!\
 tip: press alt + enter to run code.
