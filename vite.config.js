@@ -8,6 +8,7 @@ export default defineConfig({
         strudel: 'strudel.html', // iframe
         hydra: 'hydra.html', // iframe
         shader: 'shader.html', // iframe
+        kabelsalat: 'kabelsalat.html', // iframe
       },
     },
   },
