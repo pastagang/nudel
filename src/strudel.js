@@ -1,10 +1,21 @@
-import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime } from '@strudel/core';
+import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime, register } from '@strudel/core';
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 
 controls.createParam('docId');
+
+window.klok = register('klok', (pat) => {
+  return pat.onTrigger((_, hap, ct, cps, t) => {
+    const onset = t - ct;
+    const offset = onset + 0.05;
+    parent.kabelsalat.audio.setControls([
+      { id: 'klok', time: onset, value: 1 },
+      { id: 'klok', time: offset, value: 0 },
+    ]);
+  });
+});
 
 export class StrudelSession {
   constructor({ onError, onHighlight, onUpdateMiniLocations }) {
@@ -176,7 +187,7 @@ export class StrudelSession {
       // fft wiring
       if (this.enableAutoAnalyze) {
         pattern = pattern.fmap((value) => {
-          if (value.analyze == undefined) {
+          if (typeof value === 'object' && value.analyze == undefined) {
             value.analyze = 'flok-master';
           }
           return value;

@@ -9,6 +9,8 @@
       }
       window.parent.kabelsalat = kabelsalat;
 
+      window.klok = cc('klok').trig();
+
       console.log('[kabelsalat] waiting for document click to init');
       window.parent.document.addEventListener('click', async function interaction() {
         window.parent.document.removeEventListener('click', interaction);
