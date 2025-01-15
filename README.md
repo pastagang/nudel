@@ -57,7 +57,11 @@ any changes to `main` will be deployed immediately to [nudel.cc](https://nudel.c
 
 if you break something, that's ok. (we can use [todepond.cool/flok](https://www.todepond.cool/flok) as a backup)
 
-<--## flok compatibility
+<!--
+
+## flok compatibility
 
 it would be good to stay compatible to flok.cc (and potential other clients), so that people could choose their client.\
-by compatible, i mean the overlapping features should behave similarly, and features that do not overlap should not cause problems.-->
+by compatible, i mean the overlapping features should behave similarly, and features that do not overlap should not cause problems.
+
+-->
