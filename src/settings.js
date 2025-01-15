@@ -1,12 +1,14 @@
 import { updateMiniLocations } from '@strudel/codemirror';
 import { nudelConfirm } from './confirm.js';
 import { Frame, pastamirror, session } from './main.js';
+import { nudelAlert } from './alert.js';
 
 //=====//
 // API //
 //=====//
 // Use these exported functions if you want to interact with settings from the outside.
 let loadedSettingsCache = null;
+
 export function getSettings() {
   if (!loadedSettingsCache) {
     loadedSettingsCache = getSettingsFromLocalStorage();
@@ -70,6 +72,7 @@ function inferSettingsFromDom() {
   };
   return inferredSettings;
 }
+
 usernameInput?.addEventListener('input', setSettingsFromDom);
 strudelCheckbox?.addEventListener('change', setSettingsFromDom);
 hydraCheckbox?.addEventListener('change', setSettingsFromDom);
@@ -236,6 +239,7 @@ resetButton.addEventListener('click', async () => {
 const aboutButton = document.querySelector('#about-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const exportButton = document.querySelector('#export-button');
+const copyAsFlokButton = document.querySelector('#copy-as-flok-button');
 const zenButton = document.querySelector('#zen-button');
 const panelModeSelectBurger = document.querySelector('#panel-mode-select-burger');
 const yesButton = document.querySelector('#about-yes-button');
@@ -273,6 +277,28 @@ document.addEventListener('click', (e) => {
   } else {
     dropdown.classList.remove('open');
   }
+});
+
+copyAsFlokButton.addEventListener('click', () => {
+  // Generate the dump
+  const date = new Date().toISOString();
+  const prettyDate = date.substr(0, 16).replace('T', ' ');
+  const prefix = `// "nudel ${prettyDate}" @by pastagang\n//\n`;
+
+  const panels = [];
+  const targets = [];
+  pastamirror.currentEditors.forEach((it, key) => {
+    panels.push(`${key == '1' ? prefix : ''}${getDocumentText(it.view).join('\n')}`);
+    targets.push(it.doc.target);
+  });
+  const txt = `flok.cc#targets=${targets.join(
+    ',',
+  )}&${panels.map((it, index) => `c${index}=${btoa(unescape(encodeURIComponent(it)))}`).join('&')}`;
+
+  // Copy to the clipboard
+  navigator.clipboard.writeText(txt);
+  console.log(`Copied ${txt.length} bytes`);
+  nudelAlert('Copied flok link to clipboard');
 });
 
 exportButton.addEventListener('click', () => {

@@ -132,7 +132,7 @@ export class PastaMirror {
       doc.evaluate(doc.content, { from: 0, to: doc.content.length });
     });
 
-    this.currentEditors.set(doc.id, { state });
+    this.currentEditors.set(doc.id, { state, doc, view });
   }
   flokBasicSetup(doc) {
     doc.collabCompartment = new Compartment(); // yeah this is dirty
