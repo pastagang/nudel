@@ -1,17 +1,23 @@
 # nudel
 
-nudel is a public jam space for sound and light, made by [pastagang](https://www.pastagang.cc/)
+nudel is a public jam space, made by [pastagang](https://www.pastagang.cc/)
+
+**join nudel at [nudel.cc](https://nudel.cc)**
+
+everyone is in the same room. anyone is encouraged to join in!\
+tip: press alt + enter to run code.
+
+##
 
 it's a mashup of existing free & open source projects:
 
 - [flok](https://github.com/munshkr/flok/) for collab coding
 - [strudel](https://github.com/tidalcycles/strudel) for sound
-- [hydra](https://github.com/hydra-synth/hydra-synth) for light
+- [hydra](https://github.com/hydra-synth/hydra-synth) for visuals
+- [kabalsalat](https://kabel.salat.dev/) for ???
 
-everyone is in the same room. anyone is encouraged to join in!\
-tip: press alt + enter to run code.
 
-if you enjoy this, consider donating to [flok](https://ko-fi.com/munshkr) / [strudel](https://opencollective.com/tidalcycles) / [hydra](https://opencollective.com/hydra-synth)
+if you enjoy nudel, consider donating to [flok](https://ko-fi.com/munshkr) / [strudel](https://opencollective.com/tidalcycles) / [hydra](https://opencollective.com/hydra-synth)
 
 ## background
 
@@ -30,18 +36,22 @@ if you need to, disconnect your environment from the public nudel by changing th
 
 any changes to `main` will be deployed immediately to [nudel.cc](https://nudel.cc).
 
-if you break something, that's ok. we can use [todepond.cool/flok](https://www.todepond.cool/flok) in the meantime,
-while we try to fix it / roll back to an earlier commit.
+if you break something, that's ok. (we can use [todepond.cool/flok](https://www.todepond.cool/flok) as a backup)
 
 ## contributing
 
-you can create an issue to get invited as a maintainer of this repo.\
+everyone can change nudel
+
+to become an admin of nudel, [create an issue](https://github.com/pastagang/nudel/issues/new/choose) and ask to get added.
+
+<br>
+
 let's aim to be hierarchy free, so anyone is welcomed to change things they see fit.\
-let's _not_ have a bdfl, or a small group of people having the last say.\
+let's _not_ have a [bdfl](https://en.wikipedia.org/wiki/Benevolent_dictator_for_life), or a small group of people having the last say.\
 either create a PR, or push directly to main, both is fine.\
 this project has been born out of a jam session, so let's carry that ethos into the code behind the jam.
 
-## flok compatibility
+<--## flok compatibility
 
 it would be good to stay compatible to flok.cc (and potential other clients), so that people could choose their client.\
-by compatible, i mean the overlapping features should behave similarly, and features that do not overlap should not cause problems.
+by compatible, i mean the overlapping features should behave similarly, and features that do not overlap should not cause problems.-->
