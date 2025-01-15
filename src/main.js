@@ -131,7 +131,7 @@ applySettingsToNudel();
 //
 // - By disabling paste, we prioritise being in the moment, and creating with others in the open.
 //=======================================================================================
-/* addEventListener(
+addEventListener(
   'paste',
   (e) => {
     e.preventDefault();
@@ -139,4 +139,3 @@ applySettingsToNudel();
   },
   { passive: false, capture: true },
 );
- */
