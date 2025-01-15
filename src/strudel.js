@@ -6,13 +6,14 @@ import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutpu
 
 controls.createParam('docId');
 
-window.klok = register('klok', (pat) => {
+window.kabel = register('kabel', (id, pat) => {
   return pat.onTrigger((_, hap, ct, cps, t) => {
     const onset = t - ct;
-    const offset = onset + 0.05;
+    const offset = onset + hap.duration / cps - 0.05;
     parent.kabelsalat.audio.setControls([
-      { id: 'klok', time: onset, value: 1 },
-      { id: 'klok', time: offset, value: 0 },
+      { id: `kabelgate-${id}`, time: onset, value: 1 },
+      { id: `kabelgate-${id}`, time: offset, value: 0 },
+      { id: `kabelvalue-${id}`, time: onset, value: hap.value.value },
     ]);
   });
 });

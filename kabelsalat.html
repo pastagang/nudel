@@ -9,7 +9,9 @@
       }
       window.parent.kabelsalat = kabelsalat;
 
-      window.klok = cc('klok').trig();
+      window.kabelgate = (id) => cc(`kabelgate-${id}`);
+      window.kabeltrig = (id) => kabelgate(id).trig();
+      window.kabelvalue = (id) => cc(`kabelvalue-${id}`);
 
       console.log('[kabelsalat] waiting for document click to init');
       window.parent.document.addEventListener('click', async function interaction() {
