@@ -59,7 +59,13 @@ export class PastaMirror {
             ...stopKeys.map((key) => ({
               key,
               run: () => {
-                doc.evaluate('$: silence', { from: null, to: null });
+                if (doc.target === 'strudel') {
+                  doc.evaluate('$: silence', { from: null, to: null });
+                } else if (doc.target === 'kabelsalat') {
+                  doc.evaluate('n(0).out()', { from: null, to: null });
+                } else if (doc.target === 'hydra') {
+                  console.log('todo: implement hydra stop command');
+                }
                 return true;
               },
             })),
