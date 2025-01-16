@@ -10,7 +10,7 @@ import { EditorView, minimalSetup } from 'codemirror';
 import { yCollab } from 'y-codemirror.next';
 import { UndoManager } from 'yjs';
 import './style.css';
-import { strudelTheme } from './theme.js';
+import { strudelTheme } from './themes/theme.js';
 import { highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { getSettings } from './settings.js';
 
