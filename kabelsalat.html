@@ -30,6 +30,18 @@
         }
       });
 
+      function getDoubleQuotedStringLocations(code) {
+        const regex = /"([^"\\]*(\\.[^"\\]*)*)"/g;
+        const locations = [];
+        let match;
+        while ((match = regex.exec(code)) !== null) {
+          const start = match.index + 1;
+          const end = regex.lastIndex - 1;
+          locations.push([start, end]);
+        }
+        return locations;
+      }
+
       window.addEventListener('message', (event) => {
         if (event.origin !== window.location.origin) {
           return;
@@ -40,11 +52,12 @@
           const { body: code, docId } = event.data.msg;
           try {
             let patterns = [];
-            window.P = (pattern) => {
+            // TODO: set loc automatically from transpiler
+            window.P = (pattern, loc) => {
               if (!window.parent.strudel) return;
               const valueID = `minivalue-${patterns.length}`;
               const gateID = `minigate-${patterns.length}`;
-              const reified = window.parent.strudelWindow.m(pattern, 7).onTrigger((_, hap, ct, cps, t) => {
+              const reified = window.parent.strudelWindow.m(pattern, loc).onTrigger((_, hap, ct, cps, t) => {
                 const onset = t - ct;
                 const offset = onset + hap.duration / cps - 0.05;
                 parent.kabelsalat.audio.setControls([
@@ -55,18 +68,19 @@
               });
               patterns.push(reified);
               const value = cc(valueID),
-                gate = cc(gateID);
-              return { value, gate, v: value, g: gate };
+                gate = cc(gateID),
+                trig = gate.trig();
+              return { value, gate };
             };
 
             kabelsalat.run(code);
 
             if (window.parent.strudelWindow && patterns.length) {
-              const miniLocations = [[8, 15]];
+              const miniLocations = getDoubleQuotedStringLocations(code);
+              // console.log('miniLocations', miniLocations);
               window.parent.strudel.onUpdateMiniLocations(docId, miniLocations);
-              const allPatterns = window.parent.strudelWindow.stack(...patterns);
-              console.log(patterns);
-              window.parent.strudel.setDocPattern(docId, allPatterns);
+              const docPattern = window.parent.strudelWindow.stack(...patterns);
+              window.parent.strudel.setDocPattern(docId, docPattern);
             }
           } catch (err) {
             send('onError', [`kabelsalat error: ${err.message}`, docId]);
