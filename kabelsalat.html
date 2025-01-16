@@ -3,7 +3,6 @@
   <body>
     <script type="module">
       import { SalatRepl } from '@kabelsalat/web';
-      import { ErrorMessage } from './src/error';
       const kabelsalat = new SalatRepl();
       function send(type, msg) {
         window.parent.postMessage({ type, msg });
@@ -95,7 +94,7 @@
               window.parent.strudel.setDocPattern(docId, docPattern);
             }
           } catch (err) {
-            send('onError', new ErrorMessage(0, `${err}`), docId);
+            send('onError', [`kabelsalat error: ${err.message}`, docId]);
           }
         }
       });

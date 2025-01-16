@@ -1,5 +1,4 @@
 import Hydra from 'hydra-synth';
-import { ErrorMessage } from './error';
 
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
@@ -121,7 +120,7 @@ export class HydraSession {
       })()`);
     } catch (error) {
       console.error(error);
-      this.onError(new ErrorMessage(0, error.message), docId);
+      this.onError(`${error}`, docId);
     }
   }
 }

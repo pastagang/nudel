@@ -4,7 +4,6 @@ import { nudelConfirm } from './confirm.js';
 import { applySettingsToNudel } from './settings.js';
 import { PastaMirror } from './editor.js';
 import './style.css';
-import { displayEditorError, clearEditorErrors, ErrorMessage } from './error.js';
 
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;
@@ -75,11 +74,20 @@ const setError = (message, docId) => {
     // todo: where to show global errors?
     return;
   }
+  const slot = document.querySelector(`#slot-${docId}`);
+  let errorEl = document.querySelector(`#slot-${docId} #error-${docId}`);
 
-  displayEditorError(docId, message);
+  if (errorEl) {
+    errorEl.innerText = message;
+  } else {
+    slot.insertAdjacentHTML('beforeend', `<div class="error" id="error-${docId}">${message}</div>`);
+  }
+};
+const clearError = (docId) => {
+  document.querySelector(`#slot-${docId} #error-${docId}`)?.remove();
 };
 // clear local error when new eval comes in
-session.on('eval', (msg) => clearEditorErrors(msg.docId));
+session.on('eval', (msg) => clearError(msg.docId));
 
 window.addEventListener('message', (event) => {
   if (event.origin !== window.location.origin) {

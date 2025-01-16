@@ -158,18 +158,12 @@ body {
   .error {
     background-color: black;
     font-family: monospace;
+    padding: 8px;
     margin: 0;
-    color: tomato;
-    padding: 0px 2px;
-    border-radius: 3px;
-  }
-
-  .error-inline {
-    border-top: 2px dotted tomato;
-  }
-
-  .error-file {
     border: 2px solid white;
+    color: tomato;
+    position: sticky;
+    bottom: 0;
   }
 }
 
