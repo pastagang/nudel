@@ -3,6 +3,18 @@ import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
+import { ErrorMessage } from './error';
+
+const errorRegex = /^\s*(.+)\s*\((\d+):\d+\)\s*/g;
+
+function parseError(text) {
+  try {
+    const matches = errorRegex.exec(text);
+    return new ErrorMessage(parseInt(matches[2]), matches[1]);
+  } catch {
+    return new ErrorMessage(0, text);
+  }
+}
 
 controls.createParam('docId');
 
@@ -211,7 +223,7 @@ export class StrudelSession {
       //console.log("afterEval", meta);
     } catch (err) {
       console.error(err);
-      this.onError(`${err}`, docId);
+      this.onError(parseError(err), docId);
     }
   }
 }
