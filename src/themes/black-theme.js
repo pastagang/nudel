@@ -4,26 +4,10 @@ import { tags } from '@lezer/highlight';
 import { HighlightStyle } from '@codemirror/language';
 import { syntaxHighlighting } from '@codemirror/language';
 
-let colors = {
-  teal600: '#c084fc', // text
-  teal400: '#2dd4bf',
-  amber: '#d97706',
-  violet400: '#a78bfa',
-  violet300: '#c4b5fd',
-  indigo300: '#a5b4fc',
-  indigo400: '#818cf8',
-  fuchsia400: '#e879f9',
-  fuchsia300: '#78716c', // brackets
-  fuchsia200: '#f5d0fe',
-  whitish: '#d9f99d', // text
-  stone400: '#a8a29e',
-  stone500: '#78716c',
-};
-
 let theme = EditorView.theme(
   {
     '&': {
-      color: colors.teal600,
+      color: 'white',
       overflow: 'hidden',
       backgroundColor: 'transparent',
       fontSize: '16px',
@@ -31,7 +15,7 @@ let theme = EditorView.theme(
     },
     '.cm-gutters': {
       'background-color': 'transparent',
-      color: colors.stone500,
+      color: 'white',
     },
     '.cm-cursor': {
       'border-left-color': 'transparent',
@@ -51,7 +35,7 @@ let theme = EditorView.theme(
     '.cm-matchingBracket': {
       'text-decoration': 'underline 0.12rem',
       'text-underline-offset': '0.24rem',
-      'text-decoration-color': colors.fuchsia300,
+      'text-decoration-color': 'white',
     },
     '.cm-ySelectionInfo': {
       opacity: '1',
@@ -68,13 +52,13 @@ let theme = EditorView.theme(
 );
 
 const highlightStyle = HighlightStyle.define([
-  { tag: tags.labelName, color: '#7dd3fc' },
-  { tag: tags.keyword, color: colors.teal600 },
-  { tag: tags.literal, color: colors.whitish },
-  { tag: tags.squareBracket, color: colors.amber },
-  { tag: tags.punctuation, color: colors.fuchsia300 },
-  { tag: tags.operator, color: colors.fuchsia300 },
-  { tag: tags.comment, color: colors.stone500, fontStyle: 'italic' },
+  { tag: tags.labelName, color: 'white' },
+  { tag: tags.keyword, color: 'white' },
+  { tag: tags.literal, color: 'white' },
+  { tag: tags.squareBracket, color: 'white' },
+  { tag: tags.punctuation, color: 'white' },
+  { tag: tags.operator, color: 'white' },
+  { tag: tags.comment, color: 'white', fontStyle: 'italic' },
 ]);
 
 export default [theme, syntaxHighlighting(highlightStyle)];

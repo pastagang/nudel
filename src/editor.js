@@ -10,7 +10,7 @@ import { EditorView, minimalSetup } from 'codemirror';
 import { yCollab } from 'y-codemirror.next';
 import { UndoManager } from 'yjs';
 import './style.css';
-import { strudelTheme } from './themes/theme.js';
+import theme from './themes/strudel-theme.js';
 import { highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { getSettings } from './settings.js';
 
@@ -47,7 +47,7 @@ export class PastaMirror {
       doc: doc.content,
       extensions: [
         minimalSetup,
-        strudelTheme,
+        theme,
         this.flokBasicSetup(doc),
         javascript(),
         getSettings().vimMode ? vim() : [],
