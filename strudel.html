@@ -21,6 +21,7 @@
       });
 
       window.parent.strudel = strudel;
+      window.parent.strudelWindow = window;
       console.log('[strudel] waiting for document click to init');
       window.parent.document.addEventListener('click', async function interaction() {
         window.parent.document.removeEventListener('click', interaction);

@@ -163,6 +163,13 @@ export class StrudelSession {
     });
   }
 
+  async setDocPattern(docId, pattern) {
+    this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
+    //console.log("this.patterns", this.patterns);
+    const allPatterns = stack(...Object.values(this.patterns));
+    await this.scheduler.setPattern(allPatterns, true);
+  }
+
   async eval(msg, conversational = false) {
     const { body: code, docId } = msg;
     try {
@@ -199,11 +206,7 @@ export class StrudelSession {
         return;
       }
       //console.log("evaluated patterns", this.pPatterns);
-      this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
-      //console.log("this.patterns", this.patterns);
-      const allPatterns = stack(...Object.values(this.patterns));
-
-      await this.scheduler.setPattern(allPatterns, true);
+      await this.setDocPattern(docId, pattern);
 
       //console.log("afterEval", meta);
     } catch (err) {

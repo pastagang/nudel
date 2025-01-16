@@ -39,7 +39,35 @@
           // console.log('eval', event.data.msg);
           const { body: code, docId } = event.data.msg;
           try {
+            let patterns = [];
+            window.P = (pattern) => {
+              if (!window.parent.strudel) return;
+              const valueID = `minivalue-${patterns.length}`;
+              const gateID = `minigate-${patterns.length}`;
+              const reified = window.parent.strudelWindow.m(pattern, 7).onTrigger((_, hap, ct, cps, t) => {
+                const onset = t - ct;
+                const offset = onset + hap.duration / cps - 0.05;
+                parent.kabelsalat.audio.setControls([
+                  { id: gateID, time: onset, value: 1 },
+                  { id: gateID, time: offset, value: 0 },
+                  { id: valueID, time: onset, value: hap.value.value },
+                ]);
+              });
+              patterns.push(reified);
+              const value = cc(valueID),
+                gate = cc(gateID);
+              return { value, gate, v: value, g: gate };
+            };
+
             kabelsalat.run(code);
+
+            if (window.parent.strudelWindow && patterns.length) {
+              const miniLocations = [[8, 15]];
+              window.parent.strudel.onUpdateMiniLocations(docId, miniLocations);
+              const allPatterns = window.parent.strudelWindow.stack(...patterns);
+              console.log(patterns);
+              window.parent.strudel.setDocPattern(docId, allPatterns);
+            }
           } catch (err) {
             send('onError', [`kabelsalat error: ${err.message}`, docId]);
           }
