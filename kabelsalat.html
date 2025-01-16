@@ -76,9 +76,19 @@
             kabelsalat.run(code);
 
             if (window.parent.strudelWindow && patterns.length) {
-              const miniLocations = getDoubleQuotedStringLocations(code);
-              // console.log('miniLocations', miniLocations);
+              // TODO: make this less ugly
+              const doubleQuotedStringLocations = getDoubleQuotedStringLocations(code);
+              let miniLocations = [];
+              doubleQuotedStringLocations.forEach((loc) => {
+                const part = code.slice(...loc);
+                const atoms = window.parent.strudelWindow.getLeafLocations(`"${part}"`);
+                atoms.forEach((atom) => {
+                  const [begin, end] = atom;
+                  miniLocations.push([loc[0] + begin - 1, loc[0] + end - 1]);
+                });
+              });
               window.parent.strudel.onUpdateMiniLocations(docId, miniLocations);
+              // uglyness ends here
               const docPattern = window.parent.strudelWindow.stack(...patterns);
               window.parent.strudel.setDocPattern(docId, docPattern);
             }
