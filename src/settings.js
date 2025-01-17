@@ -22,6 +22,10 @@ export function setSettings(settings) {
   applySettingsToNudel(settings);
 }
 
+export function changeSettings(changes) {
+  setSettings({ ...getSettings(), ...changes });
+}
+
 //========================//
 // SETTINGS CONFIGURATION //
 //========================//
@@ -329,14 +333,14 @@ aboutButton.addEventListener('click', () => {
   aboutDialog.showModal();
   yesButton.focus();
 });
-zenButton.onclick = () => {
+zenButton?.addEventListener('click', () => {
   const settings = getSettings();
   setSettings({ ...settings, zenMode: !settings.zenMode });
-};
-panelModeSelectBurger.onchange = () => {
+});
+panelModeSelectBurger?.addEventListener('change', () => {
   const settings = getSettings();
   setSettings({ ...settings, panelMode: panelModeSelectBurger.value });
-};
+});
 
 const { welcomeMessage } = getSettings();
 welcomeMessageCheckbox.checked = welcomeMessage;
