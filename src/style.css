@@ -260,7 +260,7 @@ button {
   user-select: none;
   font-family: sans-serif;
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }

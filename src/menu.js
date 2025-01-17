@@ -1,6 +1,7 @@
 import { nudelAlert } from './alert.js';
 import { pastamirror } from './main.js';
-import { getSettings } from './settings.js';
+import { nudelPrompt } from './prompt.js';
+import { changeSettings, getSettings } from './settings.js';
 
 const menuButton = document.querySelector('#menu-button');
 const menuContainer = document.querySelector('#menu-container');
@@ -65,9 +66,16 @@ html.addEventListener('click', (e) => {
   }
 });
 
-if (getSettings().welcomeMessage3) {
+if (!getSettings().username) {
+  const username = await nudelPrompt('hello! what name do you want to go by?');
+  changeSettings({ username });
   aboutDialog.showModal();
   yesButton.focus();
+} else {
+  if (getSettings().welcomeMessage3) {
+    aboutDialog.showModal();
+    yesButton.focus();
+  }
 }
 
 // settingsDialog.showModal();
