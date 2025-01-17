@@ -1,7 +1,7 @@
 import { Session } from '@flok-editor/session';
 import { nudelAlert } from './alert.js';
 import { nudelConfirm } from './confirm.js';
-import { applySettingsToNudel } from './settings.js';
+import { applySettingsToNudel, getSettings } from './settings.js';
 import { PastaMirror } from './editor.js';
 import { clearInlineErrors } from './error.js';
 import './style.css';
@@ -154,8 +154,11 @@ if (isDevelopmentEnvironment()) {
 addEventListener(
   'paste',
   (e) => {
+    if (getSettings().pastingMode) return;
     e.preventDefault();
-    nudelAlert('Pasting is disabled until further notice for experimental purposes.');
+    nudelAlert(
+      '<h2>pasting is disabled</h2><p>to enable pasting, turn on <strong>PASTING MODE</strong> in the settings.</p>',
+    );
   },
   { passive: false, capture: true },
 );

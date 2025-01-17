@@ -26,6 +26,10 @@ export function changeSettings(changes) {
   setSettings({ ...getSettings(), ...changes });
 }
 
+export function setSettingsFromDom() {
+  setSettings(inferSettingsFromDom());
+}
+
 //========================//
 // SETTINGS CONFIGURATION //
 //========================//
@@ -43,6 +47,7 @@ const defaultSettings = {
   lineNumbers: false,
   closeBrackets: true,
   welcomeMessage3: true,
+  pastingMode: false,
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -57,8 +62,7 @@ const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
 const lineNumbersCheckbox = document.querySelector('#settings-line-numbers');
 const closeBracketsCheckbox = document.querySelector('#settings-close-brackets');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
-
-const welcomeUsernameInput = document.querySelector('#welcome-username');
+const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -74,6 +78,7 @@ function inferSettingsFromDom() {
     lineNumbers: lineNumbersCheckbox ? lineNumbersCheckbox.checked : defaultSettings.lineNumbers,
     closeBrackets: closeBracketsCheckbox ? closeBracketsCheckbox.checked : defaultSettings.closeBrackets,
     welcomeMessage3: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage3,
+    pastingMode: pastingModeCheckbox ? pastingModeCheckbox.checked : defaultSettings.pastingMode,
   };
   return inferredSettings;
 }
@@ -90,10 +95,7 @@ welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
 lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
 lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
 closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
-
-function setSettingsFromDom() {
-  setSettings(inferSettingsFromDom());
-}
+pastingModeCheckbox?.addEventListener('change', setSettingsFromDom);
 
 let appliedSettings = null;
 
@@ -110,6 +112,10 @@ function removeFrame(key) {
   Frame[key] = null;
 }
 
+function isSettingChanged(settingName, { previous, next }) {
+  return previous?.[settingName] !== next?.[settingName];
+}
+
 export function applySettingsToNudel(settings = getSettings()) {
   zenModeCheckbox.checked = settings.zenMode;
   panelModeSelect.value = settings.boxedMode;
@@ -118,28 +124,29 @@ export function applySettingsToNudel(settings = getSettings()) {
   lineNumbersCheckbox.checked = settings.lineNumbers;
   closeBracketsCheckbox.checked = settings.closeBrackets;
   panelModeSelect.value = settings.panelMode;
+  usernameInput.value = settings.username;
+  strudelCheckbox.checked = settings.strudelEnabled;
+  hydraCheckbox.checked = settings.hydraEnabled;
+  shaderCheckbox.checked = settings.shaderEnabled;
+  kabelsalatCheckbox.checked = settings.kabelsalatEnabled;
+  welcomeMessageCheckbox.checked = settings.welcomeMessage3;
+  zenModeCheckbox.checked = settings.zenMode;
+  pastingModeCheckbox.checked = settings.pastingMode;
 
-  if (appliedSettings?.username !== settings.username) {
-    if (usernameInput) usernameInput.value = settings.username;
-    if (welcomeUsernameInput) welcomeUsernameInput.value = settings.username;
-    session.user = settings.username || 'anonymous nudelfan';
-  }
+  session.user = settings.username || 'anonymous nudelfan';
 
-  if (appliedSettings?.strudelEnabled !== settings.strudelEnabled) {
-    strudelCheckbox.checked = settings.strudelEnabled;
+  if (isSettingChanged('strudelEnabled', { previous: appliedSettings, next: settings })) {
     if (settings.strudelEnabled) {
       !Frame.strudel && addFrame('strudel');
     } else {
       removeFrame('strudel');
-      // Remove all highlighted haps
       for (const view of pastamirror.editorViews.values()) {
         updateMiniLocations(view, []);
       }
     }
   }
 
-  if (appliedSettings?.hydraEnabled !== settings.hydraEnabled) {
-    hydraCheckbox.checked = settings.hydraEnabled;
+  if (isSettingChanged('hydraEnabled', { previous: appliedSettings, next: settings })) {
     if (settings.hydraEnabled) {
       !Frame.hydra && addFrame('hydra');
     } else {
@@ -147,8 +154,7 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  if (appliedSettings?.shaderEnabled !== settings.shaderEnabled) {
-    shaderCheckbox.checked = settings.shaderEnabled;
+  if (isSettingChanged('shaderEnabled', { previous: appliedSettings, next: settings })) {
     if (settings.shaderEnabled) {
       !Frame.shader && addFrame('shader');
     } else {
@@ -156,8 +162,7 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  if (appliedSettings?.kabelsalatEnabled !== settings.kabelsalatEnabled) {
-    kabelsalatCheckbox.checked = settings.kabelsalatEnabled;
+  if (isSettingChanged('kabelsalatEnabled', { previous: appliedSettings, next: settings })) {
     if (settings.kabelsalatEnabled) {
       !Frame.kabesalat && addFrame('kabelsalat');
     } else {
@@ -166,12 +171,7 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  if (appliedSettings?.welcomeMessage3 !== settings.welcomeMessage3) {
-    welcomeMessageCheckbox.checked = settings.welcomeMessage3;
-  }
-
-  if (appliedSettings?.zenMode !== settings.zenMode) {
-    zenModeCheckbox.checked = settings.zenMode;
+  if (isSettingChanged('zenMode', { previous: appliedSettings, next: settings })) {
     if (settings.zenMode) {
       document.querySelector('body').classList.add('zen-mode');
     } else {
@@ -179,7 +179,7 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  if (settings.panelMode !== appliedSettings?.panelMode) {
+  if (isSettingChanged('panelMode', { previous: appliedSettings, next: settings })) {
     document.querySelector('body').classList.remove('scroll-mode', 'boxed-mode', 'tabbed-mode');
     switch (settings.panelMode) {
       case 'scroll':
@@ -194,6 +194,7 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
+  // TODO: fix vim mode i think i broke it sorry -todepond
   pastamirror.updateExtensions(settings, appliedSettings);
 
   appliedSettings = { ...settings };
@@ -238,7 +239,5 @@ function saveSettingsToLocalStorage(settings) {
 const resetButton = document.querySelector('#settings-reset-button');
 resetButton.addEventListener('click', async () => {
   const response = await nudelConfirm();
-  if (response) {
-    setSettings(defaultSettings);
-  }
+  if (response) setSettings(defaultSettings);
 });

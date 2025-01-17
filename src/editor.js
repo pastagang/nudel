@@ -14,6 +14,7 @@ import theme from './themes/strudel-theme.js';
 import { highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { getSettings } from './settings.js';
 import { insertNewline } from '@codemirror/commands';
+import { nudelAlert } from './alert.js';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
@@ -39,7 +40,7 @@ export class PastaMirror {
   createEditor(doc) {
     // console.log('createEditor', doc);
     if (!['1', '2', '3', '4', '5', '6', '7', '8'].includes(doc.id)) {
-      console.warn(`ignoring doc with id "${doc.id}". only slot1 and slot2 is allowed rn..`);
+      console.warn(`ignoring doc with id "${doc.id}"`);
       return;
     }
 
@@ -75,10 +76,44 @@ export class PastaMirror {
             })),
             // overrides Enter to disable auto indenting..
             // feel free to remove this again if it annoys you
+            // this is GREAT
             {
               key: 'Enter',
               run: (view) => {
                 insertNewline(view);
+                return true;
+              },
+            },
+            {
+              // any key except Ctrl-? or Shift-? or etc
+              any: (view, key) => {
+                if (!getSettings().pastingMode) return false;
+                if (key.ctrlKey || key.altKey || key.metaKey) {
+                  return false;
+                }
+
+                const allowlist = [
+                  'Enter',
+                  'Backspace',
+                  'Delete',
+                  'ArrowUp',
+                  'ArrowDown',
+                  'ArrowLeft',
+                  'ArrowRight',
+                  'Shift-ArrowRight',
+                  'Shift-ArrowLeft',
+                  'Shift-ArrowUp',
+                  'Shift-ArrowDown',
+                  'Shift',
+                ];
+
+                if (allowlist.includes(key.key)) {
+                  return false;
+                }
+
+                nudelAlert(
+                  '<h2>typing is disabled</h2><p>to enable typing, turn off <strong>PASTING MODE</strong> in the settings.</p>',
+                );
                 return true;
               },
             },
