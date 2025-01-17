@@ -348,9 +348,9 @@ panelModeSelectBurger?.addEventListener('change', () => {
   updateSettings({ panelMode: panelModeSelectBurger.value });
 });
 
-// if (getSettings().welcomeMessage) {
-//   aboutDialog.showModal();
-//   yesButton.focus();
-// }
+if (getSettings().welcomeMessage) {
+  aboutDialog.showModal();
+  yesButton.focus();
+}
 
 // settingsDialog.showModal();
