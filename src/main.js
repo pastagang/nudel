@@ -74,6 +74,13 @@ const setError = (message, docId) => {
     // todo: where to show global errors?
     return;
   }
+
+  // messages will either be string or InlineErrorMessage
+  if (typeof message != 'string') {
+    displayInlineErrors(docId, message);
+    return;
+  }
+
   const slot = document.querySelector(`#slot-${docId}`);
   let errorEl = document.querySelector(`#slot-${docId} #error-${docId}`);
 
@@ -85,6 +92,7 @@ const setError = (message, docId) => {
 };
 const clearError = (docId) => {
   document.querySelector(`#slot-${docId} #error-${docId}`)?.remove();
+  clearInlineErrors(docId);
 };
 // clear local error when new eval comes in
 session.on('eval', (msg) => clearError(msg.docId));
