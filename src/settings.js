@@ -352,3 +352,5 @@ if (getSettings().welcomeMessage) {
   aboutDialog.showModal();
   yesButton.focus();
 }
+
+// settingsDialog.showModal();

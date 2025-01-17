@@ -309,7 +309,8 @@ nav {
 
 dialog {
   pointer-events: all;
-  max-width: 400px;
+  min-width: calc(min(100%, 400px));
+  overflow: scroll;
   border: 3px solid black;
   outline: 1px solid white;
 }

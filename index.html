@@ -76,53 +76,53 @@
               Enable kabelsalat
             </label>
           </p>
-          <p>
-            <label>
-              <input type="checkbox" id="settings-welcome-message" />
-              Welcome message
-            </label>
-          </p>
           <br />
-          <p>
-            <label>
-              <input type="checkbox" id="settings-zen-mode" />
-              Zen mode
-            </label>
-          </p>
-          <p>
-            <label>
-              Panel mode
-              <select id="settings-panel-mode">
-                <option value="scroll">Scroll</option>
-                <option value="boxed">Boxed</option>
-                <option value="tabbed">Tabbed</option>
-              </select>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" id="settings-vim-mode" />
-              Vim keybindings
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" id="settings-line-wrapping" />
-              Line Wrapping
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" id="settings-line-numbers" />
-              Line Numbers
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" id="settings-close-brackets" />
-              Auto Close Brackets
-            </label>
-          </p>
+          <section>
+            <h2>Nudel appearance</h2>
+            <p>
+              <label>
+                Layout
+                <select id="settings-panel-mode">
+                  <option value="scroll">Scroll view</option>
+                  <option value="boxed">Boxed view</option>
+                  <option value="tabbed">Tabbed view</option>
+                </select>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-zen-mode" />
+                Minimal user interface
+              </label>
+            </p>
+          </section>
+          <section>
+            <h2>Editor settings</h2>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-vim-mode" />
+                Vim keybindings
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-line-wrapping" />
+                Line wrapping
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-line-numbers" />
+                Line numbers
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-close-brackets" />
+                Auto-closing brackets
+              </label>
+            </p>
+          </section>
           <p>
             <button id="settings-reset-button" type="button">Reset to defaults</button>
           </p>
