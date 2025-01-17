@@ -270,7 +270,7 @@ a {
   color: #cccccc;
 }
 
-#about-dialog a {
+dialog a {
   color: #222;
 }
 
@@ -310,8 +310,8 @@ nav {
 dialog {
   pointer-events: all;
   position: fixed;
-  z-index: 1000001;
   min-width: calc(min(100%, 400px));
+  max-height: calc(85%);
   overflow: scroll;
   border: 3px solid black;
   outline: 1px solid white;
