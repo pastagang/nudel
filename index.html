@@ -42,104 +42,118 @@
     </div>
 
     <div class="dialog-container">
-      <dialog id="settings-dialog">
-        <h1>Settings</h1>
-        <form method="dialog">
-          <section>
-            <h3>User settings</h3>
-            <p>
-              <label for="settings-username" style="display: flex; align-items: center">
-                <span>Username</span>
-                <input type="text" id="settings-username" data-1p-ignore spellcheck="false" style="flex-grow: 1" />
-              </label>
-            </p>
-          </section>
-          <section>
-            <h3>Panel types</h3>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-strudel-enabled" />
-                Enable strudel
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-hydra-enabled" />
-                Enable hydra
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-shader-enabled" />
-                Enable shader
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-kabelsalat-enabled" />
-                Enable kabelsalat
-              </label>
-            </p>
-          </section>
-          <section>
-            <h3>Nudel appearance</h3>
-            <p>
-              <label>
-                Layout
-                <select id="settings-panel-mode">
-                  <option value="scroll">Scroll view</option>
-                  <option value="boxed">Boxed view</option>
-                  <option value="tabbed">Tabbed view</option>
-                </select>
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-zen-mode" />
-                Minimal user interface
-              </label>
-            </p>
-          </section>
-          <section>
-            <h3>Editor settings</h3>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-line-numbers" />
-                Line numbers
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-line-wrapping" />
-                Line wrapping
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-close-brackets" />
-                Auto-closing brackets
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-vim-mode" />
-                Vim keybindings
-              </label>
-            </p>
-          </section>
-          <section>
-            <h3>Development settings</h3>
-            <p>
-              <label>
-                <input type="checkbox" id="settings-welcome-message" />
-                Show welcome message
-              </label>
-            </p>
-          </section>
-          <footer>
-            <p>
-              <button id="settings-reset-button" type="button">Reset to defaults</button>
-            </p>
+      <dialog id="settings-dialog" style="overflow: hidden; height: 100%; padding: 0">
+        <form
+          method="dialog"
+          style="display: flex; flex-direction: column; overflow: visible; justify-content: stretch; height: 100%"
+        >
+          <main style="overflow: scroll; height: 20%; flex-grow: 1; padding: 13px">
+            <h1>Settings</h1>
+            <section>
+              <h3>User settings</h3>
+              <p>
+                <label for="settings-username" style="display: flex; align-items: center">
+                  <span>Username</span>
+                  <input type="text" id="settings-username" data-1p-ignore spellcheck="false" style="flex-grow: 1" />
+                </label>
+              </p>
+            </section>
+            <section>
+              <h3>Panel types</h3>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-strudel-enabled" />
+                  Enable strudel
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-hydra-enabled" />
+                  Enable hydra
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-shader-enabled" />
+                  Enable shader
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-kabelsalat-enabled" />
+                  Enable kabelsalat
+                </label>
+              </p>
+            </section>
+            <section>
+              <h3>Nudel appearance</h3>
+              <p>
+                <label>
+                  Layout
+                  <select id="settings-panel-mode">
+                    <option value="scroll">Scroll view</option>
+                    <option value="boxed">Boxed view</option>
+                    <option value="tabbed">Tabbed view</option>
+                  </select>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-zen-mode" />
+                  Minimal user interface
+                </label>
+              </p>
+            </section>
+            <section>
+              <h3>Editor settings</h3>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-line-numbers" />
+                  Line numbers
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-line-wrapping" />
+                  Line wrapping
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-close-brackets" />
+                  Auto-closing brackets
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-vim-mode" />
+                  Vim keybindings
+                </label>
+              </p>
+            </section>
+            <section>
+              <h3>Development settings</h3>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-welcome-message" />
+                  Show welcome message
+                </label>
+              </p>
+            </section>
+          </main>
+          <footer
+            style="
+              bottom: -13px;
+              background: white;
+              padding: 13px 13px 13px 13px;
+              border-top: 2px solid #000;
+              display: flex;
+              flex-wrap: wrap;
+              gap: 13px;
+              justify-content: flex-end;
+            "
+          >
+            <button id="settings-reset-button" type="button">Reset to defaults</button>
             <button id="settings-done-button">Done</button>
           </footer>
         </form>
