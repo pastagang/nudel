@@ -483,3 +483,7 @@ iframe#kabelsalat {
 #menu-container:hover #menu-content {
   display: flex;
 }
+
+.development {
+  display: none;
+}

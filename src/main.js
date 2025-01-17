@@ -119,6 +119,17 @@ mcPlantButton.addEventListener('click', async () => {
 session.initialize();
 applySettingsToNudel();
 
+// is in development mode?
+export function isDevelopmentEnvironment() {
+  return window.location.hostname === 'localhost';
+}
+
+// Reveal all development elements in development
+if (isDevelopmentEnvironment()) {
+  const elements = document.querySelectorAll('.development');
+  elements.forEach((el) => el.classList.remove('development'));
+}
+
 //=======================================================================================
 // Hello. If you've come here to re-enable paste, then please think carefully.
 // Paste has been disabled as an experiment, to see if it affects various things.
