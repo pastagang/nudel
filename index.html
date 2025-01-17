@@ -4,23 +4,21 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1" />
+    <script type="module" src="/script.js"></script>
     <title>🍝 nudel</title>
   </head>
 
   <body style="background-color: black">
+    <!----------- MANTRA ----------->
     <marquee id="mantra" scrollamount="2" class="fade-in">bad code only</marquee>
+
+    <!----------- MENU ----------->
     <div id="menu-container">
       <button id="menu-button">☰ Menu</button>
       <div id="menu-content">
         <button id="about-button">? About</button>
         <button id="help-button">? Help</button>
         <button id="settings-button">⚙ Settings</button>
-        <!-- <button id="zen-button">☮ Zen</button> -->
-        <!-- <select id="panel-mode-select-burger">
-          <option value="scroll">Scroll layout</option>
-          <option value="boxed">Boxed layout</option>
-          <option value="tabbed">Tabbed layout</option>
-        </select> -->
         <button id="export-button">⇓ Export</button>
         <button id="copy-as-flok-button">⇓ Copy as flok</button>
         <div class="mcplant">
@@ -28,19 +26,95 @@
         </div>
       </div>
     </div>
+
+    <!----------- TABS ----------->
     <div class="tabs">
       <div class="left">
-        <!-- tabs will be created in main.js-->
+        <!-- tabs get be created in main.js-->
       </div>
       <div class="right">
-        <!-- tabs will be created in main.js-->
+        <!-- tabs get be created in main.js-->
       </div>
     </div>
 
+    <!----------- SLOTS ----------->
     <div class="slots">
-      <!-- Editor slots will be created in main.js-->
+      <!-- slots get be created in main.js-->
     </div>
 
+    <!----------- CONFIRM DIALOG ----------->
+    <div class="dialog-container">
+      <dialog id="you-sure-dialog">
+        <h1>Are you sure?</h1>
+        <p>
+          Are you sure you want to
+          <span id="you-sure-action-description">do that</span>???
+        </p>
+        <p>
+          <button id="you-sure-yes-button">Yes</button>
+          <button id="you-sure-no-button">Cancel</button>
+        </p>
+      </dialog>
+    </div>
+
+    <!----------- ALERT DIALOG ----------->
+    <div class="dialog-container">
+      <dialog id="alert-dialog">
+        <!-- <h1>Alert</h1> -->
+        <form method="dialog">
+          <p>
+            <span id="alert-message">alert</span>
+          </p>
+          <p>
+            <button id="alert-ok-button">OK</button>
+          </p>
+        </form>
+      </dialog>
+    </div>
+
+    <!----------- ABOUT DIALOG ----------->
+    <div class="dialog-container" id="about-dialog-container">
+      <dialog id="about-dialog">
+        <form method="dialog">
+          <h1>🍝 welcome to nudel</h1>
+          <!-- <p>
+            <label for="welcome-username">
+              <span>Choose your username:</span>
+              <input
+                type="text"
+                id="welcome-username"
+                data-1p-ignore
+                spellcheck="false"
+                placeholder="anonymous nudelfan"
+              />
+            </label>
+          </p> -->
+          <p>
+            nudel is a public jam space, made by
+            <a href="https://www.pastagang.cc/" target="_blank">pastagang</a>
+          </p>
+          <!-- <p>it's a mashup of free & open source projects:</p>
+          <ul>
+            <li><a href="https://github.com/munshkr/flok/" target="_blank">flok</a> for collaboration</li>
+            <li><a href="https://github.com/tidalcycles/strudel" target="_blank">strudel</a> for sound</li>
+            <li><a href="https://github.com/hydra-synth/hydra-synth" target="_blank">hydra</a> for light</li>
+          </ul> -->
+          <p>everyone is in the same room. anyone is encouraged to join in!</p>
+          <p><strong>tip: press alt + enter to run code.</strong></p>
+          <p>
+            consider donating to <a href="https://ko-fi.com/munshkr" target="_blank">flok</a> /
+            <a href="https://opencollective.com/tidalcycles" target="_blank">strudel</a> /
+            <a href="https://opencollective.com/hydra-synth" target="_blank">hydra</a><br />
+            (we use them all in nudel)
+          </p>
+          <p>
+            <button id="about-yes-button">cool</button>
+          </p>
+        </form>
+      </dialog>
+    </div>
+
+    <!----------- SETTINGS DIALOG ----------->
     <div class="dialog-container">
       <dialog id="settings-dialog" style="overflow: hidden; height: 100%; padding: 0">
         <form
@@ -159,84 +233,5 @@
         </form>
       </dialog>
     </div>
-
-    <div class="dialog-container">
-      <dialog id="you-sure-dialog">
-        <h1>Are you sure?</h1>
-        <p>
-          Are you sure you want to
-          <span id="you-sure-action-description">do that</span>???
-        </p>
-        <p>
-          <button id="you-sure-yes-button">Yes</button>
-          <button id="you-sure-no-button">Cancel</button>
-        </p>
-      </dialog>
-    </div>
-
-    <div class="dialog-container">
-      <dialog id="alert-dialog">
-        <!-- <h1>Alert</h1> -->
-        <form method="dialog">
-          <p>
-            <span id="alert-message">alert</span>
-          </p>
-          <p>
-            <button id="alert-ok-button">OK</button>
-          </p>
-        </form>
-      </dialog>
-    </div>
-
-    <div class="dialog-container" id="about-dialog-container">
-      <dialog id="about-dialog">
-        <form method="dialog">
-          <h1>🍝 welcome to nudel</h1>
-          <!-- <p>
-            <label for="welcome-username">
-              <span>Choose your username:</span>
-              <input
-                type="text"
-                id="welcome-username"
-                data-1p-ignore
-                spellcheck="false"
-                placeholder="anonymous nudelfan"
-              />
-            </label>
-          </p> -->
-          <p>
-            nudel is a public jam space, made by
-            <a href="https://www.pastagang.cc/" target="_blank">pastagang</a>
-          </p>
-          <!-- <p>it's a mashup of free & open source projects:</p>
-          <ul>
-            <li><a href="https://github.com/munshkr/flok/" target="_blank">flok</a> for collaboration</li>
-            <li><a href="https://github.com/tidalcycles/strudel" target="_blank">strudel</a> for sound</li>
-            <li><a href="https://github.com/hydra-synth/hydra-synth" target="_blank">hydra</a> for light</li>
-          </ul> -->
-          <p>everyone is in the same room. anyone is encouraged to join in!</p>
-          <p><strong>tip: press alt + enter to run code.</strong></p>
-          <p>
-            consider donating to <a href="https://ko-fi.com/munshkr" target="_blank">flok</a> /
-            <a href="https://opencollective.com/tidalcycles" target="_blank">strudel</a> /
-            <a href="https://opencollective.com/hydra-synth" target="_blank">hydra</a><br />
-            (we use them all in nudel)
-          </p>
-          <p>
-            <button id="about-yes-button">cool</button>
-          </p>
-        </form>
-      </dialog>
-    </div>
-
-    <script type="module" src="/script.js"></script>
-
-    <!-- These now all get pulled in by script.js to avoid dependency issues -->
-    <!-- <script type="module" src="./src/main.js"></script> -->
-    <!-- <script type="module" src="./src/settings.js"></script> -->
-
-    <!-- These now get added/removed dynamically by settings.js -->
-    <!-- <iframe src="/strudel" id="strudel"></iframe> -->
-    <!-- <iframe src="/hydra" id="hydra"></iframe> -->
   </body>
 </html>

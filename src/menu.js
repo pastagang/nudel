@@ -6,7 +6,7 @@ const menuContainer = document.querySelector('#menu-container');
 // const menuContent = document.querySelector('#menu-content');
 
 const aboutButton = document.querySelector('#about-button');
-const aboutDialogContainer = document.querySelector('#about-dialog-container');
+// const aboutDialogContainer = document.querySelector('#about-dialog-container');
 const helpButton = document.querySelector('#help-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const exportButton = document.querySelector('#export-button');
