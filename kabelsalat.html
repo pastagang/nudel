@@ -17,11 +17,6 @@
       window.parent.document.addEventListener('click', async function interaction() {
         window.parent.document.removeEventListener('click', interaction);
         try {
-          console.log('init ks', import.meta.url);
-          // http://localhost:5173/node_modules/.vite/deps/assets/worklet-B8fb_TPB.js
-          // without base:
-          // http://localhost:5173/assets/worklet-DzGFm3ry.js
-
           await kabelsalat.audio.init();
           console.log('[kabelsalat] audio init done');
         } catch (err) {
@@ -98,7 +93,7 @@
           }
         }
       });
-      console.log('kabelsalat iframe loaded', kabelsalat);
+      console.log('kabelsalat iframe loaded' /* , kabelsalat */);
     </script>
   </body>
 </html>
