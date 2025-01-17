@@ -109,7 +109,7 @@ window.addEventListener('message', (event) => {
 });
 
 const mcPlantButton = document.querySelector('#mcplant-button');
-mcPlantButton.addEventListener('click', async () => {
+mcPlantButton?.addEventListener('click', async () => {
   const result = await nudelConfirm('eat a mcplant');
   if (result) {
     nudelAlert('You eat the McPlant. It tastes just like a real burger.');

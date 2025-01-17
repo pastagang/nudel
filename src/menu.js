@@ -1,4 +1,5 @@
 import { nudelAlert } from './alert.js';
+import { pastamirror } from './main.js';
 import { getSettings } from './settings.js';
 
 const menuButton = document.querySelector('#menu-button');
@@ -16,6 +17,15 @@ const yesButton = document.querySelector('#about-yes-button');
 menuButton.addEventListener('click', (e) => {
   menuContainer.classList.toggle('open');
 });
+
+// menuContainer.addEventListener(
+//   'blur',
+//   (e) => {
+//     console.log(e);
+//     menuContainer.classList.remove('open');
+//   },
+//   { bubbles: true },
+// );
 
 helpButton?.addEventListener('click', () => {
   nudelAlert('Coming soon');

@@ -246,7 +246,7 @@ button:focus {
   border-radius: 4px;
 }
 
-/* same as select basically */
+a.button,
 button {
   background-color: #111;
   border: none;
@@ -260,10 +260,14 @@ button {
   white-space: nowrap;
   line-height: 1;
   user-select: none;
+  font-family: sans-serif;
+  text-decoration: none;
 }
 
-button:hover {
+button:hover,
+a.button:hover {
   background-color: #333;
+  color: white;
 }
 
 a {
@@ -479,8 +483,7 @@ iframe#kabelsalat {
   flex-direction: column;
 }
 
-#menu-container.open #menu-content,
-#menu-container:hover #menu-content {
+#menu-container.open #menu-content {
   display: flex;
 }
 
