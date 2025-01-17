@@ -45,40 +45,44 @@
       <dialog id="settings-dialog">
         <h1>Settings</h1>
         <form method="dialog">
-          <p>
-            <label for="settings-username">
-              <span>Username:</span>
-              <input type="text" id="settings-username" data-1p-ignore spellcheck="false" />
-            </label>
-          </p>
-          <br />
-          <p>
-            <label>
-              <input type="checkbox" id="settings-strudel-enabled" />
-              Enable strudel
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" id="settings-hydra-enabled" />
-              Enable hydra
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" id="settings-shader-enabled" />
-              Enable shader
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" id="settings-kabelsalat-enabled" />
-              Enable kabelsalat
-            </label>
-          </p>
-          <br />
           <section>
-            <h2>Nudel appearance</h2>
+            <h3>User settings</h3>
+            <p>
+              <label for="settings-username" style="display: flex; align-items: center">
+                <span>Username</span>
+                <input type="text" id="settings-username" data-1p-ignore spellcheck="false" style="flex-grow: 1" />
+              </label>
+            </p>
+          </section>
+          <section>
+            <h3>Panel types</h3>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-strudel-enabled" />
+                Enable strudel
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-hydra-enabled" />
+                Enable hydra
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-shader-enabled" />
+                Enable shader
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" id="settings-kabelsalat-enabled" />
+                Enable kabelsalat
+              </label>
+            </p>
+          </section>
+          <section>
+            <h3>Nudel appearance</h3>
             <p>
               <label>
                 Layout
@@ -97,11 +101,11 @@
             </p>
           </section>
           <section>
-            <h2>Editor settings</h2>
+            <h3>Editor settings</h3>
             <p>
               <label>
-                <input type="checkbox" id="settings-vim-mode" />
-                Vim keybindings
+                <input type="checkbox" id="settings-line-numbers" />
+                Line numbers
               </label>
             </p>
             <p>
@@ -112,14 +116,14 @@
             </p>
             <p>
               <label>
-                <input type="checkbox" id="settings-line-numbers" />
-                Line numbers
+                <input type="checkbox" id="settings-close-brackets" />
+                Auto-closing brackets
               </label>
             </p>
             <p>
               <label>
-                <input type="checkbox" id="settings-close-brackets" />
-                Auto-closing brackets
+                <input type="checkbox" id="settings-vim-mode" />
+                Vim keybindings
               </label>
             </p>
           </section>
