@@ -105,6 +105,7 @@ export class PastaMirror {
                   'Shift-ArrowUp',
                   'Shift-ArrowDown',
                   'Shift',
+                  'Escape',
                 ];
 
                 if (allowlist.includes(key.key)) {
