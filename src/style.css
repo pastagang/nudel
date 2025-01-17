@@ -471,6 +471,7 @@ iframe#kabelsalat {
   a.button {
     width: 100%;
     text-align: left;
+    justify-content: flex-start;
   }
 }
 
