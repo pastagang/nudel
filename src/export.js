@@ -1,6 +1,7 @@
 import { nudelAlert } from './alert.js';
 import { pastamirror } from './main.js';
 import { getSettings } from './settings.js';
+import { nudelToast } from './toast.js';
 
 const exportButton = document.querySelector('#export-button');
 const exportDialog = document.querySelector('#export-dialog');
@@ -41,9 +42,9 @@ export function copyToClipboard(txt, { message } = {}) {
   // Copy to the clipboard
   navigator.clipboard.writeText(txt);
   if (message) {
-    nudelAlert(`Copied ${message} to clipboard`);
+    nudelToast(`Copied ${message} to clipboard!`);
   } else {
-    nudelAlert('Copied to clipboard');
+    nudelToast('Copied to clipboard!');
   }
 }
 

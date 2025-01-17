@@ -492,3 +492,42 @@ iframe#kabelsalat {
 .development {
   display: none;
 }
+
+#toast {
+  inset: unset;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  /* width: fit-content; */
+  width: 1px;
+  overflow: visible;
+  background-color: unset;
+  border: none;
+}
+
+#toast span {
+  flex-shrink: 0;
+  max-width: 300px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 4px;
+  pointer-events: none;
+}
+
+#toast:popover-open {
+  display: flex;
+}
+
+/* animation for moving up */
+#toast {
+  animation: move-up 0.5s forwards;
+}
+
+@keyframes move-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
