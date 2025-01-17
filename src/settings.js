@@ -50,13 +50,14 @@ const strudelCheckbox = document.querySelector('#settings-strudel-enabled');
 const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const shaderCheckbox = document.querySelector('#settings-shader-enabled');
 const kabelsalatCheckbox = document.querySelector('#settings-kabelsalat-enabled');
-const defaultZenModeCheckbox = document.querySelector('#settings-default-zen-mode');
+const zenModeCheckbox = document.querySelector('#settings-zen-mode');
 const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
 const lineNumbersCheckbox = document.querySelector('#settings-line-numbers');
 const closeBracketsCheckbox = document.querySelector('#settings-close-brackets');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
+
 const welcomeUsernameInput = document.querySelector('#welcome-username');
 
 function inferSettingsFromDom() {
@@ -66,7 +67,7 @@ function inferSettingsFromDom() {
     hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
     shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
     kabelsalatEnabled: kabelsalatCheckbox ? kabelsalatCheckbox.checked : defaultSettings.kabelsalatEnabled,
-    zenMode: defaultZenModeCheckbox ? defaultZenModeCheckbox.checked : defaultSettings.zenMode,
+    zenMode: zenModeCheckbox ? zenModeCheckbox.checked : defaultSettings.zenMode,
     panelMode: panelModeSelect ? panelModeSelect.value : defaultSettings.panelMode,
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
     lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
@@ -82,7 +83,7 @@ strudelCheckbox?.addEventListener('change', setSettingsFromDom);
 hydraCheckbox?.addEventListener('change', setSettingsFromDom);
 shaderCheckbox?.addEventListener('change', setSettingsFromDom);
 kabelsalatCheckbox?.addEventListener('change', setSettingsFromDom);
-defaultZenModeCheckbox?.addEventListener('change', setSettingsFromDom);
+zenModeCheckbox?.addEventListener('change', setSettingsFromDom);
 panelModeSelect?.addEventListener('change', setSettingsFromDom);
 vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
 welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
@@ -110,7 +111,7 @@ function removeFrame(key) {
 }
 
 export function applySettingsToNudel(settings = getSettings()) {
-  defaultZenModeCheckbox.checked = settings.zenMode;
+  zenModeCheckbox.checked = settings.zenMode;
   panelModeSelect.value = settings.boxedMode;
   vimModeCheckbox.checked = settings.vimMode;
   lineWrappingCheckbox.checked = settings.lineWrapping;
@@ -166,7 +167,12 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  if (settings.zenMode !== appliedSettings?.zenMode) {
+  if (appliedSettings?.welcomeMessage !== settings.welcomeMessage) {
+    welcomeMessageCheckbox.checked = settings.welcomeMessage;
+  }
+
+  if (appliedSettings?.zenMode !== settings.zenMode) {
+    zenModeCheckbox.checked = settings.zenMode;
     if (settings.zenMode) {
       document.querySelector('body').classList.add('zen-mode');
     } else {
@@ -188,6 +194,7 @@ export function applySettingsToNudel(settings = getSettings()) {
         break;
     }
   }
+
   pastamirror.updateExtensions(settings, appliedSettings);
 
   appliedSettings = { ...settings };
@@ -241,12 +248,16 @@ resetButton.addEventListener('click', async () => {
 // ABOUT //
 //=======//
 const aboutButton = document.querySelector('#about-button');
+const helpButton = document.querySelector('#help-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const exportButton = document.querySelector('#export-button');
 const copyAsFlokButton = document.querySelector('#copy-as-flok-button');
-const zenButton = document.querySelector('#zen-button');
 const panelModeSelectBurger = document.querySelector('#panel-mode-select-burger');
 const yesButton = document.querySelector('#about-yes-button');
+
+helpButton?.addEventListener('click', () => {
+  nudelAlert('Coming soon');
+});
 
 welcomeUsernameInput?.addEventListener('input', () => {
   const settings = getSettings();
@@ -329,21 +340,14 @@ exportButton.addEventListener('click', () => {
   hiddenElement.click();
 });
 
-aboutButton.addEventListener('click', () => {
+aboutButton?.addEventListener('click', () => {
   aboutDialog.showModal();
   yesButton.focus();
 });
-zenButton?.addEventListener('click', () => {
-  const settings = getSettings();
-  setSettings({ ...settings, zenMode: !settings.zenMode });
-});
 panelModeSelectBurger?.addEventListener('change', () => {
-  const settings = getSettings();
-  setSettings({ ...settings, panelMode: panelModeSelectBurger.value });
+  updateSettings({ panelMode: panelModeSelectBurger.value });
 });
 
-const { welcomeMessage } = getSettings();
-welcomeMessageCheckbox.checked = welcomeMessage;
 if (getSettings().welcomeMessage) {
   aboutDialog.showModal();
   yesButton.focus();
