@@ -64,6 +64,9 @@ export class PastaMirror {
                   doc.evaluate('$: silence', { from: null, to: null });
                 } else if (doc.target === 'kabelsalat') {
                   doc.evaluate('n(0).out()', { from: null, to: null });
+                  if (window.strudel) {
+                    window.strudel.setDocPattern(doc.id, window.strudelWindow.silence);
+                  }
                 } else if (doc.target === 'hydra') {
                   console.log('todo: implement hydra stop command');
                 }
