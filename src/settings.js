@@ -353,4 +353,4 @@ panelModeSelectBurger?.addEventListener('change', () => {
 //   yesButton.focus();
 // }
 
-settingsDialog.showModal();
+// settingsDialog.showModal();
