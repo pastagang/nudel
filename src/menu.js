@@ -37,14 +37,16 @@ html.addEventListener('click', (e) => {
   }
 });
 
-if (!getSettings().username) {
-  const username = await nudelPrompt('hello! what name do you want to go by?');
-  changeSettings({ username });
-  aboutDialog.showModal();
-  playButton.focus();
-} else {
-  if (getSettings().welcomeMessage3) {
+(async () => {
+  if (!getSettings().username) {
+    const username = await nudelPrompt('hello! what name do you want to go by?');
+    changeSettings({ username });
     aboutDialog.showModal();
     playButton.focus();
+  } else {
+    if (getSettings().welcomeMessage3) {
+      aboutDialog.showModal();
+      playButton.focus();
+    }
   }
-}
+})();
