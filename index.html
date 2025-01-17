@@ -19,7 +19,6 @@
         <button id="about-button">? About</button>
         <button id="settings-button">⚙ Settings</button>
         <button id="export-button">⇓ Export</button>
-        <button id="copy-as-flok-button">⇓ Copy as flok</button>
         <a class="button" href="https://github.com/pastagang/nudel" target="_blank">♨ Source</a>
       </div>
     </div>
@@ -107,6 +106,21 @@
           <p>
             <button id="about-yes-button">cool</button>
           </p>
+        </form>
+      </dialog>
+    </div>
+
+    <!----------- EXPORT DIALOG ----------->
+    <div class="dialog-container">
+      <dialog id="export-dialog">
+        <form method="dialog">
+          <h1>Export</h1>
+          <section style="display: flex; flex-direction: column; gap: 13px">
+            <button type="button" id="export-copy-button">Copy code</button>
+            <button type="button" id="export-download-button">Download code</button>
+            <a class="button" href="#" id="export-open-flok-button" target="_blank">Open in flok</a>
+          </section>
+          <button id="export-close-button">close</button>
         </form>
       </dialog>
     </div>

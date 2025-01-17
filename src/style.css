@@ -144,16 +144,13 @@ body {
     /* position: sticky;
   top: 0; */
     select,
-    button {
+    button,
+    a.button {
       background: rgba(0, 0, 0, 0.7);
     }
     display: flex;
     gap: 6px;
   }
-
-  /* background-color: #24242411; */
-  /* sorry lu, looks bad when hydra is running */
-  /* hey its okay it wasnt me who added this :) -lu */
 
   .error {
     background-color: black;
@@ -241,7 +238,8 @@ select:hover {
 }
 
 select:focus,
-button:focus {
+button:focus,
+a.button:focus {
   outline: 3px solid rgb(0, 100, 255);
   border-radius: 4px;
 }
@@ -262,6 +260,9 @@ button {
   user-select: none;
   font-family: sans-serif;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button:hover,
@@ -330,7 +331,8 @@ dialog section {
   margin: 40px 0;
 }
 
-dialog button {
+dialog button,
+dialog a.button {
   border: none;
 }
 
@@ -413,10 +415,8 @@ iframe#kabelsalat {
 }
 
 .zen-mode {
-  #zen-button {
-    z-index: 1000;
-  }
-  button {
+  button,
+  a.button {
     border: 0;
   }
   .error {
@@ -467,7 +467,8 @@ iframe#kabelsalat {
   top: 0;
   right: 0;
 
-  button {
+  button,
+  a.button {
     width: 100%;
     text-align: left;
   }
