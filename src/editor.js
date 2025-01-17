@@ -86,7 +86,7 @@ export class PastaMirror {
             },
             {
               // any key except Ctrl-? or Shift-? or etc
-              any: (view, key) => {
+              any: (_view, key) => {
                 if (!getSettings().pastingMode) return false;
                 if (key.ctrlKey || key.altKey || key.metaKey) {
                   return false;
@@ -109,6 +109,13 @@ export class PastaMirror {
                 ];
 
                 if (allowlist.includes(key.key)) {
+                  return false;
+                }
+
+                if (getSettings().vimMode) {
+                  nudelAlert(
+                    "<h2>typing is disabled</h2><p>but you're mad enough to use vim mode anyway so i'll let this one slide...</p>",
+                  );
                   return false;
                 }
 
