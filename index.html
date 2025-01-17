@@ -9,18 +9,18 @@
 
   <body>
     <marquee id="mantra" scrollamount="2" class="fade-in">bad code only</marquee>
-    <div class="dropdown">
-      <button>☰ Menu</button>
-      <div class="dropdown-content">
+    <div id="menu-container">
+      <button id="menu-button">☰ Menu</button>
+      <div id="menu-content">
         <button id="about-button">? About</button>
         <button id="help-button">? Help</button>
         <button id="settings-button">⚙ Settings</button>
         <!-- <button id="zen-button">☮ Zen</button> -->
-        <select id="panel-mode-select-burger">
-          <option value="scroll">Scroll</option>
-          <option value="boxed">Boxed</option>
-          <option value="tabbed">Tabbed</option>
-        </select>
+        <!-- <select id="panel-mode-select-burger">
+          <option value="scroll">Scroll layout</option>
+          <option value="boxed">Boxed layout</option>
+          <option value="tabbed">Tabbed layout</option>
+        </select> -->
         <button id="export-button">⇓ Export</button>
         <button id="copy-as-flok-button">⇓ Copy as flok</button>
         <div class="mcplant">
@@ -91,9 +91,9 @@
                 <label>
                   Layout
                   <select id="settings-panel-mode">
-                    <option value="scroll">Scroll view</option>
-                    <option value="boxed">Boxed view</option>
-                    <option value="tabbed">Tabbed view</option>
+                    <option value="scroll">Scroll layout</option>
+                    <option value="boxed">Boxed layout</option>
+                    <option value="tabbed">Tabbed layout</option>
                   </select>
                 </label>
               </p>

@@ -454,7 +454,7 @@ iframe#kabelsalat {
   }
 }
 
-.dropdown {
+#menu-container {
   position: fixed;
   z-index: 1000;
   top: 0;
@@ -466,7 +466,7 @@ iframe#kabelsalat {
   }
 }
 
-.dropdown-content {
+#menu-content {
   display: none;
   position: absolute;
   right: 0;
@@ -476,7 +476,7 @@ iframe#kabelsalat {
   flex-direction: column;
 }
 
-.dropdown.open .dropdown-content,
-.dropdown:hover .dropdown-content {
+#menu-container.open #menu-content,
+#menu-container:hover #menu-content {
   display: flex;
 }
