@@ -165,6 +165,15 @@ body {
     position: sticky;
     bottom: 0;
   }
+
+  .error-inline {
+    background-color: black;
+    font-family: monospace;
+    margin: 0;
+    border-top: 2px dotted tomato;
+    color: tomato;
+    position: relative;
+  }
 }
 
 :root {
