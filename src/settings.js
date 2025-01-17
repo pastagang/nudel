@@ -42,7 +42,7 @@ const defaultSettings = {
   lineWrapping: false,
   lineNumbers: false,
   closeBrackets: true,
-  welcomeMessage: true,
+  welcomeMessage2: true,
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -73,7 +73,7 @@ function inferSettingsFromDom() {
     lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
     lineNumbers: lineNumbersCheckbox ? lineNumbersCheckbox.checked : defaultSettings.lineNumbers,
     closeBrackets: closeBracketsCheckbox ? closeBracketsCheckbox.checked : defaultSettings.closeBrackets,
-    welcomeMessage: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage,
+    welcomeMessage2: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage2,
   };
   return inferredSettings;
 }
@@ -166,8 +166,8 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  if (appliedSettings?.welcomeMessage !== settings.welcomeMessage) {
-    welcomeMessageCheckbox.checked = settings.welcomeMessage;
+  if (appliedSettings?.welcomeMessage2 !== settings.welcomeMessage2) {
+    welcomeMessageCheckbox.checked = settings.welcomeMessage2;
   }
 
   if (appliedSettings?.zenMode !== settings.zenMode) {

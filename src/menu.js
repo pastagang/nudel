@@ -108,7 +108,7 @@ html.addEventListener('click', (e) => {
   }
 });
 
-if (getSettings().welcomeMessage) {
+if (getSettings().welcomeMessage2) {
   aboutDialog.showModal();
   yesButton.focus();
 }
