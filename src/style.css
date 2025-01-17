@@ -466,13 +466,6 @@ iframe#kabelsalat {
   z-index: 1000;
   top: 0;
   right: 0;
-
-  button,
-  a.button {
-    width: 100%;
-    text-align: left;
-    justify-content: flex-start;
-  }
 }
 
 #menu-content {
@@ -483,6 +476,13 @@ iframe#kabelsalat {
   background: white;
   z-index: 1;
   flex-direction: column;
+
+  button,
+  a.button {
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+  }
 }
 
 #menu-container.open #menu-content {
