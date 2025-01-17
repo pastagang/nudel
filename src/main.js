@@ -3,6 +3,7 @@ import { nudelAlert } from './alert.js';
 import { nudelConfirm } from './confirm.js';
 import { applySettingsToNudel } from './settings.js';
 import { PastaMirror } from './editor.js';
+import { clearInlineErrors } from './error.js';
 import './style.css';
 
 export const pastamirror = new PastaMirror();
