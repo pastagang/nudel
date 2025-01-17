@@ -196,7 +196,11 @@ export function applySettingsToNudel(settings = getSettings()) {
 
   if (appliedSettings && isSettingChanged('vimMode', { previous: appliedSettings, next: settings })) {
     const pingPong = settings.vimMode ? 'enable' : 'disable';
-    nudelConfirm(`Do you want to refresh the page to ${pingPong} vim mode immediately?`);
+    nudelConfirm(`Do you want to refresh the page to ${pingPong} vim mode immediately?`).then((confirmed) => {
+      if (confirmed) {
+        window.location.reload();
+      }
+    });
   }
 
   pastamirror.updateExtensions(settings, appliedSettings);
