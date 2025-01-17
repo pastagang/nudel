@@ -1,10 +1,12 @@
+import { nudelAlert } from './alert.js';
 import { getSettings } from './settings.js';
 
 const menuButton = document.querySelector('#menu-button');
 const menuContainer = document.querySelector('#menu-container');
-const menuContent = document.querySelector('#menu-content');
+// const menuContent = document.querySelector('#menu-content');
 
 const aboutButton = document.querySelector('#about-button');
+const aboutDialogContainer = document.querySelector('#about-dialog-container');
 const helpButton = document.querySelector('#help-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const exportButton = document.querySelector('#export-button');
@@ -97,6 +99,14 @@ aboutButton?.addEventListener('click', () => {
 // panelModeSelectBurger?.addEventListener('change', () => {
 //   updateSettings({ panelMode: panelModeSelectBurger.value });
 // });
+
+const html = document.documentElement;
+
+html.addEventListener('click', (e) => {
+  if (e.target === html) {
+    aboutDialog.close();
+  }
+});
 
 if (getSettings().welcomeMessage) {
   aboutDialog.showModal();

@@ -309,6 +309,8 @@ nav {
 
 dialog {
   pointer-events: all;
+  position: fixed;
+  z-index: 1000001;
   min-width: calc(min(100%, 400px));
   overflow: scroll;
   border: 3px solid black;
@@ -317,6 +319,7 @@ dialog {
 
 dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
 }
 
 dialog section {
