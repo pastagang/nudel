@@ -13,6 +13,7 @@ import './style.css';
 import theme from './themes/strudel-theme.js';
 import { highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { getSettings } from './settings.js';
+import { insertNewline } from '@codemirror/commands';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
@@ -69,6 +70,15 @@ export class PastaMirror {
                 return true;
               },
             })),
+            // overrides Enter to disable auto indenting..
+            // feel free to remove this again if it annoys you
+            {
+              key: 'Enter',
+              run: (view) => {
+                insertNewline(view);
+                return true;
+              },
+            },
           ]),
         ),
       ],
