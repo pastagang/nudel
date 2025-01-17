@@ -194,7 +194,11 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  // TODO: fix vim mode i think i broke it sorry -todepond
+  if (appliedSettings && isSettingChanged('vimMode', { previous: appliedSettings, next: settings })) {
+    const pingPong = settings.vimMode ? 'enable' : 'disable';
+    nudelConfirm(`Do you want to refresh the page to ${pingPong} vim mode immediately?`);
+  }
+
   pastamirror.updateExtensions(settings, appliedSettings);
 
   appliedSettings = { ...settings };
@@ -238,6 +242,6 @@ function saveSettingsToLocalStorage(settings) {
 
 const resetButton = document.querySelector('#settings-reset-button');
 resetButton.addEventListener('click', async () => {
-  const response = await nudelConfirm();
+  const response = await nudelConfirm('Are you sure you want to reset your settings?');
   if (response) setSettings(defaultSettings);
 });

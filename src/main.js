@@ -1,6 +1,5 @@
 import { Session } from '@flok-editor/session';
 import { nudelAlert } from './alert.js';
-import { nudelConfirm } from './confirm.js';
 import { applySettingsToNudel, getSettings } from './settings.js';
 import { PastaMirror } from './editor.js';
 import { clearInlineErrors } from './error.js';
@@ -105,14 +104,6 @@ window.addEventListener('message', (event) => {
   if (event.data.type === 'onError') {
     const [err, docId] = event.data.msg;
     setError(err, docId);
-  }
-});
-
-const mcPlantButton = document.querySelector('#mcplant-button');
-mcPlantButton?.addEventListener('click', async () => {
-  const result = await nudelConfirm('eat a mcplant');
-  if (result) {
-    nudelAlert('You eat the McPlant. It tastes just like a real burger.');
   }
 });
 
