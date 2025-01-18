@@ -2,7 +2,20 @@
 <html lang="en">
   <body>
     <script type="module">
-      import { SalatRepl } from '@kabelsalat/web';
+      import { SalatRepl, Node } from '@kabelsalat/web';
+
+      // mini function
+      window.m = (input, loc) => (window.parent.strudelWindow ? window.parent.strudelWindow.m(input, loc) : 0);
+      let patterns = []; // all strudel patterns in kabelsalat
+      const ogParseInput = Node.parseInput; // avoid endless loop
+      Node.parseInput = function (input, node) {
+        if (input._Pattern) {
+          // could it happen that input has already kabelvalue called?
+          // do we need to check?
+          return input.V;
+        }
+        return ogParseInput(input, node);
+      };
       const kabelsalat = new SalatRepl();
       function send(type, msg) {
         window.parent.postMessage({ type, msg });
@@ -24,18 +37,87 @@
           console.dir(err);
         }
       });
-
-      function getDoubleQuotedStringLocations(code) {
+      function modifyString(input, a, b, replace) {
+        return input.slice(0, a) + replace + input.slice(b);
+      }
+      // wraps double quoted strings in m("...", x) where x is the original location
+      function transpile(code) {
+        const doubleQuotedStrings = getDoubleQuotedStrings(code);
+        let transpiled = code;
+        let offset = 0; // when inserting additional characters, the locs will get an offset
+        let miniLocations = [];
+        doubleQuotedStrings.forEach(([string, a, b]) => {
+          const wrapped = `m(${string},${a})`;
+          transpiled = modifyString(transpiled, a + offset, b + offset, wrapped);
+          offset += wrapped.length - string.length;
+          const part = code.slice(a, b); // string including double quotes
+          // maybe this could be less ugly..
+          const atoms = window.parent.strudelWindow.getLeafLocations(part);
+          atoms.forEach((atom) => {
+            const [i, j] = atom;
+            miniLocations.push([a + i, a + j]);
+          });
+        });
+        return { miniLocations, transpiled };
+      }
+      function addGetter(obj, name, fn) {
+        Object.defineProperty(obj, name, {
+          get: function () {
+            return fn(this);
+          },
+          configurable: true,
+          enumerable: true,
+        });
+      }
+      function pattern2ccvalue(pattern) {
+        const id = `minivalue-${patterns.length}`;
+        const withTrigger = pattern.onTrigger((_, hap, ct, cps, t) => {
+          const onset = t - ct;
+          parent.kabelsalat.audio.setControls([{ id, time: onset, value: hap.value.value }]);
+        });
+        patterns.push(withTrigger);
+        const node = cc(id);
+        addGetter(node, 'G', () => pattern2ccgate(pattern));
+        return node;
+      }
+      function pattern2ccgate(pattern) {
+        const id = `minigate-${patterns.length}`;
+        const withTrigger = pattern.onTrigger((_, hap, ct, cps, t) => {
+          const onset = t - ct;
+          const offset = onset + hap.duration / cps - 0.05;
+          parent.kabelsalat.audio.setControls([
+            { id, time: onset, value: 1 },
+            { id, time: offset, value: 0 },
+          ]);
+        });
+        patterns.push(withTrigger);
+        const node = cc(id);
+        addGetter(node, 'P', () => pattern2ccvalue(pattern));
+        return node;
+      }
+      let bridged = false;
+      function defineStrudelBridge() {
+        if (bridged) {
+          return; // this could be avoided if we knew when strudel is ready...
+        }
+        bridged = true;
+        addGetter(window.parent.strudelWindow.Pattern.prototype, 'P', pattern2ccvalue);
+        window.P = (pat) => pat.P;
+        addGetter(window.parent.strudelWindow.Pattern.prototype, 'G', pattern2ccgate);
+        window.G = (pat) => pat.G;
+      }
+      function getDoubleQuotedStrings(code) {
         const regex = /"([^"\\]*(\\.[^"\\]*)*)"/g;
         const locations = [];
         let match;
         while ((match = regex.exec(code)) !== null) {
-          const start = match.index + 1;
-          const end = regex.lastIndex - 1;
-          locations.push([start, end]);
+          const start = match.index;
+          const end = regex.lastIndex;
+          locations.push([match[0], start, end]);
         }
         return locations;
       }
+      // maybe a pattern could also have a method to return value and gate as 2 channels?!
 
       window.addEventListener('message', (event) => {
         if (event.origin !== window.location.origin) {
@@ -43,48 +125,21 @@
         }
         // console.log("received", event.data);
         if (event.data.type === 'eval') {
+          defineStrudelBridge();
+
           // console.log('eval', event.data.msg);
           const { body: code, docId } = event.data.msg;
           try {
-            let patterns = [];
-            // TODO: set loc automatically from transpiler
-            window.P = (pattern, loc) => {
-              if (!window.parent.strudel) return;
-              const valueID = `minivalue-${patterns.length}`;
-              const gateID = `minigate-${patterns.length}`;
-              const reified = window.parent.strudelWindow.m(pattern, loc).onTrigger((_, hap, ct, cps, t) => {
-                const onset = t - ct;
-                const offset = onset + hap.duration / cps - 0.05;
-                parent.kabelsalat.audio.setControls([
-                  { id: gateID, time: onset, value: 1 },
-                  { id: gateID, time: offset, value: 0 },
-                  { id: valueID, time: onset, value: hap.value.value },
-                ]);
-              });
-              patterns.push(reified);
-              const value = cc(valueID),
-                gate = cc(gateID),
-                trig = gate.trig();
-              return { value, gate };
-            };
-
-            kabelsalat.run(code);
-
-            if (window.parent.strudelWindow && patterns.length) {
-              // TODO: make this less ugly
-              const doubleQuotedStringLocations = getDoubleQuotedStringLocations(code);
-              let miniLocations = [];
-              doubleQuotedStringLocations.forEach((loc) => {
-                const part = code.slice(...loc);
-                const atoms = window.parent.strudelWindow.getLeafLocations(`"${part}"`);
-                atoms.forEach((atom) => {
-                  const [begin, end] = atom;
-                  miniLocations.push([loc[0] + begin - 1, loc[0] + end - 1]);
-                });
-              });
-              // dummy comment
+            if (!window.parent.strudelWindow) {
+              kabelsalat.run(code); // no strudel
+            } else {
+              patterns = []; // flush old patterns
+              // desugar magic double quotes
+              const { miniLocations, transpiled } = transpile(code);
+              // tell highlighter new locs
               window.parent.strudel.onUpdateMiniLocations(docId, miniLocations);
-              // uglyness ends here
+              kabelsalat.run(transpiled); // populates "patterns"
+              // tell strudel about the patterns
               const docPattern = window.parent.strudelWindow.stack(...patterns);
               window.parent.strudel.setDocPattern(docId, docPattern);
             }
