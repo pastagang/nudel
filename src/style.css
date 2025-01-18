@@ -173,6 +173,17 @@ body {
   }
 }
 
+#global-error {
+  background-color: black;
+  font-family: monospace;
+  padding: 8px;
+  margin: 0;
+  text-align: center;
+  color: tomato;
+  position: fixed;
+  bottom: 0;
+}
+
 :root {
   --foreground: white;
 }

@@ -45,6 +45,14 @@ session.on('change', (documents) => {
   });
 });
 
+session.on('pubsub:close', () => {
+  // untested
+  setError('Disconnected from Server...');
+});
+session.on('pubsub:open', () => {
+  clearGlobalError();
+});
+
 export const Frame = {
   hydra: document.getElementById('hydra'),
   shader: document.getElementById('shader'),
@@ -67,35 +75,48 @@ session.on('eval:strudel', (msg) => Frame.strudel?.contentWindow.postMessage({ t
 // kabelsalat
 session.on('eval:kabelsalat', (msg) => Frame.kabelsalat?.contentWindow.postMessage({ type: 'eval', msg }));
 
-// error handling
-const setError = (message, docId) => {
-  console.error(message);
-  if (!docId) {
-    // todo: where to show global errors?
-    return;
+let showGlobalError = (message) => {
+  let errorEl = document.querySelector(`#global-error`);
+  if (errorEl) {
+    errorEl.innerText = message;
+  } else {
+    document.body.insertAdjacentHTML('beforeend', `<div id="global-error">${message}</div>`);
   }
+};
 
-  // messages will either be string or InlineErrorMessage
-  if (typeof message != 'string') {
-    displayInlineErrors(docId, message);
-    return;
-  }
-
+let showLocalError = (docId, message) => {
   const slot = document.querySelector(`#slot-${docId}`);
   let errorEl = document.querySelector(`#slot-${docId} #error-${docId}`);
-
   if (errorEl) {
     errorEl.innerText = message;
   } else {
     slot.insertAdjacentHTML('beforeend', `<div class="error" id="error-${docId}">${message}</div>`);
   }
 };
-const clearError = (docId) => {
+
+// error handling
+const setError = (message, docId) => {
+  console.error(message);
+  if (!docId) {
+    showGlobalError(message);
+    return;
+  }
+  // messages will either be string or InlineErrorMessage
+  if (typeof message != 'string') {
+    displayInlineErrors(docId, message);
+    return;
+  }
+  showLocalError(docId, message);
+};
+const clearLocalError = (docId) => {
   document.querySelector(`#slot-${docId} #error-${docId}`)?.remove();
   clearInlineErrors(docId);
 };
+const clearGlobalError = () => {
+  document.querySelector(`#global-error`)?.remove();
+};
 // clear local error when new eval comes in
-session.on('eval', (msg) => clearError(msg.docId));
+session.on('eval', (msg) => clearLocalError(msg.docId));
 
 window.addEventListener('message', (event) => {
   if (event.origin !== window.location.origin) {
