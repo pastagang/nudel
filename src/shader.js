@@ -300,8 +300,10 @@ export class ShaderSession {
       this.uniforms = this.instance.uniforms;
       if (code.indexOf('// size: fullscreen') > -1) {
         fullscreenCanvas(this.canvas);
+        this.instance.update();
       } else if (code.indexOf('// size: small') > -1) {
         smallCanvas(this.canvas);
+        this.instance.update();
       }
       console.log('Shader updated!');
     } catch (err) {
