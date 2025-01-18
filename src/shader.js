@@ -169,22 +169,14 @@ function updateUniforms(gl, now, elapsed, uniforms) {
 
 // Make the canvas small
 function smallCanvas(canvas) {
-  const width = 400;
-  const height = 300;
-  canvas.width = width;
-  canvas.height = height;
-  const top = 60;
-  canvas.style = `pointer-events:none;width:${width}px;height:${height}px;position:fixed;top:${top}px;left:23px`;
+  canvas.classList.remove('canvas-fullscreen');
+  canvas.classList.add('canvas-small');
 }
 
 // Make the canvas fullscreen
 function fullscreenCanvas(canvas) {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  canvas.style.width = '100%';
-  canvas.style.height = '100%';
-  canvas.style.top = '0';
-  canvas.style.left = '0';
+  canvas.classList.remove('canvas-small');
+  canvas.classList.add('canvas-fullscreen');
 }
 
 function createProgram(gl, vertex, fragment) {
@@ -238,9 +230,6 @@ function initializeShaderInstance(gl, code) {
     const now = performance.now() / 1000;
     const elapsed = instance.age == 0 ? 1 / 60 : now - prev;
     prev = now;
-    // console.log('drawing!');
-
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
     // Clear the canvas
     gl.clearColor(0, 0, 0, 0);
@@ -293,7 +282,12 @@ export class ShaderSession {
     this.instance = null;
   }
   resize() {
-    console.log('Not Implemented shader resize');
+    const w = this.canvas.clientWidth;
+    const h = this.canvas.clientHeight;
+    this.gl.canvas.width = w;
+    this.gl.canvas.height = h;
+    this.gl.viewport(0, 0, w, h);
+    this.instance.update();
   }
   async eval(msg) {
     const code = mkFragmentShader(msg.body);
