@@ -10,9 +10,7 @@
       const ogParseInput = Node.parseInput; // avoid endless loop
       Node.parseInput = function (input, node) {
         if (input._Pattern) {
-          // could it happen that input has already kabelvalue called?
-          // do we need to check?
-          return input.V;
+          return input.P;
         }
         return ogParseInput(input, node);
       };
