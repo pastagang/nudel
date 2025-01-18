@@ -2,7 +2,7 @@ import { Session } from '@flok-editor/session';
 import { nudelAlert } from './alert.js';
 import { applySettingsToNudel, getSettings } from './settings.js';
 import { PastaMirror } from './editor.js';
-import { clearInlineErrors } from './error.js';
+import { clearInlineErrors, displayInlineErrors } from './error.js';
 import './style.css';
 
 export const pastamirror = new PastaMirror();
