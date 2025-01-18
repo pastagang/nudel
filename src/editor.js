@@ -201,10 +201,15 @@ export class PastaMirror {
     const text = doc.getText();
     const undoManager = new UndoManager(text);
     const web = true;
+
+    // TODO: find way to unset boxed mode on mobile
+    // when the media query hits, we get scrolled mode
+    // so then we get remote cursor tracking in scrolled mode = bad
+    const scrollIntoView = false; // getSettings().panelMode === 'boxed';
     const collab = yCollab(text, doc.session.awareness, {
       undoManager,
       showLocalCaret: true,
-      scrollIntoView: false,
+      scrollIntoView,
     });
     return [
       flashField(),
