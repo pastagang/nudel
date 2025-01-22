@@ -542,3 +542,7 @@ iframe#kabelsalat {
     transform: translateY(-100%);
   }
 }
+
+.cm-ySelectionCaret {
+  pointer-events: none;
+}
