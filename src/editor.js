@@ -202,10 +202,10 @@ export class PastaMirror {
     const undoManager = new UndoManager(text);
     const web = true;
 
-    // TODO: find way to unset boxed mode on mobile
-    // when the media query hits, we get scrolled mode
-    // so then we get remote cursor tracking in scrolled mode = bad
-    const scrollIntoView = false; // getSettings().panelMode === 'boxed';
+    // TODO: automatically set scrollIntoView, based on mode
+    // set to true in boxed mode, but only when boxed mode is actually visible
+    // we don't want cursor tracking on mobile!
+    const scrollIntoView = getSettings().trackRemoteCursors;
     const collab = yCollab(text, doc.session.awareness, {
       undoManager,
       showLocalCaret: true,

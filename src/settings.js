@@ -46,6 +46,7 @@ const defaultSettings = {
   lineWrapping: false,
   lineNumbers: false,
   closeBrackets: true,
+  trackRemoteCursors: false,
   welcomeMessage3: true,
   pastingMode: false,
 };
@@ -61,6 +62,7 @@ const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
 const lineNumbersCheckbox = document.querySelector('#settings-line-numbers');
 const closeBracketsCheckbox = document.querySelector('#settings-close-brackets');
+const trackRemoteCursorsCheckbox = document.querySelector('#settings-track-cursors');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 
@@ -77,6 +79,9 @@ function inferSettingsFromDom() {
     lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
     lineNumbers: lineNumbersCheckbox ? lineNumbersCheckbox.checked : defaultSettings.lineNumbers,
     closeBrackets: closeBracketsCheckbox ? closeBracketsCheckbox.checked : defaultSettings.closeBrackets,
+    trackRemoteCursors: trackRemoteCursorsCheckbox
+      ? trackRemoteCursorsCheckbox.checked
+      : defaultSettings.trackRemoteCursors,
     welcomeMessage3: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage3,
     pastingMode: pastingModeCheckbox ? pastingModeCheckbox.checked : defaultSettings.pastingMode,
   };
@@ -95,6 +100,12 @@ welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
 lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
 lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
 closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
+trackRemoteCursorsCheckbox?.addEventListener('change', () => {
+  if (confirm('This only makes sense in boxed mode.. It also requires a reload. Are you sure?')) {
+    setSettingsFromDom();
+    window.location.reload();
+  }
+});
 pastingModeCheckbox?.addEventListener('change', setSettingsFromDom);
 
 let appliedSettings = null;
@@ -123,6 +134,7 @@ export function applySettingsToNudel(settings = getSettings()) {
   lineWrappingCheckbox.checked = settings.lineWrapping;
   lineNumbersCheckbox.checked = settings.lineNumbers;
   closeBracketsCheckbox.checked = settings.closeBrackets;
+  trackRemoteCursorsCheckbox.checked = settings.trackRemoteCursors;
   panelModeSelect.value = settings.panelMode;
   usernameInput.value = settings.username;
   strudelCheckbox.checked = settings.strudelEnabled;
