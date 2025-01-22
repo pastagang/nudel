@@ -551,3 +551,7 @@ iframe#kabelsalat {
   scrollbar-width: thin;
   scrollbar-color: #78716c black;
 }
+dialog {
+  scrollbar-width: thin;
+  scrollbar-color: #78716c black;
+}
