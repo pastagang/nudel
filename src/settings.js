@@ -115,6 +115,7 @@ function addFrame(key) {
   Frame[key].src = `/${key}`;
   Frame[key].id = key;
   Frame[key].sandbox = 'allow-scripts allow-same-origin';
+  Frame[key].setAttribute('scrolling', 'no');
   document.body.appendChild(Frame[key]);
 }
 
