@@ -174,3 +174,19 @@ addEventListener(
   },
   { passive: false, capture: true },
 );
+
+// add / remove panes
+document.getElementById('add-pane-button').addEventListener('click', () => {
+  if (!session) return;
+  const documents = session.getDocuments();
+  const newDocs = [
+    ...documents.map((doc) => ({ id: doc.id, target: doc.target })),
+    { id: String(documents.length + 1), target: 'strudel' },
+  ];
+  session.setActiveDocuments(newDocs);
+});
+document.getElementById('remove-pane-button').addEventListener('click', () => {
+  if (!session) return;
+  const documents = session.getDocuments();
+  session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
+});
