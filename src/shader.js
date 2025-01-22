@@ -287,7 +287,7 @@ export class ShaderSession {
     this.gl.canvas.width = w;
     this.gl.canvas.height = h;
     this.gl.viewport(0, 0, w, h);
-    this.instance.update();
+    this.instance?.update();
   }
   async eval(msg) {
     const code = mkFragmentShader(msg.body);
