@@ -49,6 +49,7 @@ const defaultSettings = {
   trackRemoteCursors: false,
   welcomeMessage3: true,
   pastingMode: false,
+  fontFamily: 'monospace',
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -65,6 +66,7 @@ const closeBracketsCheckbox = document.querySelector('#settings-close-brackets')
 const trackRemoteCursorsCheckbox = document.querySelector('#settings-track-cursors');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
+const fontFamilySelect = document.querySelector('#settings-font-family');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -84,6 +86,7 @@ function inferSettingsFromDom() {
       : defaultSettings.trackRemoteCursors,
     welcomeMessage3: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage3,
     pastingMode: pastingModeCheckbox ? pastingModeCheckbox.checked : defaultSettings.pastingMode,
+    fontFamily: fontFamilySelect ? fontFamilySelect.value : defaultSettings.fontFamily,
   };
   return inferredSettings;
 }
@@ -100,13 +103,16 @@ welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
 lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
 lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
 closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
-trackRemoteCursorsCheckbox?.addEventListener('change', () => {
-  if (confirm('This only makes sense in boxed mode.. It also requires a reload. Are you sure?')) {
-    setSettingsFromDom();
-    window.location.reload();
-  }
+trackRemoteCursorsCheckbox?.addEventListener('change', (e) => {
+  nudelConfirm(`This only makes sense in boxed mode.. It also requires a reload. Are you sure?`).then(() => {
+    if (confirmed) {
+      setSettingsFromDom();
+      window.location.reload();
+    }
+  });
 });
 pastingModeCheckbox?.addEventListener('change', setSettingsFromDom);
+fontFamilySelect?.addEventListener('change', setSettingsFromDom);
 
 let appliedSettings = null;
 
@@ -145,6 +151,7 @@ export function applySettingsToNudel(settings = getSettings()) {
   welcomeMessageCheckbox.checked = settings.welcomeMessage3;
   zenModeCheckbox.checked = settings.zenMode;
   pastingModeCheckbox.checked = settings.pastingMode;
+  fontFamilySelect.value = settings.fontFamily;
 
   session.user = settings.username || 'anonymous nudelfan';
 
@@ -214,6 +221,10 @@ export function applySettingsToNudel(settings = getSettings()) {
         window.location.reload();
       }
     });
+  }
+
+  if (isSettingChanged('fontFamily', { previous: appliedSettings, next: settings })) {
+    document.documentElement.style.cssText = `--font-family: ${settings.fontFamily}`;
   }
 
   pastamirror.updateExtensions(settings, appliedSettings);

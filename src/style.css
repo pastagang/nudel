@@ -201,6 +201,7 @@ body {
 .cm-scroller {
   padding: 0 4px;
   cursor: text;
+  font-family: var(--font-family) !important;
 }
 
 .cm-content {
