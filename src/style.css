@@ -222,7 +222,7 @@ body {
   background: rgba(0, 0, 0, 0.7);
   max-width: fit-content;
   padding: 0px !important;
-  border-radius: 10px;
+  /* border-radius: 10px; */ /* ok maybe that's too much */
 }
 
 .cm-activeLine {
