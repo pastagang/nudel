@@ -546,3 +546,8 @@ iframe#kabelsalat {
 .cm-ySelectionCaret {
   pointer-events: none;
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #78716c black;
+}
