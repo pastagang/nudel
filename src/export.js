@@ -1,6 +1,4 @@
-import { nudelAlert } from './alert.js';
-import { pastamirror } from './main.js';
-import { getSettings } from './settings.js';
+import { pastamirror, session } from './main.js';
 import { nudelToast } from './toast.js';
 
 const exportButton = document.querySelector('#export-button');
@@ -10,6 +8,8 @@ const exportCloseButton = document.querySelector('#export-close-button');
 const exportCopyButton = document.querySelector('#export-copy-button');
 const exportDownloadButton = document.querySelector('#export-download-button');
 const exportOpenFlokButton = document.querySelector('#export-open-flok-button');
+const exportOpenStrudelButton = document.querySelector('#export-open-strudel-button');
+const exportOpenHydraButton = document.querySelector('#export-open-hydra-button');
 
 exportButton.addEventListener('click', () => {
   exportDialog.showModal();
@@ -52,7 +52,7 @@ export function getPrettyDate() {
   return new Date().toISOString().slice(0, 16).replace('T', ' ');
 }
 
-export function downloadAsFile(txt, { fileName = `nuddle-export-${getPrettyDate()}.txt` } = {}) {
+export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()}.txt` } = {}) {
   // Download file
   var hiddenElement = document.createElement('a');
   hiddenElement.href = 'data:attachment/text,' + encodeURI(txt);
@@ -61,15 +61,14 @@ export function downloadAsFile(txt, { fileName = `nuddle-export-${getPrettyDate(
   hiddenElement.click();
 }
 
-export function getCode() {
+export function getCode(filter) {
   const prettyDate = getPrettyDate();
-  const bundle = [`// "nudel ${prettyDate}" @by pastagang`, '//'];
-  pastamirror.editorViews.forEach((view, key) => {
-    bundle.push(`// panel ${key}`);
-    bundle.push(...getDocumentText(view));
-    bundle.push('\n\n');
-  });
-  return bundle.join('\n');
+  const headline = `// "nudel ${prettyDate}" @by pastagang`;
+  let documents = session.getDocuments();
+  if (filter) {
+    documents = documents.filter(filter);
+  }
+  return documents.reduce((acc, doc) => `${acc}\n//pane ${doc.id}\n${doc.content || ''}`, headline);
 }
 
 exportCopyButton.addEventListener('click', () => {
@@ -80,4 +79,23 @@ exportCopyButton.addEventListener('click', () => {
 exportDownloadButton.addEventListener('click', () => {
   const txt = getCode();
   downloadAsFile(txt);
+});
+
+export function unicodeToBase64(text) {
+  const utf8Bytes = new TextEncoder().encode(text);
+  const base64String = btoa(String.fromCharCode(...utf8Bytes));
+  return base64String;
+}
+export function code2hash(code) {
+  return encodeURIComponent(unicodeToBase64(code));
+}
+
+exportOpenStrudelButton.addEventListener('click', () => {
+  const code = getCode((doc) => doc.target === 'strudel');
+  window.open(`https://strudel.cc/#${code2hash(code)}`);
+});
+
+exportOpenHydraButton.addEventListener('click', () => {
+  const code = getCode((doc) => doc.target === 'hydra');
+  window.open(`https://hydra.ojack.xyz/?code=${code2hash(code)}`);
 });
