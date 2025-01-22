@@ -222,6 +222,7 @@ body {
   background: rgba(0, 0, 0, 0.7);
   max-width: fit-content;
   padding: 0px !important;
+  border-radius: 10px;
 }
 
 .cm-activeLine {
@@ -548,8 +549,7 @@ iframe#kabelsalat {
 }
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #78716c black;
+  scrollbar-color: #00000096 transparent;
 }
 dialog {
   scrollbar-width: thin;
