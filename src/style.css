@@ -568,7 +568,6 @@ dialog {
 
 .message-container {
   position: fixed; /* top + left is set from code */
-  transform: translateX(-50%);
   background-color: #33333399;
   color: white;
   opacity: 1;
