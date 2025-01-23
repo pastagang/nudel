@@ -96,6 +96,7 @@ export class PastaMirror {
                 // sry reckter i removed the comment marker thing
                 // i think this is not only good for chat, but also
                 // for letting code die in a cool way...
+                // hmmmmm but i'm actually not very sure anymore after trying it a bit
                 const transaction = view.state.update({
                   changes: { from: line.from, to: line.to, insert },
                   selection: { anchor: line.from + insert.length },
@@ -304,11 +305,9 @@ export class PastaMirror {
   chat(message) {
     const view = this.editorViews.get(message.docId);
     const line = view.state.doc.lineAt(message.from);
-    console.log('line.from', line.from);
     const pos = view.coordsAtPos(line.from);
     const chatContainer = document.querySelector('.chat-container');
     if (pos) {
-      console.log('chat', message.message, pos);
       const messageContainer = document.createElement('div');
       messageContainer.innerText = message.message;
       const offsetX = 30; // not sure why
