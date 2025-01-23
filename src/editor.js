@@ -44,7 +44,6 @@ export class PastaMirror {
       return;
     }
 
-    const stopKeys = ['Ctrl-.', 'Alt-.'];
     const state = EditorState.create({
       doc: doc.content,
       extensions: [
@@ -58,7 +57,8 @@ export class PastaMirror {
         ...this.initialSettings,
         Prec.highest(
           keymap.of([
-            ...stopKeys.map((key) => ({
+            // stop pane
+            ...['Ctrl-.', 'Alt-.'].map((key) => ({
               key,
               run: () => {
                 if (doc.target === 'strudel') {
@@ -71,6 +71,33 @@ export class PastaMirror {
                 } else if (doc.target === 'hydra') {
                   console.log('todo: implement hydra stop command');
                 }
+                return true;
+              },
+            })),
+            // chat current line..
+            ...['Shift-Enter'].map((key) => ({
+              key,
+              run: (view) => {
+                const { head } = view.state.selection.main;
+                const line = view.state.doc.lineAt(head);
+                let message = view.state.doc.toString().split('\n')[line.number - 1];
+                if (message.startsWith('//')) {
+                  message = message.slice(2);
+                }
+                message = message.trim();
+                const insert = '// ';
+                doc.session._pubSubClient.publish(`session:pastagang:chat`, {
+                  docId: doc.id,
+                  message,
+                  user: doc.session.user,
+                  from: line.from + insert.length,
+                });
+                // clear line
+                const transaction = view.state.update({
+                  changes: { from: line.from, to: line.to, insert },
+                  selection: { anchor: line.from + insert.length },
+                });
+                view.dispatch(transaction);
                 return true;
               },
             })),
@@ -268,6 +295,29 @@ export class PastaMirror {
           this.reconfigureExtension(key, settings[key], view);
         }
       }
+    }
+  }
+
+  chat(message) {
+    const view = this.editorViews.get(message.docId);
+    const line = view.state.doc.lineAt(message.from);
+    console.log('line.from', line.from);
+    const pos = view.coordsAtPos(line.from);
+    const chatContainer = document.querySelector('.chat-container');
+    if (pos) {
+      console.log('chat', message.message, pos);
+      const messageContainer = document.createElement('div');
+      messageContainer.innerText = message.message;
+      const offsetX = 30; // not sure why
+      const offsetY = 4; // not sure why
+      messageContainer.style = `position:fixed;top:${pos.top + offsetY}px;left:${pos.left + offsetX}px`;
+      messageContainer.classList.add('rising-animation');
+      chatContainer.appendChild(messageContainer);
+      setTimeout(() => {
+        messageContainer.remove();
+      }, 3000);
+    } else {
+      console.warn('could not get line position');
     }
   }
 }

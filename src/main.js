@@ -45,12 +45,17 @@ session.on('change', (documents) => {
   });
 });
 
+session.on('pubsub:open', () => {
+  clearGlobalError();
+  // session._pubSubClient seems to take a while to be defined..
+  // this might or might not be a good place to make sure its ready
+  // the event might call multiple times so... do i need to unsub???
+  session._pubSubClient.subscribe(`session:pastagang:chat`, (args) => pastamirror.chat(args.message));
+});
 session.on('pubsub:close', () => {
   // untested
   setError('Disconnected from Server...');
-});
-session.on('pubsub:open', () => {
-  clearGlobalError();
+  // unsub session:pastagang:chat here?
 });
 
 export const Frame = {
