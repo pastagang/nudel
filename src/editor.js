@@ -313,10 +313,11 @@ export class PastaMirror {
       const offsetY = 4; // not sure why
       messageContainer.style = `position:fixed;top:${pos.top + offsetY}px;left:${pos.left + offsetX}px`;
       messageContainer.classList.add('rising-animation');
+      messageContainer.classList.add('message-container');
       chatContainer.appendChild(messageContainer);
       setTimeout(() => {
         messageContainer.remove();
-      }, 3000);
+      }, 7000);
     } else {
       console.warn('could not get line position');
     }
