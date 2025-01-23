@@ -80,26 +80,30 @@ export class PastaMirror {
               run: (view) => {
                 const { head } = view.state.selection.main;
                 const line = view.state.doc.lineAt(head);
-                let message = line.text;
+                let message = line.text.split('//').splice(1).join('//');
                 if (message.startsWith('//')) {
                   message = message.slice(2);
                 }
                 message = message.trim();
                 const insert = '// ';
+                const beforeFirstCommentMarker = line.text.split('//')[0].length;
+
                 doc.session._pubSubClient.publish(`session:pastagang:chat`, {
                   docId: doc.id,
                   message,
                   user: doc.session.user,
-                  from: line.from + insert.length,
+                  from: line.from + beforeFirstCommentMarker,
                 });
                 // clear line
                 // sry reckter i removed the comment marker thing
                 // i think this is not only good for chat, but also
                 // for letting code die in a cool way...
                 // hmmmmm but i'm actually not very sure anymore after trying it a bit
+                // ok i've changed it back to only remove the comment part of the line..
+                // need to think more about how to let code die in the samw way
                 const transaction = view.state.update({
-                  changes: { from: line.from, to: line.to, insert },
-                  selection: { anchor: line.from + insert.length },
+                  changes: { from: line.from + beforeFirstCommentMarker, to: line.to, insert },
+                  selection: { anchor: line.from + insert.length + beforeFirstCommentMarker },
                 });
                 view.dispatch(transaction);
                 return true;
@@ -304,8 +308,7 @@ export class PastaMirror {
 
   chat(message) {
     const view = this.editorViews.get(message.docId);
-    const line = view.state.doc.lineAt(message.from);
-    const pos = view.coordsAtPos(line.from);
+    const pos = view.coordsAtPos(message.from);
     const chatContainer = document.querySelector('.chat-container');
     if (pos) {
       const messageContainer = document.createElement('div');
