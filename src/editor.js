@@ -80,7 +80,7 @@ export class PastaMirror {
               run: (view) => {
                 const { head } = view.state.selection.main;
                 const line = view.state.doc.lineAt(head);
-                let message = view.state.doc.toString().split('\n')[line.number - 1];
+                let message = line.text.split('//').splice(1).join('//');
                 if (message.startsWith('//')) {
                   message = message.slice(2);
                 }
@@ -93,9 +93,10 @@ export class PastaMirror {
                   from: line.from + insert.length,
                 });
                 // clear line
+                const beforeFirstCommentMarker = line.text.split('//')[0].length;
                 const transaction = view.state.update({
-                  changes: { from: line.from, to: line.to, insert },
-                  selection: { anchor: line.from + insert.length },
+                  changes: { from: line.from + beforeFirstCommentMarker, to: line.to, insert },
+                  selection: { anchor: line.from + insert.length + beforeFirstCommentMarker },
                 });
                 view.dispatch(transaction);
                 return true;

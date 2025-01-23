@@ -564,10 +564,14 @@ dialog {
   top: 0;
   left: 0;
   pointer-events: none;
+  & div {
+    background: #111111;
+    color: white;
+  }
 }
 
 .message-container {
-  position: fixed; // top + left is set from code
+  position: fixed; /* top + left is set from code */
   transform: translateX(-50%);
   width: 100px;
   height: 100px;
@@ -581,7 +585,7 @@ dialog {
   }
   100% {
     top: -20px;
-    opacity: 0; 
+    opacity: 0;
   }
 }
 

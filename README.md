@@ -39,7 +39,6 @@ nudel a mashup of existing free & open source projects:
 - [hydra](https://github.com/hydra-synth/hydra-synth) for visuals
 - [kabalsalat](https://kabel.salat.dev/) for ???
 
-
 if you enjoy nudel, consider donating to [flok](https://ko-fi.com/munshkr) / [strudel](https://opencollective.com/tidalcycles) / [hydra](https://opencollective.com/hydra-synth)
 
 ## running locally
