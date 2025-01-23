@@ -80,7 +80,7 @@ export class PastaMirror {
               run: (view) => {
                 const { head } = view.state.selection.main;
                 const line = view.state.doc.lineAt(head);
-                let message = line.text.split('//').splice(1).join('//');
+                let message = line.text;
                 if (message.startsWith('//')) {
                   message = message.slice(2);
                 }
@@ -93,10 +93,12 @@ export class PastaMirror {
                   from: line.from + insert.length,
                 });
                 // clear line
-                const beforeFirstCommentMarker = line.text.split('//')[0].length;
+                // sry reckter i removed the comment marker thing
+                // i think this is not only good for chat, but also
+                // for letting code die in a cool way...
                 const transaction = view.state.update({
-                  changes: { from: line.from + beforeFirstCommentMarker, to: line.to, insert },
-                  selection: { anchor: line.from + insert.length + beforeFirstCommentMarker },
+                  changes: { from: line.from, to: line.to, insert },
+                  selection: { anchor: line.from + insert.length },
                 });
                 view.dispatch(transaction);
                 return true;
