@@ -29,6 +29,7 @@
     "@strudel/core": "^1.1.0",
     "@strudel/draw": "^1.1.0",
     "@strudel/mini": "^1.1.0",
+    "@strudel/reference": "^1.1.0",
     "@strudel/soundfonts": "^1.1.0",
     "@strudel/tonal": "^1.1.0",
     "@strudel/transpiler": "^1.1.0",

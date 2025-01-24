@@ -1,7 +1,6 @@
 import { updateMiniLocations } from '@strudel/codemirror';
 import { nudelConfirm } from './confirm.js';
 import { Frame, pastamirror, session } from './main.js';
-import { nudelAlert } from './alert.js';
 
 //=====//
 // API //
@@ -45,6 +44,7 @@ const defaultSettings = {
   vimMode: false,
   lineWrapping: false,
   lineNumbers: false,
+  strudelAutocomplete: false,
   closeBrackets: true,
   trackRemoteCursors: false,
   welcomeMessage3: true,
@@ -62,6 +62,7 @@ const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
 const lineNumbersCheckbox = document.querySelector('#settings-line-numbers');
+const strudelAutocompleteCheckbox = document.querySelector('#settings-strudel-autocomplete');
 const closeBracketsCheckbox = document.querySelector('#settings-close-brackets');
 const trackRemoteCursorsCheckbox = document.querySelector('#settings-track-cursors');
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
@@ -80,6 +81,9 @@ function inferSettingsFromDom() {
     vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
     lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
     lineNumbers: lineNumbersCheckbox ? lineNumbersCheckbox.checked : defaultSettings.lineNumbers,
+    strudelAutocomplete: strudelAutocompleteCheckbox
+      ? strudelAutocompleteCheckbox.checked
+      : defaultSettings.strudelAutocomplete,
     closeBrackets: closeBracketsCheckbox ? closeBracketsCheckbox.checked : defaultSettings.closeBrackets,
     trackRemoteCursors: trackRemoteCursorsCheckbox
       ? trackRemoteCursorsCheckbox.checked
@@ -102,6 +106,7 @@ vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
 welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
 lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
 lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
+strudelAutocompleteCheckbox?.addEventListener('change', setSettingsFromDom);
 closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
 trackRemoteCursorsCheckbox?.addEventListener('change', (e) => {
   nudelConfirm(`This only makes sense in boxed mode.. It also requires a reload. Are you sure?`).then(() => {
@@ -140,6 +145,7 @@ export function applySettingsToNudel(settings = getSettings()) {
   vimModeCheckbox.checked = settings.vimMode;
   lineWrappingCheckbox.checked = settings.lineWrapping;
   lineNumbersCheckbox.checked = settings.lineNumbers;
+  strudelAutocompleteCheckbox.checked = settings.strudelAutocomplete;
   closeBracketsCheckbox.checked = settings.closeBrackets;
   trackRemoteCursorsCheckbox.checked = settings.trackRemoteCursors;
   panelModeSelect.value = settings.panelMode;

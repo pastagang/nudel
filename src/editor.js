@@ -15,6 +15,7 @@ import { highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror
 import { getSettings } from './settings.js';
 import { insertNewline } from '@codemirror/commands';
 import { nudelAlert } from './alert.js';
+import { strudelAutocomplete } from './strudel-autocomplete.js';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
@@ -30,14 +31,21 @@ export class PastaMirror {
     lineWrapping: (on) => (on ? EditorView.lineWrapping : []),
     lineNumbers: (on) => (on ? lineNumbers() : []),
     closeBrackets: (on) => (on ? closeBrackets() : []),
+    strudelAutocomplete: (on) =>
+      on ? autocompletion({ override: [strudelAutocomplete] }) : autocompletion({ override: [] }),
   };
+  strudelOnlyExtensions = ['strudelAutocomplete']; // these extension keys are only active for strudel panes
   constructor() {
     this.compartments = Object.fromEntries(Object.keys(this.extensions).map((key) => [key, new Compartment()]));
-    this.initialSettings = Object.keys(this.compartments).map((key) =>
-      this.compartments[key].of(this.extensions[key](getSettings()[key])),
-    );
   }
   createEditor(doc) {
+    const initialSettings = Object.keys(this.compartments).map((key) => {
+      const isStrudelOnly = this.strudelOnlyExtensions.includes(key);
+      // disable strudel only extensions for other pane types
+      const enabled = getSettings()[key] && (!isStrudelOnly || doc.target === 'strudel');
+      const extension = this.extensions[key](enabled);
+      return this.compartments[key].of(extension);
+    });
     // console.log('createEditor', doc);
     if (!['1', '2', '3', '4', '5', '6', '7', '8'].includes(doc.id)) {
       console.warn(`ignoring doc with id "${doc.id}"`);
@@ -52,9 +60,8 @@ export class PastaMirror {
         this.flokBasicSetup(doc),
         javascript(),
         getSettings().vimMode ? vim() : [],
-        autocompletion({ override: [] }),
         bracketMatching({ brackets: '()[]{}<>' }),
-        ...this.initialSettings,
+        ...initialSettings,
         Prec.highest(
           keymap.of([
             // stop pane
