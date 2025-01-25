@@ -19,11 +19,14 @@ exportButton.addEventListener('click', () => {
 
 let stdSource = '';
 fetch('src/std.js').then(async (response) => {
+  if (!response.ok) {
+    console.error('Failed to load stdSource');
+    return;
+  }
   stdSource = await response.text();
 });
 
 export function getStdSource() {
-  if (!stdSource) throw new Error('stdSource not loaded yet');
   return stdSource;
 }
 
