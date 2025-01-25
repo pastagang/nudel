@@ -85,32 +85,28 @@ export class PastaMirror {
             ...['Shift-Enter'].map((key) => ({
               key,
               run: (view) => {
-                const { head } = view.state.selection.main;
-                const line = view.state.doc.lineAt(head);
-                let message = line.text.split('//').splice(1).join('//');
-                if (message.startsWith('//')) {
-                  message = message.slice(2);
-                }
-                message = message.trim();
-                const insert = '// ';
-                const beforeFirstCommentMarker = line.text.split('//')[0].length;
+                let from = view.state.selection.main.from;
+                let to = view.state.selection.main.to;
 
+                // if there is no selection, delete the current line
+                // if there is a selection, delete the selection
+                if (view.state.selection.main.empty) {
+                  const { head } = view.state.selection.main;
+                  const line = view.state.doc.lineAt(head);
+                  from = line.from;
+                  to = line.to;
+                }
+
+                const message = view.state.sliceDoc(from, to).trim();
                 doc.session._pubSubClient.publish(`session:pastagang:chat`, {
                   docId: doc.id,
                   message,
                   user: doc.session.user,
-                  from: line.from + beforeFirstCommentMarker,
+                  from,
                 });
-                // clear line
-                // sry reckter i removed the comment marker thing
-                // i think this is not only good for chat, but also
-                // for letting code die in a cool way...
-                // hmmmmm but i'm actually not very sure anymore after trying it a bit
-                // ok i've changed it back to only remove the comment part of the line..
-                // need to think more about how to let code die in the samw way
+
                 const transaction = view.state.update({
-                  changes: { from: line.from + beforeFirstCommentMarker, to: line.to, insert },
-                  selection: { anchor: line.from + insert.length + beforeFirstCommentMarker },
+                  changes: { from, to, insert: '' },
                 });
                 view.dispatch(transaction);
                 return true;
