@@ -2,26 +2,40 @@ function spag(name) {
   return `https://spag.cc/${name}`;
 }
 
-function spagda(name) {
-  samples({
-    [name]: spag(name),
-  });
+function listToArray(stringList) {
+  if (Array.isArray(stringList)) {
+    return stringList.map(listToArray).flat();
+  }
+  return stringList
+    .replaceAll(' ', ',')
+    .split(',')
+    .map((v) => v.trim())
+    .filter((v) => v);
+}
+
+function spagda(nameList) {
+  const names = listToArray(nameList);
+  const map = {};
+  for (const name of names) {
+    map[name] = spag(name);
+  }
+  samples(map);
 }
 
 function speechda(
-  words = '',
+  wordList = '',
   // default to PC music
   locale = 'en-GB',
   gender = 'f',
 ) {
-  if (words.includes(':')) {
-    const [localeArg, wordsArg] = words.split(':');
+  if (wordList.includes(':')) {
+    const [localeArg, wordsArg] = wordList.split(':');
     if (localeArg.includes('-')) {
       locale = localeArg;
     } else {
       gender = localeArg;
     }
-    words = wordsArg;
+    wordList = wordsArg;
   }
 
   if (locale.includes('/')) {
@@ -30,17 +44,11 @@ function speechda(
     gender = genderArg;
   }
 
-  const wordsArray = words
-    .replaceAll(' ', ',')
-    .split(',')
-    .map((word) => word.trim())
-    .filter((word) => word.length > 0);
-
+  const words = listToArray(wordList);
   if (words.length === 0) {
     return;
   }
-  console.log(locale, gender, wordsArray);
-  samples(`shabda/speech/${locale}/${gender}:${wordsArray.join(',')}`);
+  samples(`shabda/speech/${locale}/${gender}:${words.join(',')}`);
 }
 
 window.speechda = speechda;
