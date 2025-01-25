@@ -316,9 +316,7 @@ export class PastaMirror {
     if (pos) {
       const messageContainer = document.createElement('div');
       messageContainer.innerText = message.message;
-      const offsetX = 30; // not sure why
-      const offsetY = 4; // not sure why
-      messageContainer.style = `position:fixed;top:${pos.top + offsetY}px;left:${pos.left + offsetX}px`;
+      messageContainer.style = `position:fixed;top:${pos.top}px;left:${pos.left}px`;
       messageContainer.classList.add('rising-animation');
       messageContainer.classList.add('message-container');
       chatContainer.appendChild(messageContainer);
