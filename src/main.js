@@ -69,7 +69,7 @@ export const Frame = {
 // hydra
 session.on('eval:hydra', (msg) => {
   // msg.body += '\n\n\n' + getStdSource();
-  Frame.hydra?.contentWindow.postMessage({ type: 'eval', msg: msg.body + '\n\n\n' + getStdSource() });
+  Frame.hydra?.contentWindow.postMessage({ type: 'eval', msg });
 });
 // shader
 session.on('eval:shader', (msg) => Frame.shader?.contentWindow.postMessage({ type: 'eval', msg }));
