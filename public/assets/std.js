@@ -55,7 +55,38 @@ async function speechda(
   samples('shabda/speech/' + locale + '/' + gender + ':' + words.join(','));
 }
 
+async function hubda(orgList, repoList = '') {
+  const orgs = listToArray(orgList);
+
+  const orgRepos = [];
+  const orgChoices = [];
+  for (const org of orgs) {
+    if (org.includes('/')) {
+      const [orgName, repoName] = org.split('/');
+      orgRepos.push({ org: orgName, repo: repoName });
+    } else {
+      orgChoices.push(org);
+    }
+  }
+
+  const repoChoices = listToArray(repoList);
+
+  for (const orgChoice of orgChoices) {
+    for (const repoChoice of repoChoices) {
+      orgRepos.push({ org: orgChoice, repo: repoChoice });
+    }
+  }
+
+  console.log(orgRepos);
+
+  const addresses = orgRepos.map(({ org, repo }) => 'github:' + org + '/' + repo);
+  for (const address of addresses) {
+    samples(address);
+  }
+}
+
 window.speechda = speechda;
 window.spagda = spagda;
 window.spag = spag;
+window.hubda = hubda;
 //=== END OF NUDEL STANDARD LIBRARY ===//
