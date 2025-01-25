@@ -5,10 +5,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        strudel: 'strudel.html', // iframe
-        hydra: 'hydra.html', // iframe
-        shader: 'shader.html', // iframe
-        kabelsalat: 'kabelsalat.html', // iframe
+        strudel: 'panels/strudel.html',
+        hydra: 'panels/hydra.html',
+        shader: 'panels/shader.html',
+        kabelsalat: 'panels/kabelsalat.html',
       },
     },
   },
