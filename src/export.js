@@ -30,12 +30,14 @@ function getDocumentText(view) {
 
 export function getFlokLink() {
   const prettyDate = getPrettyDate();
-  const prefix = `// "nudel ${prettyDate}" @by pastagang\n//\n${stdSource}\n`;
+  const prefix = `// "nudel ${prettyDate}" @by pastagang\n`;
 
   const panels = [];
   const targets = [];
   pastamirror.currentEditors.forEach((it, key) => {
-    panels.push(`${key == '1' ? prefix : ''}${getDocumentText(it.view).join('\n')}`);
+    panels.push(
+      `${key == '1' ? prefix : ''}${getDocumentText(it.view).join('\n')}${key === '1' ? '\n\n\n' + stdSource : ''}`,
+    );
     targets.push(it.doc.target);
   });
   return `flok.cc#targets=${targets.join(
@@ -68,12 +70,14 @@ export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()
 
 export function getCode(filter) {
   const prettyDate = getPrettyDate();
-  const headline = `// "nudel ${prettyDate}" @by pastagang\n${stdSource}\n`;
+  const headline = `// "nudel ${prettyDate}" @by pastagang\n`;
   let documents = session.getDocuments();
   if (filter) {
     documents = documents.filter(filter);
   }
-  return documents.reduce((acc, doc) => `${acc}\n//pane ${doc.id}\n${doc.content || ''}`, headline);
+  return (
+    documents.reduce((acc, doc) => `${acc}\n//pane ${doc.id}\n${doc.content || ''}`, headline) + '\n\n\n' + stdSource
+  );
 }
 
 exportCopyButton.addEventListener('click', () => {
