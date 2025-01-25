@@ -94,7 +94,7 @@ export class PastaMirror {
                   const { head } = view.state.selection.main;
                   const line = view.state.doc.lineAt(head);
                   from = line.from;
-                  to = line.to;
+                  to = line.to + 1;
                 }
 
                 const message = view.state.sliceDoc(from, to).trim();
