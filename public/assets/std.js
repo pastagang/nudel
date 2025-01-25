@@ -77,8 +77,6 @@ async function hubda(orgList, repoList = '') {
     }
   }
 
-  console.log(orgRepos);
-
   const addresses = orgRepos.map(({ org, repo }) => 'github:' + org + '/' + repo);
   for (const address of addresses) {
     samples(address);
