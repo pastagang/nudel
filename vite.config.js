@@ -9,7 +9,6 @@ export default defineConfig({
         hydra: 'panels/hydra.html',
         shader: 'panels/shader.html',
         kabelsalat: 'panels/kabelsalat.html',
-        std: 'src/std.js',
       },
     },
   },
