@@ -15,6 +15,9 @@ function listToArray(stringList) {
 
 function spagda(nameList) {
   const names = listToArray(nameList);
+  if (names.length === 0) {
+    return;
+  }
   const map = {};
   for (const name of names) {
     map[name] = spag(name);
