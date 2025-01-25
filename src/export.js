@@ -18,7 +18,7 @@ exportButton.addEventListener('click', () => {
 });
 
 let stdSource = '';
-fetch('/src/std.js').then(async (response) => {
+fetch('src/std.js').then(async (response) => {
   stdSource = await response.text();
 });
 
