@@ -30,7 +30,7 @@ function getDocumentText(view) {
 
 export function getFlokLink() {
   const prettyDate = getPrettyDate();
-  const prefix = `// "nudel ${prettyDate}" @by pastagang\n//\n${stdSource}`;
+  const prefix = `// "nudel ${prettyDate}" @by pastagang\n//\n${stdSource}\n`;
 
   const panels = [];
   const targets = [];
@@ -68,7 +68,7 @@ export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()
 
 export function getCode(filter) {
   const prettyDate = getPrettyDate();
-  const headline = `// "nudel ${prettyDate}" @by pastagang\n${stdSource}`;
+  const headline = `// "nudel ${prettyDate}" @by pastagang\n${stdSource}\n`;
   let documents = session.getDocuments();
   if (filter) {
     documents = documents.filter(filter);
