@@ -9,12 +9,28 @@ function spagda(name) {
 }
 
 function speechda(
-  wordsArg = '',
+  words = '',
   // default to PC music
   locale = 'en-GB',
   gender = 'f',
 ) {
-  const words = wordsArg
+  if (words.includes(':')) {
+    const [localeArg, wordsArg] = words.split(':');
+    if (localeArg.includes('-')) {
+      locale = localeArg;
+    } else {
+      gender = localeArg;
+    }
+    words = wordsArg;
+  }
+
+  if (locale.includes('/')) {
+    const [localeArg, genderArg] = locale.split('/');
+    locale = localeArg;
+    gender = genderArg;
+  }
+
+  const wordsArray = words
     .replaceAll(' ', ',')
     .split(',')
     .map((word) => word.trim())
@@ -23,7 +39,8 @@ function speechda(
   if (words.length === 0) {
     return;
   }
-  samples(`shabda/speech/${locale}/${gender}:${words.join(',')}`);
+  console.log(locale, gender, wordsArray);
+  samples(`shabda/speech/${locale}/${gender}:${wordsArray.join(',')}`);
 }
 
 window.speechda = speechda;
