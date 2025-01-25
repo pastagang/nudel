@@ -18,7 +18,7 @@ exportButton.addEventListener('click', () => {
 });
 
 let stdSource = '';
-fetch('src/std.js').then(async (response) => {
+fetch('assets/std.js').then(async (response) => {
   if (!response.ok) {
     console.error('Failed to load stdSource');
     return;
