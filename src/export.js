@@ -17,6 +17,11 @@ exportButton.addEventListener('click', () => {
   exportCloseButton.focus();
 });
 
+let stdSource = '';
+fetch('/src/std.js').then(async (response) => {
+  stdSource = await response.text();
+});
+
 // Return the lines of a panel view.
 function getDocumentText(view) {
   const doc = view.viewState.state.doc;
@@ -25,7 +30,7 @@ function getDocumentText(view) {
 
 export function getFlokLink() {
   const prettyDate = getPrettyDate();
-  const prefix = `// "nudel ${prettyDate}" @by pastagang\n//\n`;
+  const prefix = `// "nudel ${prettyDate}" @by pastagang\n//\n${stdSource}`;
 
   const panels = [];
   const targets = [];
@@ -63,7 +68,7 @@ export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()
 
 export function getCode(filter) {
   const prettyDate = getPrettyDate();
-  const headline = `// "nudel ${prettyDate}" @by pastagang`;
+  const headline = `// "nudel ${prettyDate}" @by pastagang\n${stdSource}`;
   let documents = session.getDocuments();
   if (filter) {
     documents = documents.filter(filter);

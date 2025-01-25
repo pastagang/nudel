@@ -1,5 +1,6 @@
+//=== NUDEL STANDARD LIBRARY ===//
 function spag(name) {
-  return `https://spag.cc/${name}`;
+  return 'https://spag.cc/' + name;
 }
 
 function listToArray(stringList) {
@@ -13,7 +14,7 @@ function listToArray(stringList) {
     .filter((v) => v);
 }
 
-function spagda(nameList) {
+async function spagda(nameList) {
   const names = listToArray(nameList);
   if (names.length === 0) {
     return;
@@ -25,7 +26,7 @@ function spagda(nameList) {
   samples(map);
 }
 
-function speechda(
+async function speechda(
   wordList = '',
   // default to PC music
   locale = 'en-GB',
@@ -51,9 +52,10 @@ function speechda(
   if (words.length === 0) {
     return;
   }
-  samples(`shabda/speech/${locale}/${gender}:${words.join(',')}`);
+  samples('shabda/speech/' + locale + '/' + gender + ':' + words.join(','));
 }
 
 window.speechda = speechda;
 window.spagda = spagda;
 window.spag = spag;
+//=== END OF NUDEL STANDARD LIBRARY ===//
