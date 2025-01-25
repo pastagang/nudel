@@ -22,6 +22,11 @@ fetch('/src/std.js').then(async (response) => {
   stdSource = await response.text();
 });
 
+export function getStdSource() {
+  if (!stdSource) throw new Error('stdSource not loaded yet');
+  return stdSource;
+}
+
 // Return the lines of a panel view.
 function getDocumentText(view) {
   const doc = view.viewState.state.doc;

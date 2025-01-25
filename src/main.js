@@ -4,6 +4,7 @@ import { applySettingsToNudel, getSettings } from './settings.js';
 import { PastaMirror } from './editor.js';
 import { clearInlineErrors, displayInlineErrors } from './error.js';
 import './style.css';
+import { getStdSource } from './export.js';
 
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;
@@ -66,17 +67,14 @@ export const Frame = {
 };
 
 // hydra
-session.on('eval:hydra', (msg) =>
-  Frame.hydra?.contentWindow.postMessage({
-    type: 'eval',
-    msg,
-  }),
-);
-
+session.on('eval:hydra', (msg) => Frame.hydra?.contentWindow.postMessage({ type: 'eval', msg }));
 // shader
 session.on('eval:shader', (msg) => Frame.shader?.contentWindow.postMessage({ type: 'eval', msg }));
 // strudel
-session.on('eval:strudel', (msg) => Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg }));
+session.on('eval:strudel', (msg) => {
+  msg.body = msg.body + '\n\n\n' + getStdSource();
+  return Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg });
+});
 // kabelsalat
 session.on('eval:kabelsalat', (msg) => Frame.kabelsalat?.contentWindow.postMessage({ type: 'eval', msg }));
 
