@@ -97,6 +97,9 @@ export class PastaMirror {
                   to = line.to + 1;
                 }
 
+                // Ensure the removal works when the cursor is on the last line
+                // see: #80
+                to = Math.min(to, view.state.doc.length);
                 const message = view.state.sliceDoc(from, to).trim();
                 doc.session._pubSubClient.publish(`session:pastagang:chat`, {
                   docId: doc.id,
