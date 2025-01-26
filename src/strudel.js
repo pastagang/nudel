@@ -192,6 +192,13 @@ export class StrudelSession {
         pattern = this.allTransform(pattern);
       }
 
+      // fix `pattern.fmap is not a function` exception,
+      // which happens when the pattern is the hubda function.
+      // TODO: figure out why this is happening, that sounds like a bug with the nudel std lib.
+      if (typeof pattern === 'function') {
+        return;
+      }
+
       // fft wiring
       if (this.enableAutoAnalyze) {
         pattern = pattern.fmap((value) => {
