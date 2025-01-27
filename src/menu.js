@@ -10,6 +10,7 @@ const aboutButton = document.querySelector('#about-button');
 const helpButton = document.querySelector('#help-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const playButton = document.querySelector('#about-yes-button');
+console.log(playButton);
 
 menuButton.addEventListener('click', (e) => {
   menuContainer.classList.toggle('open');
