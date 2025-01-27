@@ -8,7 +8,6 @@ import { vim } from '@replit/codemirror-vim';
 import { highlightExtension } from '@strudel/codemirror';
 import { EditorView, minimalSetup } from 'codemirror';
 import { yCollab } from 'y-codemirror.next';
-import { UndoManager } from 'yjs';
 import './style.css';
 import theme from './themes/strudel-theme.js';
 import { highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
@@ -64,6 +63,10 @@ export class PastaMirror {
         ...initialSettings,
         Prec.highest(
           keymap.of([
+            // Disable Undo/Redo
+            { key: 'Mod-z', preventDefault: true, run: () => true }, // Disable Undo (Ctrl+Z / Cmd+Z)
+            { key: 'Mod-Shift-z', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Shift+Z / Cmd+Shift+Z)
+            { key: 'Mod-y', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Y)
             // stop pane
             ...['Ctrl-.', 'Alt-.'].map((key) => ({
               key,
@@ -240,7 +243,6 @@ export class PastaMirror {
   flokBasicSetup(doc) {
     doc.collabCompartment = new Compartment(); // yeah this is dirty
     const text = doc.getText();
-    const undoManager = new UndoManager(text);
     const web = true;
 
     // TODO: automatically set scrollIntoView, based on mode
@@ -248,7 +250,6 @@ export class PastaMirror {
     // we don't want cursor tracking on mobile!
     const scrollIntoView = getSettings().trackRemoteCursors;
     const collab = yCollab(text, doc.session.awareness, {
-      undoManager,
       showLocalCaret: true,
       scrollIntoView,
     });
