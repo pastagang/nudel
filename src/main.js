@@ -185,6 +185,17 @@ addEventListener(
   { passive: false, capture: true },
 );
 
+// Undo / redo is contra to the creative process, thus outlawed
+addEventListener(
+  'beforeinput',
+  (e) => {
+    if (e.inputType === 'historyUndo' || e.inputType === 'historyRedo') {
+      e.preventDefault();
+    }
+  },
+  { capture: true }
+);
+
 // add / remove panes
 document.getElementById('add-pane-button').addEventListener('click', () => {
   if (!session) return;
