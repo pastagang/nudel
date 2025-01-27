@@ -19,6 +19,10 @@ window.session = session;
 
 /* session.on("change", (...args) => console.log("change", ...args));
 session.on("message", (msg) => console.log("message", msg)); */
+session.on('open', () => {
+  console.log('open');
+  // clearGlobalError();
+});
 
 session.on('sync', () => {
   // If session is empty, create two documents

@@ -1,4 +1,9 @@
-//=== NUDEL STANDARD LIBRARY ===//
+// If you edit this file, please also minify it
+// and place the minified version in std-min.js
+
+// For example, you can paste this file into https://minifier.org/
+// and then copy the output into std-min.js
+
 function spag(name) {
   return 'https://spag.cc/' + name;
 }
@@ -87,4 +92,3 @@ window.speechda = speechda;
 window.spagda = spagda;
 window.spag = spag;
 window.hubda = hubda;
-//=== END OF NUDEL STANDARD LIBRARY ===//
