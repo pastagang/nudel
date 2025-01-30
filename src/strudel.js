@@ -124,8 +124,10 @@ export class StrudelSession {
   injectPatternMethods() {
     const self = this;
     Pattern.prototype.p = function (id) {
+      // allows muting a pattern x with x_ or _x
       if (typeof id === 'string' && (id.startsWith('_') || id.endsWith('_'))) {
-        // allows muting a pattern x with x_ or _x
+        // makes sure we dont hit the warning that no pattern was returned:
+        self.pPatterns[id] = silence;
         return silence;
       }
       if (id === '$') {
@@ -188,15 +190,14 @@ export class StrudelSession {
         let patterns = Object.values(this.pPatterns);
         pattern = stack(...patterns);
       }
+      if (!pattern?._Pattern) {
+        console.warn(
+          `[strudel] no pattern found in doc ${docId}. falling back to silence. (you always need to use $: in nudel)`,
+        );
+        pattern = silence;
+      }
       if (this.allTransform) {
         pattern = this.allTransform(pattern);
-      }
-
-      // fix `pattern.fmap is not a function` exception,
-      // which happens when the pattern is the hubda function.
-      // TODO: figure out why this is happening, that sounds like a bug with the nudel std lib.
-      if (typeof pattern === 'function') {
-        return;
       }
 
       // fft wiring
