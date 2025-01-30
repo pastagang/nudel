@@ -189,6 +189,10 @@ addEventListener(
 document.getElementById('add-pane-button').addEventListener('click', () => {
   if (!session) return;
   const documents = session.getDocuments();
+  if (documents.length >= 8) {
+    console.error('cannot add more than 8 panes');
+    return;
+  }
   const newDocs = [
     ...documents.map((doc) => ({ id: doc.id, target: doc.target })),
     { id: String(documents.length + 1), target: 'strudel' },
