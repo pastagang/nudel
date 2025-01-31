@@ -109,7 +109,9 @@ lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
 strudelAutocompleteCheckbox?.addEventListener('change', setSettingsFromDom);
 closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
 trackRemoteCursorsCheckbox?.addEventListener('change', async (e) => {
-  const confirmed = nudelConfirm(`This only makes sense in boxed mode.. It also requires a reload. Are you sure?`);
+  const confirmed = await nudelConfirm(
+    `This only makes sense in boxed mode.. It also requires a reload. Are you sure?`,
+  );
   if (confirmed) {
     setSettingsFromDom();
     window.location.reload();
