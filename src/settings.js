@@ -46,7 +46,7 @@ const defaultSettings = {
   lineNumbers: false,
   strudelAutocomplete: false,
   closeBrackets: true,
-  trackRemoteCursors: false,
+  trackRemoteCursors: true,
   welcomeMessage3: true,
   pastingMode: false,
   fontFamily: 'monospace',
@@ -108,13 +108,12 @@ lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
 lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
 strudelAutocompleteCheckbox?.addEventListener('change', setSettingsFromDom);
 closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
-trackRemoteCursorsCheckbox?.addEventListener('change', (e) => {
-  nudelConfirm(`This only makes sense in boxed mode.. It also requires a reload. Are you sure?`).then(() => {
-    if (confirmed) {
-      setSettingsFromDom();
-      window.location.reload();
-    }
-  });
+trackRemoteCursorsCheckbox?.addEventListener('change', async (e) => {
+  const confirmed = nudelConfirm(`This only makes sense in boxed mode.. It also requires a reload. Are you sure?`);
+  if (confirmed) {
+    setSettingsFromDom();
+    window.location.reload();
+  }
 });
 pastingModeCheckbox?.addEventListener('change', setSettingsFromDom);
 fontFamilySelect?.addEventListener('change', setSettingsFromDom);
