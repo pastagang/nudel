@@ -10,7 +10,6 @@ const aboutButton = document.querySelector('#about-button');
 const helpButton = document.querySelector('#help-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const playButton = document.querySelector('#about-yes-button');
-console.log(playButton);
 
 menuButton.addEventListener('click', (e) => {
   menuContainer.classList.toggle('open');
@@ -20,7 +19,12 @@ helpButton?.addEventListener('click', () => {
   nudelAlert('Coming soon');
 });
 
+let playButtonClicked = false;
 playButton.addEventListener('click', () => {
+  if (playButton.classList.contains('loading')) {
+    playButtonClicked = true;
+    return;
+  }
   const runButtons = document.querySelectorAll('.run');
   runButtons.forEach((runButton) => runButton.click());
 });
@@ -51,3 +55,14 @@ html.addEventListener('click', (e) => {
     }
   }
 })();
+
+// This is to stop people running their old local code
+// TODO: make this actually happen after the editors have been updated with the most recent content
+setTimeout(() => {
+  playButton.classList.remove('loading');
+  if (playButtonClicked) {
+    setTimeout(() => {
+      playButton.click();
+    }, 1000);
+  }
+}, 1000);
