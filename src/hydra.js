@@ -34,6 +34,7 @@ export class HydraSession {
     }
 
     window.H = this._hydra;
+    const HydraSource = this._hydra.s[0].constructor;
 
     // Enable using strudel style mini-patterns for argument control on Hydra.
     // strudel needs to be loaded first, otherwise this will cause warnings, and rendering will not
@@ -57,18 +58,16 @@ export class HydraSession {
 
     // initialized a streaming canvas with the strudel draw context canvas
     // this allows us to use the strudel output
-    window.initStrudel = (s) => {
+    HydraSource.prototype.initStrudel = function () {
       if (window.parent.strudel == undefined) return;
       const canvas = window.parent.strudel.draw.getDrawContext().canvas;
       canvas.style.display = 'none';
-      s.init({ src: canvas });
+      this.init({ src: canvas });
     };
 
     window.useStrudelCanvas = () => {
-      throw Error("'useStrudelCanvas' has been renamed to 'initStrudel'");
+      throw Error("'useStrudelCanvas(s0)' has been renamed to 's0.initStrudel'");
     };
-
-    // console.log(hydra);
 
     const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
