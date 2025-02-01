@@ -1,4 +1,4 @@
-import Hydra from 'hydra-synth';
+import HydraRenderer from 'hydra-synth';
 
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
@@ -23,7 +23,7 @@ export class HydraSession {
     try {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
-      this._hydra = new Hydra({
+      this._hydra = new HydraRenderer({
         canvas: this.canvas,
         enableAudio: false,
       });
@@ -57,12 +57,18 @@ export class HydraSession {
 
     // initialized a streaming canvas with the strudel draw context canvas
     // this allows us to use the strudel output
-    window.useStrudelCanvas = (s) => {
+    window.initStrudel = (s) => {
       if (window.parent.strudel == undefined) return;
       const canvas = window.parent.strudel.draw.getDrawContext().canvas;
       canvas.style.display = 'none';
       s.init({ src: canvas });
     };
+
+    window.useStrudelCanvas = () => {
+      throw Error("'useStrudelCanvas' has been renamed to 'initStrudel'");
+    };
+
+    // console.log(hydra);
 
     const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
