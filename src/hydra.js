@@ -69,6 +69,26 @@ export class HydraSession {
       throw Error("'useStrudelCanvas(s0)' has been renamed to 's0.initStrudel'");
     };
 
+    const contexts = {};
+    HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
+      if (contexts[this.label] == undefined) {
+        const canvas = new OffscreenCanvas(width, height);
+        const ctx = canvas.getContext('2d');
+        contexts[this.label] = ctx;
+      }
+
+      const ctx = contexts[this.label];
+      const canvas = ctx.canvas;
+      if (canvas.width !== width && canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      } else {
+        ctx.clearRect(0, 0, width, height);
+      }
+      this.init({ src: canvas });
+      return ctx;
+    };
+
     const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
     // Enables Hydra to use Strudel frequency data
