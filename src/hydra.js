@@ -75,10 +75,24 @@ export class HydraSession {
     // with `.scrollX(() => fft(1,0)` it will influence the x-axis, according to the fft data
     // first number is the index of the bucket, second is the number of buckets to aggregate the number too
     window.fft = (
-      index, //: number,
-      buckets, //: number = 8,
-      options, //?: { min?: number; max?: number; scale?: number; analyzerId?: string; },
+      ...args
+      // index, //: number,
+      // buckets = 8, //: number = 8,
+      // optionsArg, //: string | { min?: number; max?: number; scale?: number; analyzerId?: string; },
     ) => {
+      let index = 1;
+      let buckets = 8;
+      let optionsArg = {};
+
+      if (typeof args[0] === 'string') {
+        optionsArg = { analyzerId: args[0] };
+      } else {
+        index = args[0] ?? 1;
+        buckets = args[1] ?? 8;
+        optionsArg = args[2] ?? {};
+      }
+
+      const options = typeof optionsArg === 'string' ? { analyzerId: optionsArg } : optionsArg;
       const analyzerId = options?.analyzerId ?? 'flok-master';
       const min = options?.min ?? -150;
       const scale = options?.scale ?? 1;
