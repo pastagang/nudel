@@ -29,6 +29,11 @@ export function setSettingsFromDom() {
   setSettings(inferSettingsFromDom());
 }
 
+window.getSettings = getSettings;
+window.setSettings = setSettings;
+window.changeSettings = changeSettings;
+window.setSettingsFromDom = setSettingsFromDom;
+
 //========================//
 // SETTINGS CONFIGURATION //
 //========================//
@@ -50,7 +55,7 @@ const defaultSettings = {
   welcomeMessage3: true,
   pastingMode: false,
   fontFamily: 'monospace',
-  hideStrudelHighlights: false,
+  strudelHighlightsEnabled: true,
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -69,11 +74,11 @@ const trackRemoteCursorsCheckbox = document.querySelector('#settings-track-curso
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 const fontFamilySelect = document.querySelector('#settings-font-family');
-const hideStrudelHighlightsCheckbox = document.querySelector('#settings-hide-strudel-highlights');
+const strudelHighlightsEnabledCheckbox = document.querySelector('#settings-strudel-highlights-enabled');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
-    username: usernameInput ? usernameInput.value : defaultSettings.username,
+    username: usernameInput?.value ?? defaultSettings.username,
     strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
     hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
     shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
@@ -93,9 +98,7 @@ function inferSettingsFromDom() {
     welcomeMessage3: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage3,
     pastingMode: pastingModeCheckbox ? pastingModeCheckbox.checked : defaultSettings.pastingMode,
     fontFamily: fontFamilySelect ? fontFamilySelect.value : defaultSettings.fontFamily,
-    hideStrudelHighlights: hideStrudelHighlightsCheckbox
-      ? hideStrudelHighlightsCheckbox.checked
-      : defaultSettings.hideStrudelHighlights,
+    strudelHighlightsEnabled: strudelHighlightsEnabledCheckbox?.checked ?? defaultSettings.strudelHighlightsEnabled,
   };
   return inferredSettings;
 }
@@ -124,7 +127,7 @@ trackRemoteCursorsCheckbox?.addEventListener('change', async (e) => {
 });
 pastingModeCheckbox?.addEventListener('change', setSettingsFromDom);
 fontFamilySelect?.addEventListener('change', setSettingsFromDom);
-hideStrudelHighlightsCheckbox?.addEventListener('change', setSettingsFromDom);
+strudelHighlightsEnabledCheckbox?.addEventListener('change', setSettingsFromDom);
 
 let appliedSettings = null;
 
@@ -165,6 +168,8 @@ export function applySettingsToNudel(settings = getSettings()) {
   zenModeCheckbox.checked = settings.zenMode;
   pastingModeCheckbox.checked = settings.pastingMode;
   fontFamilySelect.value = settings.fontFamily;
+  console.log(settings);
+  strudelHighlightsEnabledCheckbox.checked = settings.strudelHighlightsEnabled;
 
   session.user = settings.username || 'anonymous nudelfan';
 

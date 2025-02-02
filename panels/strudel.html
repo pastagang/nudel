@@ -17,7 +17,13 @@
 
       const strudel = new StrudelSession({
         onError: (...args) => send('onError', args),
-        onHighlight: (docId, phase, haps) => highlightMiniLocations(editorViews.get(docId), phase, haps),
+        onHighlight: (docId, phase, haps) => {
+          const settings = window.parent.getSettings();
+          if (!settings.strudelHighlightsEnabled) {
+            return;
+          }
+          highlightMiniLocations(editorViews.get(docId), phase, haps);
+        },
         onUpdateMiniLocations: (docId, miniLocations) => updateMiniLocations(editorViews.get(docId), miniLocations),
       });
 
