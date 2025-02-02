@@ -167,33 +167,6 @@
               </p>
             </section>
             <section>
-              <h3>Panel types</h3>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-strudel-enabled" />
-                  Enable strudel
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-hydra-enabled" />
-                  Enable hydra
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-shader-enabled" />
-                  Enable shader
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-kabelsalat-enabled" />
-                  Enable kabelsalat
-                </label>
-              </p>
-            </section>
-            <section>
               <h3>Nudel appearance</h3>
               <p>
                 <label>
@@ -212,8 +185,52 @@
                 </label>
               </p>
             </section>
+            <hr />
             <section>
-              <h3>Editor settings</h3>
+              <h2>Performance</h2>
+              <p>
+                To make nudel run better on your machine, try changing these settings. Some of them turn certain things
+                off, which may help other things to run better.
+              </p>
+              <br />
+              <h3>Panel types</h3>
+              <p>These settings control which types of panels will run for you.</p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-strudel-enabled" />
+                  Enable strudel (sound)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-kabelsalat-enabled" />
+                  Enable kabelsalat (sound)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-hydra-enabled" />
+                  Enable hydra (visuals)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-shader-enabled" />
+                  Enable shader (visuals)
+                </label>
+              </p>
+              <br />
+              <h3>Panel settings</h3>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-strudel-highlights-enabled" />
+                  Enable strudel highlights
+                </label>
+              </p>
+            </section>
+            <hr />
+            <section>
+              <h2>Editor settings</h2>
               <p>
                 <label>
                   <input type="checkbox" id="settings-line-numbers" />
@@ -235,13 +252,13 @@
               <p>
                 <label>
                   <input type="checkbox" id="settings-track-cursors" />
-                  Track Remote Cursors
+                  Track remote cursors (requires reload) (only advised for boxed layout)
                 </label>
               </p>
               <p>
                 <label>
                   <input type="checkbox" id="settings-vim-mode" />
-                  Vim keybindings
+                  Vim keybindings (requires reload)
                 </label>
               </p>
               <p>
@@ -261,7 +278,9 @@
               </p>
             </section>
             <section class="development">
-              <h3>Development settings</h3>
+              <hr />
+              <br />
+              <h2>Development settings</h2>
               <p>
                 <label>
                   <input type="checkbox" id="settings-welcome-message" />
@@ -271,7 +290,7 @@
               <p>
                 <label>
                   <input type="checkbox" id="settings-strudel-autocomplete" />
-                  Strudel Autocomplete 🧪
+                  Strudel auto-complete (experimental)
                 </label>
               </p>
             </section>

@@ -329,6 +329,7 @@ dialog {
   pointer-events: all;
   position: fixed;
   min-width: calc(min(100%, 400px));
+  max-width: 600px;
   max-height: calc(85%);
   overflow: scroll;
   border: 3px solid black;
@@ -353,7 +354,6 @@ label {
   display: flex;
   gap: 6px;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 iframe#strudel {

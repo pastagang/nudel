@@ -1,6 +1,5 @@
-import { updateMiniLocations } from '@strudel/codemirror';
 import { nudelConfirm } from './confirm.js';
-import { Frame, pastamirror, session } from './main.js';
+import { clearStrudelHighlights, Frame, pastamirror, session } from './main.js';
 
 //=====//
 // API //
@@ -29,6 +28,11 @@ export function setSettingsFromDom() {
   setSettings(inferSettingsFromDom());
 }
 
+window.getSettings = getSettings;
+window.setSettings = setSettings;
+window.changeSettings = changeSettings;
+window.setSettingsFromDom = setSettingsFromDom;
+
 //========================//
 // SETTINGS CONFIGURATION //
 //========================//
@@ -50,6 +54,7 @@ const defaultSettings = {
   welcomeMessage3: true,
   pastingMode: false,
   fontFamily: 'monospace',
+  strudelHighlightsEnabled: true,
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -68,57 +73,51 @@ const trackRemoteCursorsCheckbox = document.querySelector('#settings-track-curso
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 const fontFamilySelect = document.querySelector('#settings-font-family');
+const strudelHighlightsEnabledCheckbox = document.querySelector('#settings-strudel-highlights-enabled');
 
+console.log(strudelCheckbox.checked);
 function inferSettingsFromDom() {
   const inferredSettings = {
-    username: usernameInput ? usernameInput.value : defaultSettings.username,
-    strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
-    hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
-    shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
-    kabelsalatEnabled: kabelsalatCheckbox ? kabelsalatCheckbox.checked : defaultSettings.kabelsalatEnabled,
-    zenMode: zenModeCheckbox ? zenModeCheckbox.checked : defaultSettings.zenMode,
-    panelMode: panelModeSelect ? panelModeSelect.value : defaultSettings.panelMode,
-    vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
-    lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
-    lineNumbers: lineNumbersCheckbox ? lineNumbersCheckbox.checked : defaultSettings.lineNumbers,
-    strudelAutocomplete: strudelAutocompleteCheckbox
-      ? strudelAutocompleteCheckbox.checked
-      : defaultSettings.strudelAutocomplete,
-    closeBrackets: closeBracketsCheckbox ? closeBracketsCheckbox.checked : defaultSettings.closeBrackets,
-    trackRemoteCursors: trackRemoteCursorsCheckbox
-      ? trackRemoteCursorsCheckbox.checked
-      : defaultSettings.trackRemoteCursors,
-    welcomeMessage3: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage3,
-    pastingMode: pastingModeCheckbox ? pastingModeCheckbox.checked : defaultSettings.pastingMode,
-    fontFamily: fontFamilySelect ? fontFamilySelect.value : defaultSettings.fontFamily,
+    username: usernameInput?.value ?? defaultSettings.username,
+    strudelEnabled: strudelCheckbox?.checked ?? defaultSettings.strudelEnabled,
+    hydraEnabled: hydraCheckbox?.checked ?? defaultSettings.hydraEnabled,
+    shaderEnabled: shaderCheckbox?.checked ?? defaultSettings.shaderEnabled,
+    kabelsalatEnabled: kabelsalatCheckbox?.checked ?? defaultSettings.kabelsalatEnabled,
+    zenMode: zenModeCheckbox?.checked ?? defaultSettings.zenMode,
+    panelMode: panelModeSelect?.value ?? defaultSettings.panelMode,
+    vimMode: vimModeCheckbox?.checked ?? defaultSettings.vimMode,
+    lineWrapping: lineWrappingCheckbox?.checked ?? defaultSettings.lineWrapping,
+    lineNumbers: lineNumbersCheckbox?.checked ?? defaultSettings.lineNumbers,
+    strudelAutocomplete: strudelAutocompleteCheckbox?.checked ?? defaultSettings.strudelAutocomplete,
+    closeBrackets: closeBracketsCheckbox?.checked ?? defaultSettings.closeBrackets,
+    trackRemoteCursors: trackRemoteCursorsCheckbox?.checked ?? defaultSettings.trackRemoteCursors,
+    welcomeMessage3: welcomeMessageCheckbox?.checked ?? defaultSettings.welcomeMessage3,
+    pastingMode: pastingModeCheckbox?.checked ?? defaultSettings.pastingMode,
+    fontFamily: fontFamilySelect?.value ?? defaultSettings.fontFamily,
+    strudelHighlightsEnabled: strudelHighlightsEnabledCheckbox?.checked ?? defaultSettings.strudelHighlightsEnabled,
   };
   return inferredSettings;
 }
 
+[
+  strudelCheckbox,
+  hydraCheckbox,
+  shaderCheckbox,
+  kabelsalatCheckbox,
+  zenModeCheckbox,
+  panelModeSelect,
+  vimModeCheckbox,
+  welcomeMessageCheckbox,
+  lineWrappingCheckbox,
+  lineNumbersCheckbox,
+  strudelAutocompleteCheckbox,
+  closeBracketsCheckbox,
+  trackRemoteCursorsCheckbox,
+  pastingModeCheckbox,
+  fontFamilySelect,
+  strudelHighlightsEnabledCheckbox,
+].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
 usernameInput?.addEventListener('input', setSettingsFromDom);
-strudelCheckbox?.addEventListener('change', setSettingsFromDom);
-hydraCheckbox?.addEventListener('change', setSettingsFromDom);
-shaderCheckbox?.addEventListener('change', setSettingsFromDom);
-kabelsalatCheckbox?.addEventListener('change', setSettingsFromDom);
-zenModeCheckbox?.addEventListener('change', setSettingsFromDom);
-panelModeSelect?.addEventListener('change', setSettingsFromDom);
-vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
-welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
-lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
-lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
-strudelAutocompleteCheckbox?.addEventListener('change', setSettingsFromDom);
-closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
-trackRemoteCursorsCheckbox?.addEventListener('change', async (e) => {
-  const confirmed = await nudelConfirm(
-    `This only makes sense in boxed mode.. It also requires a reload. Are you sure?`,
-  );
-  if (confirmed) {
-    setSettingsFromDom();
-    window.location.reload();
-  }
-});
-pastingModeCheckbox?.addEventListener('change', setSettingsFromDom);
-fontFamilySelect?.addEventListener('change', setSettingsFromDom);
 
 let appliedSettings = null;
 
@@ -140,57 +139,88 @@ function isSettingChanged(settingName, { previous, next }) {
   return previous?.[settingName] !== next?.[settingName];
 }
 
-export function applySettingsToNudel(settings = getSettings()) {
-  zenModeCheckbox.checked = settings.zenMode;
-  panelModeSelect.value = settings.boxedMode;
-  vimModeCheckbox.checked = settings.vimMode;
-  lineWrappingCheckbox.checked = settings.lineWrapping;
-  lineNumbersCheckbox.checked = settings.lineNumbers;
-  strudelAutocompleteCheckbox.checked = settings.strudelAutocomplete;
-  closeBracketsCheckbox.checked = settings.closeBrackets;
-  trackRemoteCursorsCheckbox.checked = settings.trackRemoteCursors;
-  panelModeSelect.value = settings.panelMode;
-  usernameInput.value = settings.username;
-  strudelCheckbox.checked = settings.strudelEnabled;
-  hydraCheckbox.checked = settings.hydraEnabled;
-  shaderCheckbox.checked = settings.shaderEnabled;
-  kabelsalatCheckbox.checked = settings.kabelsalatEnabled;
-  welcomeMessageCheckbox.checked = settings.welcomeMessage3;
-  zenModeCheckbox.checked = settings.zenMode;
-  pastingModeCheckbox.checked = settings.pastingMode;
-  fontFamilySelect.value = settings.fontFamily;
+export async function applySettingsToNudel(settings = getSettings()) {
+  const previous = appliedSettings;
+  const next = settings;
+  const diff = { previous, next };
 
-  session.user = settings.username || 'anonymous nudelfan';
+  // We may as well begin by asking for any needed reloads first
+  // ... which we only need to do if settings have already been applied
+  // If they're already applied, that means the page has only just been opened!
+  if (appliedSettings) {
+    if (isSettingChanged('vimMode', diff)) {
+      const confirmed = await nudelConfirm(
+        `${next.vimMode ? 'Enabling' : 'Disabling'} vim mode triggers a reload. Are you sure you want to ${next.vimMode ? 'enable' : 'disable'} it?`,
+      );
+      if (confirmed) window.location.reload();
+      else next.vimMode = previous.vimMode;
+    }
 
-  if (isSettingChanged('strudelEnabled', { previous: appliedSettings, next: settings })) {
-    if (settings.strudelEnabled) {
-      !Frame.strudel && addFrame('strudel');
-    } else {
-      removeFrame('strudel');
-      for (const view of pastamirror.editorViews.values()) {
-        updateMiniLocations(view, []);
-      }
+    if (isSettingChanged('trackRemoteCursors', diff)) {
+      const confirmed = await nudelConfirm(
+        `${next.trackRemoteCursors ? 'Enabling' : 'Disabling'} cursor tracking triggers a reload. Are you sure you want to ${next.trackRemoteCursors ? 'enable' : 'disable'} it?`,
+      );
+      if (confirmed) window.location.reload();
+      else next.trackRemoteCursors = previous.trackRemoteCursors;
     }
   }
 
-  if (isSettingChanged('hydraEnabled', { previous: appliedSettings, next: settings })) {
-    if (settings.hydraEnabled) {
+  zenModeCheckbox.checked = next.zenMode;
+  panelModeSelect.value = next.boxedMode;
+  vimModeCheckbox.checked = next.vimMode;
+  lineWrappingCheckbox.checked = next.lineWrapping;
+  lineNumbersCheckbox.checked = next.lineNumbers;
+  strudelAutocompleteCheckbox.checked = next.strudelAutocomplete;
+  closeBracketsCheckbox.checked = next.closeBrackets;
+  trackRemoteCursorsCheckbox.checked = next.trackRemoteCursors;
+  panelModeSelect.value = next.panelMode;
+  usernameInput.value = next.username;
+  strudelCheckbox.checked = next.strudelEnabled;
+  hydraCheckbox.checked = next.hydraEnabled;
+  shaderCheckbox.checked = next.shaderEnabled;
+  kabelsalatCheckbox.checked = next.kabelsalatEnabled;
+  welcomeMessageCheckbox.checked = next.welcomeMessage3;
+  zenModeCheckbox.checked = next.zenMode;
+  pastingModeCheckbox.checked = next.pastingMode;
+  fontFamilySelect.value = next.fontFamily;
+  strudelHighlightsEnabledCheckbox.checked = next.strudelHighlightsEnabled;
+
+  session.user = next.username.trim() || 'anonymous nudelfan';
+
+  if (isSettingChanged('strudelEnabled', diff)) {
+    if (next.strudelEnabled) {
+      !Frame.strudel && addFrame('strudel');
+    } else {
+      removeFrame('strudel');
+      clearStrudelHighlights();
+    }
+  }
+
+  // Clear all active strudel highlights if the setting is turned off
+  if (isSettingChanged('strudelHighlightsEnabled', diff)) {
+    if (!next.strudelHighlightsEnabled) {
+      clearStrudelHighlights();
+    }
+  }
+
+  if (isSettingChanged('hydraEnabled', diff)) {
+    if (next.hydraEnabled) {
       !Frame.hydra && addFrame('hydra');
     } else {
       removeFrame('hydra');
     }
   }
 
-  if (isSettingChanged('shaderEnabled', { previous: appliedSettings, next: settings })) {
-    if (settings.shaderEnabled) {
+  if (isSettingChanged('shaderEnabled', diff)) {
+    if (next.shaderEnabled) {
       !Frame.shader && addFrame('shader');
     } else {
       removeFrame('shader');
     }
   }
 
-  if (isSettingChanged('kabelsalatEnabled', { previous: appliedSettings, next: settings })) {
-    if (settings.kabelsalatEnabled) {
+  if (isSettingChanged('kabelsalatEnabled', diff)) {
+    if (next.kabelsalatEnabled) {
       !Frame.kabesalat && addFrame('kabelsalat');
     } else {
       Frame.shader?.remove();
@@ -198,45 +228,38 @@ export function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  if (isSettingChanged('zenMode', { previous: appliedSettings, next: settings })) {
-    if (settings.zenMode) {
+  if (isSettingChanged('zenMode', diff)) {
+    if (next.zenMode) {
       document.querySelector('body').classList.add('zen-mode');
     } else {
       document.querySelector('body').classList.remove('zen-mode');
     }
   }
 
-  if (isSettingChanged('panelMode', { previous: appliedSettings, next: settings })) {
+  if (isSettingChanged('panelMode', diff)) {
     document.querySelector('body').classList.remove('scroll-mode', 'boxed-mode', 'tabbed-mode');
-    switch (settings.panelMode) {
-      case 'scroll':
+    switch (next.panelMode) {
+      case 'scroll': {
         document.querySelector('body').classList.add('scroll-mode');
         break;
-      case 'boxed':
+      }
+      case 'boxed': {
         document.querySelector('body').classList.add('boxed-mode');
         break;
-      case 'tabbed':
+      }
+      case 'tabbed': {
         document.querySelector('body').classList.add('tabbed-mode');
         break;
+      }
     }
   }
 
-  if (appliedSettings && isSettingChanged('vimMode', { previous: appliedSettings, next: settings })) {
-    const pingPong = settings.vimMode ? 'enable' : 'disable';
-    nudelConfirm(`Do you want to refresh the page to ${pingPong} vim mode immediately?`).then((confirmed) => {
-      if (confirmed) {
-        window.location.reload();
-      }
-    });
+  if (isSettingChanged('fontFamily', diff)) {
+    document.documentElement.style.cssText = `--font-family: ${next.fontFamily}`;
   }
 
-  if (isSettingChanged('fontFamily', { previous: appliedSettings, next: settings })) {
-    document.documentElement.style.cssText = `--font-family: ${settings.fontFamily}`;
-  }
-
-  pastamirror.updateExtensions(settings, appliedSettings);
-
-  appliedSettings = { ...settings };
+  pastamirror.updateExtensions(diff);
+  appliedSettings = { ...next };
 }
 
 //=========//
