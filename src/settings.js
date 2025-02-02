@@ -75,7 +75,6 @@ const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 const fontFamilySelect = document.querySelector('#settings-font-family');
 const strudelHighlightsEnabledCheckbox = document.querySelector('#settings-strudel-highlights-enabled');
 
-console.log(strudelCheckbox.checked);
 function inferSettingsFromDom() {
   const inferredSettings = {
     username: usernameInput?.value ?? defaultSettings.username,
@@ -198,8 +197,11 @@ export async function applySettingsToNudel(settings = getSettings()) {
 
   // Clear all active strudel highlights if the setting is turned off
   if (isSettingChanged('strudelHighlightsEnabled', diff)) {
-    if (!next.strudelHighlightsEnabled) {
+    if (next.strudelHighlightsEnabled) {
+      window.strudel?.framer?.start();
+    } else {
       clearStrudelHighlights();
+      window.strudel?.framer?.stop();
     }
   }
 

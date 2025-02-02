@@ -110,7 +110,15 @@ export class StrudelSession {
         console.error('[strudel] draw error', err);
       },
     );
-    this.framer.start(); // tbd allow disabling highlighting
+
+    const settings = window.parent.getSettings?.();
+    if (!settings) {
+      throw new Error(`Couldn't get nudel settings within strudel`);
+    }
+
+    if (settings.strudelHighlightsEnabled) {
+      this.framer.start();
+    }
   }
 
   hush() {
