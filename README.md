@@ -15,6 +15,8 @@ nudel was born out of [curiosity](https://post.lurk.org/@TodePond@mas.to/1137391
 
 everyone can change nudel
 
+**all changes get accepted**
+
 to become an admin of nudel, [create an issue](https://github.com/pastagang/nudel/issues/new/choose) and ask to get added.
 
 <br>
