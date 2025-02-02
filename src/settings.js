@@ -164,14 +164,6 @@ export async function applySettingsToNudel(settings = getSettings()) {
       if (confirmed) window.location.reload();
       else next.trackRemoteCursors = previous.trackRemoteCursors;
     }
-
-    // const confirmed = await nudelConfirm(
-    //   `This only makes sense in boxed mode.. It also requires a reload. Are you sure?`,
-    // );
-    // if (confirmed) {
-    //   setSettingsFromDom();
-    //   window.location.reload();
-    // }
   }
 
   zenModeCheckbox.checked = next.zenMode;
