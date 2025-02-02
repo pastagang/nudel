@@ -75,50 +75,49 @@ const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 const fontFamilySelect = document.querySelector('#settings-font-family');
 const strudelHighlightsEnabledCheckbox = document.querySelector('#settings-strudel-highlights-enabled');
 
+console.log(strudelCheckbox.checked);
 function inferSettingsFromDom() {
   const inferredSettings = {
     username: usernameInput?.value ?? defaultSettings.username,
-    strudelEnabled: strudelCheckbox ? strudelCheckbox.checked : defaultSettings.strudelEnabled,
-    hydraEnabled: hydraCheckbox ? hydraCheckbox.checked : defaultSettings.hydraEnabled,
-    shaderEnabled: shaderCheckbox ? shaderCheckbox.checked : defaultSettings.shaderEnabled,
-    kabelsalatEnabled: kabelsalatCheckbox ? kabelsalatCheckbox.checked : defaultSettings.kabelsalatEnabled,
-    zenMode: zenModeCheckbox ? zenModeCheckbox.checked : defaultSettings.zenMode,
-    panelMode: panelModeSelect ? panelModeSelect.value : defaultSettings.panelMode,
-    vimMode: vimModeCheckbox ? vimModeCheckbox.checked : defaultSettings.vimMode,
-    lineWrapping: lineWrappingCheckbox ? lineWrappingCheckbox.checked : defaultSettings.lineWrapping,
-    lineNumbers: lineNumbersCheckbox ? lineNumbersCheckbox.checked : defaultSettings.lineNumbers,
-    strudelAutocomplete: strudelAutocompleteCheckbox
-      ? strudelAutocompleteCheckbox.checked
-      : defaultSettings.strudelAutocomplete,
-    closeBrackets: closeBracketsCheckbox ? closeBracketsCheckbox.checked : defaultSettings.closeBrackets,
-    trackRemoteCursors: trackRemoteCursorsCheckbox
-      ? trackRemoteCursorsCheckbox.checked
-      : defaultSettings.trackRemoteCursors,
-    welcomeMessage3: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage3,
-    pastingMode: pastingModeCheckbox ? pastingModeCheckbox.checked : defaultSettings.pastingMode,
-    fontFamily: fontFamilySelect ? fontFamilySelect.value : defaultSettings.fontFamily,
+    strudelEnabled: strudelCheckbox?.checked ?? defaultSettings.strudelEnabled,
+    hydraEnabled: hydraCheckbox?.checked ?? defaultSettings.hydraEnabled,
+    shaderEnabled: shaderCheckbox?.checked ?? defaultSettings.shaderEnabled,
+    kabelsalatEnabled: kabelsalatCheckbox?.checked ?? defaultSettings.kabelsalatEnabled,
+    zenMode: zenModeCheckbox?.checked ?? defaultSettings.zenMode,
+    panelMode: panelModeSelect?.value ?? defaultSettings.panelMode,
+    vimMode: vimModeCheckbox?.checked ?? defaultSettings.vimMode,
+    lineWrapping: lineWrappingCheckbox?.checked ?? defaultSettings.lineWrapping,
+    lineNumbers: lineNumbersCheckbox?.checked ?? defaultSettings.lineNumbers,
+    strudelAutocomplete: strudelAutocompleteCheckbox?.checked ?? defaultSettings.strudelAutocomplete,
+    closeBrackets: closeBracketsCheckbox?.checked ?? defaultSettings.closeBrackets,
+    trackRemoteCursors: trackRemoteCursorsCheckbox?.checked ?? defaultSettings.trackRemoteCursors,
+    welcomeMessage3: welcomeMessageCheckbox?.checked ?? defaultSettings.welcomeMessage3,
+    pastingMode: pastingModeCheckbox?.checked ?? defaultSettings.pastingMode,
+    fontFamily: fontFamilySelect?.value ?? defaultSettings.fontFamily,
     strudelHighlightsEnabled: strudelHighlightsEnabledCheckbox?.checked ?? defaultSettings.strudelHighlightsEnabled,
   };
   return inferredSettings;
 }
 
+[
+  strudelCheckbox,
+  hydraCheckbox,
+  shaderCheckbox,
+  kabelsalatCheckbox,
+  zenModeCheckbox,
+  panelModeSelect,
+  vimModeCheckbox,
+  welcomeMessageCheckbox,
+  lineWrappingCheckbox,
+  lineNumbersCheckbox,
+  strudelAutocompleteCheckbox,
+  closeBracketsCheckbox,
+  trackRemoteCursorsCheckbox,
+  pastingModeCheckbox,
+  fontFamilySelect,
+  strudelHighlightsEnabledCheckbox,
+].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
 usernameInput?.addEventListener('input', setSettingsFromDom);
-strudelCheckbox?.addEventListener('change', setSettingsFromDom);
-hydraCheckbox?.addEventListener('change', setSettingsFromDom);
-shaderCheckbox?.addEventListener('change', setSettingsFromDom);
-kabelsalatCheckbox?.addEventListener('change', setSettingsFromDom);
-zenModeCheckbox?.addEventListener('change', setSettingsFromDom);
-panelModeSelect?.addEventListener('change', setSettingsFromDom);
-vimModeCheckbox?.addEventListener('change', setSettingsFromDom);
-welcomeMessageCheckbox?.addEventListener('change', setSettingsFromDom);
-lineWrappingCheckbox?.addEventListener('change', setSettingsFromDom);
-lineNumbersCheckbox?.addEventListener('change', setSettingsFromDom);
-strudelAutocompleteCheckbox?.addEventListener('change', setSettingsFromDom);
-closeBracketsCheckbox?.addEventListener('change', setSettingsFromDom);
-trackRemoteCursorsCheckbox?.addEventListener('change', setSettingsFromDom);
-pastingModeCheckbox?.addEventListener('change', setSettingsFromDom);
-fontFamilySelect?.addEventListener('change', setSettingsFromDom);
-strudelHighlightsEnabledCheckbox?.addEventListener('change', setSettingsFromDom);
 
 let appliedSettings = null;
 
@@ -270,7 +269,6 @@ export async function applySettingsToNudel(settings = getSettings()) {
 // But go ahead if you want to of course!
 
 const settingsButton = document.querySelector('#settings-button');
-console.log(settingsButton);
 const settingsDialog = document.querySelector('#settings-dialog');
 const doneButton = document.querySelector('#settings-done-button');
 settingsButton.addEventListener('click', () => {
