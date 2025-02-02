@@ -204,3 +204,10 @@ document.getElementById('remove-pane-button').addEventListener('click', () => {
   const documents = session.getDocuments();
   session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
 });
+
+// highlights
+export function clearStrudelHighlights() {
+  for (const view of pastamirror.editorViews.values()) {
+    updateMiniLocations(view, []);
+  }
+}

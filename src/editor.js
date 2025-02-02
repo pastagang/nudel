@@ -300,7 +300,9 @@ export class PastaMirror {
     }); */
   }
 
-  updateExtensions(settings, appliedSettings) {
+  updateExtensions({ previous, next }) {
+    const appliedSettings = previous;
+    const settings = next;
     const keys = Object.keys(this.extensions);
     for (let index in keys) {
       const key = keys[index];

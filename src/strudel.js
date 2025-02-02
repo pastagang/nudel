@@ -3,8 +3,6 @@ import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
-import { pastamirror } from './main.js';
-import { updateMiniLocations } from '@strudel/codemirror';
 
 controls.createParam('docId');
 
@@ -223,11 +221,5 @@ export class StrudelSession {
       console.error(err);
       this.onError(`${err}`, docId);
     }
-  }
-}
-
-export function clearStrudelHighlights() {
-  for (const view of pastamirror.editorViews.values()) {
-    updateMiniLocations(view, []);
   }
 }
