@@ -50,6 +50,7 @@ const defaultSettings = {
   welcomeMessage3: true,
   pastingMode: false,
   fontFamily: 'monospace',
+  hideStrudelHighlights: false,
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -68,6 +69,7 @@ const trackRemoteCursorsCheckbox = document.querySelector('#settings-track-curso
 const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message');
 const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 const fontFamilySelect = document.querySelector('#settings-font-family');
+const hideStrudelHighlightsCheckbox = document.querySelector('#settings-hide-strudel-highlights');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -91,6 +93,9 @@ function inferSettingsFromDom() {
     welcomeMessage3: welcomeMessageCheckbox ? welcomeMessageCheckbox.checked : defaultSettings.welcomeMessage3,
     pastingMode: pastingModeCheckbox ? pastingModeCheckbox.checked : defaultSettings.pastingMode,
     fontFamily: fontFamilySelect ? fontFamilySelect.value : defaultSettings.fontFamily,
+    hideStrudelHighlights: hideStrudelHighlightsCheckbox
+      ? hideStrudelHighlightsCheckbox.checked
+      : defaultSettings.hideStrudelHighlights,
   };
   return inferredSettings;
 }
@@ -119,6 +124,7 @@ trackRemoteCursorsCheckbox?.addEventListener('change', async (e) => {
 });
 pastingModeCheckbox?.addEventListener('change', setSettingsFromDom);
 fontFamilySelect?.addEventListener('change', setSettingsFromDom);
+hideStrudelHighlightsCheckbox?.addEventListener('change', setSettingsFromDom);
 
 let appliedSettings = null;
 

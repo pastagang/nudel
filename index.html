@@ -150,7 +150,7 @@
 
     <!----------- SETTINGS DIALOG ----------->
     <div class="dialog-container">
-      <dialog id="settings-dialog" style="overflow: hidden; height: 100%; padding: 0">
+      <dialog id="settings-dialog" style="overflow: hidden; height: 100%; padding: 0" open>
         <form
           method="dialog"
           style="display: flex; flex-direction: column; overflow: visible; justify-content: stretch; height: 100%"
@@ -163,33 +163,6 @@
                 <label for="settings-username" style="display: flex; align-items: center">
                   <span>Username</span>
                   <input type="text" id="settings-username" data-1p-ignore spellcheck="false" style="flex-grow: 1" />
-                </label>
-              </p>
-            </section>
-            <section>
-              <h3>Panel types</h3>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-strudel-enabled" />
-                  Enable strudel
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-hydra-enabled" />
-                  Enable hydra
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-shader-enabled" />
-                  Enable shader
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-kabelsalat-enabled" />
-                  Enable kabelsalat
                 </label>
               </p>
             </section>
@@ -209,6 +182,37 @@
                 <label>
                   <input type="checkbox" id="settings-zen-mode" />
                   Minimal user interface
+                </label>
+              </p>
+            </section>
+            <section>
+              <h3>Performance</h3>
+              <p>
+                To make nudel run better on your machine, try changing these settings. Some of them turn certain things
+                off, which may help other things to run better.
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-strudel-enabled" />
+                  Enable strudel (sound)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-kabelsalat-enabled" />
+                  Enable kabelsalat (sound)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-hydra-enabled" />
+                  Enable hydra (visuals)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-shader-enabled" />
+                  Enable shader (visuals)
                 </label>
               </p>
             </section>
