@@ -1,6 +1,7 @@
 import { updateMiniLocations } from '@strudel/codemirror';
 import { nudelConfirm } from './confirm.js';
 import { Frame, pastamirror, session } from './main.js';
+import { clearStrudelHighlights } from './strudel.js';
 
 //=====//
 // API //
@@ -178,9 +179,14 @@ export function applySettingsToNudel(settings = getSettings()) {
       !Frame.strudel && addFrame('strudel');
     } else {
       removeFrame('strudel');
-      for (const view of pastamirror.editorViews.values()) {
-        updateMiniLocations(view, []);
-      }
+      clearStrudelHighlights();
+    }
+  }
+
+  // Clear all active strudel highlights if the setting is turned off
+  if (isSettingChanged('strudelHighlightsEnabled', { previous: appliedSettings, next: settings })) {
+    if (!settings.strudelHighlightsEnabled) {
+      clearStrudelHighlights();
     }
   }
 
