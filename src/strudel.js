@@ -1,8 +1,9 @@
-import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime, register } from '@strudel/core';
+import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime, register, Cyclist } from '@strudel/core';
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
+import { setInterval, clearInterval } from 'worker-timers';
 
 controls.createParam('docId');
 
@@ -67,6 +68,8 @@ export class StrudelSession {
     this.scheduler = new Cyclist({
       onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
       getTime,
+      setInterval,
+      clearInterval,
     });
     setTime(() => this.scheduler.now()); // this is cursed
 
