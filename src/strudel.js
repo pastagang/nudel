@@ -44,7 +44,12 @@ export class StrudelSession {
   }
 
   async init() {
-    // why do we need to await this stuff here?
+    this.settings = window.parent.getSettings?.() || {};
+    if (!this.settings) {
+      console.warn(`Couldn't get nudel settings within strudel`);
+    }
+
+    // why do we need to await this stuff here? i have no clue
     this.core = await import('@strudel/core');
     this.mini = await import('@strudel/mini');
     this.webaudio = await import('@strudel/webaudio');
@@ -68,8 +73,8 @@ export class StrudelSession {
     this.scheduler = new Cyclist({
       onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
       getTime,
-      setInterval,
-      clearInterval,
+      setInterval: this.settings.workerTimers ? setInterval : globalThis.setInterval,
+      clearInterval: this.settings.workerTimers ? clearInterval : globalThis.clearInterval,
     });
     setTime(() => this.scheduler.now()); // this is cursed
 
@@ -114,12 +119,7 @@ export class StrudelSession {
       },
     );
 
-    const settings = window.parent.getSettings?.();
-    if (!settings) {
-      throw new Error(`Couldn't get nudel settings within strudel`);
-    }
-
-    if (settings.strudelHighlightsEnabled) {
+    if (this.settings?.strudelHighlightsEnabled) {
       this.framer.start();
     }
   }

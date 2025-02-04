@@ -55,6 +55,7 @@ const defaultSettings = {
   pastingMode: false,
   fontFamily: 'monospace',
   strudelHighlightsEnabled: true,
+  workerTimers: false,
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -66,6 +67,7 @@ const zenModeCheckbox = document.querySelector('#settings-zen-mode');
 const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
+const workerTimersCheckbox = document.querySelector('#settings-strudel-worker-timers-enabled');
 const lineNumbersCheckbox = document.querySelector('#settings-line-numbers');
 const strudelAutocompleteCheckbox = document.querySelector('#settings-strudel-autocomplete');
 const closeBracketsCheckbox = document.querySelector('#settings-close-brackets');
@@ -86,6 +88,7 @@ function inferSettingsFromDom() {
     panelMode: panelModeSelect?.value ?? defaultSettings.panelMode,
     vimMode: vimModeCheckbox?.checked ?? defaultSettings.vimMode,
     lineWrapping: lineWrappingCheckbox?.checked ?? defaultSettings.lineWrapping,
+    workerTimers: workerTimersCheckbox?.checked ?? defaultSettings.workerTimers,
     lineNumbers: lineNumbersCheckbox?.checked ?? defaultSettings.lineNumbers,
     strudelAutocomplete: strudelAutocompleteCheckbox?.checked ?? defaultSettings.strudelAutocomplete,
     closeBrackets: closeBracketsCheckbox?.checked ?? defaultSettings.closeBrackets,
@@ -108,6 +111,7 @@ function inferSettingsFromDom() {
   vimModeCheckbox,
   welcomeMessageCheckbox,
   lineWrappingCheckbox,
+  workerTimersCheckbox,
   lineNumbersCheckbox,
   strudelAutocompleteCheckbox,
   closeBracketsCheckbox,
@@ -168,6 +172,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   panelModeSelect.value = next.boxedMode;
   vimModeCheckbox.checked = next.vimMode;
   lineWrappingCheckbox.checked = next.lineWrapping;
+  workerTimersCheckbox.checked = next.workerTimers;
   lineNumbersCheckbox.checked = next.lineNumbers;
   strudelAutocompleteCheckbox.checked = next.strudelAutocomplete;
   closeBracketsCheckbox.checked = next.closeBrackets;
