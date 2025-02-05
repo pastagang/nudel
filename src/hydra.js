@@ -59,34 +59,40 @@ export class HydraSession {
     // initialized a streaming canvas with the strudel draw context canvas
     // this allows us to use the strudel output
     HydraSource.prototype.initStrudel = function () {
+      throw Error("Sorry 's0.initStrudel' has been temporarily renamed to 'useStrudelCanvas(s0)'");
+      // if (window.parent.strudel == undefined) return;
+      // const canvas = window.parent.strudel.draw.getDrawContext().canvas;
+      // canvas.style.display = 'none';
+      // this.init({ src: canvas });
+    };
+
+    window.useStrudelCanvas = (s) => {
+      // throw Error("'useStrudelCanvas(s0)' has been renamed to 's0.initStrudel'");
       if (window.parent.strudel == undefined) return;
       const canvas = window.parent.strudel.draw.getDrawContext().canvas;
       canvas.style.display = 'none';
-      this.init({ src: canvas });
-    };
-
-    window.useStrudelCanvas = () => {
-      throw Error("'useStrudelCanvas(s0)' has been renamed to 's0.initStrudel'");
+      s.init({ src: canvas });
     };
 
     const contexts = {};
     HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
-      if (contexts[this.label] == undefined) {
-        const canvas = new OffscreenCanvas(width, height);
-        const ctx = canvas.getContext('2d');
-        contexts[this.label] = ctx;
-      }
+      throw Error("Sorry 'initCanvas' has been temporarily disabled");
+      // if (contexts[this.label] == undefined) {
+      //   const canvas = new OffscreenCanvas(width, height);
+      //   const ctx = canvas.getContext('2d');
+      //   contexts[this.label] = ctx;
+      // }
 
-      const ctx = contexts[this.label];
-      const canvas = ctx.canvas;
-      if (canvas.width !== width && canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-      } else {
-        ctx.clearRect(0, 0, width, height);
-      }
-      this.init({ src: canvas });
-      return ctx;
+      // const ctx = contexts[this.label];
+      // const canvas = ctx.canvas;
+      // if (canvas.width !== width && canvas.height !== height) {
+      //   canvas.width = width;
+      //   canvas.height = height;
+      // } else {
+      //   ctx.clearRect(0, 0, width, height);
+      // }
+      // this.init({ src: canvas });
+      // return ctx;
     };
 
     const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
@@ -104,13 +110,13 @@ export class HydraSession {
       let buckets = 8;
       let optionsArg = {};
 
-      if (typeof args[0] === 'string') {
-        optionsArg = { analyzerId: args[0] };
-      } else {
-        index = args[0] ?? 1;
-        buckets = args[1] ?? 8;
-        optionsArg = args[2] ?? {};
-      }
+      // if (typeof args[0] === 'string') {
+      //   optionsArg = { analyzerId: args[0] };
+      // } else {
+      index = args[0] ?? 1;
+      buckets = args[1] ?? 8;
+      optionsArg = args[2] ?? {};
+      // }
 
       const options = typeof optionsArg === 'string' ? { analyzerId: optionsArg } : optionsArg;
       const analyzerId = options?.analyzerId ?? 'flok-master';
