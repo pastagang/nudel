@@ -9,7 +9,7 @@ import { getStdSource } from './export.js';
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;
 
-export const session = new Session('pastagang', {
+export const session = new Session('pastagang2', {
   // changed this part to what flok.cc uses
   hostname: 'flok.cc',
   port: '', //parseInt(port),
