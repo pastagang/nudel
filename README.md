@@ -9,7 +9,7 @@ tip: press alt + enter to run code.
 
 ## background
 
-nudel was born out of [curiosity](https://post.lurk.org/@TodePond@mas.to/113739106696182239), to see if flok could be treated as a protocol, where different web clients access the same session. the default frontend for flok is [flok.cc](https://flok.cc/), which supports a lot of live coding languages both web and native, and it's awesome. the first version of nudel was based on the [flok vanilla js example](https://github.com/munshkr/flok/tree/main/packages/example-vanilla-js) and has since then been actively developed by several people around [pastagang](https://www.pastagang.cc/). the site will always point to the "pastagang" room, maximizing the chance for a jam to start.
+nudel was born out of [curiosity](https://post.lurk.org/@TodePond@mas.to/113739106696182239), to see if flok could be treated as a protocol, where different web clients access the same session. the default frontend for flok is [flok.cc](https://flok.cc/), which supports a lot of live coding languages both web and native, and it's awesome. the first version of nudel was based on the [flok vanilla js example](https://github.com/munshkr/flok/tree/main/packages/example-vanilla-js) and has since then been actively developed by [pastagang](https://www.pastagang.cc/). the site will always point to the current pastagang room, maximizing the chance for a jam to start.
 
 ## contributing
 
@@ -34,7 +34,7 @@ welcome to the spaghetti of nudel
 
 ## what nudel is made of
 
-nudel a mashup of existing free & open source projects:
+nudel is a mashup of existing free & open source projects:
 
 - [flok](https://github.com/munshkr/flok/) for collab coding
 - [strudel](https://github.com/tidalcycles/strudel) for sound
