@@ -31,9 +31,11 @@ export class PastaMirror {
     lineNumbers: (on) => (on ? lineNumbers() : []),
     closeBrackets: (on) => (on ? closeBrackets() : []),
     strudelAutocomplete: (on) =>
+      // @ts-expect-error
       on ? autocompletion({ override: [strudelAutocomplete] }) : autocompletion({ override: [] }),
   };
   strudelOnlyExtensions = ['strudelAutocomplete']; // these extension keys are only active for strudel panes
+  compartments = {};
   constructor() {
     this.compartments = Object.fromEntries(Object.keys(this.extensions).map((key) => [key, new Compartment()]));
   }
@@ -175,6 +177,7 @@ export class PastaMirror {
     });
 
     const slotsEl = document.querySelector('.slots');
+    if (!slotsEl) throw new Error('slots element not found');
 
     const side = parseInt(doc.id) % 2 == 0 ? 'right' : 'left';
 
@@ -192,6 +195,7 @@ export class PastaMirror {
     );
 
     const tabsEl = document.querySelector(`.tabs .${side}`);
+    if (!tabsEl) throw new Error('tabs element not found');
     tabsEl.insertAdjacentHTML(
       'beforeend',
       `<button class="tab ${side}" id="tab-${doc.id}">
@@ -199,27 +203,30 @@ export class PastaMirror {
       </button>`,
     );
 
-    document.querySelector(`#tab-${doc.id}`).addEventListener('click', () => {
+    document.querySelector(`#tab-${doc.id}`)?.addEventListener('click', () => {
       tabsEl.querySelectorAll('.tab').forEach((tab) => {
         tab.classList.remove('active');
       });
-      document.querySelector(`#tab-${doc.id}`).classList.add('active');
+      document.querySelector(`#tab-${doc.id}`)?.classList.add('active');
       this.editorViews.get(doc.id)?.focus();
 
       slotsEl.querySelectorAll(`.slot.${side}`).forEach((slot) => {
         slot.classList.remove('active');
       });
-      slotsEl.querySelector(`#slot-${doc.id}`).classList.add('active');
+      slotsEl.querySelector(`#slot-${doc.id}`)?.classList.add('active');
     });
 
     const editorEl = document.querySelector(`#slot-${doc.id} .editor`);
+    if (!editorEl) throw new Error('editor element not found');
     const view = new EditorView({
       state,
       parent: editorEl,
     });
     this.editorViews.set(doc.id, view);
 
+    // jsdoc to say its a select element
     const targetEl = document.querySelector(`#slot-${doc.id} .target`);
+    if (!targetEl) throw new Error('target element not found');
     if (!this.supportedTargets.includes(doc.target)) {
       targetEl.insertAdjacentHTML('beforeend', `<option value="${doc.target}">? ${doc.target} ?</option>`);
       console.warn(`unsupported target "${doc.target}" in doc "${doc.id}". evaluations will be ignored`);
@@ -227,13 +234,14 @@ export class PastaMirror {
     targetEl.value = doc.target;
 
     targetEl.addEventListener('change', (e) => {
-      doc.target = e.target.value;
+      doc.target = e.target?.['value'];
     });
     doc.session.on(`change-target:${doc.id}`, () => {
       targetEl.value = doc.target;
     });
 
     const runButton = document.querySelector(`#slot-${doc.id} .run`);
+    if (!runButton) throw new Error('run button not found');
     runButton.addEventListener('click', () => {
       doc.evaluate(doc.content, { from: 0, to: doc.content.length });
     });
@@ -265,40 +273,42 @@ export class PastaMirror {
   deleteEditor(id) {
     this.editorViews.delete(id);
     this.currentEditors.delete(id);
-    document.querySelector(`#slot-${id}`).remove();
+    document.querySelector(`#slot-${id}`)?.remove();
   }
   reconfigureExtension(key, value, view) {
     view.dispatch({
-      effects: this.compartments[key].reconfigure(this.extensions[key](value)),
+      effects: this.compartments[key]?.reconfigure(this.extensions[key](value)),
     });
   }
-  enableRemoteCursorTracking(session) {
-    const docs = session.getDocuments();
-    console.log('enable', docs);
+  //--
+  // CURRENTLY UNCALLED FUNCTIONS
+  // enableRemoteCursorTracking(session) {
+  //   const docs = session.getDocuments();
+  //   console.log('enable', docs);
 
-    docs.forEach((doc) => {
-      const collab = yCollab(text, doc.session.awareness, {
-        undoManager,
-        showLocalCaret: true,
-        scrollIntoView: true,
-      });
-      // const ext = doc.collabCompartment.of(collab);
+  //   docs.forEach((doc) => {
+  //     const collab = yCollab(text, doc.session.awareness, {
+  //       // undoManager,
+  //       showLocalCaret: true,
+  //       scrollIntoView: true,
+  //     });
+  //     // const ext = doc.collabCompartment.of(collab);
 
-      view.dispatch({
-        effects: doc.collabCompartment.reconfigure(collab),
-      });
-    });
+  //     view.dispatch({
+  //       effects: doc.collabCompartment.reconfigure(collab),
+  //     });
+  //   });
 
-    // walk over
-    /* view.dispatch({
-      effects: this.reconfigure(this.extensions[key](value)),
-    }); */
-  }
-  disableRemoteCursorTracking(session) {
-    console.log('disable', session); /* view.dispatch({
-      effects: this.reconfigure(this.extensions[key](value)),
-    }); */
-  }
+  //   // walk over
+  //   /* view.dispatch({
+  //     effects: this.reconfigure(this.extensions[key](value)),
+  //   }); */
+  // }
+  // disableRemoteCursorTracking(session) {
+  //   console.log('disable', session); /* view.dispatch({
+  //     effects: this.reconfigure(this.extensions[key](value)),
+  //   }); */
+  // }
 
   updateExtensions({ previous, next }) {
     const appliedSettings = previous;
@@ -306,6 +316,7 @@ export class PastaMirror {
     const keys = Object.keys(this.extensions);
     for (let index in keys) {
       const key = keys[index];
+      if (!key) continue;
       for (let [_, view] of this.editorViews) {
         if (settings[key] !== appliedSettings[key]) {
           // console.log('reconfigure', key, settings[key]);
@@ -325,7 +336,7 @@ export class PastaMirror {
       messageContainer.style = `position:fixed;top:${pos.top}px;left:${pos.left}px`;
       messageContainer.classList.add('rising-animation');
       messageContainer.classList.add('message-container');
-      chatContainer.appendChild(messageContainer);
+      chatContainer?.appendChild(messageContainer);
       setTimeout(() => {
         messageContainer.remove();
       }, 7000);

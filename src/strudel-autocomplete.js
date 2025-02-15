@@ -1,7 +1,7 @@
 import { reference } from '@strudel/reference';
 // import { javascriptLanguage } from '@codemirror/lang-javascript';
 import { autocompletion } from '@codemirror/autocomplete';
-import { h } from './html';
+import { h } from './html.js';
 
 function plaintext(str) {
   const div = document.createElement('div');
@@ -29,7 +29,7 @@ ${doc.description}
 <div>
   ${doc.examples?.map((example) => `<div><pre>${plaintext(example)}</pre></div>`)}
 </div>
-</div>`[0];
+</div>`?.[0];
   /*
 <pre
 className="cursor-pointer"
@@ -56,6 +56,7 @@ const referenceCompletions = reference.docs
   .map((doc) /*: Completion */ => ({
     label: getDocLabel(doc),
     // detail: 'xxx', // An optional short piece of information to show (with a different style) after the label.
+    // @ts-expect-error
     info: () => Autocomplete({ doc }),
     type: 'function', // https://codemirror.net/docs/ref/#autocomplete.Completion.type
   }));
@@ -77,6 +78,7 @@ export const strudelAutocomplete = (context /* : CompletionContext */) => {
 export function isAutoCompletionEnabled(on) {
   return on
     ? [
+        // @ts-expect-error
         autocompletion({ override: [strudelAutocomplete] }),
         //javascriptLanguage.data.of({ autocomplete: strudelAutocomplete }),
       ]

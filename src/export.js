@@ -11,10 +11,12 @@ const exportOpenFlokButton = document.querySelector('#export-open-flok-button');
 const exportOpenStrudelButton = document.querySelector('#export-open-strudel-button');
 const exportOpenHydraButton = document.querySelector('#export-open-hydra-button');
 
+if (!exportButton) throw new Error('export button not found');
 exportButton.addEventListener('click', () => {
-  exportDialog.showModal();
+  exportDialog?.showModal();
+  if (!exportOpenFlokButton) throw new Error('Open in flok button not found');
   exportOpenFlokButton.href = `https://${getFlokLink()}`;
-  exportCloseButton.focus();
+  exportCloseButton?.focus();
 });
 
 let stdSource = '';
@@ -53,7 +55,7 @@ export function getFlokLink() {
   )}&${panels.map((it, index) => `c${index}=${btoa(unescape(encodeURIComponent(it)))}`).join('&')}`;
 }
 
-export function copyToClipboard(txt, { message } = {}) {
+export function copyToClipboard(txt, { message }) {
   // Copy to the clipboard
   navigator.clipboard.writeText(txt);
   if (message) {
@@ -88,12 +90,12 @@ export function getCode(filter) {
   );
 }
 
-exportCopyButton.addEventListener('click', () => {
+exportCopyButton?.addEventListener('click', () => {
   const txt = getCode();
   copyToClipboard(txt, { message: 'code' });
 });
 
-exportDownloadButton.addEventListener('click', () => {
+exportDownloadButton?.addEventListener('click', () => {
   const txt = getCode();
   downloadAsFile(txt);
 });
@@ -107,12 +109,12 @@ export function code2hash(code) {
   return encodeURIComponent(unicodeToBase64(code));
 }
 
-exportOpenStrudelButton.addEventListener('click', () => {
+exportOpenStrudelButton?.addEventListener('click', () => {
   const code = getCode((doc) => doc.target === 'strudel');
   window.open(`https://strudel.cc/#${code2hash(code)}`);
 });
 
-exportOpenHydraButton.addEventListener('click', () => {
+exportOpenHydraButton?.addEventListener('click', () => {
   const code = getCode((doc) => doc.target === 'hydra');
   window.open(`https://hydra.ojack.xyz/?code=${code2hash(code)}`);
 });

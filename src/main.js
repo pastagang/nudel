@@ -5,6 +5,7 @@ import { PastaMirror } from './editor.js';
 import { clearInlineErrors, displayInlineErrors } from './error.js';
 import './style.css';
 import { getStdSource } from './export.js';
+import { updateMiniLocations } from '@strudel/codemirror';
 
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;

@@ -3,7 +3,7 @@ Copyright (C) 2025 nudel contributors
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { InlineErrorMessage } from './error';
+import { InlineErrorMessage } from './error.js';
 
 // The standard fullscreen vertex shader.
 const vertexShader = `#version 300 es
@@ -78,6 +78,7 @@ class UniformValue {
       count = Math.max(1, count);
       resizeArray(this.value, count, 0);
       resizeArray(this.frameModifier, count, null);
+      this.count = count;
     }
   }
 }
@@ -264,6 +265,7 @@ const errorRegex = /ERROR:\s+\d+:(\d+):\s+(.+)/;
 function parseError(text) {
   try {
     const m = errorRegex.exec(text);
+    if (!m) return text;
     const linesInTemplateBeforeUserText = 8;
     const lineno = parseInt(m[1]) - linesInTemplateBeforeUserText;
     return new InlineErrorMessage(lineno, m[2]);
