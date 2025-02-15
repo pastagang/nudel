@@ -14,7 +14,7 @@ interface Window {
   setSettingsFromDom: any;
   kabel: any;
   kabelsalat: any;
-  session: any;
+  // session: any;
 }
 
 // Pattern.prototype.p

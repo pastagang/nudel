@@ -1,6 +1,7 @@
 import { nudelConfirm } from './confirm.js';
-import { clearStrudelHighlights, Frame, pastamirror, session } from './main.js';
+import { clearStrudelHighlights, Frame, pastamirror } from './main.js';
 import { getRandomName } from './random.js';
+import { getSession } from './session.js';
 
 //=====//
 // API //
@@ -217,7 +218,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
 
   customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);
 
-  session.user = next.username.trim() || 'anonymous nudelfan';
+  getSession().user = next.username.trim() || 'anonymous nudelfan';
 
   if (isSettingChanged('strudelEnabled', diff)) {
     if (next.strudelEnabled) {
