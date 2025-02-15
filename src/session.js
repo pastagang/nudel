@@ -23,15 +23,13 @@ export function getSession() {
 }
 
 export function refreshSession() {
-  _session?.setActiveDocuments([]);
+  pastamirror.currentEditors.keys().forEach((key) => pastamirror.deleteEditor(key));
   _session = makeSession();
   return _session;
 }
 
 function makeSession() {
   if (_session) {
-    // not sure if both these are needed 🤷
-    _session.removeAllListeners();
     _session.destroy();
   }
 
@@ -43,13 +41,17 @@ function makeSession() {
 
   session.on('sync', () => {
     // If session is empty, create two documents
-    if (session.getDocuments().length === 0) {
-      session.setActiveDocuments([
-        { id: '1', target: 'strudel' },
-        { id: '2', target: 'strudel' },
-        { id: '3', target: 'strudel' },
-        { id: '4', target: 'strudel' },
-      ]);
+    const documents = session.getDocuments();
+    if (documents.length === 0) {
+      session.setActiveDocuments([{ id: '1', target: 'strudel' }]);
+      session.setActiveDocuments([{ id: '2', target: 'strudel' }]);
+      session.setActiveDocuments([{ id: '3', target: 'strudel' }]);
+      session.setActiveDocuments([{ id: '4', target: 'strudel' }]);
+    }
+
+    const playButton = document.getElementById('about-yes-button');
+    if (playButton) {
+      playButton.classList.remove('loading');
     }
   });
 
