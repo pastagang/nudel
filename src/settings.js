@@ -56,7 +56,7 @@ const defaultSettings = {
   pastingMode: false,
   fontFamily: 'monospace',
   strudelHighlightsEnabled: true,
-  workerTimers: false,
+  workerTimers2: true,
   customRoomEnabled: false,
   customRoomName: getRandomName(3),
 };
@@ -95,7 +95,7 @@ function inferSettingsFromDom() {
     panelMode: panelModeSelect?.value ?? defaultSettings.panelMode,
     vimMode: vimModeCheckbox?.checked ?? defaultSettings.vimMode,
     lineWrapping: lineWrappingCheckbox?.checked ?? defaultSettings.lineWrapping,
-    workerTimers: workerTimersCheckbox?.checked ?? defaultSettings.workerTimers,
+    workerTimers2: workerTimersCheckbox?.checked ?? defaultSettings.workerTimers2,
     lineNumbers: lineNumbersCheckbox?.checked ?? defaultSettings.lineNumbers,
     strudelAutocomplete: strudelAutocompleteCheckbox?.checked ?? defaultSettings.strudelAutocomplete,
     closeBrackets: closeBracketsCheckbox?.checked ?? defaultSettings.closeBrackets,
@@ -189,7 +189,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   panelModeSelect && (panelModeSelect.value = next.panelMode);
   vimModeCheckbox && (vimModeCheckbox.checked = next.vimMode);
   lineWrappingCheckbox && (lineWrappingCheckbox.checked = next.lineWrapping);
-  workerTimersCheckbox && (workerTimersCheckbox.checked = next.workerTimers);
+  workerTimersCheckbox && (workerTimersCheckbox.checked = next.workerTimers2);
   lineNumbersCheckbox && (lineNumbersCheckbox.checked = next.lineNumbers);
   strudelAutocompleteCheckbox && (strudelAutocompleteCheckbox.checked = next.strudelAutocomplete);
   closeBracketsCheckbox && (closeBracketsCheckbox.checked = next.closeBrackets);

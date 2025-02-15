@@ -85,8 +85,8 @@ export class StrudelSession {
     this.scheduler = new Cyclist({
       onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
       getTime,
-      setInterval: this.settings.workerTimers ? setInterval : globalThis.setInterval,
-      clearInterval: this.settings.workerTimers ? clearInterval : globalThis.clearInterval,
+      setInterval: this.settings.workerTimers2 ? setInterval : globalThis.setInterval,
+      clearInterval: this.settings.workerTimers2 ? clearInterval : globalThis.clearInterval,
     });
     setTime(() => this.scheduler?.now()); // this is cursed
 
