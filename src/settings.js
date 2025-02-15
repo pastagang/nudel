@@ -1,5 +1,7 @@
 import { nudelConfirm } from './confirm.js';
-import { clearStrudelHighlights, Frame, pastamirror, session } from './main.js';
+import { clearStrudelHighlights, Frame, pastamirror } from './main.js';
+import { getRandomName } from './random.js';
+import { getSession, refreshSession } from './session.js';
 
 //=====//
 // API //
@@ -55,7 +57,9 @@ const defaultSettings = {
   pastingMode: false,
   fontFamily: 'monospace',
   strudelHighlightsEnabled: true,
-  workerTimers: false,
+  workerTimers2: true,
+  customRoomEnabled: false,
+  customRoomName: getRandomName(3),
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -76,6 +80,10 @@ const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message
 const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 const fontFamilySelect = document.querySelector('#settings-font-family');
 const strudelHighlightsEnabledCheckbox = document.querySelector('#settings-strudel-highlights-enabled');
+const customRoomDisabledRadio = document.querySelector('input[name="settings-room"][value="public"]');
+const customRoomEnabledRadio = document.querySelector('input[name="settings-room"][value="custom"]');
+const customRoomNameInput = document.querySelector('#settings-room-name');
+const roomPickerFieldset = document.querySelector('#room-picker');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -88,7 +96,7 @@ function inferSettingsFromDom() {
     panelMode: panelModeSelect?.value ?? defaultSettings.panelMode,
     vimMode: vimModeCheckbox?.checked ?? defaultSettings.vimMode,
     lineWrapping: lineWrappingCheckbox?.checked ?? defaultSettings.lineWrapping,
-    workerTimers: workerTimersCheckbox?.checked ?? defaultSettings.workerTimers,
+    workerTimers2: workerTimersCheckbox?.checked ?? defaultSettings.workerTimers2,
     lineNumbers: lineNumbersCheckbox?.checked ?? defaultSettings.lineNumbers,
     strudelAutocomplete: strudelAutocompleteCheckbox?.checked ?? defaultSettings.strudelAutocomplete,
     closeBrackets: closeBracketsCheckbox?.checked ?? defaultSettings.closeBrackets,
@@ -97,6 +105,8 @@ function inferSettingsFromDom() {
     pastingMode: pastingModeCheckbox?.checked ?? defaultSettings.pastingMode,
     fontFamily: fontFamilySelect?.value ?? defaultSettings.fontFamily,
     strudelHighlightsEnabled: strudelHighlightsEnabledCheckbox?.checked ?? defaultSettings.strudelHighlightsEnabled,
+    customRoomEnabled: customRoomEnabledRadio?.checked ?? defaultSettings.customRoomEnabled,
+    customRoomName: customRoomNameInput?.value ?? defaultSettings.customRoomName,
   };
   return inferredSettings;
 }
@@ -119,8 +129,16 @@ function inferSettingsFromDom() {
   pastingModeCheckbox,
   fontFamilySelect,
   strudelHighlightsEnabledCheckbox,
-].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
-usernameInput?.addEventListener('input', setSettingsFromDom);
+  roomPickerFieldset,
+  customRoomNameInput,
+  usernameInput,
+].forEach((v) =>
+  v?.addEventListener('change', () => {
+    setSettingsFromDom();
+    // console.log(customRoomEnabledRadio?.checked);
+    // console.log(getSettings());
+  }),
+);
 
 let appliedSettings = null;
 
@@ -166,13 +184,21 @@ export async function applySettingsToNudel(settings = getSettings()) {
       if (confirmed) window.location.reload();
       else next.trackRemoteCursors = previous.trackRemoteCursors;
     }
+
+    if (isSettingChanged('workerTimers2', diff)) {
+      const confirmed = await nudelConfirm(
+        `${next.workerTimers2 ? 'Enabling' : 'Disabling'} worker timers triggers a reload. Are you sure you want to ${next.workerTimers2 ? 'enable' : 'disable'} it?`,
+      );
+      if (confirmed) window.location.reload();
+      else next.workerTimers2 = previous.workerTimers2;
+    }
   }
 
   zenModeCheckbox && (zenModeCheckbox.checked = next.zenMode);
-  panelModeSelect && (panelModeSelect.value = next.boxedMode);
+  panelModeSelect && (panelModeSelect.value = next.panelMode);
   vimModeCheckbox && (vimModeCheckbox.checked = next.vimMode);
   lineWrappingCheckbox && (lineWrappingCheckbox.checked = next.lineWrapping);
-  workerTimersCheckbox && (workerTimersCheckbox.checked = next.workerTimers);
+  workerTimersCheckbox && (workerTimersCheckbox.checked = next.workerTimers2);
   lineNumbersCheckbox && (lineNumbersCheckbox.checked = next.lineNumbers);
   strudelAutocompleteCheckbox && (strudelAutocompleteCheckbox.checked = next.strudelAutocomplete);
   closeBracketsCheckbox && (closeBracketsCheckbox.checked = next.closeBrackets);
@@ -186,8 +212,22 @@ export async function applySettingsToNudel(settings = getSettings()) {
   pastingModeCheckbox && (pastingModeCheckbox.checked = next.pastingMode);
   fontFamilySelect && (fontFamilySelect.value = next.fontFamily);
   strudelHighlightsEnabledCheckbox && (strudelHighlightsEnabledCheckbox.checked = next.strudelHighlightsEnabled);
+  customRoomDisabledRadio && (customRoomDisabledRadio.checked = !next.customRoomEnabled);
+  customRoomEnabledRadio && (customRoomEnabledRadio.checked = next.customRoomEnabled);
+  customRoomNameInput && (customRoomNameInput.value = next.customRoomName);
 
-  session.user = next.username.trim() || 'anonymous nudelfan';
+  if (isSettingChanged('customRoomEnabled', diff)) {
+    customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);
+  }
+
+  if (
+    isSettingChanged('customRoomEnabled', diff) ||
+    (next.customRoomEnabled && isSettingChanged('customRoomName', diff))
+  ) {
+    refreshSession();
+  }
+
+  getSession().user = next.username.trim() || 'anonymous nudelfan';
 
   if (isSettingChanged('strudelEnabled', diff)) {
     if (next.strudelEnabled) {
@@ -265,6 +305,8 @@ export async function applySettingsToNudel(settings = getSettings()) {
 
   pastamirror.updateExtensions(diff);
   appliedSettings = { ...next };
+
+  console.log('APPLIED SETTINGS', getSettings());
 }
 
 //=========//

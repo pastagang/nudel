@@ -1,4 +1,5 @@
-import { pastamirror, session } from './main.js';
+import { pastamirror } from './main.js';
+import { getSession } from './session.js';
 import { nudelToast } from './toast.js';
 
 const exportButton = document.querySelector('#export-button');
@@ -69,7 +70,7 @@ export function getPrettyDate() {
   return new Date().toISOString().slice(0, 16).replace('T', ' ');
 }
 
-export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()}.txt` } = {}) {
+export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()}.js` } = {}) {
   // Download file
   var hiddenElement = document.createElement('a');
   hiddenElement.href = 'data:attachment/text,' + encodeURI(txt);
@@ -81,7 +82,7 @@ export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()
 export function getCode(filter) {
   const prettyDate = getPrettyDate();
   const headline = `// "nudel ${prettyDate}" @by pastagang\n`;
-  let documents = session.getDocuments();
+  let documents = getSession().getDocuments();
   if (filter) {
     documents = documents.filter(filter);
   }

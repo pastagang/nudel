@@ -94,28 +94,10 @@
       <dialog id="about-dialog">
         <form method="dialog">
           <h1>🍝 welcome to nudel</h1>
-          <!-- <p>
-            <label for="welcome-username">
-              <span>Choose your username:</span>
-              <input
-                type="text"
-                id="welcome-username"
-                data-1p-ignore
-                spellcheck="false"
-                placeholder="anonymous nudelfan"
-              />
-            </label>
-          </p> -->
           <p>
             nudel is a public jam space, made by
             <a href="https://www.pastagang.cc/" target="_blank">pastagang</a>
           </p>
-          <!-- <p>it's a mashup of free & open source projects:</p>
-          <ul>
-            <li><a href="https://github.com/munshkr/flok/" target="_blank">flok</a> for collaboration</li>
-            <li><a href="https://github.com/tidalcycles/strudel" target="_blank">strudel</a> for sound</li>
-            <li><a href="https://github.com/hydra-synth/hydra-synth" target="_blank">hydra</a> for light</li>
-          </ul> -->
           <p>everyone is in the same room. anyone is encouraged to join in!</p>
           <p><strong>tip: if nudel starts running slow, try changing the settings</strong></p>
           <p>
@@ -158,16 +140,39 @@
           <main style="overflow: scroll; height: 20%; flex-grow: 1; padding: 13px">
             <h1>Settings</h1>
             <section>
-              <h3>User settings</h3>
+              <!-- <h2>Session</h2> -->
+              <!-- <h3>User</h3> -->
               <p>
                 <label for="settings-username" style="display: flex; align-items: center">
                   <span>Username</span>
                   <input type="text" id="settings-username" data-1p-ignore spellcheck="false" style="flex-grow: 1" />
                 </label>
               </p>
+              <br />
+              <h3>Room</h3>
+              <fieldset id="room-picker">
+                <label>
+                  <input type="radio" name="settings-room" value="public" checked />
+                  Pastagang room
+                </label>
+                <br />
+                <label style="display: flex; align-items: center">
+                  <input type="radio" name="settings-room" value="custom" />
+                  <span style="flex-shrink: 0">Custom room: </span>
+                  <input
+                    style="width: 100%"
+                    type="text"
+                    id="settings-room-name"
+                    data-1p-ignore
+                    spellcheck="false"
+                    disabled
+                  />
+                </label>
+              </fieldset>
             </section>
+            <hr />
             <section>
-              <h3>Nudel appearance</h3>
+              <h2>Appearance</h2>
               <p>
                 <label>
                   Layout
@@ -193,50 +198,50 @@
                 off, which may help other things to run better.
               </p>
               <br />
-              <h3>Panel types</h3>
-              <p>These settings control which types of panels will run for you.</p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-strudel-enabled" />
-                  Enable strudel (sound)
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-kabelsalat-enabled" />
-                  Enable kabelsalat (sound)
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-hydra-enabled" />
-                  Enable hydra (visuals)
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-shader-enabled" />
-                  Enable shader (visuals)
-                </label>
-              </p>
-              <br />
               <h3>Panel settings</h3>
               <p>
                 <label>
                   <input type="checkbox" id="settings-strudel-highlights-enabled" />
-                  Enable strudel highlights
+                  Enable strudel highlights (off is faster)
                 </label>
               </p>
               <p>
                 <label>
                   <input type="checkbox" id="settings-strudel-worker-timers-enabled" />
-                  Enable strudel worker timers (requires refresh)
+                  Enable strudel worker timers (requires refresh) (on is faster)
+                </label>
+              </p>
+              <br />
+              <h3>Panel types</h3>
+              <p>These settings control which types of panels will run for you.</p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-strudel-enabled" />
+                  Enable strudel (sound) (off is faster)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-kabelsalat-enabled" />
+                  Enable kabelsalat (sound) (off is faster)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-hydra-enabled" />
+                  Enable hydra (visuals) (off is faster)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-shader-enabled" />
+                  Enable shader (visuals) (off is faster)
                 </label>
               </p>
             </section>
             <hr />
             <section>
-              <h2>Editor settings</h2>
+              <h2>Editor</h2>
               <p>
                 <label>
                   <input type="checkbox" id="settings-line-numbers" />
@@ -286,7 +291,7 @@
             <section class="development">
               <hr />
               <br />
-              <h2>Development settings</h2>
+              <h2>Development</h2>
               <p>
                 <label>
                   <input type="checkbox" id="settings-welcome-message" />
