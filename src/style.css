@@ -605,3 +605,7 @@ input:disabled {
   cursor: not-allowed;
   color: #aaa;
 }
+
+#username-preview {
+  padding: 2px;
+}

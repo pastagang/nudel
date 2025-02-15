@@ -41,6 +41,7 @@ window.setSettingsFromDom = setSettingsFromDom;
 // Here's where you can make changes to the settings.
 const defaultSettings = {
   username: '',
+  userHue: getRandomUserHue(),
   strudelEnabled: true,
   hydraEnabled: true,
   shaderEnabled: true,
@@ -84,10 +85,13 @@ const customRoomDisabledRadio = document.querySelector('input[name="settings-roo
 const customRoomEnabledRadio = document.querySelector('input[name="settings-room"][value="custom"]');
 const customRoomNameInput = document.querySelector('#settings-room-name');
 const roomPickerFieldset = document.querySelector('#room-picker');
+const usernamePreview = document.querySelector('#username-preview');
+const userHueRange = document.querySelector('#settings-color');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
     username: usernameInput?.value ?? defaultSettings.username,
+    userHue: userHueRange?.value ?? defaultSettings.userHue,
     strudelEnabled: strudelCheckbox?.checked ?? defaultSettings.strudelEnabled,
     hydraEnabled: hydraCheckbox?.checked ?? defaultSettings.hydraEnabled,
     shaderEnabled: shaderCheckbox?.checked ?? defaultSettings.shaderEnabled,
@@ -131,14 +135,9 @@ function inferSettingsFromDom() {
   strudelHighlightsEnabledCheckbox,
   roomPickerFieldset,
   customRoomNameInput,
-  usernameInput,
-].forEach((v) =>
-  v?.addEventListener('change', () => {
-    setSettingsFromDom();
-    // console.log(customRoomEnabledRadio?.checked);
-    // console.log(getSettings());
-  }),
-);
+  // userHueRange,
+].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
+[usernameInput, userHueRange].forEach((v) => v?.addEventListener('input', setSettingsFromDom));
 
 let appliedSettings = null;
 
@@ -204,6 +203,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   closeBracketsCheckbox && (closeBracketsCheckbox.checked = next.closeBrackets);
   trackRemoteCursorsCheckbox && (trackRemoteCursorsCheckbox.checked = next.trackRemoteCursors2);
   usernameInput && (usernameInput.value = next.username);
+  userHueRange && (userHueRange.value = next.userHue);
   strudelCheckbox && (strudelCheckbox.checked = next.strudelEnabled);
   hydraCheckbox && (hydraCheckbox.checked = next.hydraEnabled);
   shaderCheckbox && (shaderCheckbox.checked = next.shaderEnabled);
@@ -227,7 +227,17 @@ export async function applySettingsToNudel(settings = getSettings()) {
     refreshSession();
   }
 
-  getSession().user = next.username.trim() || 'anonymous nudelfan';
+  const session = getSession();
+
+  if (isSettingChanged('username', diff)) {
+    session.user = next.username.trim() || 'anonymous nudelfan';
+  }
+
+  if (isSettingChanged('username', diff) || isSettingChanged('userHue', diff)) {
+    session.userColor = { color: `hsl(${next.userHue}, 100%, 75%)`, light: `hsla(${next.userHue}, 100%, 75%, 0.1875)` };
+    usernamePreview?.style.setProperty('background-color', session.userColor.color);
+    usernamePreview && (usernamePreview.textContent = session.user);
+  }
 
   if (isSettingChanged('strudelEnabled', diff)) {
     if (next.strudelEnabled) {
@@ -306,7 +316,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   pastamirror.updateExtensions(diff);
   appliedSettings = { ...next };
 
-  console.log('APPLIED SETTINGS', getSettings());
+  // console.log('APPLIED SETTINGS', getSettings());
 }
 
 //=========//
@@ -350,3 +360,7 @@ resetButton?.addEventListener('click', async () => {
   const response = await nudelConfirm('Are you sure you want to reset your settings?');
   if (response) setSettings(defaultSettings);
 });
+
+function getRandomUserHue() {
+  return Math.floor(Math.random() * 360);
+}

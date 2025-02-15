@@ -132,7 +132,7 @@
 
     <!----------- SETTINGS DIALOG ----------->
     <div class="dialog-container">
-      <dialog id="settings-dialog" style="overflow: hidden; height: 100%; padding: 0">
+      <dialog id="settings-dialog" style="overflow: hidden; height: 100%; padding: 0" open>
         <form
           method="dialog"
           style="display: flex; flex-direction: column; overflow: visible; justify-content: stretch; height: 100%"
@@ -140,12 +140,19 @@
           <main style="overflow: scroll; height: 20%; flex-grow: 1; padding: 13px">
             <h1>Settings</h1>
             <section>
-              <!-- <h2>Session</h2> -->
-              <!-- <h3>User</h3> -->
+              <h2>Session</h2>
+              <h3>User</h3>
+              <span id="username-preview">anonymous nudelfan</span>
               <p>
                 <label for="settings-username" style="display: flex; align-items: center">
                   <span>Username</span>
                   <input type="text" id="settings-username" data-1p-ignore spellcheck="false" style="flex-grow: 1" />
+                </label>
+              </p>
+              <p>
+                <label for="settings-color" style="display: flex; align-items: center">
+                  <span>Colour</span>
+                  <input type="range" id="settings-color" min="0" max="360" step="1" />
                 </label>
               </p>
               <br />
