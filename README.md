@@ -28,6 +28,10 @@ this project has been born out of a jam session, so let's carry that ethos into 
 
 <br>
 
+there is some automatic type checking that goes on in the code, but you can just ignore it if u want.
+
+<br>
+
 # Technical stuff
 
 welcome to the spaghetti of nudel
