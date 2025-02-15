@@ -168,26 +168,24 @@ export async function applySettingsToNudel(settings = getSettings()) {
     }
   }
 
-  zenModeCheckbox.checked = next.zenMode;
-  panelModeSelect.value = next.boxedMode;
-  vimModeCheckbox.checked = next.vimMode;
-  lineWrappingCheckbox.checked = next.lineWrapping;
-  workerTimersCheckbox.checked = next.workerTimers;
-  lineNumbersCheckbox.checked = next.lineNumbers;
-  strudelAutocompleteCheckbox.checked = next.strudelAutocomplete;
-  closeBracketsCheckbox.checked = next.closeBrackets;
-  trackRemoteCursorsCheckbox.checked = next.trackRemoteCursors;
-  panelModeSelect.value = next.panelMode;
-  usernameInput.value = next.username;
-  strudelCheckbox.checked = next.strudelEnabled;
-  hydraCheckbox.checked = next.hydraEnabled;
-  shaderCheckbox.checked = next.shaderEnabled;
-  kabelsalatCheckbox.checked = next.kabelsalatEnabled;
-  welcomeMessageCheckbox.checked = next.welcomeMessage3;
-  zenModeCheckbox.checked = next.zenMode;
-  pastingModeCheckbox.checked = next.pastingMode;
-  fontFamilySelect.value = next.fontFamily;
-  strudelHighlightsEnabledCheckbox.checked = next.strudelHighlightsEnabled;
+  zenModeCheckbox && (zenModeCheckbox.checked = next.zenMode);
+  panelModeSelect && (panelModeSelect.value = next.boxedMode);
+  vimModeCheckbox && (vimModeCheckbox.checked = next.vimMode);
+  lineWrappingCheckbox && (lineWrappingCheckbox.checked = next.lineWrapping);
+  workerTimersCheckbox && (workerTimersCheckbox.checked = next.workerTimers);
+  lineNumbersCheckbox && (lineNumbersCheckbox.checked = next.lineNumbers);
+  strudelAutocompleteCheckbox && (strudelAutocompleteCheckbox.checked = next.strudelAutocomplete);
+  closeBracketsCheckbox && (closeBracketsCheckbox.checked = next.closeBrackets);
+  trackRemoteCursorsCheckbox && (trackRemoteCursorsCheckbox.checked = next.trackRemoteCursors);
+  usernameInput && (usernameInput.value = next.username);
+  strudelCheckbox && (strudelCheckbox.checked = next.strudelEnabled);
+  hydraCheckbox && (hydraCheckbox.checked = next.hydraEnabled);
+  shaderCheckbox && (shaderCheckbox.checked = next.shaderEnabled);
+  kabelsalatCheckbox && (kabelsalatCheckbox.checked = next.kabelsalatEnabled);
+  welcomeMessageCheckbox && (welcomeMessageCheckbox.checked = next.welcomeMessage3);
+  pastingModeCheckbox && (pastingModeCheckbox.checked = next.pastingMode);
+  fontFamilySelect && (fontFamilySelect.value = next.fontFamily);
+  strudelHighlightsEnabledCheckbox && (strudelHighlightsEnabledCheckbox.checked = next.strudelHighlightsEnabled);
 
   session.user = next.username.trim() || 'anonymous nudelfan';
 
@@ -237,25 +235,25 @@ export async function applySettingsToNudel(settings = getSettings()) {
 
   if (isSettingChanged('zenMode', diff)) {
     if (next.zenMode) {
-      document.querySelector('body').classList.add('zen-mode');
+      document.body.classList.add('zen-mode');
     } else {
-      document.querySelector('body').classList.remove('zen-mode');
+      document.body.classList.remove('zen-mode');
     }
   }
 
   if (isSettingChanged('panelMode', diff)) {
-    document.querySelector('body').classList.remove('scroll-mode', 'boxed-mode', 'tabbed-mode');
+    document.body.classList.remove('scroll-mode', 'boxed-mode', 'tabbed-mode');
     switch (next.panelMode) {
       case 'scroll': {
-        document.querySelector('body').classList.add('scroll-mode');
+        document.body.classList.add('scroll-mode');
         break;
       }
       case 'boxed': {
-        document.querySelector('body').classList.add('boxed-mode');
+        document.body.classList.add('boxed-mode');
         break;
       }
       case 'tabbed': {
-        document.querySelector('body').classList.add('tabbed-mode');
+        document.body.classList.add('tabbed-mode');
         break;
       }
     }
@@ -278,9 +276,9 @@ export async function applySettingsToNudel(settings = getSettings()) {
 const settingsButton = document.querySelector('#settings-button');
 const settingsDialog = document.querySelector('#settings-dialog');
 const doneButton = document.querySelector('#settings-done-button');
-settingsButton.addEventListener('click', () => {
-  settingsDialog.showModal();
-  doneButton.focus();
+settingsButton?.addEventListener('click', () => {
+  settingsDialog?.showModal();
+  doneButton?.focus();
 });
 
 const SETTINGS_LOCAL_STORAGE_KEY = 'nudelsalat-settings-v0';
@@ -306,7 +304,7 @@ function saveSettingsToLocalStorage(settings) {
 }
 
 const resetButton = document.querySelector('#settings-reset-button');
-resetButton.addEventListener('click', async () => {
+resetButton?.addEventListener('click', async () => {
   const response = await nudelConfirm('Are you sure you want to reset your settings?');
   if (response) setSettings(defaultSettings);
 });

@@ -11,8 +11,8 @@ const helpButton = document.querySelector('#help-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const playButton = document.querySelector('#about-yes-button');
 
-menuButton.addEventListener('click', (e) => {
-  menuContainer.classList.toggle('open');
+menuButton?.addEventListener('click', (e) => {
+  menuContainer?.classList.toggle('open');
 });
 
 helpButton?.addEventListener('click', () => {
@@ -20,8 +20,8 @@ helpButton?.addEventListener('click', () => {
 });
 
 let playButtonClicked = false;
-playButton.addEventListener('click', () => {
-  if (playButton.classList.contains('loading')) {
+playButton?.addEventListener('click', () => {
+  if (playButton?.classList.contains('loading')) {
     playButtonClicked = true;
     return;
   }
@@ -30,15 +30,15 @@ playButton.addEventListener('click', () => {
 });
 
 aboutButton?.addEventListener('click', () => {
-  aboutDialog.showModal();
-  playButton.focus();
+  aboutDialog?.showModal();
+  playButton?.focus();
 });
 
 const html = document.documentElement;
 
 html.addEventListener('click', (e) => {
   if (e.target === html) {
-    aboutDialog.close();
+    aboutDialog?.close();
   }
 });
 
@@ -46,12 +46,12 @@ html.addEventListener('click', (e) => {
   if (!getSettings().username) {
     const username = await nudelPrompt('hello! what name do you want to go by?');
     changeSettings({ username });
-    aboutDialog.showModal();
-    playButton.focus();
+    aboutDialog?.showModal();
+    playButton?.focus();
   } else {
     if (getSettings().welcomeMessage3) {
-      aboutDialog.showModal();
-      playButton.focus();
+      aboutDialog?.showModal();
+      playButton?.focus();
     }
   }
 })();
@@ -59,10 +59,10 @@ html.addEventListener('click', (e) => {
 // This is to stop people running their old local code
 // TODO: make this actually happen after the editors have been updated with the most recent content
 setTimeout(() => {
-  playButton.classList.remove('loading');
+  playButton?.classList.remove('loading');
   if (playButtonClicked) {
     setTimeout(() => {
-      playButton.click();
+      playButton?.click();
     }, 1000);
   }
 }, 1000);

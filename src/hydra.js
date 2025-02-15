@@ -13,7 +13,7 @@ export class HydraSession {
     if (this.initialized) {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
-      this._hydra.setResolution(window.innerWidth, window.innerHeight);
+      this._hydra?.setResolution(window.innerWidth, window.innerHeight);
     }
   }
 
@@ -24,6 +24,7 @@ export class HydraSession {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
       this._hydra = new HydraRenderer({
+        // @ts-expect-error
         canvas: this.canvas,
         enableAudio: false,
       });
@@ -34,7 +35,7 @@ export class HydraSession {
     }
 
     window.H = this._hydra;
-    const HydraSource = this._hydra.s[0].constructor;
+    const HydraSource = this._hydra.s?.[0].constructor;
 
     // Enable using strudel style mini-patterns for argument control on Hydra.
     // strudel needs to be loaded first, otherwise this will cause warnings, and rendering will not

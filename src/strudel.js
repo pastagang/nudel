@@ -1,4 +1,15 @@
-import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime, register, Cyclist } from '@strudel/core';
+import {
+  controls,
+  evalScope,
+  stack,
+  evaluate,
+  silence,
+  getTrigger,
+  setTime,
+  register,
+  Cyclist,
+  Pattern,
+} from '@strudel/core';
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
@@ -70,13 +81,14 @@ export class StrudelSession {
       this.onError(err);
     }
     const getTime = () => getAudioContext().currentTime;
+    // @ts-expect-error
     this.scheduler = new Cyclist({
       onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
       getTime,
       setInterval: this.settings.workerTimers ? setInterval : globalThis.setInterval,
       clearInterval: this.settings.workerTimers ? clearInterval : globalThis.clearInterval,
     });
-    setTime(() => this.scheduler.now()); // this is cursed
+    setTime(() => this.scheduler?.now()); // this is cursed
 
     this.injectPatternMethods();
 
@@ -90,6 +102,9 @@ export class StrudelSession {
     let lastFrame /* : number | null  */ = null;
     this.framer = new Framer(
       () => {
+        if (!this.scheduler) {
+          return;
+        }
         const phase = this.scheduler.now();
         if (lastFrame === null) {
           lastFrame = phase;
@@ -134,7 +149,7 @@ export class StrudelSession {
   // set pattern methods that use this repl via closure
   injectPatternMethods() {
     const self = this;
-    Pattern.prototype.p = function (id) {
+    Pattern.prototype['p'] = function (id) {
       // allows muting a pattern x with x_ or _x
       if (typeof id === 'string' && (id.startsWith('_') || id.endsWith('_'))) {
         // makes sure we dont hit the warning that no pattern was returned:
@@ -149,7 +164,7 @@ export class StrudelSession {
       self.pPatterns[id] = this;
       return this;
     };
-    Pattern.prototype.q = function () {
+    Pattern.prototype['q'] = function () {
       return silence;
     };
     const all = (transform) => {
@@ -160,8 +175,8 @@ export class StrudelSession {
     const start = () => this.scheduler.start();
     const pause = () => this.scheduler.pause();
     const toggle = () => this.scheduler.toggle(); */
-    const setCps = (cps) => this.scheduler.setCps(cps);
-    const setCpm = (cpm) => this.scheduler.setCps(cpm / 60);
+    const setCps = (cps) => this.scheduler?.setCps(cps);
+    const setCpm = (cpm) => this.scheduler?.setCps(cpm / 60);
     /* const cpm = register("cpm", function (cpm, pat) {
       return pat._fast(cpm / 60 / scheduler.cps);
     }); */
@@ -180,7 +195,7 @@ export class StrudelSession {
     this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
     //console.log("this.patterns", this.patterns);
     const allPatterns = stack(...Object.values(this.patterns));
-    await this.scheduler.setPattern(allPatterns, true);
+    await this.scheduler?.setPattern(allPatterns, true);
   }
 
   async eval(msg, conversational = false) {

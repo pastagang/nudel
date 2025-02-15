@@ -40,7 +40,9 @@ const errorField = StateField.define({
   },
   update(errors, tr) {
     errors = errors.map(tr.changes);
-    for (let e of tr.effects) {
+    for (let _e of tr.effects) {
+      /** @type {any} */
+      const e = _e;
       if (e.is(addError)) {
         const doc = tr.state.doc;
         const afterLineIndex = doc.line(e.value.msg.lineno).to + 1;
@@ -67,7 +69,9 @@ const errorField = StateField.define({
 export function displayInlineErrors(docId, msg) {
   const view = window.editorViews.get(docId);
   const effects = [];
-  effects.push(addError.of(new ErrorWidget(docId, msg)));
+  /** @type {any} */
+  const errorWidget = new ErrorWidget(docId, msg);
+  effects.push(addError.of(errorWidget));
 
   if (!view.state.field(errorField, false)) {
     effects.push(StateEffect.appendConfig.of(errorField));
@@ -78,5 +82,6 @@ export function displayInlineErrors(docId, msg) {
 
 export function clearInlineErrors(docId) {
   const view = window.editorViews.get(docId);
+  // @ts-expect-error
   view.dispatch({ effects: [clearErrors.of()] });
 }

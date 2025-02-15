@@ -1,1 +1,5 @@
 *-min.js
+public/assets/*
+pnpm-lock.yaml
+package-lock.json
+*.md
