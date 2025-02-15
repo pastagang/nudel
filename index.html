@@ -94,28 +94,10 @@
       <dialog id="about-dialog">
         <form method="dialog">
           <h1>🍝 welcome to nudel</h1>
-          <!-- <p>
-            <label for="welcome-username">
-              <span>Choose your username:</span>
-              <input
-                type="text"
-                id="welcome-username"
-                data-1p-ignore
-                spellcheck="false"
-                placeholder="anonymous nudelfan"
-              />
-            </label>
-          </p> -->
           <p>
             nudel is a public jam space, made by
             <a href="https://www.pastagang.cc/" target="_blank">pastagang</a>
           </p>
-          <!-- <p>it's a mashup of free & open source projects:</p>
-          <ul>
-            <li><a href="https://github.com/munshkr/flok/" target="_blank">flok</a> for collaboration</li>
-            <li><a href="https://github.com/tidalcycles/strudel" target="_blank">strudel</a> for sound</li>
-            <li><a href="https://github.com/hydra-synth/hydra-synth" target="_blank">hydra</a> for light</li>
-          </ul> -->
           <p>everyone is in the same room. anyone is encouraged to join in!</p>
           <p><strong>tip: if nudel starts running slow, try changing the settings</strong></p>
           <p>
@@ -150,7 +132,7 @@
 
     <!----------- SETTINGS DIALOG ----------->
     <div class="dialog-container">
-      <dialog id="settings-dialog" style="overflow: hidden; height: 100%; padding: 0">
+      <dialog id="settings-dialog" style="overflow: hidden; height: 100%; padding: 0" open>
         <form
           method="dialog"
           style="display: flex; flex-direction: column; overflow: visible; justify-content: stretch; height: 100%"
@@ -158,16 +140,33 @@
           <main style="overflow: scroll; height: 20%; flex-grow: 1; padding: 13px">
             <h1>Settings</h1>
             <section>
-              <h3>User settings</h3>
+              <!-- <h2>Session</h2> -->
+              <!-- <h3>User</h3> -->
               <p>
                 <label for="settings-username" style="display: flex; align-items: center">
                   <span>Username</span>
                   <input type="text" id="settings-username" data-1p-ignore spellcheck="false" style="flex-grow: 1" />
                 </label>
               </p>
+              <p>
+                <br/>
+                <h3>Room</h3>
+                <!-- two radio buttons -->
+                <label>
+                  <input type="radio" name="settings-room" value="public" checked />
+                  Pastagang room
+                </label>
+                <br />
+                <label>
+                  <input type="radio" name="settings-room" value="private" />
+                  Custom room:
+                  <input type="text" id="settings-room" data-1p-ignore spellcheck="false" />
+                </label>
+              </p>
             </section>
+            <hr />
             <section>
-              <h3>Nudel appearance</h3>
+              <h2>Appearance</h2>
               <p>
                 <label>
                   Layout
@@ -191,6 +190,20 @@
               <p>
                 To make nudel run better on your machine, try changing these settings. Some of them turn certain things
                 off, which may help other things to run better.
+              </p>
+              <br />
+              <h3>Panel settings</h3>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-strudel-highlights-enabled" />
+                  Enable strudel highlights (off is faster)
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" id="settings-strudel-worker-timers-enabled" />
+                  Enable strudel worker timers (requires refresh) (on is faster)
+                </label>
               </p>
               <br />
               <h3>Panel types</h3>
@@ -219,24 +232,10 @@
                   Enable shader (visuals)
                 </label>
               </p>
-              <br />
-              <h3>Panel settings</h3>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-strudel-highlights-enabled" />
-                  Enable strudel highlights
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-strudel-worker-timers-enabled" />
-                  Enable strudel worker timers (requires refresh)
-                </label>
-              </p>
             </section>
             <hr />
             <section>
-              <h2>Editor settings</h2>
+              <h2>Editor</h2>
               <p>
                 <label>
                   <input type="checkbox" id="settings-line-numbers" />
@@ -286,7 +285,7 @@
             <section class="development">
               <hr />
               <br />
-              <h2>Development settings</h2>
+              <h2>Development</h2>
               <p>
                 <label>
                   <input type="checkbox" id="settings-welcome-message" />

@@ -1,5 +1,6 @@
 import { nudelConfirm } from './confirm.js';
 import { clearStrudelHighlights, Frame, pastamirror, session } from './main.js';
+import { getRandomName } from './random.js';
 
 //=====//
 // API //
@@ -56,6 +57,8 @@ const defaultSettings = {
   fontFamily: 'monospace',
   strudelHighlightsEnabled: true,
   workerTimers: false,
+  customRoomEnabled: false,
+  customRoomName: getRandomName(3),
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -169,7 +172,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   }
 
   zenModeCheckbox && (zenModeCheckbox.checked = next.zenMode);
-  panelModeSelect && (panelModeSelect.value = next.boxedMode);
+  panelModeSelect && (panelModeSelect.value = next.panelMode);
   vimModeCheckbox && (vimModeCheckbox.checked = next.vimMode);
   lineWrappingCheckbox && (lineWrappingCheckbox.checked = next.lineWrapping);
   workerTimersCheckbox && (workerTimersCheckbox.checked = next.workerTimers);
