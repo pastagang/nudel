@@ -256,7 +256,7 @@ export class PastaMirror {
     // TODO: automatically set scrollIntoView, based on mode
     // set to true in boxed mode, but only when boxed mode is actually visible
     // we don't want cursor tracking on mobile!
-    const scrollIntoView = getSettings().trackRemoteCursors;
+    const scrollIntoView = getSettings().trackRemoteCursors2;
     const collab = yCollab(text, doc.session.awareness, {
       showLocalCaret: true,
       scrollIntoView,

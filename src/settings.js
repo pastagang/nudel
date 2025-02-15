@@ -52,7 +52,7 @@ const defaultSettings = {
   lineNumbers: false,
   strudelAutocomplete: false,
   closeBrackets: true,
-  trackRemoteCursors: true,
+  trackRemoteCursors2: false,
   welcomeMessage3: true,
   pastingMode: false,
   fontFamily: 'monospace',
@@ -100,7 +100,7 @@ function inferSettingsFromDom() {
     lineNumbers: lineNumbersCheckbox?.checked ?? defaultSettings.lineNumbers,
     strudelAutocomplete: strudelAutocompleteCheckbox?.checked ?? defaultSettings.strudelAutocomplete,
     closeBrackets: closeBracketsCheckbox?.checked ?? defaultSettings.closeBrackets,
-    trackRemoteCursors: trackRemoteCursorsCheckbox?.checked ?? defaultSettings.trackRemoteCursors,
+    trackRemoteCursors2: trackRemoteCursorsCheckbox?.checked ?? defaultSettings.trackRemoteCursors2,
     welcomeMessage3: welcomeMessageCheckbox?.checked ?? defaultSettings.welcomeMessage3,
     pastingMode: pastingModeCheckbox?.checked ?? defaultSettings.pastingMode,
     fontFamily: fontFamilySelect?.value ?? defaultSettings.fontFamily,
@@ -177,12 +177,12 @@ export async function applySettingsToNudel(settings = getSettings()) {
       else next.vimMode = previous.vimMode;
     }
 
-    if (isSettingChanged('trackRemoteCursors', diff)) {
+    if (isSettingChanged('trackRemoteCursors2', diff)) {
       const confirmed = await nudelConfirm(
-        `${next.trackRemoteCursors ? 'Enabling' : 'Disabling'} cursor tracking triggers a reload. Are you sure you want to ${next.trackRemoteCursors ? 'enable' : 'disable'} it?`,
+        `${next.trackRemoteCursors2 ? 'Enabling' : 'Disabling'} cursor tracking triggers a reload. Are you sure you want to ${next.trackRemoteCursors2 ? 'enable' : 'disable'} it?`,
       );
       if (confirmed) window.location.reload();
-      else next.trackRemoteCursors = previous.trackRemoteCursors;
+      else next.trackRemoteCursors2 = previous.trackRemoteCursors2;
     }
 
     if (isSettingChanged('workerTimers2', diff)) {
@@ -202,7 +202,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   lineNumbersCheckbox && (lineNumbersCheckbox.checked = next.lineNumbers);
   strudelAutocompleteCheckbox && (strudelAutocompleteCheckbox.checked = next.strudelAutocomplete);
   closeBracketsCheckbox && (closeBracketsCheckbox.checked = next.closeBrackets);
-  trackRemoteCursorsCheckbox && (trackRemoteCursorsCheckbox.checked = next.trackRemoteCursors);
+  trackRemoteCursorsCheckbox && (trackRemoteCursorsCheckbox.checked = next.trackRemoteCursors2);
   usernameInput && (usernameInput.value = next.username);
   strudelCheckbox && (strudelCheckbox.checked = next.strudelEnabled);
   hydraCheckbox && (hydraCheckbox.checked = next.hydraEnabled);
