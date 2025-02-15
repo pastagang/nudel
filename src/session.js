@@ -23,6 +23,7 @@ export function getSession() {
 }
 
 export function refreshSession() {
+  _session?.setActiveDocuments([]);
   _session = makeSession();
   return _session;
 }

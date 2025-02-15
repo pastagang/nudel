@@ -1,7 +1,6 @@
 import { nudelAlert } from './alert.js';
 import { applySettingsToNudel, getSettings } from './settings.js';
 import { PastaMirror } from './editor.js';
-import { clearInlineErrors, displayInlineErrors } from './error.js';
 import './style.css';
 import { updateMiniLocations } from '@strudel/codemirror';
 import { getSession } from './session.js';

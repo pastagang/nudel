@@ -1,7 +1,7 @@
 import { nudelConfirm } from './confirm.js';
 import { clearStrudelHighlights, Frame, pastamirror } from './main.js';
 import { getRandomName } from './random.js';
-import { getSession } from './session.js';
+import { getSession, refreshSession } from './session.js';
 
 //=====//
 // API //
@@ -216,7 +216,16 @@ export async function applySettingsToNudel(settings = getSettings()) {
   customRoomEnabledRadio && (customRoomEnabledRadio.checked = next.customRoomEnabled);
   customRoomNameInput && (customRoomNameInput.value = next.customRoomName);
 
-  customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);
+  if (isSettingChanged('customRoomEnabled', diff)) {
+    customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);
+  }
+
+  if (
+    isSettingChanged('customRoomEnabled', diff) ||
+    (next.customRoomEnabled && isSettingChanged('customRoomName', diff))
+  ) {
+    refreshSession();
+  }
 
   getSession().user = next.username.trim() || 'anonymous nudelfan';
 
