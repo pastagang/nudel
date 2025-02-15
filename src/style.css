@@ -588,3 +588,20 @@ dialog {
 .rising-animation {
   animation: rise-and-fade 6s ease-out forwards;
 }
+
+fieldset {
+  border: 1px solid #333;
+  padding: 16px 8px;
+  /* margin: 8px 0; */
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #333;
+  margin: 8px 0;
+}
+
+input:disabled {
+  cursor: not-allowed;
+  color: #aaa;
+}

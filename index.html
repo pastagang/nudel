@@ -148,21 +148,27 @@
                   <input type="text" id="settings-username" data-1p-ignore spellcheck="false" style="flex-grow: 1" />
                 </label>
               </p>
-              <p>
-                <br/>
-                <h3>Room</h3>
-                <!-- two radio buttons -->
+              <br />
+              <h3>Room</h3>
+              <fieldset id="room-picker">
                 <label>
                   <input type="radio" name="settings-room" value="public" checked />
                   Pastagang room
                 </label>
                 <br />
-                <label>
-                  <input type="radio" name="settings-room" value="private" />
-                  Custom room:
-                  <input type="text" id="settings-room" data-1p-ignore spellcheck="false" />
+                <label style="display: flex; align-items: center">
+                  <input type="radio" name="settings-room" value="custom" />
+                  <span style="flex-shrink: 0">Custom room: </span>
+                  <input
+                    style="width: 100%"
+                    type="text"
+                    id="settings-room-name"
+                    data-1p-ignore
+                    spellcheck="false"
+                    disabled
+                  />
                 </label>
-              </p>
+              </fieldset>
             </section>
             <hr />
             <section>

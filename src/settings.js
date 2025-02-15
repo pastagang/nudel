@@ -79,6 +79,10 @@ const welcomeMessageCheckbox = document.querySelector('#settings-welcome-message
 const pastingModeCheckbox = document.querySelector('#settings-pasting-mode');
 const fontFamilySelect = document.querySelector('#settings-font-family');
 const strudelHighlightsEnabledCheckbox = document.querySelector('#settings-strudel-highlights-enabled');
+const customRoomDisabledRadio = document.querySelector('input[name="settings-room"][value="public"]');
+const customRoomEnabledRadio = document.querySelector('input[name="settings-room"][value="custom"]');
+const customRoomNameInput = document.querySelector('#settings-room-name');
+const roomPickerFieldset = document.querySelector('#room-picker');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -100,6 +104,8 @@ function inferSettingsFromDom() {
     pastingMode: pastingModeCheckbox?.checked ?? defaultSettings.pastingMode,
     fontFamily: fontFamilySelect?.value ?? defaultSettings.fontFamily,
     strudelHighlightsEnabled: strudelHighlightsEnabledCheckbox?.checked ?? defaultSettings.strudelHighlightsEnabled,
+    customRoomEnabled: customRoomEnabledRadio?.checked ?? defaultSettings.customRoomEnabled,
+    customRoomName: customRoomNameInput?.value ?? defaultSettings.customRoomName,
   };
   return inferredSettings;
 }
@@ -122,8 +128,16 @@ function inferSettingsFromDom() {
   pastingModeCheckbox,
   fontFamilySelect,
   strudelHighlightsEnabledCheckbox,
-].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
-usernameInput?.addEventListener('input', setSettingsFromDom);
+  roomPickerFieldset,
+  customRoomNameInput,
+  usernameInput,
+].forEach((v) =>
+  v?.addEventListener('change', () => {
+    setSettingsFromDom();
+    // console.log(customRoomEnabledRadio?.checked);
+    // console.log(getSettings());
+  }),
+);
 
 let appliedSettings = null;
 
@@ -189,6 +203,11 @@ export async function applySettingsToNudel(settings = getSettings()) {
   pastingModeCheckbox && (pastingModeCheckbox.checked = next.pastingMode);
   fontFamilySelect && (fontFamilySelect.value = next.fontFamily);
   strudelHighlightsEnabledCheckbox && (strudelHighlightsEnabledCheckbox.checked = next.strudelHighlightsEnabled);
+  customRoomDisabledRadio && (customRoomDisabledRadio.checked = !next.customRoomEnabled);
+  customRoomEnabledRadio && (customRoomEnabledRadio.checked = next.customRoomEnabled);
+  customRoomNameInput && (customRoomNameInput.value = next.customRoomName);
+
+  customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);
 
   session.user = next.username.trim() || 'anonymous nudelfan';
 
@@ -268,6 +287,8 @@ export async function applySettingsToNudel(settings = getSettings()) {
 
   pastamirror.updateExtensions(diff);
   appliedSettings = { ...next };
+
+  console.log('APPLIED SETTINGS', getSettings());
 }
 
 //=========//
