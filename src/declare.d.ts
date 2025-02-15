@@ -14,6 +14,7 @@ interface Window {
   setSettingsFromDom: any;
   kabel: any;
   kabelsalat: any;
+  session: any;
 }
 
 // Pattern.prototype.p
@@ -33,4 +34,6 @@ interface Element {
   close?: any;
   href?: string;
   click?: any;
+  contentWindow?: any;
+  innerText?: string;
 }

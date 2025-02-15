@@ -13,17 +13,10 @@ window.editorViews = pastamirror.editorViews;
 export const session = new Session('pastagang2', {
   // changed this part to what flok.cc uses
   hostname: 'flok.cc',
-  port: '', //parseInt(port),
+  // port: '', //parseInt(port),
   isSecure: true,
 });
 window.session = session;
-
-/* session.on("change", (...args) => console.log("change", ...args));
-session.on("message", (msg) => console.log("message", msg)); */
-session.on('open', () => {
-  console.log('open');
-  // clearGlobalError();
-});
 
 session.on('sync', () => {
   // If session is empty, create two documents
@@ -101,7 +94,7 @@ let showLocalError = (docId, message) => {
   if (errorEl) {
     errorEl.innerText = message;
   } else {
-    slot.insertAdjacentHTML('beforeend', `<div class="error" id="error-${docId}">${message}</div>`);
+    slot?.insertAdjacentHTML('beforeend', `<div class="error" id="error-${docId}">${message}</div>`);
   }
 };
 
@@ -187,7 +180,7 @@ addEventListener(
 );
 
 // add / remove panes
-document.getElementById('add-pane-button').addEventListener('click', () => {
+document.getElementById('add-pane-button')?.addEventListener('click', () => {
   if (!session) return;
   const documents = session.getDocuments();
   if (documents.length >= 8) {
@@ -200,7 +193,7 @@ document.getElementById('add-pane-button').addEventListener('click', () => {
   ];
   session.setActiveDocuments(newDocs);
 });
-document.getElementById('remove-pane-button').addEventListener('click', () => {
+document.getElementById('remove-pane-button')?.addEventListener('click', () => {
   if (!session) return;
   const documents = session.getDocuments();
   session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
