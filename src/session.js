@@ -49,10 +49,10 @@ function makeSession() {
       session.setActiveDocuments([{ id: '4', target: 'strudel' }]);
     }
 
-    const playButton = document.getElementById('about-yes-button');
-    if (playButton) {
-      playButton.classList.remove('loading');
-    }
+    // const playButton = document.getElementById('about-yes-button');
+    // if (playButton) {
+    //   playButton.classList.remove('loading');
+    // }
   });
 
   session.on('change', (documents) => {
