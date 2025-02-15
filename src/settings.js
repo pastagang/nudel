@@ -183,6 +183,14 @@ export async function applySettingsToNudel(settings = getSettings()) {
       if (confirmed) window.location.reload();
       else next.trackRemoteCursors = previous.trackRemoteCursors;
     }
+
+    if (isSettingChanged('workerTimers2', diff)) {
+      const confirmed = await nudelConfirm(
+        `${next.workerTimers2 ? 'Enabling' : 'Disabling'} worker timers triggers a reload. Are you sure you want to ${next.workerTimers2 ? 'enable' : 'disable'} it?`,
+      );
+      if (confirmed) window.location.reload();
+      else next.workerTimers2 = previous.workerTimers2;
+    }
   }
 
   zenModeCheckbox && (zenModeCheckbox.checked = next.zenMode);
