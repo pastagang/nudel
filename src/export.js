@@ -69,7 +69,7 @@ export function getPrettyDate() {
   return new Date().toISOString().slice(0, 16).replace('T', ' ');
 }
 
-export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()}.txt` } = {}) {
+export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()}.js` } = {}) {
   // Download file
   var hiddenElement = document.createElement('a');
   hiddenElement.href = 'data:attachment/text,' + encodeURI(txt);
