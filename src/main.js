@@ -70,9 +70,10 @@ document.getElementById('add-pane-button')?.addEventListener('click', () => {
     console.error('cannot add more than 8 panes');
     return;
   }
+  const nextID = [1, 2, 3, 4, 5, 6, 7, 8].find((number) => !documents.find((doc) => Number(doc.id) === number));
   const newDocs = [
     ...documents.map((doc) => ({ id: doc.id, target: doc.target })),
-    { id: String(documents.length + 1), target: 'strudel' },
+    { id: nextID + '', target: 'strudel' },
   ];
   session.setActiveDocuments(newDocs);
 });
