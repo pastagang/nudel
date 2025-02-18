@@ -4,7 +4,7 @@ import { pastamirror, Frame } from './main.js';
 import { clearGlobalError, setError, clearLocalError } from './error.js';
 import { getSettings } from './settings.js';
 
-const PASTAGANG_ROOM_NAME = 'pastagang2';
+const PASTAGANG_ROOM_NAME = 'pastagang3';
 
 /** @type {Session | null} */
 let _session = null;
