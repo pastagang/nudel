@@ -70,3 +70,28 @@ it would be good to stay compatible to flok.cc (and potential other clients), so
 by compatible, i mean the overlapping features should behave similarly, and features that do not overlap should not cause problems.
 
 -->
+
+## jamming offline
+
+this has to be done once per machine:
+
+```sh
+git clone --recurse-submodules https://github.com/felixroos/dough-samples.git # download samples
+git clone https://github.com/munshkr/flok.git # clone flok repo
+git clone https://github.com/pastagang/nudel.git # clone nudel repo
+```
+
+also, make sure you have node.js >= v20. (check via `node --version`)
+
+when you're ready to jam offline:
+
+```sh
+# run these commands in 3 separate terminals:
+cd dough-samples && npx serve -p 6543 --cors # serve samples at http://localhost:6543
+cd flok/packages/server && npm run start # start flok server at http://localhost:3000
+cd nudel && pnpm dev # run nudel locally at http://localhost:5173/
+```
+
+1. open nudel at <http://localhost:5173/>
+2. enter offline room (Menu -> Settings -> Custom Room: "offline")
+3. refresh page
