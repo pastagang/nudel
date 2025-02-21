@@ -73,25 +73,56 @@ by compatible, i mean the overlapping features should behave similarly, and feat
 
 ## jamming offline
 
-this has to be done once per machine:
+you can use nudel offline to jam with multiple people in the same wifi network.
+one person needs to be the host, which opens the flok server and serves the samples.
+
+### host setup
+
+if you plan to be the host, you need to clone these 3 repos:
 
 ```sh
 git clone --recurse-submodules https://github.com/felixroos/dough-samples.git # download samples
 git clone https://github.com/munshkr/flok.git # clone flok repo
 git clone https://github.com/pastagang/nudel.git # clone nudel repo
+cd nudel && npm i
 ```
 
-also, make sure you have node.js >= v20. (check via `node --version`)
-
-when you're ready to jam offline:
+when you're ready to jam:
 
 ```sh
-# run these commands in 3 separate terminals:
-cd dough-samples && npx serve -p 6543 --cors # serve samples at http://localhost:6543
-cd flok/packages/server && npm run start # start flok server at http://localhost:3000
-cd nudel && pnpm dev # run nudel locally at http://localhost:5173/
+# find out your ip
+ifconfig | grep 192 # look for something like 192.168.1.11
+
+# serve samples at http://192.168.1.11:6543
+cd ~/projects/dough-samples && npx serve -p 6543 --cors 
+
+# run flok server at http://192.168.1.11:3000
+cd ~/projects/flok/packages/server && npm run start -- --host 192.168.1.11
+
+# run nudel locally at http://localhost:5173/
+cd ~/projects/nudel && pnpm dev 
 ```
 
+### client setup
+
+if you're not the host, you only need to clone nudel:
+
+```sh
+git clone https://github.com/pastagang/nudel.git # clone nudel repo
+cd nudel && npm i
+```
+
+when you're ready to jam:
+
+```sh
+# run nudel locally at http://localhost:5173/
+cd ~/projects/nudel && pnpm dev 
+```
+
+### entering offline mode
+
+to enter offline mode, you need to enter the ip of the host as the room:
+
 1. open nudel at <http://localhost:5173/>
-2. enter offline room (Menu -> Settings -> Custom Room: "offline")
+2. enter IP of flok server as room `http://192.168.1.11` (menu -> settings -> custom room)
 3. refresh page

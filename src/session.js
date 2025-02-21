@@ -35,15 +35,17 @@ function makeSession() {
 
   const roomName = getRoomName();
 
-  const offlineMode = roomName === 'offline';
+  const offlineMode = roomName.startsWith('http://');
   window['offlineMode'] = offlineMode;
 
   let sessionConfig;
   if (offlineMode) {
+    const hostname = roomName.split('http://')[1].split(':')[0] + ':3000';
+    console.log('hostname', hostname);
     sessionConfig = {
       // git clone https://github.com/munshkr/flok.git
       // cd flok/packages/server && npm run start
-      hostname: 'localhost:3000',
+      hostname,
     };
   } else {
     sessionConfig = {
