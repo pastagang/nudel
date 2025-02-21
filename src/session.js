@@ -34,10 +34,24 @@ function makeSession() {
   }
 
   const roomName = getRoomName();
-  const session = new Session(roomName, {
-    hostname: 'flok.cc',
-    isSecure: true,
-  });
+
+  const offlineMode = roomName === 'offline';
+  window['offlineMode'] = offlineMode;
+
+  let sessionConfig;
+  if (offlineMode) {
+    sessionConfig = {
+      // git clone https://github.com/munshkr/flok.git
+      // cd flok/packages/server && npm run start
+      hostname: 'localhost:3000',
+    };
+  } else {
+    sessionConfig = {
+      hostname: 'flok.cc',
+      isSecure: true,
+    };
+  }
+  const session = new Session(roomName, sessionConfig);
 
   session.on('sync', () => {
     // If session is empty, create two documents

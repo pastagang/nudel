@@ -31,7 +31,7 @@ window.kabel = register('kabel', (id, pat) => {
 });
 
 export class StrudelSession {
-  constructor({ onError, onHighlight, onUpdateMiniLocations }) {
+  constructor({ onError, onHighlight, onUpdateMiniLocations, offlineMode }) {
     this.patterns = {};
     this.pPatterns = {};
     this.allTransform = undefined;
@@ -40,18 +40,32 @@ export class StrudelSession {
     this.onHighlight = onHighlight;
     this.onUpdateMiniLocations = onUpdateMiniLocations;
     this.enableAutoAnalyze = true;
+    this.offlineMode = offlineMode;
     this.init();
   }
 
   loadSamples() {
-    const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main/';
-    return Promise.all([
-      samples(`${ds}/tidal-drum-machines.json`),
-      samples(`${ds}/piano.json`),
-      samples(`${ds}/Dirt-Samples.json`),
-      samples(`${ds}/EmuSP12.json`),
-      samples(`${ds}/vcsl.json`),
-    ]);
+    if (this.offlineMode) {
+      // https://github.com/felixroos/dough-samples/?tab=readme-ov-file#going-offline
+      const base = 'http://localhost:6543';
+      return Promise.all([
+        samples(base + '/tidal-drum-machines.json', base + '/tidal-drum-machines/machines/'),
+        samples(base + '/piano.json', base + '/piano/'),
+        samples(base + '/Dirt-Samples.json', base + '/Dirt-Samples/'),
+        samples(base + '/EmuSP12.json', base + '/tidal-drum-machines/machines/'),
+        samples(base + '/vcsl.json', base + '/VCSL/'),
+        samples(base + '/mridangam.json', base + '/mrid/'),
+      ]);
+    } else {
+      const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main';
+      return Promise.all([
+        samples(`${ds}/tidal-drum-machines.json`),
+        samples(`${ds}/piano.json`),
+        samples(`${ds}/Dirt-Samples.json`),
+        samples(`${ds}/EmuSP12.json`),
+        samples(`${ds}/vcsl.json`),
+      ]);
+    }
   }
 
   async init() {
