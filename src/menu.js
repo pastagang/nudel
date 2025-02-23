@@ -10,6 +10,9 @@ const aboutButton = document.querySelector('#about-button');
 const helpButton = document.querySelector('#help-button');
 const aboutDialog = document.querySelector('#about-dialog');
 const playButton = document.querySelector('#about-yes-button');
+const docsButton = document.querySelector("#docs-button");
+
+const root = document.documentElement;
 
 menuButton?.addEventListener('click', (e) => {
   menuContainer?.classList.toggle('open');
@@ -33,6 +36,14 @@ aboutButton?.addEventListener('click', () => {
   aboutDialog?.showModal();
   playButton?.focus();
 });
+
+docsButton?.addEventListener('click', () => {
+  if (root?.classList.contains('sidebarOpen')) {
+    root?.classList.remove('sidebarOpen');
+  } else {
+    root?.classList.add('sidebarOpen');
+  }
+})
 
 const html = document.documentElement;
 
