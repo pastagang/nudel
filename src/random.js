@@ -39,6 +39,12 @@ const TAGS = [
   'pollo',
 ];
 
+const MANTRAS = [
+  "let code die",
+  "you don't need it",
+  "pastagang made it, not you"
+];
+
 export function getRandomName(tagCount = 2) {
   let name = '';
   for (let i = 0; i < tagCount; i++) {
@@ -50,4 +56,10 @@ export function getRandomName(tagCount = 2) {
     }
   }
   return name;
+}
+
+export function getRandomMantra() {
+  const randomIndex = Math.floor(Math.random() * MANTRAS.length);
+  const randomMantra = MANTRAS[randomIndex];
+  return randomMantra;
 }
