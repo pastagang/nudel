@@ -42,7 +42,8 @@ const TAGS = [
 const MANTRAS = [
   "let code die",
   "you don't need it",
-  "pastagang made it, not you"
+  "pastagang made it, not you",
+  "quality NO. energy YES.",
 ];
 
 export function getRandomName(tagCount = 2) {
@@ -58,6 +59,8 @@ export function getRandomName(tagCount = 2) {
   return name;
 }
 
+// todo: make this show everyone the same mantra
+// see: github.com/pastagang/dotcool
 export function getRandomMantra() {
   const randomIndex = Math.floor(Math.random() * MANTRAS.length);
   const randomMantra = MANTRAS[randomIndex];
