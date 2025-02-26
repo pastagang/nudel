@@ -62,12 +62,6 @@ any changes to `main` will be deployed immediately to [nudel.cc](https://nudel.c
 
 if you break something, that's ok. (we can use [todepond.cool/flok](https://www.todepond.cool/flok) as a backup)
 
-<br>
-
-<a href="https://github.com/pastagang/nudel/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=pastagang/nudel" />
-</a>
-
 <!--
 
 ## flok compatibility
