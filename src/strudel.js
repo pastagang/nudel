@@ -55,6 +55,7 @@ export class StrudelSession {
         samples(base + '/EmuSP12.json', base + '/tidal-drum-machines/machines/'),
         samples(base + '/vcsl.json', base + '/VCSL/'),
         samples(base + '/mridangam.json', base + '/mrid/'),
+        samples(base + '/Dough-Fox/strudel.json', base + '/Dough-Fox/'),
       ]);
     } else {
       const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main';
