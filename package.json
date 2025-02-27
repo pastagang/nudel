@@ -4,7 +4,7 @@
   "version": "1.2.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5419 --host",
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write .",
@@ -33,6 +33,7 @@
     "@strudel/reference": "^1.1.0",
     "@strudel/soundfonts": "^1.1.0",
     "@strudel/tonal": "^1.1.0",
+    "@strudel/midi": "^1.1.0",
     "@strudel/transpiler": "^1.1.0",
     "@strudel/webaudio": "^1.1.0",
     "codemirror": "^6.0.1",
