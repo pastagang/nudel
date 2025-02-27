@@ -15,6 +15,7 @@ import { getSettings } from './settings.js';
 import { insertNewline } from '@codemirror/commands';
 import { nudelAlert } from './alert.js';
 import { strudelAutocomplete } from './strudel-autocomplete.js';
+import { UndoManager } from 'yjs';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
@@ -66,9 +67,9 @@ export class PastaMirror {
         Prec.highest(
           keymap.of([
             // Disable Undo/Redo
-            { key: 'Mod-z', preventDefault: true, run: () => true }, // Disable Undo (Ctrl+Z / Cmd+Z)
+            /* { key: 'Mod-z', preventDefault: true, run: () => true }, // Disable Undo (Ctrl+Z / Cmd+Z)
             { key: 'Mod-Shift-z', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Shift+Z / Cmd+Shift+Z)
-            { key: 'Mod-y', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Y)
+            { key: 'Mod-y', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Y) */
             // stop pane
             ...['Ctrl-.', 'Alt-.'].map((key) => ({
               key,
@@ -251,6 +252,7 @@ export class PastaMirror {
   flokBasicSetup(doc) {
     doc.collabCompartment = new Compartment(); // yeah this is dirty
     const text = doc.getText();
+    const undoManager = new UndoManager(text);
     const web = true;
 
     // TODO: automatically set scrollIntoView, based on mode
@@ -258,6 +260,7 @@ export class PastaMirror {
     // we don't want cursor tracking on mobile!
     const scrollIntoView = getSettings().trackRemoteCursors2;
     const collab = yCollab(text, doc.session.awareness, {
+      undoManager,
       showLocalCaret: true,
       scrollIntoView,
     });
