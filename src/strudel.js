@@ -53,9 +53,14 @@ export class StrudelSession {
         samples(base + '/piano.json', base + '/piano/'),
         samples(base + '/Dirt-Samples.json', base + '/Dirt-Samples/'),
         samples(base + '/EmuSP12.json', base + '/tidal-drum-machines/machines/'),
-        samples(base + '/vcsl.json', base + '/VCSL/'),
+        //samples(base + '/vcsl.json', base + '/VCSL/'),
         samples(base + '/mridangam.json', base + '/mrid/'),
         samples(base + '/Dough-Fox/strudel.json', base + '/Dough-Fox/'),
+        samples(base + '/garden/strudel.json', base + '/garden/'),
+        samples(base + '/crate/strudel.json', base + '/crate/'),
+        samples(base + '/lui/strudel.json', base + '/lui/'),
+        samples(base + '/wax/strudel.json', base + '/wax/'),
+        samples(base + '/snes/strudel.json', base + '/snes/'),
       ]);
     } else {
       const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main';
