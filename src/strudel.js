@@ -65,6 +65,7 @@ export class StrudelSession {
     this.mini = await import('@strudel/mini');
     this.webaudio = await import('@strudel/webaudio');
     this.draw = await import('@strudel/draw');
+    this.midi = await import('@strudel/midi');
 
     await evalScope(
       this.core,
@@ -73,6 +74,7 @@ export class StrudelSession {
       this.draw,
       import('@strudel/tonal'),
       import('@strudel/soundfonts'),
+      this.midi,
       controls,
     );
     try {
@@ -120,7 +122,7 @@ export class StrudelSession {
         );
         // filter out haps that are not active right now
         const currentFrame = allHaps.filter(
-          (hap) => hap.whole.begin && phase >= hap.whole.begin && phase <= hap.endClipped,
+          (hap) => hap.whole?.begin && phase >= hap.whole.begin && phase <= hap.endClipped,
         );
         // iterate over each strudel doc
         Object.keys(this.patterns).forEach((docId) => {
