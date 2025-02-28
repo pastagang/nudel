@@ -42,6 +42,44 @@ export class StrudelSession {
     this.enableAutoAnalyze = true;
     this.init();
   }
+  printSounds() {
+    const sounds = this.webaudio?.soundMap.get();
+    let lines = [''];
+
+    let lastGroup;
+    Object.entries(sounds).forEach(([key, sound]) => {
+      if (key === '_base') {
+        return;
+      }
+      if (sound.data.baseUrl?.includes('tidal-drum-machines')) {
+        return;
+      }
+      const sounds = sound.data.samples;
+      const [group, ...rest] = key.split('_');
+      if (rest.length && group !== lastGroup) {
+        lines.push(`----- ${group} -----`);
+        lines.push('');
+        lastGroup = group;
+      } else if (!rest.length && lastGroup !== '') {
+        lines.push(`----------`);
+        lines.push('');
+        lastGroup = '';
+      }
+      let extra = '';
+      if (Array.isArray(sounds)) {
+        extra = `:${sounds.length}`;
+      }
+
+      let name = key;
+      /* if (group === lastGroup && key.length > group.length) {
+        name = key.slice(group.length + 1);
+      } */
+      lines[lines.length - 1] += ` ${name}${extra}`;
+      lines[lines.length - 1] = lines[lines.length - 1].trim();
+    });
+
+    console.log(lines.join('\n'));
+  }
 
   loadSamples() {
     const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main/';
@@ -79,6 +117,7 @@ export class StrudelSession {
     );
     try {
       await Promise.all([this.loadSamples(), registerSynthSounds(), registerSoundfonts()]);
+      this.printSounds();
     } catch (err) {
       this.onError(err);
     }
