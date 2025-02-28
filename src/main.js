@@ -50,7 +50,7 @@ if (isDevelopmentEnvironment()) {
 //
 // - By disabling paste, we prioritise being in the moment, and creating with others in the open.
 //=======================================================================================
-addEventListener(
+/* addEventListener(
   'paste',
   (e) => {
     if (getSettings().pastingMode) return;
@@ -60,7 +60,7 @@ addEventListener(
     );
   },
   { passive: false, capture: true },
-);
+); */
 
 // add / remove panes
 document.getElementById('add-pane-button')?.addEventListener('click', () => {

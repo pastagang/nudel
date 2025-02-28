@@ -66,9 +66,10 @@ export class PastaMirror {
         Prec.highest(
           keymap.of([
             // Disable Undo/Redo
-            { key: 'Mod-z', preventDefault: true, run: () => true }, // Disable Undo (Ctrl+Z / Cmd+Z)
+            /* { key: 'Mod-z', preventDefault: true, run: () => true }, // Disable Undo (Ctrl+Z / Cmd+Z)
             { key: 'Mod-Shift-z', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Shift+Z / Cmd+Shift+Z)
             { key: 'Mod-y', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Y)
+             */
             // stop pane
             ...['Ctrl-.', 'Alt-.'].map((key) => ({
               key,
