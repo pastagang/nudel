@@ -479,7 +479,6 @@ iframe#kabelsalat {
   z-index: 1000;
   top: 0;
   right: 0;
-  padding: 0.25em;
 }
 
 #menu-content {
@@ -501,37 +500,6 @@ iframe#kabelsalat {
 
 #menu-container.open #menu-content {
   display: flex;
-}
-
-#sidebar-container {
-  position: fixed;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  width: 20%;
-  min-width: 350px;
-  visibility: hidden;
-}
-
-#docs-selector {
-  width: calc(100% - 0.5em);
-  margin: 0.25em;
-}
-
-#docs-frame {
-  border: none;
-}
-
-.sidebarOpen {
-  #sidebar-container {
-    visibility: visible;
-  }
-  .slots {
-    padding-left: calc(max(20%, 350px));
-  }
-  .tabs {
-    padding-left: calc(max(20%, 350px));
-  }
 }
 
 .development {
