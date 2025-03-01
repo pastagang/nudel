@@ -2,7 +2,7 @@ import { Session } from '@flok-editor/session';
 import { getStdSource } from './export.js';
 import { pastamirror, Frame } from './main.js';
 import { clearGlobalError, setError, clearLocalError } from './error.js';
-import { getSettings } from './settings.js';
+import { getColorFromUserHue, getSettings, getUserColorFromUserHue } from './settings.js';
 import { getChatSessionName, handleChatMessage, subscribeToChat, unsubscribeFromChat } from './chat.js';
 
 const PASTAGANG_ROOM_NAME = 'pastagang3';
@@ -104,6 +104,10 @@ function makeSession() {
   session.on('eval', (msg) => clearLocalError(msg.docId));
 
   session.initialize();
+
+  const settings = getSettings();
+  session.user = settings.username.trim() || 'anonymous nudelfan';
+  session.userColor = getUserColorFromUserHue(settings.userHue);
 
   return session;
 }

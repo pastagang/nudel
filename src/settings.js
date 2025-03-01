@@ -246,7 +246,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   }
 
   if (isSettingChanged('username', diff) || isSettingChanged('userHue', diff)) {
-    session.userColor = { color: getColorFromUserHue(next.userHue), light: `hsla(${next.userHue}, 100%, 75%, 0.1875)` };
+    session.userColor = getUserColorFromUserHue(next.userHue);
     usernamePreview?.style.setProperty('background-color', session.userColor.color);
     usernamePreview && (usernamePreview.textContent = session.user);
   }
@@ -379,4 +379,8 @@ function getRandomUserHue() {
 
 export function getColorFromUserHue(hue) {
   return `hsl(${hue}, 100%, 75%)`;
+}
+
+export function getUserColorFromUserHue(hue) {
+  return { color: getColorFromUserHue(hue), light: `hsla(${hue}, 100%, 75%, 0.1875)` };
 }
