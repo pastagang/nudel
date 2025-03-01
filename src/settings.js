@@ -234,7 +234,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   }
 
   if (isSettingChanged('username', diff) || isSettingChanged('userHue', diff)) {
-    session.userColor = { color: `hsl(${next.userHue}, 100%, 75%)`, light: `hsla(${next.userHue}, 100%, 75%, 0.1875)` };
+    session.userColor = { color: getColorFromUserHue(next.userHue), light: `hsla(${next.userHue}, 100%, 75%, 0.1875)` };
     usernamePreview?.style.setProperty('background-color', session.userColor.color);
     usernamePreview && (usernamePreview.textContent = session.user);
   }
@@ -363,4 +363,8 @@ resetButton?.addEventListener('click', async () => {
 
 function getRandomUserHue() {
   return Math.floor(Math.random() * 360);
+}
+
+export function getColorFromUserHue(hue) {
+  return `hsl(${hue}, 100%, 75%)`;
 }

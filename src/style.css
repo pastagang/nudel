@@ -569,7 +569,6 @@ dialog {
 .message-container {
   position: fixed; /* top + left is set from code */
   background-color: #33333399;
-  color: white;
   opacity: 1;
   z-index: 1000;
   font-size: 16.8px;
