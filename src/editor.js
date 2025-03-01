@@ -15,6 +15,8 @@ import { getColorFromUserHue, getSettings } from './settings.js';
 import { insertNewline } from '@codemirror/commands';
 import { nudelAlert } from './alert.js';
 import { strudelAutocomplete } from './strudel-autocomplete.js';
+import { pastamirror } from './main.js';
+import { getSession } from './session.js';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
@@ -92,8 +94,17 @@ export class PastaMirror {
                 return true;
               },
             })),
-            {
-              key: 'Backspace',
+            ...[
+              // no idea if these are right lol
+              // just guessing
+              'Backspace',
+              'Shift-Backspace',
+              'Ctrl-Backspace',
+              'Mod-Backspace',
+              'Meta-Backspace',
+              'Cmd-Backspace',
+            ].map((key) => ({
+              key,
               run: () => {
                 let from = view.state.selection.main.from;
                 let to = view.state.selection.main.to;
@@ -103,27 +114,30 @@ export class PastaMirror {
                   from -= 1;
                   const char = view.state.sliceDoc(from, to).trim();
                   if (char === '') return false;
-                  doc.session._pubSubClient.publish(`session:pastagang:chat`, {
+                  sendChatMessage({
                     docId: doc.id,
                     message: char,
-                    user: doc.session.user,
                     from,
+                    user: doc.session.user,
+                    color: doc.session.userColor.color,
                   });
 
                   return false;
                 }
 
                 const message = view.state.sliceDoc(from, to).trim();
-                doc.session._pubSubClient.publish(`session:pastagang:chat`, {
+                sendChatMessage({
                   docId: doc.id,
                   message,
-                  user: doc.session.user,
                   from,
+                  user: doc.session.user,
+                  color: doc.session.userColor.color,
                 });
 
                 return false;
               },
-            }, // Disable Backspace
+            })),
+            // Disable Backspace
             // chat current line..
             ...['Shift-Enter'].map((key) => ({
               key,
@@ -144,11 +158,13 @@ export class PastaMirror {
                 // see: #80
                 to = Math.min(to, view.state.doc.length);
                 const message = view.state.sliceDoc(from, to).trim();
-                doc.session._pubSubClient.publish(`session:pastagang:chat`, {
+
+                sendChatMessage({
                   docId: doc.id,
                   message,
-                  user: doc.session.user,
                   from,
+                  user: doc.session.user,
+                  color: doc.session.userColor.color,
                 });
 
                 const transaction = view.state.update({
@@ -371,7 +387,7 @@ export class PastaMirror {
     if (pos) {
       const messageContainer = document.createElement('div');
       messageContainer.innerText = message.message;
-      const pointer_color = getColorFromUserHue(getSettings().userHue);
+      const pointer_color = message.color;
       messageContainer.style = `position:fixed;top:${pos.top}px;left:${pos.left}px`;
       messageContainer.style.color = pointer_color;
       messageContainer.classList.add('rising-animation');
@@ -384,4 +400,15 @@ export class PastaMirror {
       console.warn('could not get line position');
     }
   }
+}
+
+export function sendChatMessage({ docId, message, from, user, color }) {
+  const session = getSession();
+  session._pubSubClient.publish(`session:pastagang:chat`, {
+    docId,
+    message,
+    user,
+    from,
+    color,
+  });
 }
