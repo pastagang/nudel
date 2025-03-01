@@ -5,7 +5,7 @@ import { Compartment, EditorState, Prec } from '@codemirror/state';
 import { keymap, lineNumbers } from '@codemirror/view';
 import { evalKeymap, flashField, remoteEvalFlash } from '@flok-editor/cm-eval';
 import { vim } from '@replit/codemirror-vim';
-import { highlightExtension } from '@strudel/codemirror';
+import { highlightExtension, settings } from '@strudel/codemirror';
 import { EditorView, minimalSetup } from 'codemirror';
 import { yCollab } from 'y-codemirror.next';
 import './style.css';
@@ -66,10 +66,15 @@ export class PastaMirror {
         Prec.highest(
           keymap.of([
             // Disable Undo/Redo
-            /* { key: 'Mod-z', preventDefault: true, run: () => true }, // Disable Undo (Ctrl+Z / Cmd+Z)
+            //~~~~~~~~~~~~~~~~~~~~~~~
+            // Try keeping undo disabled in your algorave!
+            // Set yourself free. The results may surprise you.
+            //
+            // https://www.youtube.com/watch?v=mKE-aMVR0E4
+            //~~~~~~~~~~~~~~~~~~~~~~~
+            { key: 'Mod-z', preventDefault: true, run: () => true }, // Disable Undo (Ctrl+Z / Cmd+Z)
             { key: 'Mod-Shift-z', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Shift+Z / Cmd+Shift+Z)
             { key: 'Mod-y', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Y)
-             */
             // stop pane
             ...['Ctrl-.', 'Alt-.'].map((key) => ({
               key,
