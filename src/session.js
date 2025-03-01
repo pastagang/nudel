@@ -2,8 +2,8 @@ import { Session } from '@flok-editor/session';
 import { getStdSource } from './export.js';
 import { pastamirror, Frame } from './main.js';
 import { clearGlobalError, setError, clearLocalError } from './error.js';
-import { getColorFromUserHue, getSettings, getUserColorFromUserHue } from './settings.js';
-import { getChatSessionName, handleChatMessage, subscribeToChat, unsubscribeFromChat } from './chat.js';
+import { getSettings, getUserColorFromUserHue } from './settings.js';
+import { subscribeToChat, unsubscribeFromChat } from './chat.js';
 
 const PASTAGANG_ROOM_NAME = 'pastagang3';
 
