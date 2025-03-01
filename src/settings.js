@@ -1,3 +1,4 @@
+import { nudelAlert } from './alert.js';
 import { nudelConfirm } from './confirm.js';
 import { clearStrudelHighlights, Frame, pastamirror } from './main.js';
 import { getRandomName } from './random.js';
@@ -190,6 +191,17 @@ export async function applySettingsToNudel(settings = getSettings()) {
       );
       if (confirmed) window.location.reload();
       else next.workerTimers2 = previous.workerTimers2;
+    }
+
+    if (isSettingChanged('customRoomEnabled', diff)) {
+      if (next.customRoomEnabled) {
+        const confirmed = await nudelConfirm(
+          `You're leaving the jam. Every time you do this, the power of pastagang fades a little bit. Are you sure you want to continue?`,
+        );
+        if (!confirmed) next.customRoomEnabled = false;
+      } else {
+        nudelAlert('Welcome home.');
+      }
     }
   }
 
