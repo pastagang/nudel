@@ -92,6 +92,38 @@ export class PastaMirror {
                 return true;
               },
             })),
+            {
+              key: 'Backspace',
+              run: () => {
+                let from = view.state.selection.main.from;
+                let to = view.state.selection.main.to;
+
+                // if there is no selection, send the character before the caret to the chat
+                if (view.state.selection.main.empty) {
+                  from -= 1;
+                  const char = view.state.sliceDoc(from, to).trim();
+                  if (char === '') return false;
+                  doc.session._pubSubClient.publish(`session:pastagang:chat`, {
+                    docId: doc.id,
+                    message: char,
+                    user: doc.session.user,
+                    from,
+                  });
+
+                  return false;
+                }
+
+                const message = view.state.sliceDoc(from, to).trim();
+                doc.session._pubSubClient.publish(`session:pastagang:chat`, {
+                  docId: doc.id,
+                  message,
+                  user: doc.session.user,
+                  from,
+                });
+
+                return false;
+              },
+            }, // Disable Backspace
             // chat current line..
             ...['Shift-Enter'].map((key) => ({
               key,
