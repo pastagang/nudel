@@ -334,7 +334,9 @@ export class PastaMirror {
     if (pos) {
       const messageContainer = document.createElement('div');
       messageContainer.innerText = message.message;
+      const pointer_color =  `hsl(${getSettings().userHue}, 50%, 100%)`;
       messageContainer.style = `position:fixed;top:${pos.top}px;left:${pos.left}px`;
+      messageContainer.style.color = pointer_color
       messageContainer.classList.add('rising-animation');
       messageContainer.classList.add('message-container');
       chatContainer?.appendChild(messageContainer);
