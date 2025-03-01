@@ -24,6 +24,13 @@ window.updateMiniLocations = updateMiniLocations; // we cannot import this for s
 
 // dynamic codemirror extensions
 
+let backspaceWasPressed = false;
+addEventListener('keyup', (e) => {
+  if (e.key === 'Backspace') {
+    backspaceWasPressed = false;
+  }
+});
+
 export class PastaMirror {
   supportedTargets = ['strudel', 'hydra', 'shader', 'kabelsalat'];
   editorViews = new Map();
@@ -114,6 +121,10 @@ export class PastaMirror {
                   from -= 1;
                   const char = view.state.sliceDoc(from, to).trim();
                   if (char === '') return false;
+                  if (backspaceWasPressed) {
+                    from -= 1;
+                  }
+                  backspaceWasPressed = true;
                   sendChatMessage({
                     docId: doc.id,
                     message: char,
@@ -386,7 +397,8 @@ export class PastaMirror {
 
   chat(message) {
     const view = this.editorViews.get(message.docId);
-    const pos = view.coordsAtPos(message.from);
+    let from = message.from;
+    const pos = view.coordsAtPos(from);
     const chatContainer = document.querySelector('.chat-container');
     if (pos) {
       const messageContainer = document.createElement('div');
