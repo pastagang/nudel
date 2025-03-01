@@ -50,7 +50,13 @@ if (isDevelopmentEnvironment()) {
 //
 // - By disabling paste, we prioritise being in the moment, and creating with others in the open.
 //=======================================================================================
-/* addEventListener(
+addEventListener(
+  //~~~~~~~~~~~~~~~~~~~~~~~
+  // Try keeping paste disabled in your algorave!
+  // Set yourself free. The results may surprise you.
+  //
+  // https://www.youtube.com/watch?v=mKE-aMVR0E4
+  //~~~~~~~~~~~~~~~~~~~~~~~
   'paste',
   (e) => {
     if (getSettings().pastingMode) return;
@@ -60,7 +66,7 @@ if (isDevelopmentEnvironment()) {
     );
   },
   { passive: false, capture: true },
-); */
+);
 
 // add / remove panes
 document.getElementById('add-pane-button')?.addEventListener('click', () => {
