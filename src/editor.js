@@ -15,7 +15,7 @@ import { getColorFromUserHue, getSettings } from './settings.js';
 import { insertNewline } from '@codemirror/commands';
 import { nudelAlert } from './alert.js';
 import { strudelAutocomplete } from './strudel-autocomplete.js';
-import { pastamirror } from './main.js';
+import { handleChatMessage, sendChatMessage } from './chat.js';
 import { getSession } from './session.js';
 
 // we need to access these variables from the strudel iframe:
@@ -394,37 +394,4 @@ export class PastaMirror {
       }
     }
   }
-
-  chat(message) {
-    const view = this.editorViews.get(message.docId);
-    let from = message.from;
-    const pos = view.coordsAtPos(from);
-    const chatContainer = document.querySelector('.chat-container');
-    if (pos) {
-      const messageContainer = document.createElement('div');
-      messageContainer.innerText = message.message;
-      const pointer_color = message.color;
-      messageContainer.style = `position:fixed;top:${pos.top}px;left:${pos.left}px`;
-      messageContainer.style.color = pointer_color;
-      messageContainer.classList.add('rising-animation');
-      messageContainer.classList.add('message-container');
-      chatContainer?.appendChild(messageContainer);
-      setTimeout(() => {
-        messageContainer.remove();
-      }, 7000);
-    } else {
-      console.warn('could not get line position');
-    }
-  }
-}
-
-export function sendChatMessage({ docId, message, from, user, color }) {
-  const session = getSession();
-  session._pubSubClient.publish(`session:pastagang:chat`, {
-    docId,
-    message,
-    user,
-    from,
-    color,
-  });
 }

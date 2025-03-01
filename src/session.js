@@ -3,6 +3,7 @@ import { getStdSource } from './export.js';
 import { pastamirror, Frame } from './main.js';
 import { clearGlobalError, setError, clearLocalError } from './error.js';
 import { getSettings } from './settings.js';
+import { getChatSessionName, handleChatMessage, subscribeToChat, unsubscribeFromChat } from './chat.js';
 
 const PASTAGANG_ROOM_NAME = 'pastagang3';
 
@@ -74,12 +75,14 @@ function makeSession() {
     // session._pubSubClient seems to take a while to be defined..
     // this might or might not be a good place to make sure its ready
     // the event might call multiple times so... do i need to unsub???
-    session._pubSubClient.subscribe(`session:pastagang:chat`, (args) => pastamirror.chat(args.message));
+    subscribeToChat();
   });
   session.on('pubsub:close', () => {
     // untested
     setError('Disconnected from Server...');
     // unsub session:pastagang:chat here?
+    // lets try (?)
+    unsubscribeFromChat();
   });
 
   // hydra
