@@ -139,7 +139,7 @@ export class PastaMirror {
             })),
             // Disable Backspace
             // chat current line..
-            ...['Shift-Enter'].map((key) => ({
+            ...['Shift-Enter', 'Ctrl-x', 'Mod-x'].map((key) => ({
               key,
               run: (view) => {
                 let from = view.state.selection.main.from;
@@ -167,11 +167,15 @@ export class PastaMirror {
                   color: doc.session.userColor.color,
                 });
 
-                const transaction = view.state.update({
-                  changes: { from, to, insert: '' },
-                });
-                view.dispatch(transaction);
-                return true;
+                if (key === 'Shift-Enter') {
+                  const transaction = view.state.update({
+                    changes: { from, to, insert: '' },
+                  });
+                  view.dispatch(transaction);
+                  return true;
+                }
+
+                return false;
               },
             })),
             // overrides Enter to disable auto indenting..
