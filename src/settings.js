@@ -62,6 +62,7 @@ const defaultSettings = {
   workerTimers2: true,
   customRoomEnabled: false,
   customRoomName: getRandomName(3),
+  docsURL: 'https://strudel.cc/workshop/getting-started/'
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -88,6 +89,8 @@ const customRoomNameInput = document.querySelector('#settings-room-name');
 const roomPickerFieldset = document.querySelector('#room-picker');
 const usernamePreview = document.querySelector('#username-preview');
 const userHueRange = document.querySelector('#settings-color');
+const docsURLPicker = document.querySelector("#docs-selector");
+const docsFrame = document.querySelector("#docs-frame");
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -112,6 +115,7 @@ function inferSettingsFromDom() {
     strudelHighlightsEnabled: strudelHighlightsEnabledCheckbox?.checked ?? defaultSettings.strudelHighlightsEnabled,
     customRoomEnabled: customRoomEnabledRadio?.checked ?? defaultSettings.customRoomEnabled,
     customRoomName: customRoomNameInput?.value ?? defaultSettings.customRoomName,
+    docsURL: docsURLPicker?.value ?? defaultSettings.docsURL
   };
   return inferredSettings;
 }
@@ -136,6 +140,7 @@ function inferSettingsFromDom() {
   strudelHighlightsEnabledCheckbox,
   roomPickerFieldset,
   customRoomNameInput,
+  docsURLPicker
   // userHueRange,
 ].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
 [usernameInput, userHueRange].forEach((v) => v?.addEventListener('input', setSettingsFromDom));
@@ -227,6 +232,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   customRoomDisabledRadio && (customRoomDisabledRadio.checked = !next.customRoomEnabled);
   customRoomEnabledRadio && (customRoomEnabledRadio.checked = next.customRoomEnabled);
   customRoomNameInput && (customRoomNameInput.value = next.customRoomName);
+  docsURLPicker && (docsURLPicker.value = next.docsURL);
 
   if (isSettingChanged('customRoomEnabled', diff)) {
     customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);
@@ -323,6 +329,10 @@ export async function applySettingsToNudel(settings = getSettings()) {
 
   if (isSettingChanged('fontFamily', diff)) {
     document.documentElement.style.cssText = `--font-family: ${next.fontFamily}`;
+  }
+
+  if (isSettingChanged('docsURL', diff)) {
+    docsFrame?.setAttribute("src", next.docsURL)
   }
 
   pastamirror.updateExtensions(diff);
