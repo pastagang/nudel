@@ -11,6 +11,10 @@ export const WEATHER_RULES = {
     name: 'no colors',
     when: () => getNudelDay() % 13 === 10,
   },
+  noNudel: {
+    name: 'no nudel',
+    when: () => getNudelHour() % 37 === 8,
+  },
 };
 
 export function applyWeatherRules(weather) {
@@ -27,6 +31,21 @@ export function applyWeatherRules(weather) {
     document.body.classList.add('grayscale');
   } else {
     document.body.classList.remove('grayscale');
+  }
+
+  // === No nudel =====================================//
+  if (weather.noNudel) {
+    document.body.innerHTML = '';
+    document.body.insertAdjacentHTML(
+      'beforeend',
+      `
+    <div class="dialog-container">
+        <dialog open>
+            <h1>nudel is not available today ⛈️</h1>
+        </dialog>
+      </div>
+    `,
+    );
   }
 }
 
