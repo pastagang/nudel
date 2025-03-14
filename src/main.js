@@ -101,7 +101,7 @@ export function updateMantra() {
   if (!mantraElement) throw Error("Couldn't find mantra element");
   mantraElement.innerHTML = currentMantra;
 
-  if(getWeather().mantraName) {
+  if (getWeather().mantraName) {
     getSession().user = currentMantra;
   }
 }
