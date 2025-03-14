@@ -106,7 +106,8 @@ function makeSession() {
   session.initialize();
 
   const settings = getSettings();
-  session.user = settings.username.trim() || 'anonymous nudelfan';
+  session.user = 'pastagang';
+  // session.user = settings.username.trim() || 'anonymous nudelfan';
   session.userColor = getUserColorFromUserHue(settings.userHue);
 
   return session;

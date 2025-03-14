@@ -62,7 +62,7 @@ const defaultSettings = {
   workerTimers2: true,
   customRoomEnabled: false,
   customRoomName: getRandomName(3),
-  docsURL: 'https://strudel.cc/workshop/getting-started/'
+  docsURL: 'https://strudel.cc/workshop/getting-started/',
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -89,8 +89,8 @@ const customRoomNameInput = document.querySelector('#settings-room-name');
 const roomPickerFieldset = document.querySelector('#room-picker');
 const usernamePreview = document.querySelector('#username-preview');
 const userHueRange = document.querySelector('#settings-color');
-const docsURLPicker = document.querySelector("#docs-selector");
-const docsFrame = document.querySelector("#docs-frame");
+const docsURLPicker = document.querySelector('#docs-selector');
+const docsFrame = document.querySelector('#docs-frame');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -115,7 +115,7 @@ function inferSettingsFromDom() {
     strudelHighlightsEnabled: strudelHighlightsEnabledCheckbox?.checked ?? defaultSettings.strudelHighlightsEnabled,
     customRoomEnabled: customRoomEnabledRadio?.checked ?? defaultSettings.customRoomEnabled,
     customRoomName: customRoomNameInput?.value ?? defaultSettings.customRoomName,
-    docsURL: docsURLPicker?.value ?? defaultSettings.docsURL
+    docsURL: docsURLPicker?.value ?? defaultSettings.docsURL,
   };
   return inferredSettings;
 }
@@ -140,7 +140,7 @@ function inferSettingsFromDom() {
   strudelHighlightsEnabledCheckbox,
   roomPickerFieldset,
   customRoomNameInput,
-  docsURLPicker
+  docsURLPicker,
   // userHueRange,
 ].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
 [usernameInput, userHueRange].forEach((v) => v?.addEventListener('input', setSettingsFromDom));
@@ -248,7 +248,8 @@ export async function applySettingsToNudel(settings = getSettings()) {
   const session = getSession();
 
   if (isSettingChanged('username', diff)) {
-    session.user = next.username.trim() || 'anonymous nudelfan';
+    session.user = 'pastagang';
+    // session.user = next.username.trim() || 'anonymous nudelfan';
   }
 
   if (isSettingChanged('username', diff) || isSettingChanged('userHue', diff)) {
@@ -332,7 +333,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   }
 
   if (isSettingChanged('docsURL', diff)) {
-    docsFrame?.setAttribute("src", next.docsURL)
+    docsFrame?.setAttribute('src', next.docsURL);
   }
 
   pastamirror.updateExtensions(diff);
