@@ -655,3 +655,7 @@ input:disabled {
 .grayscale {
   filter: grayscale(1);
 }
+
+.inverted-colors {
+  filter: invert(1);
+}

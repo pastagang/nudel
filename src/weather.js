@@ -11,6 +11,10 @@ export const WEATHER_RULES = {
     name: 'no colors',
     when: () => getNudelDay() % 13 === 10,
   },
+  invertedColors: {
+    name: 'inverted colors',
+    when: () => getNudelHour() % 13 === 3,
+  },
   noNudel: {
     name: 'no nudel',
     when: () => getNudelHour() % 37 === 8,
@@ -31,6 +35,13 @@ export function applyWeatherRules(weather) {
     document.body.classList.add('grayscale');
   } else {
     document.body.classList.remove('grayscale');
+  }
+
+  // === Inverted colors ===============================//
+  if (weather.invertedColors) {
+    document.body.classList.add('inverted-colors');
+  } else {
+    document.body.classList.remove('inverted-colors');
   }
 
   // === No nudel =====================================//
