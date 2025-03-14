@@ -108,7 +108,7 @@ function makeSession() {
   session.initialize();
 
   const settings = getSettings();
-  session.user = getWeather().mantraName ? getCurrentMantra() : settings.userName.trim() || 'anonymous nudelfan';
+  session.user = getWeather().mantraName ? getCurrentMantra() : settings.username.trim() || 'anonymous nudelfan';
   session.userColor = getUserColorFromUserHue(settings.userHue);
 
   return session;

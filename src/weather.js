@@ -1,26 +1,10 @@
 import { getCurrentMantra } from './random.js';
 import { getSession } from './session.js';
+import { getSettings } from './settings.js';
 
-const NUDEL_HOUR = 60 * 60 * 1000;
-const NUDEL_DAY = 25 * NUDEL_HOUR;
-const NUDEL_WEEK = NUDEL_DAY * 7;
-
-export function getNudelDay() {
-  const nudelDay = Math.floor(Date.now() / NUDEL_DAY);
-  return nudelDay;
-}
-
-const weatherRules = {
+const WEATHER_RULES = {
   mantraName: () => getNudelDay() % 7 === 0,
 };
-
-export function getWeather() {
-  const weather = {};
-  for (const [key, rule] of Object.entries(weatherRules)) {
-    weather[key] = rule();
-  }
-  return weather;
-}
 
 let appliedWeatherHash = '';
 export function applyWeather() {
@@ -28,10 +12,35 @@ export function applyWeather() {
   const weatherHash = JSON.stringify(weather);
   if (appliedWeatherHash === weatherHash) return;
   appliedWeatherHash = weatherHash;
-
   console.log('APPLYING WEATHER', weather);
 
+  //=== Mantra name ===================================//
+  const session = getSession();
   if (weather.mantraName) {
-    getSession().user = getCurrentMantra();
+    session.user = getCurrentMantra();
+  } else {
+    session.user = getSettings().username;
   }
+}
+
+//===========//
+// INTERNALS //
+//===========//
+// You don't need to change these if you're just adding a new weather rule
+// but you can if you want. I'm a comment, not a cop.
+
+const NUDEL_HOUR = 60 * 60 * 1000;
+const NUDEL_DAY = 25 * NUDEL_HOUR;
+const NUDEL_WEEK = NUDEL_DAY * 7;
+export function getNudelDay() {
+  const nudelDay = Math.floor(Date.now() / NUDEL_DAY);
+  return nudelDay;
+}
+
+export function getWeather() {
+  const weather = {};
+  for (const [key, rule] of Object.entries(WEATHER_RULES)) {
+    weather[key] = rule();
+  }
+  return weather;
 }
