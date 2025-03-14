@@ -1,3 +1,5 @@
+import { MANTRAS } from './mantra.js';
+
 const TAGS = [
   'penne',
   'spaghetti',
@@ -39,13 +41,6 @@ const TAGS = [
   'pollo',
 ];
 
-const MANTRAS = [
-  "let code die",
-  "you don't need it",
-  "pastagang made it, not you",
-  "quality NO. energy YES.",
-];
-
 export function getRandomName(tagCount = 2) {
   let name = '';
   for (let i = 0; i < tagCount; i++) {
@@ -61,8 +56,8 @@ export function getRandomName(tagCount = 2) {
 
 // todo: make this show everyone the same mantra
 // see: github.com/pastagang/dotcool
-export function getRandomMantra() {
-  const randomIndex = Math.floor(Math.random() * MANTRAS.length);
+export function getCurrentMantra() {
+  const randomIndex = Math.floor((Date.now() / 1000 / 60 / 60) % MANTRAS.length);
   const randomMantra = MANTRAS[randomIndex];
   return randomMantra;
 }

@@ -4,7 +4,7 @@ import { PastaMirror } from './editor.js';
 import './style.css';
 import { updateMiniLocations } from '@strudel/codemirror';
 import { getSession } from './session.js';
-import { getRandomMantra } from './random.js';
+import { getCurrentMantra } from './random.js';
 
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;
@@ -91,10 +91,17 @@ document.getElementById('remove-pane-button')?.addEventListener('click', () => {
   session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
 });
 
-const mantraElement = document.getElementById('mantra');
-if (mantraElement) {
-  mantraElement.innerHTML = getRandomMantra();
+let previousMantra = '';
+export function updateMantra() {
+  const currentMantra = getCurrentMantra();
+  if (previousMantra === currentMantra) return;
+  previousMantra = currentMantra;
+  const mantraElement = document.getElementById('mantra');
+  if (!mantraElement) throw Error("Couldn't find mantra element");
+  mantraElement.innerHTML = currentMantra;
 }
+
+updateMantra();
 
 // highlights
 export function clearStrudelHighlights() {
