@@ -4,6 +4,7 @@ import { pastamirror, Frame } from './main.js';
 import { clearGlobalError, setError, clearLocalError } from './error.js';
 import { getSettings, getUserColorFromUserHue } from './settings.js';
 import { subscribeToChat, unsubscribeFromChat } from './chat.js';
+import {getCurrentMantra} from "./random.js";
 
 const PASTAGANG_ROOM_NAME = 'pastagang3';
 
@@ -106,9 +107,13 @@ function makeSession() {
   session.initialize();
 
   const settings = getSettings();
-  session.user = 'pastagang';
-  // session.user = settings.username.trim() || 'anonymous nudelfan';
+  session.user = isDay(5) ? getCurrentMantra() : (settings.username.trim() ?? 'anonymous nudelfan');
   session.userColor = getUserColorFromUserHue(settings.userHue);
 
   return session;
+}
+
+function isDay(day) {
+  const now = new Date();
+  return now.getDay() === day;
 }

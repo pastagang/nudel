@@ -248,8 +248,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   const session = getSession();
 
   if (isSettingChanged('username', diff)) {
-    session.user = 'pastagang';
-    // session.user = next.username.trim() || 'anonymous nudelfan';
+    session.user = next.username.trim() || 'anonymous nudelfan';
   }
 
   if (isSettingChanged('username', diff) || isSettingChanged('userHue', diff)) {
