@@ -89,9 +89,11 @@ export function getNudelHour() {
 }
 
 export function getWeather() {
+  const params = new URLSearchParams(window.location.search);
+  const isSong = params.has('song');
   const weather = {};
   for (const [key, rule] of Object.entries(WEATHER_RULES)) {
-    weather[key] = rule.when();
+    weather[key] = rule.when() && !isSong;
   }
   return weather;
 }
