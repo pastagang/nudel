@@ -4,7 +4,7 @@ import { pastamirror, Frame } from './main.js';
 import { clearGlobalError, setError, clearLocalError } from './error.js';
 import { getSettings, getUserColorFromUserHue } from './settings.js';
 import { subscribeToChat, unsubscribeFromChat } from './chat.js';
-import {getCurrentMantra} from "./random.js";
+import { getCurrentMantra } from './random.js';
 
 const PASTAGANG_ROOM_NAME = 'pastagang3';
 
@@ -113,7 +113,7 @@ function makeSession() {
   return session;
 }
 
-function isDay(day) {
+export function isDay(day) {
   const now = new Date();
   return now.getDay() === day;
 }
