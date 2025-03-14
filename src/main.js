@@ -5,6 +5,7 @@ import './style.css';
 import { updateMiniLocations } from '@strudel/codemirror';
 import { getSession } from './session.js';
 import { getCurrentMantra } from './random.js';
+import { getWeather } from './weather.js';
 
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;
@@ -103,9 +104,13 @@ export function updateMantra() {
 
 updateMantra();
 
+setInterval(updateMantra, 10000);
+
 // highlights
 export function clearStrudelHighlights() {
   for (const view of pastamirror.editorViews.values()) {
     updateMiniLocations(view, []);
   }
 }
+
+console.log(getWeather());

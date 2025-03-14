@@ -112,9 +112,3 @@ function makeSession() {
 
   return session;
 }
-
-// Warning: Timezone hell
-// function isDay(day) {
-//   const now = new Date();
-//   return now.getDay() === day;
-// }
