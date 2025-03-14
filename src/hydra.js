@@ -76,6 +76,16 @@ export class HydraSession {
     };
 
     const contexts = {};
+
+    if (window.parent.weather.noSamples) {
+      HydraSource.prototype.initImage = () => {
+        throw Error('no samples today (images are samples)');
+      };
+      HydraSource.prototype.initVideo = () => {
+        throw Error('no samples today (videos are samples)');
+      };
+    }
+
     HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
       throw Error("Sorry 'initCanvas' has been temporarily disabled");
       // if (contexts[this.label] == undefined) {
