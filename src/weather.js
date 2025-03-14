@@ -82,4 +82,6 @@ export function applyWeather() {
       footerParagraph.textContent = `Current weather: ${enabledWeatherNames.join(', ')}`;
     }
   }
+
+  applyWeatherRules(weather);
 }
