@@ -19,7 +19,7 @@ export function applyWeather() {
   if (weather.mantraName) {
     session.user = getCurrentMantra();
   } else {
-    session.user = getSettings().username;
+    session.user = getSettings().username.trim() || 'anonymous nudelfan';
   }
 }
 
