@@ -20,7 +20,7 @@ export const WEATHER_RULES = {
     when: () => getNudelDay() % 37 === 8,
   },
   noSamples: {
-    name: 'no sample is fresh enough',
+    name: 'no samples',
     when: () => getNudelDay() % 11 === 8,
   },
 };

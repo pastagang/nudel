@@ -1,3 +1,7 @@
+/* eslint-disable no-undef */
+
+import { samples } from "@strudel/webaudio";
+
 // If you edit this file, please also minify it
 // and place the minified version in std-min.js
 
