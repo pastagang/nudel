@@ -4,7 +4,7 @@ import { getSettings } from './settings.js';
 
 const WEATHER_RULES = {
   mantraName: {
-    name: 'mantra names',
+    name: 'everyone is mantra',
     when: () => getNudelDay() % 7 === 0,
   },
   grayScale: {
