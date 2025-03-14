@@ -2,13 +2,13 @@ import { getCurrentMantra } from './random.js';
 import { getSession } from './session.js';
 import { getSettings } from './settings.js';
 
-const WEATHER_RULES = {
+export const WEATHER_RULES = {
   mantraName: {
     name: 'everyone is mantra',
     when: () => getNudelDay() % 7 === 0,
   },
   grayScale: {
-    name: 'grayscale',
+    name: 'no colors',
     when: () => getNudelDay() % 13 === 10,
   },
 };

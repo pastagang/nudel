@@ -1,14 +1,16 @@
 import { nudelAlert } from './alert.js';
-import { pastamirror } from './main.js';
 import { nudelPrompt } from './prompt.js';
 import { changeSettings, getSettings } from './settings.js';
+import { getWeather, WEATHER_RULES } from './weather.js';
 
 const menuButton = document.querySelector('#menu-button');
 const menuContainer = document.querySelector('#menu-container');
 
 const aboutButton = document.querySelector('#about-button');
+const weatherButton = document.querySelector('#weather-button');
 const helpButton = document.querySelector('#help-button');
 const aboutDialog = document.querySelector('#about-dialog');
+const weatherDialog = document.querySelector('#weather-dialog');
 const playButton = document.querySelector('#about-yes-button');
 const docsButton = document.querySelector('#docs-button');
 
@@ -35,6 +37,18 @@ playButton?.addEventListener('click', () => {
 aboutButton?.addEventListener('click', () => {
   aboutDialog?.showModal();
   playButton?.focus();
+});
+
+weatherButton?.addEventListener('click', () => {
+  const list = document.querySelector('#weather-list');
+  list.innerHTML = '';
+  const weather = getWeather();
+  Object.entries(WEATHER_RULES)
+    .filter(([key]) => weather[key])
+    .forEach(([_, it]) => {
+      list.insertAdjacentHTML('beforeend', `<li>${it.name}</li>`);
+    });
+  weatherDialog?.showModal();
 });
 
 docsButton?.addEventListener('click', () => {
