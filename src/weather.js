@@ -3,18 +3,17 @@ import { getSession } from './session.js';
 import { getSettings } from './settings.js';
 
 const WEATHER_RULES = {
-  mantraName: () => getNudelDay() % 7 === 0,
-  grayScale: () => getNudelDay() % 13 === 10,
+  mantraName: {
+    name: 'mantra names',
+    when: () => getNudelDay() % 7 === 0,
+  },
+  grayScale: {
+    name: 'grayscale',
+    when: () => getNudelDay() % 13 === 10,
+  },
 };
 
-let appliedWeatherHash = '';
-export function applyWeather() {
-  const weather = getWeather();
-  const weatherHash = JSON.stringify(weather);
-  if (appliedWeatherHash === weatherHash) return;
-  appliedWeatherHash = weatherHash;
-  console.log('APPLYING WEATHER', weather);
-
+export function applyWeatherRules(weather) {
   //=== Mantra name ===================================//
   const session = getSession();
   if (weather.mantraName) {
@@ -22,6 +21,8 @@ export function applyWeather() {
   } else {
     session.user = getSettings().username.trim() || 'anonymous nudelfan';
   }
+
+  //=== Grayscale =====================================//
   if (weather.grayScale) {
     document.body.classList.add('grayscale');
   } else {
@@ -56,7 +57,29 @@ export function getNudelHour() {
 export function getWeather() {
   const weather = {};
   for (const [key, rule] of Object.entries(WEATHER_RULES)) {
-    weather[key] = rule();
+    weather[key] = rule.when();
   }
   return weather;
+}
+
+let appliedWeatherHash = '';
+export function applyWeather() {
+  const weather = getWeather();
+  const weatherHash = JSON.stringify(weather);
+  if (appliedWeatherHash === weatherHash) return;
+  appliedWeatherHash = weatherHash;
+  console.log('APPLYING WEATHER', weather);
+
+  const enabledWeatherNames = Object.entries(weather)
+    .filter(([_, enabled]) => enabled)
+    .map(([name, _]) => WEATHER_RULES[name].name);
+
+  const footerParagraph = document.querySelector('footer p');
+  if (footerParagraph) {
+    if (enabledWeatherNames.length === 0) {
+      footerParagraph.textContent = '';
+    } else {
+      footerParagraph.textContent = `Current weather: ${enabledWeatherNames.join(', ')}`;
+    }
+  }
 }

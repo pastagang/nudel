@@ -44,6 +44,9 @@ export class StrudelSession {
   }
   printSounds() {
     const sounds = this.webaudio?.soundMap.get();
+    if (!sounds) {
+      throw new Error('sounds error');
+    }
     let lines = [''];
 
     let lastGroup;
@@ -78,7 +81,7 @@ export class StrudelSession {
       lines[lines.length - 1] = lines[lines.length - 1].trim();
     });
 
-    console.log(lines.join('\n'));
+    // console.log(lines.join('\n'));
   }
 
   loadSamples() {
