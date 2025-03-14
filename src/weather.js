@@ -4,6 +4,7 @@ import { getSettings } from './settings.js';
 
 const WEATHER_RULES = {
   mantraName: () => getNudelDay() % 7 === 0,
+  grayScale: () => getNudelDay() % 13 === 10,
 };
 
 let appliedWeatherHash = '';
@@ -20,6 +21,11 @@ export function applyWeather() {
     session.user = getCurrentMantra();
   } else {
     session.user = getSettings().username;
+  }
+  if (weather.grayScale) {
+    document.body.classList.add('grayscale');
+  } else {
+    document.body.classList.remove('grayscale');
   }
 }
 
