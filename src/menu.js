@@ -1,7 +1,7 @@
 import { nudelAlert } from './alert.js';
 import { nudelPrompt } from './prompt.js';
 import { changeSettings, getSettings } from './settings.js';
-import { getWeather, WEATHER_RULES } from './weather.js';
+import { getNudelHour, getWeather, WEATHER_RULES } from './weather.js';
 
 const menuButton = document.querySelector('#menu-button');
 const menuContainer = document.querySelector('#menu-container');
@@ -40,6 +40,7 @@ aboutButton?.addEventListener('click', () => {
 });
 
 weatherButton?.addEventListener('click', () => {
+  document.querySelector('#weather-hour').innerText = getNudelHour() % 25;
   const list = document.querySelector('#weather-list');
   list.innerHTML = '';
   const weather = getWeather();
