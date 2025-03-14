@@ -13,6 +13,11 @@ const PASTAGANG_ROOM_NAME = 'pastagang3';
 let _session = null;
 
 export function getRoomName() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('song')) {
+    return params.get('song');
+  }
+
   const settings = getSettings();
   if (!settings.customRoomEnabled) return PASTAGANG_ROOM_NAME;
   return settings.customRoomName;

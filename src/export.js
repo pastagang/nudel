@@ -12,6 +12,7 @@ const exportOpenFlokButton = document.querySelector('#export-open-flok-button');
 const exportOpenStrudelButton = document.querySelector('#export-open-strudel-button');
 const exportOpenHydraButton = document.querySelector('#export-open-hydra-button');
 const exportCopyHydraButton = document.querySelector('#export-copy-hydra-button');
+const exportNudelButton = document.querySelector('#export-nudel-button');
 
 if (!exportButton) throw new Error('export button not found');
 exportButton.addEventListener('click', () => {
@@ -92,6 +93,14 @@ export function getCode(filter) {
   );
 }
 
+// Array<{type: string, content: string}>
+export function getSongData() {
+  const prettyDate = getPrettyDate();
+  const headline = `// "nudel ${prettyDate}" @by pastagang\n`;
+  let documents = getSession().getDocuments();
+  return documents.map((doc) => ({ type: doc.target, content: doc.content ?? '' }));
+}
+
 exportCopyButton?.addEventListener('click', () => {
   const txt = getCode();
   copyToClipboard(txt, { message: 'code' });
@@ -124,4 +133,20 @@ exportOpenHydraButton?.addEventListener('click', () => {
 exportCopyHydraButton?.addEventListener('click', () => {
   const code = getCode((doc) => doc.target === 'hydra');
   copyToClipboard(code, { message: 'hydra code' });
+});
+export function base64ToUnicode(str) {
+  const base64Encoded = str.replace(/-/g, '+').replace(/_/g, '/');
+  const padding = str.length % 4 === 0 ? '' : '='.repeat(4 - (str.length % 4));
+  const base64WithPadding = base64Encoded + padding;
+  return atob(base64WithPadding)
+    .split('')
+    .map((char) => String.fromCharCode(char.charCodeAt(0)))
+    .join('');
+}
+exportNudelButton?.addEventListener('click', () => {
+  const songData = getSongData();
+  const songDataStr = encodeURIComponent(unicodeToBase64(JSON.stringify(songData)));
+
+  const url = `https://nudel.cc/song.html?songData=${songDataStr}`;
+  copyToClipboard(url, { message: 'nudel song link' });
 });
