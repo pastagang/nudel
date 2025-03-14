@@ -9,42 +9,13 @@
 
   <body style="background-color: black">
     <script type="module">
-      import { Session } from '@flok-editor/session';
-      import { getRandomName } from './src/random.js';
-
-      export function base64ToUnicode(str) {
-        const base64Encoded = str.replace(/-/g, '+').replace(/_/g, '/');
-        const padding = str.length % 4 === 0 ? '' : '='.repeat(4 - (str.length % 4));
-        const base64WithPadding = base64Encoded + padding;
-        return atob(base64WithPadding)
-          .split('')
-          .map((char) => String.fromCharCode(char.charCodeAt(0)))
-          .join('');
-      }
-
+      import { base64ToUnicode, createNewRoomFromSongData } from './src/song.js';
       const params = new URLSearchParams(window.location.search);
       const songDataStr = params.get('songData');
 
       const songData = JSON.parse(base64ToUnicode(decodeURIComponent(songDataStr)));
+      createNewRoomFromSongData(songData);
       console.log(songData);
-      const roomName = getRandomName(3);
-      const session = new Session(roomName, {
-        hostname: 'flok.cc',
-        isSecure: true,
-      });
-
-      session.on('sync', () => {
-        session.setActiveDocuments(songData.map(({ type }, index) => ({ id: index, target: type })));
-        songData.forEach(({ type, content }, index) => {
-          session.setTextString(index, content), 10;
-        });
-
-        setTimeout(() => {
-          window.location.href = `/?song=${roomName}`;
-          // console.log(`/?song-${roomName}`);
-        }, 10);
-      });
-      session.initialize();
     </script>
   </body>
 </html>

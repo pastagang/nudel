@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1" />
+    <title>🍝 nudel</title>
+  </head>
+
+  <body style="background-color: black">
+    <script type="module">
+      import { getSongDataFromShortName, createNewRoomFromSongData } from './src/song.js';
+
+      async function main() {
+        const params = new URLSearchParams(window.location.search);
+        const songName = params.get('name');
+
+        const songData = await getSongDataFromShortName(songName);
+
+        createNewRoomFromSongData(songData);
+      }
+      main();
+    </script>
+  </body>
+</html>

@@ -5,7 +5,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        song: "song.html",
+        song: 'song.html',
+        s: 's.html',
         strudel: 'panels/strudel.html',
         hydra: 'panels/hydra.html',
         shader: 'panels/shader.html',
