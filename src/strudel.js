@@ -242,13 +242,17 @@ export class StrudelSession {
     await this.scheduler?.setPattern(allPatterns, true);
   }
 
+  noSampleString = `function sample(a) { throw Error('no samples today'); }; function samples(a) { throw Error('no samples today'); };\n`;
+
   async eval(msg, conversational = false) {
     const { body: code, docId } = msg;
     try {
       !conversational && this.hush();
       // little hack that injects the docId at the end of the code to make it available in afterEval
-      let { pattern, meta } = await evaluate(
-        code,
+      let { pattern, meta, mode } = await evaluate(
+        `
+        ${window.parent.weather.noSamples ? this.noSampleString : ''}
+        ${code}`,
         transpiler,
         // { id: '?' }
       );

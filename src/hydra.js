@@ -127,7 +127,7 @@ export class HydraSession {
 
       const strudel = window.parent?.strudel;
       // Strudel is not initialized yet, so we just return a default value
-      if (strudel == undefined) return 0.5;
+      if (strudel?.webaudio?.analysers == undefined) return 0.5;
 
       // If display settings are not enabled, we just return a default value
       // if (!(this._displaySettings.enableFft ?? true)) return 0.5;

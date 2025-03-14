@@ -37,7 +37,7 @@
         }
         // console.log("received", event.data);
         if (event.data.type === 'eval') {
-          strudel.eval(event.data.msg);
+          strudel.eval(event.data.msg).catch((err) => strudel.onError(err));
         }
       });
 

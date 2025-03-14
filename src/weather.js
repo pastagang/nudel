@@ -19,6 +19,10 @@ export const WEATHER_RULES = {
     name: 'no nudel',
     when: () => getNudelDay() % 37 === 8,
   },
+  noSamples: {
+    name: 'no sample is fresh enough',
+    when: () => true || getNudelDay() % 11 === 8,
+  },
 };
 
 export function applyWeatherRules(weather) {
@@ -95,6 +99,8 @@ export function getWeather() {
 let appliedWeatherHash = '';
 export function applyWeather() {
   const weather = getWeather();
+  // so we can access it from other places without having ciruclar dependencies
+  window.weather = weather;
   const weatherHash = JSON.stringify(weather);
   if (appliedWeatherHash === weatherHash) return;
   appliedWeatherHash = weatherHash;
