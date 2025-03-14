@@ -13,11 +13,11 @@ export const WEATHER_RULES = {
   },
   invertedColors: {
     name: 'inverted colors',
-    when: () => getNudelHour() % 13 === 3,
+    when: () => getNudelDay() % 13 === 3,
   },
   noNudel: {
     name: 'no nudel',
-    when: () => getNudelHour() % 37 === 8,
+    when: () => getNudelDay() % 37 === 8,
   },
 };
 
