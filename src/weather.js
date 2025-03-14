@@ -37,6 +37,16 @@ export function getNudelDay() {
   return nudelDay;
 }
 
+export function getNudelWeek() {
+  const nudelWeek = Math.floor(Date.now() / NUDEL_WEEK);
+  return nudelWeek;
+}
+
+export function getNudelHour() {
+  const nudelHour = Math.floor(Date.now() / NUDEL_HOUR);
+  return nudelHour;
+}
+
 export function getWeather() {
   const weather = {};
   for (const [key, rule] of Object.entries(WEATHER_RULES)) {
