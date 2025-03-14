@@ -147,6 +147,6 @@ exportNudelButton?.addEventListener('click', () => {
   const songData = getSongData();
   const songDataStr = encodeURIComponent(unicodeToBase64(JSON.stringify(songData)));
 
-  const url = `https://nudel.cc/song.html?songData=${songDataStr}`;
+  const url = `https://nudel.cc/song?songData=${songDataStr}`;
   copyToClipboard(url, { message: 'nudel song link' });
 });
