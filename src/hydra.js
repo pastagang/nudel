@@ -77,7 +77,7 @@ export class HydraSession {
 
     const contexts = {};
 
-    if (window.parent.weather.noSamples) {
+    if (window.parent.getWeather().noSamples) {
       HydraSource.prototype.initImage = () => {
         throw Error('no samples today (images are samples)');
       };

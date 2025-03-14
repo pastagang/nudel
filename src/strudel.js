@@ -251,7 +251,7 @@ export class StrudelSession {
       // little hack that injects the docId at the end of the code to make it available in afterEval
       let { pattern, meta, mode } = await evaluate(
         `
-        ${window.parent.weather.noSamples ? this.noSampleString : ''}
+        ${window.parent.getWeather().noSamples ? this.noSampleString : ''}
         ${code}`,
         transpiler,
         // { id: '?' }

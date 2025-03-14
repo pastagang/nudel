@@ -15,6 +15,7 @@ interface Window {
   kabel: any;
   kabelsalat: any;
   // session: any;
+  getWeather: any;
 }
 
 // Pattern.prototype.p

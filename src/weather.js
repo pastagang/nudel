@@ -100,7 +100,12 @@ let appliedWeatherHash = '';
 export function applyWeather() {
   const weather = getWeather();
   // so we can access it from other places without having ciruclar dependencies
-  window.weather = weather;
+  // we cant do this cos the weather could change
+  // window.weather = weather;
+
+  // we can do this though:
+  window.getWeather = getWeather;
+
   const weatherHash = JSON.stringify(weather);
   if (appliedWeatherHash === weatherHash) return;
   appliedWeatherHash = weatherHash;
