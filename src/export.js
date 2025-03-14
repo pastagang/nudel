@@ -11,6 +11,7 @@ const exportDownloadButton = document.querySelector('#export-download-button');
 const exportOpenFlokButton = document.querySelector('#export-open-flok-button');
 const exportOpenStrudelButton = document.querySelector('#export-open-strudel-button');
 const exportOpenHydraButton = document.querySelector('#export-open-hydra-button');
+const exportCopyHydraButton = document.querySelector('#export-copy-hydra-button');
 
 if (!exportButton) throw new Error('export button not found');
 exportButton.addEventListener('click', () => {
@@ -118,4 +119,9 @@ exportOpenStrudelButton?.addEventListener('click', () => {
 exportOpenHydraButton?.addEventListener('click', () => {
   const code = getCode((doc) => doc.target === 'hydra');
   window.open(`https://hydra.ojack.xyz/?code=${code2hash(code)}`);
+});
+
+exportCopyHydraButton?.addEventListener('click', () => {
+  const code = getCode((doc) => doc.target === 'hydra');
+  copyToClipboard(code, { message: 'hydra code' });
 });
