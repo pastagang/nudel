@@ -79,7 +79,7 @@ export function applyWeather() {
     if (enabledWeatherNames.length === 0) {
       footerParagraph.textContent = '';
     } else {
-      footerParagraph.textContent = `Current weather: ${enabledWeatherNames.join(', ')}`;
+      footerParagraph.textContent = `Weather: ${enabledWeatherNames.join(', ')}`;
     }
   }
 
