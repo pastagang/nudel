@@ -9,11 +9,11 @@ export const WEATHER_RULES = {
   },
   grayScale: {
     name: 'no colors',
-    when: () => getNudelDay() % 13 === 10,
+    when: () => getNudelDay() % 13 === 12,
   },
   invertedColors: {
     name: 'inverted colors',
-    when: () => getNudelDay() % 13 === 3,
+    when: () => getNudelDay() % 13 === 5,
   },
   noNudel: {
     name: 'no nudel',
