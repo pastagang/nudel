@@ -39,12 +39,12 @@ export function createNewRoomFromSongData(songData) {
   session.on('sync', () => {
     session.setActiveDocuments(
       songData.map(({ type }, index) => ({
-        id: index,
+        id: index + 1,
         target: type,
       })),
     );
     songData.forEach(({ type, content }, index) => {
-      session.setTextString(index, content), 10;
+      session.setTextString(index + 1, content);
     });
 
     setTimeout(() => {
