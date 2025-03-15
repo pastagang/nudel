@@ -117,7 +117,7 @@ export function applyWeather() {
     .filter(([_, enabled]) => enabled)
     .map(([name, _]) => WEATHER_RULES[name].name);
 
-  const footerParagraph = document.querySelector('footer p');
+  const footerParagraph = document.querySelector('#global-footer p');
   if (footerParagraph) {
     if (enabledWeatherNames.length === 0) {
       footerParagraph.textContent = '';

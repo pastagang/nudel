@@ -1,5 +1,15 @@
 import { Session } from '@flok-editor/session';
-import { getRandomName } from './random.js';
+
+export function showSongText() {
+  const footer = document.querySelector('#global-footer');
+  if (footer) {
+    console.log('showSongText');
+    footer.insertAdjacentHTML(
+      'beforeend',
+      '<h3>⚠️ You are viewing a song! ⚠️ go <a href="/">back to nudeling</a></h3>',
+    );
+  }
+}
 
 export function unicodeToBase64(text) {
   const utf8Bytes = new TextEncoder().encode(text);

@@ -6,6 +6,7 @@ import { updateMiniLocations } from '@strudel/codemirror';
 import { getSession } from './session.js';
 import { getCurrentMantra } from './random.js';
 import { applyWeather, getNudelDay, getNudelWeek, getWeather } from './weather.js';
+import { showSongText } from './song.js';
 
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;
@@ -28,6 +29,13 @@ export function isDevelopmentEnvironment() {
 if (isDevelopmentEnvironment()) {
   const elements = document.querySelectorAll('.development');
   elements.forEach((el) => el.classList.remove('development'));
+}
+
+const params = new URLSearchParams(window.location.search);
+const isSong = params.has('song');
+
+if (isSong) {
+  showSongText();
 }
 
 //=======================================================================================

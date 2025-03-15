@@ -412,6 +412,12 @@ footer p {
   margin: 2px;
 }
 
+footer h3 {
+  text-align: center;
+  z-index: 1000;
+  pointer-events: all;
+}
+
 .fade-out {
   animation: fade-out 1s forwards;
 }
