@@ -14,7 +14,7 @@ const TAGS = [
   'gnocchi',
   'vermicelli',
   'rotini',
-  'angel hair',
+  'angel_hair',
   'bucatini',
   'cannelloni',
   'capellini',
