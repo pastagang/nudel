@@ -47,16 +47,13 @@ export function createNewRoomFromSongData(songData) {
 export async function createShortNameFromSongData(songData) {
   const songDataStr = encodeURIComponent(unicodeToBase64(JSON.stringify(songData)));
   const name = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
-  await fetch(
-    `https://reckter--261b47a8f2ef11efa511569c3dd06744.web.val.run?` +
-      new URLSearchParams({
-        data: songDataStr,
-        name: name,
-      }).toString(),
-    {
-      method: 'POST',
-    },
-  );
+  await fetch(`https://reckter--261b47a8f2ef11efa511569c3dd06744.web.val.run`, {
+    method: 'POST',
+    body: JSON.stringify({
+      data: songDataStr,
+      name: name,
+    }),
+  });
   return name;
 }
 
