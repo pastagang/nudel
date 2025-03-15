@@ -1,4 +1,5 @@
 import { Session } from '@flok-editor/session';
+import { getRandomName } from './random.js';
 
 export function showSongText() {
   const footer = document.querySelector('#global-footer');
@@ -56,7 +57,7 @@ export function createNewRoomFromSongData(songData) {
 
 export async function createShortNameFromSongData(songData) {
   const songDataStr = encodeURIComponent(unicodeToBase64(JSON.stringify(songData)));
-  const name = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+  const name = getRandomName(5);
   await fetch(`https://reckter--261b47a8f2ef11efa511569c3dd06744.web.val.run`, {
     method: 'POST',
     body: JSON.stringify({
