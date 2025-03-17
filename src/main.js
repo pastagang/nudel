@@ -5,8 +5,9 @@ import './style.css';
 import { updateMiniLocations } from '@strudel/codemirror';
 import { getSession } from './session.js';
 import { getCurrentMantra } from './random.js';
-import { applyWeather, getNudelDay, getNudelWeek, getWeather } from './weather.js';
+import { getNudelDay, getNudelWeek, getWeather } from './weather.js';
 import { showSongText } from './song.js';
+import { applyWeather } from './applyWeather.js';
 
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;

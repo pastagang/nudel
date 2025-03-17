@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1" />
+    <title>🍝 nudel</title>
+    <style>
+      body {
+        width: 100%;
+      }
+      .weather-container {
+        margin: auto;
+      }
+      h1 {
+        font-size: 3rem;
+      }
+      li {
+        font-size: 1.5rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="module">
+      import { getNudelHour, getWeather, NUDEL_HOUR_IN_A_NUDEL_DAY, WEATHER_RULES } from './src/weather.js';
+
+      const list = document.getElementById('weather-list');
+      for (let hours = 0; hours < 7 * 24; hours++) {
+        const date = new Date();
+        date.setHours(0, 1, 0, 0);
+        date.setHours(hours);
+        if (getNudelHour(date) % NUDEL_HOUR_IN_A_NUDEL_DAY === 0) {
+          const weather = getWeather(date);
+          console.log(weather);
+          const appliedWeather = Object.entries(WEATHER_RULES)
+            .filter(([key]) => weather[key])
+            .map((it) => it[1].name);
+          const appliedWeatherString = appliedWeather.length > 0 ? appliedWeather.join(', ') : '-';
+          list.insertAdjacentHTML(
+            'beforeend',
+            `<li>starting on ${date.toLocaleString()} its gonna be ${appliedWeatherString}</li>`,
+          );
+        }
+      }
+    </script>
+    <div class="weather-container" id="weather-dialog-container">
+      <h1>🌤️ Upcoming Weather</h1>
+      <ul id="weather-list"></ul>
+    </div>
+  </body>
+</html>
