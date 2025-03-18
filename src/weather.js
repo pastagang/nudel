@@ -13,7 +13,7 @@ export const WEATHER_RULES = {
   },
   noNudel: {
     name: 'no nudel',
-    when: (now) => getNudelDay(now) % 37 === 8,
+    when: (now) => getNudelDay(now) % 37 === 9,
   },
   noSamples: {
     name: 'no samples',
