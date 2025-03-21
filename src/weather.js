@@ -1,11 +1,11 @@
 export const WEATHER_RULES = {
-  sunnySkies: {
-    name: 'sunny skies',
+  clearSkies: {
+    name: 'clear skies',
     when: (now) => {
       // Check all OTHER weather rules
       // Only apply if not any other weather rule is active
       for (const rule of Object.values(WEATHER_RULES)) {
-        if (rule !== WEATHER_RULES.sunnySkies && rule.when(now)) {
+        if (rule !== WEATHER_RULES.clearSkies && rule.when(now)) {
           return false;
         }
       }
