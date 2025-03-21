@@ -141,7 +141,7 @@ exportNudelButton?.addEventListener('click', () => {
   const songData = getSongData();
   const songDataStr = encodeURIComponent(unicodeToBase64(JSON.stringify(songData)));
 
-  const url = `https://nudel.cc/song?v=${songDataStr}`;
+  const url = `https://nudel.cc/s?v=${songDataStr}`;
   copyToClipboard(url, { message: 'nudel song link' });
 });
 
@@ -149,6 +149,6 @@ exportShortNudelButton?.addEventListener('click', async () => {
   const songData = getSongData();
 
   const name = await createShortNameFromSongData(songData);
-  const url = `https://nudel.cc/s?v=${name}`;
+  const url = `https://nudel.cc/s?r=${name}`;
   copyToClipboard(url, { message: 'nudel short song link' });
 });

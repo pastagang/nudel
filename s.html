@@ -22,7 +22,7 @@
       async function main() {
         const params = new URLSearchParams(window.location.search);
         const songDataStr = params.get('v') ?? params.get('songData');
-        const songName = params.get('v') ?? params.get('name');
+        const songName = params.get('r') ?? params.get('name');
 
         if (songDataStr) {
           const songData = JSON.parse(base64ToUnicode(decodeURIComponent(songDataStr)));
