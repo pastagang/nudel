@@ -4,18 +4,29 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1" />
+    <link rel="stylesheet" href="src/style.css" />
     <title>🍝 nudel</title>
   </head>
 
   <body style="background-color: black">
     <script type="module">
-      import { base64ToUnicode, createNewRoomFromSongData } from './src/song.js';
-      const params = new URLSearchParams(window.location.search);
-      const songDataStr = params.get('songData');
+      function main() {
+        const params = new URLSearchParams(window.location.search);
+        const songDataStr = params.get('songData');
 
-      const songData = JSON.parse(base64ToUnicode(decodeURIComponent(songDataStr)));
-      createNewRoomFromSongData(songData);
-      console.log(songData);
+        if (!songDataStr) {
+          document.body.innerHTML = `
+          <h1>Uh oh! Something went wrong.</h1>
+          <h>Go back to <a href="/">nudel</a>?</h>
+        `;
+          return;
+        }
+
+        document.body.innerHTML = `
+        <h1>This page has moved to <a href="/s?songData=${songDataStr}">here</a> to make it easier to maintain in one place.</h1>`;
+      }
+
+      main();
     </script>
   </body>
 </html>
