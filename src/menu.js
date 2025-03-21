@@ -40,8 +40,11 @@ aboutButton?.addEventListener('click', () => {
 });
 
 weatherButton?.addEventListener('click', () => {
-  document.querySelector('#weather-hour').innerText = getNudelHour() % 25;
+  const weatherHour = document.querySelector('#weather-hour');
+  if (!weatherHour) return;
+  weatherHour.innerText = '' + (getNudelHour() % 25);
   const list = document.querySelector('#weather-list');
+  if (!list) return;
   list.innerHTML = '';
   const weather = getWeather();
   Object.entries(WEATHER_RULES)
