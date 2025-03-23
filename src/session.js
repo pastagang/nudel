@@ -7,7 +7,7 @@ import { subscribeToChat, unsubscribeFromChat } from './chat.js';
 import { getCurrentMantra } from './random.js';
 import { getWeather } from './weather.js';
 
-const PASTAGANG_ROOM_NAME = 'pastagang3';
+const PASTAGANG_ROOM_NAME = 'pastagang4';
 
 /** @type {Session | null} */
 let _session = null;
