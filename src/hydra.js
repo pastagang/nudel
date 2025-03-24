@@ -1,6 +1,6 @@
 import HydraRenderer from 'hydra-synth';
 
-import { getWeather } from './weather.js';
+import { getNudelHour, getWeather, NUDEL_HOUR_IN_A_NUDEL_DAY } from './weather.js';
 
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
@@ -171,6 +171,10 @@ export class HydraSession {
       const weather = getWeather();
       if (weather.kaleidoscope) {
         afterTransform = afterTransform.kaleid(3);
+      }
+      if (weather.pixelated) {
+        const pixel = (getNudelHour() % NUDEL_HOUR_IN_A_NUDEL_DAY) + 30;
+        afterTransform = afterTransform.pixelate(pixel, pixel);
       }
       hydraOut.bind(afterTransform)(_output);
     };
