@@ -32,6 +32,10 @@ export const WEATHER_RULES = {
     name: 'no samples',
     when: (now) => getNudelDay(now) % 11 === 8,
   },
+  kaleidoscope: {
+    name: 'kaleidoscope',
+    when: (now) => getNudelDay(now) % 12 === 0,
+  },
 };
 
 //===========//
