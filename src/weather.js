@@ -40,6 +40,10 @@ export const WEATHER_RULES = {
     name: 'pixel land',
     when: (now) => getNudelDay(now) % 14 === 3,
   },
+  palindromeNames: {
+    name: 'palindrome names',
+    when: (now) => getNudelDay(now) % 9 === 0,
+  },
 };
 
 //===========//
