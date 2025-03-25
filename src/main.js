@@ -29,7 +29,7 @@ export function isDevelopmentEnvironment() {
 // Reveal all development elements in development
 if (isDevelopmentEnvironment()) {
   const elements = document.querySelectorAll('.development');
-  elements.forEach((el) => el.classList.remove('development'));
+  elements.forEach?.((el) => el.classList.remove('development'));
 }
 
 const params = new URLSearchParams(window.location.search);
