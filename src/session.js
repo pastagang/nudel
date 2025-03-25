@@ -114,7 +114,6 @@ function makeSession() {
   session.initialize();
 
   const settings = getSettings();
-  const weather = getWeather();
   session.user = getFormattedUserName();
   session.userColor = getUserColorFromUserHue(settings.userHue);
 
