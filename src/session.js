@@ -74,11 +74,12 @@ function makeSession() {
       }
     });
     // https://github.com/pastagang/nudel/issues/102 ???
-    pastamirror.currentEditors?.keys()?.forEach((key) => {
+    const keysIterator = pastamirror.currentEditors?.keys();
+    for (const key of keysIterator) {
       if (!documents.find((doc) => doc.id === key)) {
         pastamirror.deleteEditor(key);
       }
-    });
+    }
   });
 
   session.on('pubsub:open', () => {
