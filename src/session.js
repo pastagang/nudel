@@ -31,7 +31,8 @@ export function getSession() {
 }
 
 export function refreshSession() {
-  pastamirror.currentEditors.keys().forEach((key) => pastamirror.deleteEditor(key));
+  // https://github.com/pastagang/nudel/issues/102
+  pastamirror.currentEditors?.keys()?.forEach((key) => pastamirror.deleteEditor(key));
   _session = makeSession();
   return _session;
 }
@@ -69,8 +70,8 @@ function makeSession() {
         pastamirror.createEditor(doc);
       }
     });
-
-    pastamirror.currentEditors.keys().forEach((key) => {
+    // https://github.com/pastagang/nudel/issues/102 ???
+    pastamirror.currentEditors?.keys()?.forEach((key) => {
       if (!documents.find((doc) => doc.id === key)) {
         pastamirror.deleteEditor(key);
       }
