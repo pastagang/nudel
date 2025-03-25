@@ -123,7 +123,7 @@ function makeSession() {
 export function getFormattedUserName() {
   const weather = getWeather();
   const settings = getSettings();
-  let name = settings.username.trim() || 'anonymous nudelfan';
+  let name = settings.username?.trim() || 'anonymous nudelfan';
   if (weather.mantraName) {
     name = getCurrentMantra();
   }
