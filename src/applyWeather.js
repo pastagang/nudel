@@ -16,6 +16,13 @@ export function applyWeatherRules(weather) {
     session.user = getSettings().username.trim() || 'anonymous nudelfan';
   }
 
+  if (weather.palindromeNames) {
+    session.user = session.user.split('').reverse().join('');
+  } else {
+    // reversing is just the same lol
+    session.user = session.user.split('').reverse().join('');
+  }
+
   //=== Grayscale =====================================//
   if (weather.grayScale) {
     document.body.classList.add('grayscale');

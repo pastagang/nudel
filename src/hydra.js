@@ -1,5 +1,7 @@
 import HydraRenderer from 'hydra-synth';
 
+import { getNudelHour, getWeather, NUDEL_HOUR_IN_A_NUDEL_DAY } from './weather.js';
+
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
     this.initialized = false;
@@ -36,6 +38,7 @@ export class HydraSession {
 
     window.H = this._hydra;
     const HydraSource = this._hydra.s?.[0].constructor;
+    const GlslSource = osc().constructor;
 
     // Enable using strudel style mini-patterns for argument control on Hydra.
     // strudel needs to be loaded first, otherwise this will cause warnings, and rendering will not
@@ -162,6 +165,19 @@ export class HydraSession {
       return normalized.slice(bucketSize * index, bucketSize * (index + 1)).reduce((a, b) => a + b, 0) / bucketSize;
     };
 
+    const hydraOut = GlslSource.prototype.out;
+    GlslSource.prototype.out = function (_output) {
+      let afterTransform = this;
+      const weather = getWeather();
+      if (weather.kaleidoscope) {
+        afterTransform = afterTransform.kaleid(3);
+      }
+      if (weather.pixelated) {
+        const pixel = (getNudelHour() % NUDEL_HOUR_IN_A_NUDEL_DAY) + 30;
+        afterTransform = afterTransform.pixelate(pixel, pixel);
+      }
+      hydraOut.bind(afterTransform)(_output);
+    };
     this.initialized = true;
     console.log('Hydra initialized');
   }

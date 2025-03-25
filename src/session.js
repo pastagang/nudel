@@ -114,7 +114,12 @@ function makeSession() {
   session.initialize();
 
   const settings = getSettings();
-  session.user = getWeather().mantraName ? getCurrentMantra() : settings.username.trim() || 'anonymous nudelfan';
+  const weather = getWeather();
+  session.user = weather.mantraName ? getCurrentMantra() : settings.username.trim() || 'anonymous nudelfan';
+  console.log(weather);
+  if (weather.palindromeNames) {
+    session.user = session.user.split('').reverse().join('');
+  }
   session.userColor = getUserColorFromUserHue(settings.userHue);
 
   return session;
