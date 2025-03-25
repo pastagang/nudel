@@ -2,7 +2,7 @@ import { nudelAlert } from './alert.js';
 import { nudelConfirm } from './confirm.js';
 import { clearStrudelHighlights, Frame, pastamirror } from './main.js';
 import { getCurrentMantra, getRandomName } from './random.js';
-import { getSession, refreshSession } from './session.js';
+import { getFormattedUserName, getSession, refreshSession } from './session.js';
 import { getWeather } from './weather.js';
 
 //=====//
@@ -249,7 +249,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   const session = getSession();
 
   if (isSettingChanged('username', diff)) {
-    session.user = getWeather().mantraName ? getCurrentMantra() : next.username.trim() || 'anonymous nudelfan';
+    session.user = getFormattedUserName();
   }
 
   if (isSettingChanged('username', diff) || isSettingChanged('userHue', diff)) {

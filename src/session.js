@@ -115,12 +115,21 @@ function makeSession() {
 
   const settings = getSettings();
   const weather = getWeather();
-  session.user = weather.mantraName ? getCurrentMantra() : settings.username.trim() || 'anonymous nudelfan';
-  console.log(weather);
-  if (weather.palindromeNames) {
-    session.user = session.user.split('').reverse().join('');
-  }
+  session.user = getFormattedUserName();
   session.userColor = getUserColorFromUserHue(settings.userHue);
 
   return session;
+}
+
+export function getFormattedUserName() {
+  const weather = getWeather();
+  const settings = getSettings();
+  let name = settings.username.trim() || 'anonymous nudelfan';
+  if (weather.mantraName) {
+    name = getCurrentMantra();
+  }
+  if (weather.palindromeNames) {
+    name = name.split('').reverse().join('');
+  }
+  return name;
 }

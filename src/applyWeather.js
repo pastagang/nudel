@@ -1,5 +1,5 @@
 import { getWeather, WEATHER_RULES } from './weather.js';
-import { getSession } from './session.js';
+import { getFormattedUserName, getSession } from './session.js';
 import { getCurrentMantra } from './random.js';
 import { getSettings } from './settings.js';
 
@@ -8,20 +8,9 @@ import { getSettings } from './settings.js';
 let appliedWeatherHash = '';
 
 export function applyWeatherRules(weather) {
-  //=== Mantra name ===================================//
+  //=== Name weathers ===================================//
   const session = getSession();
-  if (weather.mantraName) {
-    session.user = getCurrentMantra();
-  } else {
-    session.user = getSettings().username.trim() || 'anonymous nudelfan';
-  }
-
-  if (weather.palindromeNames) {
-    session.user = session.user.split('').reverse().join('');
-  } else {
-    // reversing is just the same lol
-    session.user = session.user.split('').reverse().join('');
-  }
+  session.user = getFormattedUserName();
 
   //=== Grayscale =====================================//
   if (weather.grayScale) {
