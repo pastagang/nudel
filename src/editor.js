@@ -24,6 +24,10 @@ window.updateMiniLocations = updateMiniLocations; // we cannot import this for s
 
 // dynamic codemirror extensions
 
+const lastChatMessage = {
+  date: new Date(),
+  message: '',
+};
 let backspaceWasPressed = false;
 addEventListener('keyup', (e) => {
   if (e.key === 'Backspace') {
@@ -202,6 +206,15 @@ export class PastaMirror {
             {
               any: (view, key) => {
                 let from = view.state.selection.main.from;
+                // only allow the same message every 200ms
+                if (
+                  lastChatMessage.message === key.key &&
+                  lastChatMessage.date.getTime() + 200 > new Date().getTime()
+                ) {
+                  return false;
+                }
+                lastChatMessage.message = key.key;
+                lastChatMessage.date = new Date();
                 sendChatMessage({
                   docId: doc.id,
                   message: key.key,
