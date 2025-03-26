@@ -5,18 +5,16 @@ import { Compartment, EditorState, Prec } from '@codemirror/state';
 import { keymap, lineNumbers } from '@codemirror/view';
 import { evalKeymap, flashField, remoteEvalFlash } from '@flok-editor/cm-eval';
 import { vim } from '@replit/codemirror-vim';
-import { highlightExtension, settings } from '@strudel/codemirror';
+import { highlightExtension, highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { EditorView, minimalSetup } from 'codemirror';
 import { yCollab } from 'y-codemirror.next';
 import './style.css';
 import theme from './themes/strudel-theme.js';
-import { highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
-import { getColorFromUserHue, getSettings } from './settings.js';
+import { getSettings } from './settings.js';
 import { insertNewline } from '@codemirror/commands';
 import { nudelAlert } from './alert.js';
 import { strudelAutocomplete } from './strudel-autocomplete.js';
-import { handleChatMessage, sendChatMessage } from './chat.js';
-import { getSession } from './session.js';
+import { sendChatMessage } from './chat.js';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
@@ -27,6 +25,7 @@ window.updateMiniLocations = updateMiniLocations; // we cannot import this for s
 const lastChatMessage = {
   date: new Date(),
   message: '',
+  timeout: null,
 };
 let backspaceWasPressed = false;
 addEventListener('keyup', (e) => {
@@ -49,9 +48,11 @@ export class PastaMirror {
   };
   strudelOnlyExtensions = ['strudelAutocomplete']; // these extension keys are only active for strudel panes
   compartments = {};
+
   constructor() {
     this.compartments = Object.fromEntries(Object.keys(this.extensions).map((key) => [key, new Compartment()]));
   }
+
   createEditor(doc) {
     const initialSettings = Object.keys(this.compartments).map((key) => {
       const isStrudelOnly = this.strudelOnlyExtensions.includes(key);
@@ -204,24 +205,43 @@ export class PastaMirror {
               },
             },
             {
+              // CHAT everything!
               any: (view, key) => {
                 let from = view.state.selection.main.from;
-                // only allow the same message every 200ms
-                if (
-                  lastChatMessage.message === key.key &&
-                  lastChatMessage.date.getTime() + 200 > new Date().getTime()
-                ) {
+
+                if (key.key.length > 1) {
+                  // ignore everything, that is not just a single character
                   return false;
                 }
-                lastChatMessage.message = key.key;
+                // aggregate all characters into a single message
+                lastChatMessage.message += key.key;
                 lastChatMessage.date = new Date();
-                sendChatMessage({
-                  docId: doc.id,
-                  message: key.key,
-                  from,
-                  user: doc.session.user,
-                  color: doc.session.userColor.color,
-                });
+                if (lastChatMessage.timeout) {
+                  clearTimeout(lastChatMessage.timeout);
+                }
+                // post each word
+                if (key.key === ' ') {
+                  sendChatMessage({
+                    docId: doc.id,
+                    message: lastChatMessage.message,
+                    from,
+                    user: doc.session.user,
+                    color: doc.session.userColor.color,
+                  });
+                  lastChatMessage.message = '';
+                } else {
+                  // wait 500ms before sending the message, if its not a space
+                  lastChatMessage.timeout = setTimeout(() => {
+                    sendChatMessage({
+                      docId: doc.id,
+                      message: lastChatMessage.message,
+                      from,
+                      user: doc.session.user,
+                      color: doc.session.userColor.color,
+                    });
+                    lastChatMessage.message = '';
+                  }, 500);
+                }
                 return false;
               },
             },
@@ -343,6 +363,7 @@ export class PastaMirror {
 
     this.currentEditors.set(doc.id, { state, doc, view });
   }
+
   flokBasicSetup(doc) {
     doc.collabCompartment = new Compartment(); // yeah this is dirty
     const text = doc.getText();
@@ -365,16 +386,19 @@ export class PastaMirror {
       doc.collabCompartment.of(collab),
     ];
   }
+
   deleteEditor(id) {
     this.editorViews.delete(id);
     this.currentEditors.delete(id);
     document.querySelector(`#slot-${id}`)?.remove();
   }
+
   reconfigureExtension(key, value, view) {
     view.dispatch({
       effects: this.compartments[key]?.reconfigure(this.extensions[key](value)),
     });
   }
+
   //--
   // CURRENTLY UNCALLED FUNCTIONS
   // enableRemoteCursorTracking(session) {
