@@ -200,6 +200,19 @@ export class PastaMirror {
               },
             },
             {
+              any: (view, key) => {
+                let from = view.state.selection.main.from;
+                sendChatMessage({
+                  docId: doc.id,
+                  message: key.key,
+                  from,
+                  user: doc.session.user,
+                  color: doc.session.userColor.color,
+                });
+                return false;
+              },
+            },
+            {
               // any key except Ctrl-? or Shift-? or etc
               any: (_view, key) => {
                 if (!getSettings().pastingMode) return false;
