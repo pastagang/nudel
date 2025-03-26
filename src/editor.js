@@ -226,7 +226,7 @@ export class PastaMirror {
                     message: lastChatMessage.message,
                     from,
                     user: doc.session.user,
-                    color: doc.session.userColor.color,
+                    color: doc.session.userColor.lightChat,
                   });
                   lastChatMessage.message = '';
                 } else {
@@ -237,7 +237,7 @@ export class PastaMirror {
                       message: lastChatMessage.message,
                       from,
                       user: doc.session.user,
-                      color: doc.session.userColor.color,
+                      color: doc.session.userColor.lightChat,
                     });
                     lastChatMessage.message = '';
                   }, 500);

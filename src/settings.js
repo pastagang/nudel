@@ -393,5 +393,9 @@ export function getColorFromUserHue(hue) {
 }
 
 export function getUserColorFromUserHue(hue) {
-  return { color: getColorFromUserHue(hue), light: `hsla(${hue}, 100%, 75%, 0.1875)` };
+  return {
+    color: getColorFromUserHue(hue),
+    light: `hsla(${hue}, 100%, 75%, 0.1875)`,
+    lightChat: `hsla(${hue}, 100%, 75%, 0.575)`,
+  };
 }
