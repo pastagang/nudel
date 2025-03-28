@@ -4,6 +4,8 @@
   <body>
     <script type="module">
       const { highlightMiniLocations, updateMiniLocations, editorViews } = window.parent;
+      const { getSyncOffset } = window.parent;
+      window.getSyncOffset = getSyncOffset;
       // this is expected to run in an iframe
       // this way, strudel runs in an iframe
       // so it wont mess with the global scope
