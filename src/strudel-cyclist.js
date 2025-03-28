@@ -5,7 +5,6 @@ This program is free software: you can redistribute it and/or modify it under th
 */
 
 import { logger } from '@strudel/core';
-import { getSyncOffset } from './sync-nonsense.js';
 
 // zyklus.mjs
 // see https://loophole-letters.vercel.app/web-audio-scheduling
@@ -117,14 +116,12 @@ export class Cyclist {
             return;
           }
           // query the pattern for events
-          const haps = this.pattern.queryArc(begin + getSyncOffset(), end + getSyncOffset(), { _cps: this.cps });
+          const haps = this.pattern.queryArc(begin, end, { _cps: this.cps });
 
           haps.forEach((hap) => {
             if (hap.hasOnset()) {
               const targetTime =
-                (hap.whole.begin - this.num_cycles_at_cps_change - getSyncOffset()) / this.cps +
-                this.seconds_at_cps_change +
-                latency;
+                (hap.whole.begin - this.num_cycles_at_cps_change) / this.cps + this.seconds_at_cps_change + latency;
               const duration = hap.duration / this.cps;
               // the following line is dumb and only here for backwards compatibility
               // see https://github.com/tidalcycles/strudel/pull/1004
