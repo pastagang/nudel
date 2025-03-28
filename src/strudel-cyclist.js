@@ -5,7 +5,6 @@ This program is free software: you can redistribute it and/or modify it under th
 */
 
 import { logger } from '@strudel/core';
-import { getSyncOffset } from './sync-nonsense.js';
 
 // zyklus.mjs
 // see https://loophole-letters.vercel.app/web-audio-scheduling
@@ -91,6 +90,8 @@ export class Cyclist {
       // called slightly before each cycle
       (phase, duration) => {
         if (this.num_ticks_since_cps_change === 0) {
+          // @ts-ignore
+          window.parent.initSync(getTime());
           this.num_cycles_at_cps_change = this.lastEnd;
           this.seconds_at_cps_change = phase;
         }
@@ -116,15 +117,22 @@ export class Cyclist {
             console.log(`skip query: too late honey`);
             return;
           }
+
+          const a = begin + parent.getSyncOffset() * this.cps;
+          const b = end + parent.getSyncOffset() * this.cps;
           // query the pattern for events
-          const haps = this.pattern.queryArc(begin + getSyncOffset(), end + getSyncOffset(), { _cps: this.cps });
+          const haps = this.pattern.queryArc(a, b, {
+            _cps: this.cps,
+          });
 
           haps.forEach((hap) => {
             if (hap.hasOnset()) {
               const targetTime =
-                (hap.whole.begin - this.num_cycles_at_cps_change - getSyncOffset()) / this.cps +
+                (hap.whole.begin - this.num_cycles_at_cps_change) / this.cps +
                 this.seconds_at_cps_change +
-                latency;
+                latency -
+                parent.getSyncOffset();
+              // console.log('target', targetTime);
               const duration = hap.duration / this.cps;
               // the following line is dumb and only here for backwards compatibility
               // see https://github.com/tidalcycles/strudel/pull/1004
