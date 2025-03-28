@@ -16,6 +16,7 @@ interface Window {
   kabelsalat: any;
   // session: any;
   getWeather: any;
+  getSyncOffset: any;
 }
 
 // Pattern.prototype.p

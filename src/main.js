@@ -8,9 +8,12 @@ import { getCurrentMantra } from './random.js';
 import { getNudelDay, getNudelWeek, getWeather } from './weather.js';
 import { showSongText } from './song.js';
 import { applyWeather } from './applyWeather.js';
+import { getSyncOffset } from './sync-nonsense.js';
 
 export const pastamirror = new PastaMirror();
 window.editorViews = pastamirror.editorViews;
+
+window.getSyncOffset = getSyncOffset;
 
 export const Frame = {
   hydra: document.getElementById('hydra'),
