@@ -134,6 +134,7 @@ export class Cyclist {
             }
           });
         } catch (e) {
+          // @ts-expect-error
           logger(`[cyclist] error: ${e.message}`);
           onError?.(e);
         }
