@@ -91,7 +91,7 @@ export class Cyclist {
       (phase, duration) => {
         if (this.num_ticks_since_cps_change === 0) {
           // @ts-ignore
-          window.parent.initSync(getTime());
+          parent.initSync(getTime());
           this.num_cycles_at_cps_change = this.lastEnd;
           this.seconds_at_cps_change = phase;
         }
@@ -120,6 +120,7 @@ export class Cyclist {
 
           const a = begin + parent.getSyncOffset() * this.cps;
           const b = end + parent.getSyncOffset() * this.cps;
+          console.log('a', a.toFixed(2));
           // query the pattern for events
           const haps = this.pattern.queryArc(a, b, {
             _cps: this.cps,
