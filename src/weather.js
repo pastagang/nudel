@@ -75,6 +75,8 @@ export function getNudelHour(now = Date.now()) {
   return nudelHour;
 }
 
+globalThis.getNudelHour = getNudelHour;
+
 export function getWeather(now = Date.now()) {
   const params = new URLSearchParams(window.location.search);
   const isSong = params.has('song');
@@ -88,3 +90,5 @@ export function getWeather(now = Date.now()) {
 export function getSecondsSinceNudelDayStart() {
   return Date.now() % NUDEL_DAY;
 }
+
+globalThis.getSecondsSinceNudelDayStart = getSecondsSinceNudelDayStart;
