@@ -163,7 +163,7 @@ export class Cyclist {
       return 0;
     }
     const secondsSinceLastTick = this.getTime() - this.lastTick - this.clock.duration;
-    return this.lastBegin + secondsSinceLastTick * this.cps + parent.getSyncOffset();
+    return this.lastBegin + secondsSinceLastTick * this.cps + parent.getSyncOffset() * this.cps;
   }
   setStarted(v) {
     this.started = v;
