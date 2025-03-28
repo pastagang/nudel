@@ -22,11 +22,6 @@ window.updateMiniLocations = updateMiniLocations; // we cannot import this for s
 
 // dynamic codemirror extensions
 
-const lastChatMessage = {
-  date: new Date(),
-  message: '',
-  timeout: null,
-};
 let backspaceWasPressed = false;
 addEventListener('keyup', (e) => {
   if (e.key === 'Backspace') {
@@ -213,35 +208,14 @@ export class PastaMirror {
                   // ignore everything, that is not just a single character
                   return false;
                 }
-                // aggregate all characters into a single message
-                lastChatMessage.message += key.key;
-                lastChatMessage.date = new Date();
-                if (lastChatMessage.timeout) {
-                  clearTimeout(lastChatMessage.timeout);
-                }
-                // post each word
-                if (key.key === ' ') {
-                  sendChatMessage({
-                    docId: doc.id,
-                    message: lastChatMessage.message,
-                    from,
-                    user: doc.session.user,
-                    color: doc.session.userColor.lightChat,
-                  });
-                  lastChatMessage.message = '';
-                } else {
-                  // wait 500ms before sending the message, if its not a space
-                  lastChatMessage.timeout = setTimeout(() => {
-                    sendChatMessage({
-                      docId: doc.id,
-                      message: lastChatMessage.message,
-                      from,
-                      user: doc.session.user,
-                      color: doc.session.userColor.lightChat,
-                    });
-                    lastChatMessage.message = '';
-                  }, 500);
-                }
+
+                sendChatMessage({
+                  docId: doc.id,
+                  message: key.key,
+                  from,
+                  user: doc.session.user,
+                  color: doc.session.userColor.lightChat,
+                });
                 return false;
               },
             },
