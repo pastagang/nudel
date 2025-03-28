@@ -2,7 +2,7 @@ import { getSecondsSinceNudelDayStart } from './weather.js';
 
 let syncOrigin;
 export function initSync(ctxTime) {
-  syncOrigin = getSecondsSinceNudelDayStart() / 1000 - ctxTime;
+  syncOrigin = getSecondsSinceNudelDayStart() / 1000 //- ctxTime;
   globalThis.syncOrigin = syncOrigin;
 }
 globalThis.initSync = initSync;
