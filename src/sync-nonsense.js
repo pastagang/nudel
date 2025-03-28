@@ -4,7 +4,7 @@ import { getSecondsSinceNudelDayStart } from './weather.js';
 let secondsSinceNudelDayStartCache = null;
 export function getSyncOffset() {
   // For debugging
-  // return 1;
+  return 1;
 
   if (secondsSinceNudelDayStartCache === null) {
     secondsSinceNudelDayStartCache = getSecondsSinceNudelDayStart();
