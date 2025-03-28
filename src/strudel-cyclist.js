@@ -120,7 +120,7 @@ export class Cyclist {
 
           const a = begin + parent.getSyncOffset() * this.cps;
           const b = end + parent.getSyncOffset() * this.cps;
-          console.log('a', a.toFixed(2));
+          // console.log('a', a.toFixed(2));
           // query the pattern for events
           const haps = this.pattern.queryArc(a, b, {
             _cps: this.cps,
