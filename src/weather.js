@@ -53,9 +53,13 @@ export const WEATHER_RULES = {
 // but you can if you want. I'm a comment, not a cop.
 
 export const NUDEL_HOUR_IN_A_NUDEL_DAY = 25;
-const NUDEL_HOUR = 60 * 60 * 1000;
+
+const NUDEL_MILLISECOND = 1;
+const NUDEL_SECOND = 1000 * NUDEL_MILLISECOND;
+const NUDEL_MINUTE = 60 * NUDEL_SECOND;
+const NUDEL_HOUR = 60 * NUDEL_MINUTE;
 const NUDEL_DAY = NUDEL_HOUR_IN_A_NUDEL_DAY * NUDEL_HOUR;
-const NUDEL_WEEK = NUDEL_DAY * 7;
+const NUDEL_WEEK = 7 * NUDEL_DAY;
 export function getNudelDay(now = Date.now()) {
   const nudelDay = Math.floor(now / NUDEL_DAY);
   return nudelDay;
@@ -79,4 +83,8 @@ export function getWeather(now = Date.now()) {
     weather[key] = rule.when(now) && !isSong;
   }
   return weather;
+}
+
+export function getSecondsSinceNudelDayStart() {
+  return Date.now() % NUDEL_DAY;
 }
