@@ -1,20 +1,10 @@
-import {
-  controls,
-  evalScope,
-  stack,
-  evaluate,
-  silence,
-  getTrigger,
-  setTime,
-  register,
-  Cyclist,
-  Pattern,
-} from '@strudel/core';
+import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime, register, Pattern } from '@strudel/core';
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 import { setInterval, clearInterval } from 'worker-timers';
+import { Cyclist } from './strudel-cyclist.js';
 
 controls.createParam('docId');
 
@@ -124,7 +114,11 @@ export class StrudelSession {
     } catch (err) {
       this.onError(err);
     }
-    const getTime = () => getAudioContext().currentTime;
+    const getTime = () => {
+      const time = getAudioContext().currentTime;
+      // console.log(time);
+      return time;
+    };
     // @ts-expect-error
     this.scheduler = new Cyclist({
       onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
