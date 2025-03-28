@@ -132,7 +132,7 @@ export function getFormattedUserName() {
     name = getCurrentMantra();
   }
   if (weather.palindromeNames) {
-    name += name.split('').reverse().join('');
+    name += name.split('').reverse().splice(1).join('');
   }
   return name;
 }
