@@ -38,10 +38,10 @@ const CONDITIONAL_MANTRAS = [
 ];
 
 export function getConditionalMantras() {
-  let mantras = []
-  for (i in CONDITIONAL_MANTRAS) {
+  let mantras = [];
+  for (let i in CONDITIONAL_MANTRAS) {
     if (CONDITIONAL_MANTRAS[i].condition()) {
-      mantras = mantras.concat(list.mantras);
+      mantras = mantras.concat(CONDITIONAL_MANTRAS[i].mantras);
     }
   }
   return mantras;

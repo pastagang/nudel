@@ -57,12 +57,14 @@ export function getRandomName(tagCount = 2) {
 // todo: make this show everyone the same mantra
 // see: github.com/pastagang/dotcool
 export function getCurrentMantra() {
-  const conditionalMantras = getConditionalMantras()
+  const conditionalMantras = getConditionalMantras();
+  // conditional mantras are 2x as likely to be picked (when they can be)
   let randomIndex = Math.floor((Date.now() / 1000 / 60 / 60) % (MANTRAS.length + conditionalMantras.length*2));
   if (randomIndex < MANTRAS.length) {
-    return MANTRAS[randomIndex];
+    var mantra = MANTRAS[randomIndex];
   } else {
     randomIndex = (randomIndex - MANTRAS.length) % conditionalMantras.length;
-    return condititnalMantras[randomIndex];
+    var mantra = conditionalMantras[randomIndex];
   }
+  return mantra;
 }
