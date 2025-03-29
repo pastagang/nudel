@@ -236,20 +236,48 @@ export class StrudelSession {
     await this.scheduler?.setPattern(allPatterns, true);
   }
 
-  async eval(msg, conversational = false) {
-    const { body: code, docId } = msg;
-    const noSampleString = `
+  static noSamplesInjection = `
     function sample(a) { throw Error('no samples today'); };
     function samples(a) { throw Error('no samples today'); };
     function speechda(){ throw Error('no samples today'); };
     function hubda(){ throw Error('no samples today'); };
     function spagda(){ throw Error('no samples today'); };
-    silence;`;
+  `;
+
+  static syncedCpmInjection = ``;
+
+  // TODO: make this apply to all panes, not just the current one
+  // TODO: make this somehow not compete with other flok clients
+  // static syncedCpmInjection = `
+  //   function setCpm(cpm) {
+  //     const f = (120/4/cpm);
+  //     console.log(f)
+  //     all(x=>x.slow(f));
+  //   }
+  //   function setCps(cps) {
+  //     const f = (0.5/cps);
+  //     all(x=>x.slow(f));
+  //   }
+  //   function setcpm(cpm) { setCpm(cpm); }
+  //   function setcps(cps) { setCps(cps); }
+  // `;
+
+  async eval(msg, conversational = false) {
+    const { body: code, docId } = msg;
+
+    let injection = '';
+    if (window.parent.getWeather().noSamples) {
+      injection += StrudelSession.noSamplesInjection;
+    }
+
+    injection += StrudelSession.syncedCpmInjection;
+    injection += `silence;`;
+
     try {
       !conversational && this.hush();
       // little hack that injects the docId at the end of the code to make it available in afterEval
       let { pattern, meta, mode } = await evaluate(
-        `${code}${window.parent.getWeather().noSamples ? noSampleString : ''}`,
+        code + injection,
         transpiler,
         // { id: '?' }
       );
