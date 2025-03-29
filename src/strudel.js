@@ -21,6 +21,7 @@ window.kabel = register('kabel', (id, pat) => {
 });
 
 export class StrudelSession {
+  cps = 0.5;
   constructor({ onError, onHighlight, onUpdateMiniLocations }) {
     this.patterns = {};
     this.pPatterns = {};
@@ -213,8 +214,14 @@ export class StrudelSession {
     const start = () => this.scheduler.start();
     const pause = () => this.scheduler.pause();
     const toggle = () => this.scheduler.toggle(); */
-    const setCps = (cps) => this.scheduler?.setCps(cps);
-    const setCpm = (cpm) => this.scheduler?.setCps(cpm / 60);
+    const setCps = (cps) => {
+      this.cps = cps;
+      //this.scheduler?.setCps(cps);
+    };
+    const setCpm = (cpm) => {
+      setCps(cpm / 60);
+      // this.scheduler?.setCps(cpm / 60);
+    };
     /* const cpm = register("cpm", function (cpm, pat) {
       return pat._fast(cpm / 60 / scheduler.cps);
     }); */
@@ -244,7 +251,7 @@ export class StrudelSession {
     function spagda(){ throw Error('no samples today'); };
   `;
 
-  static syncedCpmInjection = ``;
+  // static syncedCpmInjection = ``;
 
   // TODO: make this apply to all panes, not just the current one
   // TODO: make this somehow not compete with other flok clients
@@ -270,7 +277,7 @@ export class StrudelSession {
       injection += StrudelSession.noSamplesInjection;
     }
 
-    injection += StrudelSession.syncedCpmInjection;
+    // injection += StrudelSession.syncedCpmInjection;
     injection += `\nsilence;`;
 
     try {
@@ -298,6 +305,10 @@ export class StrudelSession {
       if (this.allTransform) {
         pattern = this.allTransform(pattern);
       }
+      // this is cps with phase jump on purpose
+      // to preserve sync
+      const cpsFactor = this.cps * 2; // assumes scheduler to be fixed to 0.5cps
+      pattern = pattern.fast(cpsFactor);
 
       // fft wiring
       if (this.enableAutoAnalyze) {
