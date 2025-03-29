@@ -271,7 +271,7 @@ export class StrudelSession {
     }
 
     injection += StrudelSession.syncedCpmInjection;
-    injection += `silence;`;
+    injection += `\nsilence;`;
 
     try {
       !conversational && this.hush();
