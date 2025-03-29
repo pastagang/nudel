@@ -21,5 +21,6 @@ export const MANTRAS = [
   'all day every day',
   'we\'ll never release, but we already have',
   'there is only live, no testing',
-  'I was told to add a mantra, so I did'
+  'i was told to add a mantra so i did',
+  'you are not dead yet'
 ];
