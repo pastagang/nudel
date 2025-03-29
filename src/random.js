@@ -1,4 +1,4 @@
-import { MANTRAS , getConditionalMantras} from './mantra.js';
+import { MANTRAS , getContitionalMantras} from './mantra.js';
 
 const TAGS = [
   'penne',
