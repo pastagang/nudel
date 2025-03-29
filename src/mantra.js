@@ -27,6 +27,15 @@ export const MANTRAS = [
   'you are not dead yet'
 ];
 
+export function getConditionalMantras() {
+  let mantras = [];
+  for (list in CONDITIONAL_MANTRAS) {
+    if (list.condition()) {
+      mantras = mantras.concat(list.mantras);
+    }
+  }
+  return mantras;
+}
 
 const CONDITIONAL_MANTRAS = [
   {
@@ -36,13 +45,3 @@ const CONDITIONAL_MANTRAS = [
     ]
   }
 ];
-
-export function getConditionalMantras() {
-  let mantras = []
-  for (list in CONDITIONAL_MANTRAS) {
-    if (list.condition()) {
-      mantras = mantras.concat(list.mantras)
-    }
-  }
-  return mantras
-};
