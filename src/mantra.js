@@ -19,4 +19,6 @@ export const MANTRAS = [
   'embrace spaghetti code',
   'add a mantra',
   'all day every day',
+  'we\'ll never release, but we already have',
+  'there is only live, no testing'
 ];
