@@ -87,8 +87,8 @@ export function getWeather(now = Date.now()) {
   return weather;
 }
 
-export function getSecondsSinceNudelDayStart() {
+export function getMilliSecondsSinceNudelDayStart() {
   return Date.now() % NUDEL_DAY;
 }
 
-globalThis.getSecondsSinceNudelDayStart = getSecondsSinceNudelDayStart;
+globalThis.getMilliSecondsSinceNudelDayStart = getMilliSecondsSinceNudelDayStart;

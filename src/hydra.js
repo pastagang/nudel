@@ -30,6 +30,7 @@ export class HydraSession {
         canvas: this.canvas,
         enableAudio: false,
       });
+      this._hydra.synth.time = getMilliSecondsSinceNudelDayStart() / 1000;
     } catch (error) {
       console.error(error);
       this.onError(`${error}`);

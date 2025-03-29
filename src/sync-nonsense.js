@@ -1,8 +1,8 @@
-import { getSecondsSinceNudelDayStart } from './weather.js';
+import { getMilliSecondsSinceNudelDayStart } from './weather.js';
 
 let syncOrigin;
 export function initSync(ctxTime) {
-  syncOrigin = getSecondsSinceNudelDayStart() / 1000 //- ctxTime;
+  syncOrigin = getMilliSecondsSinceNudelDayStart() / 1000; //- ctxTime;
   globalThis.syncOrigin = syncOrigin;
 }
 globalThis.initSync = initSync;
@@ -12,11 +12,3 @@ export function getSyncOffset() {
 }
 globalThis.getSyncOrigin = getSyncOffset;
 globalThis.getSyncOffset = getSyncOffset;
-
-/* export function getSyncOffset() {
-  if (secondsSinceNudelDayStartCache === null) {
-    secondsSinceNudelDayStartCache = getSecondsSinceNudelDayStart();
-    console.log('SYNC OFFSET:', secondsSinceNudelDayStartCache);
-  }
-  return secondsSinceNudelDayStartCache;
-} */
