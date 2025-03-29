@@ -35,7 +35,7 @@ const CONDITIONAL_MANTRAS = [
       "maybe you like the weather"
     ]
   }
-];
+]
 
 export function getConditionalMantras() {
   let mantras = []
@@ -45,4 +45,4 @@ export function getConditionalMantras() {
     }
   }
   return mantras
-};
+}
