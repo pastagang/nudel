@@ -1,3 +1,5 @@
+import { getWeather } from './weather.js';
+
 export const MANTRAS = [
   'let code die',
   'energy YES. quality NO.',
@@ -24,3 +26,23 @@ export const MANTRAS = [
   'i was told to add a mantra so i did',
   'you are not dead yet'
 ];
+
+
+const CONDITIONAL_MANTRAS = [
+  {
+    condition: (() => !getWeather().clearSkies),
+    mantras: [
+      "maybe you like the weather"
+    ]
+  }
+];
+
+export function getConditionalMantras() {
+  let mantras = [];
+  for (let i in CONDITIONAL_MANTRAS) {
+    if (CONDITIONAL_MANTRAS[i].condition()) {
+      mantras = mantras.concat(CONDITIONAL_MANTRAS[i].mantras);
+    }
+  }
+  return mantras;
+}
