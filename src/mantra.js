@@ -35,7 +35,26 @@ const CONDITIONAL_MANTRAS = [
   {
     condition: (() => !getWeather().clearSkies),
     mantras: [
-      "maybe you like the weather"
+      'maybe you like the weather',
+      'BAD WEATHER ONLY'
+    ]
+  },
+  {
+    condition: (() => getWeather().mantraName),
+    mantras: [
+      'pastagang'
+    ]
+  },
+  {
+    condition: (() => getWeather().kaleidoscope),
+    mantras: [
+      'thou shall'
+    ]
+  },
+  {
+    condition: (() => getWeather().pixelated),
+    mantras: [
+      'pixels are an amazing way to make art'
     ]
   }
 ];
