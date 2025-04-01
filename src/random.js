@@ -1,4 +1,4 @@
-import { MANTRAS , getConditionalMantras} from './mantra.js';
+import { MANTRAS, getConditionalMantras } from './mantra.js';
 
 const TAGS = [
   'penne',
@@ -59,7 +59,7 @@ export function getRandomName(tagCount = 2) {
 export function getCurrentMantra() {
   const conditionalMantras = getConditionalMantras();
   // conditional mantras are 2x as likely to be picked (when they can be)
-  let randomIndex = Math.floor((Date.now() / 1000 / 60 / 60) % (MANTRAS.length + conditionalMantras.length*2));
+  let randomIndex = Math.floor((Date.now() / 1000 / 60 / 60) % (MANTRAS.length + conditionalMantras.length * 2));
   if (randomIndex < MANTRAS.length) {
     var mantra = MANTRAS[randomIndex];
   } else {

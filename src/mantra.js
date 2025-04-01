@@ -23,40 +23,32 @@ export const MANTRAS = [
   'add a mantra',
   'embrace spaghetti code',
   'all day every day',
-  'we\'ll never release, but we already have',
+  "we'll never release, but we already have",
   'there is only live, no testing',
   'i was told to add a mantra and i did',
   'question mantras',
   'you are not dead yet',
+  'feeling connected',
+  'making new connections',
 ];
-
 
 const CONDITIONAL_MANTRAS = [
   {
-    condition: (() => !getWeather().clearSkies),
-    mantras: [
-      'maybe you like the weather',
-      'BAD WEATHER ONLY'
-    ]
+    condition: () => !getWeather().clearSkies,
+    mantras: ['maybe you like the weather', 'BAD WEATHER ONLY'],
   },
   {
-    condition: (() => getWeather().mantraName),
-    mantras: [
-      'pastagang'
-    ]
+    condition: () => getWeather().mantraName,
+    mantras: ['pastagang'],
   },
   {
-    condition: (() => getWeather().kaleidoscope),
-    mantras: [
-      'thou shall'
-    ]
+    condition: () => getWeather().kaleidoscope,
+    mantras: ['thou shall'],
   },
   {
-    condition: (() => getWeather().pixelated),
-    mantras: [
-      'pixels are an amazing way to make art'
-    ]
-  }
+    condition: () => getWeather().pixelated,
+    mantras: ['pixels are an amazing way to make art'],
+  },
 ];
 
 export function getConditionalMantras() {
