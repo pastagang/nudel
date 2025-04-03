@@ -20,7 +20,7 @@ export const MANTRAS = [
   'make space',
   'you must delete',
   'delete a mantra',
-  'add a mantra',
+  'add a conditional mantra',
   'embrace spaghetti code',
   'all day every day',
   "we'll never release, but we already have",
@@ -48,6 +48,10 @@ const CONDITIONAL_MANTRAS = [
   {
     condition: () => getWeather().pixelated,
     mantras: ['pixels are an amazing way to make art'],
+  },
+  {
+    condition: () => getWeather().invertedColors,
+    mantras: ['colors * -1, energy * 10', 'ʎluo ǝpoɔ pɐq'],
   },
 ];
 
