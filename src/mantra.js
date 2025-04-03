@@ -54,7 +54,7 @@ const CONDITIONAL_MANTRAS = [
     mantras: [
       "these will never show up in nudel",
       "so if you're reading this, chances are you want to edit the mantras",
-      "which means you're not just editing in nudel, but also nudel itself!",
+      "which means you're editing not just in nudel, but also nudel itself!",
       "thank you!",
       "go ahead and edit the mantras now!"
     ],
