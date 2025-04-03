@@ -2,16 +2,11 @@ import { getWeather } from './weather.js';
 
 export const MANTRAS = [
   'no stars',
-  'everyone sees the same mantra',
-  'mantras repeat',
   'we love repetition',
-  'this is a public flok room',
   'there is only one room',
-  'press ctrl + enter to run code',
   'BAD CODE ONLY',
   'energy YES. quality NO.',
   'be brave',
-  'recording and sharing is encouraged',
   'normalise sharing scrappy fiddles',
   'embrace death',
   'let code die',
@@ -28,8 +23,9 @@ export const MANTRAS = [
   'i was told to add a mantra and i did',
   'question mantras',
   'you are not dead yet',
-  'feeling connected',
-  'making new connections',
+  'connect',
+  'make new connections',
+  'mantras are code',
 ];
 
 const CONDITIONAL_MANTRAS = [
