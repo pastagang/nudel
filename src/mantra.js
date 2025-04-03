@@ -42,6 +42,24 @@ const CONDITIONAL_MANTRAS = [
     mantras: ['pastagang'],
   },
   {
+    condition: () => getWeather().grayScale,
+    mantras: [],
+  },
+  {
+    condition: () => getWeather().invertedColors,
+    mantras: ['colors * -1, energy * 10', 'ʎluo ǝpoɔ pɐq'],
+  },
+  {
+    condition: () => getWeather().noNudel,
+    mantras: [
+      "these will never show up in nudel",
+      "so if you're reading this, chances are you want to edit the mantras",
+      "which means you're not just editing in nudel, but also editing nudel itself!",
+      "thank you!",
+      "go ahead and edit the mantras now!"
+    ],
+  },
+  {
     condition: () => getWeather().kaleidoscope,
     mantras: ['thou shall'],
   },
@@ -50,8 +68,8 @@ const CONDITIONAL_MANTRAS = [
     mantras: ['pixels are an amazing way to make art'],
   },
   {
-    condition: () => getWeather().invertedColors,
-    mantras: ['colors * -1, energy * 10', 'ʎluo ǝpoɔ pɐq'],
+    condition: () => getWeather().palindromeNames,
+    mantras: [],
   },
 ];
 
