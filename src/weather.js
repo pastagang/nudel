@@ -34,7 +34,7 @@ export const WEATHER_RULES = {
   },
   kaleidoscope: {
     name: 'kaleidoscope',
-    when: (now) => getNudelDay(now) % 12 === 0,
+    when: (now) => getNudelDay(now) % 12 === 1,
   },
   pixelated: {
     name: 'pixel land',
