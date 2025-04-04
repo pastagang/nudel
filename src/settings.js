@@ -72,6 +72,7 @@ const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const shaderCheckbox = document.querySelector('#settings-shader-enabled');
 const kabelsalatCheckbox = document.querySelector('#settings-kabelsalat-enabled');
 const zenModeCheckbox = document.querySelector('#settings-zen-mode');
+const hideAllCodeButton = document.querySelector('#settings-hide-code');
 const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
@@ -146,6 +147,10 @@ function inferSettingsFromDom() {
 ].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
 [usernameInput, userHueRange].forEach((v) => v?.addEventListener('input', setSettingsFromDom));
 
+hideAllCodeButton.onclick = () => {
+  document.querySelector('.slots').classList.toggle('hidden');
+  document.querySelector('.tabs').classList.toggle('hidden');
+};
 let appliedSettings = null;
 
 function addFrame(key) {

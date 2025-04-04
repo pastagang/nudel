@@ -48,11 +48,11 @@ const CONDITIONAL_MANTRAS = [
   {
     condition: () => getWeather().noNudel,
     mantras: [
-      "these will never show up in nudel",
+      'these will never show up in nudel',
       "so if you're reading this, chances are you want to edit the mantras",
       "which means you're editing not just in nudel, but also nudel itself!",
-      "thank you!",
-      "go ahead and edit the mantras now!"
+      'thank you!',
+      'go ahead and edit the mantras now!',
     ],
   },
   {
