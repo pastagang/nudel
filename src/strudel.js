@@ -1,4 +1,15 @@
-import { controls, evalScope, stack, evaluate, silence, getTrigger, setTime, register, Pattern } from '@strudel/core';
+import {
+  controls,
+  evalScope,
+  stack,
+  evaluate,
+  silence,
+  getTrigger,
+  setTime,
+  register,
+  Pattern,
+  fast,
+} from '@strudel/core';
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
@@ -239,7 +250,10 @@ export class StrudelSession {
   async setDocPattern(docId, pattern) {
     this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
     //console.log("this.patterns", this.patterns);
-    const allPatterns = stack(...Object.values(this.patterns));
+    // this is cps with phase jump on purpose
+    // to preserve sync
+    const cpsFactor = this.cps * 2; // assumes scheduler to be fixed to 0.5cps
+    const allPatterns = fast(cpsFactor, stack(...Object.values(this.patterns)));
     await this.scheduler?.setPattern(allPatterns, true);
   }
 
@@ -305,10 +319,6 @@ export class StrudelSession {
       if (this.allTransform) {
         pattern = this.allTransform(pattern);
       }
-      // this is cps with phase jump on purpose
-      // to preserve sync
-      const cpsFactor = this.cps * 2; // assumes scheduler to be fixed to 0.5cps
-      pattern = pattern.fast(cpsFactor);
 
       // fft wiring
       if (this.enableAutoAnalyze) {
