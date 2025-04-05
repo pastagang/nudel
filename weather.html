@@ -9,14 +9,27 @@
       body {
         width: 100%;
       }
+
+      body.inverted {
+        background-color: black;
+        color: white;
+      }
+
       .weather-container {
         margin: auto;
       }
       h1 {
         font-size: 3rem;
+        font-family: monospace;
       }
       li {
         font-size: 1.5rem;
+        font-family: monospace;
+        list-style-type: '- ';
+      }
+
+      li.current {
+        font-weight: 600;
       }
     </style>
   </head>
@@ -26,6 +39,21 @@
       import { getNudelHour, getWeather, NUDEL_HOUR_IN_A_NUDEL_DAY, WEATHER_RULES } from './src/weather.js';
 
       const list = document.getElementById('weather-list');
+      const currentTime = document.getElementById('current-time');
+      const currentDate = new Date();
+      const currentWeather = getWeather(currentDate);
+      
+      if (currentWeather.invertedColors) {
+        document.body.className = 'inverted';
+      }
+
+      const localeStringOptions = {
+        year: 'numeric', 
+        month: 'numeric', 
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+      }
       for (let hours = 0; hours < 7 * 24; hours++) {
         const date = new Date();
         date.setHours(0, 1, 0, 0);
@@ -39,13 +67,13 @@
           const appliedWeatherString = appliedWeather.length > 0 ? appliedWeather.join(', ') : '-';
           list.insertAdjacentHTML(
             'beforeend',
-            `<li>starting on ${date.toLocaleString()} its gonna be ${appliedWeatherString}</li>`,
+            `<li class=${currentDate > date ? "current" : ""}>starting on ${date.toLocaleString([], localeStringOptions)} its gonna be ${appliedWeatherString}</li>`,
           );
         }
       }
     </script>
     <div class="weather-container" id="weather-dialog-container">
-      <h1>🌤️ Upcoming Weather</h1>
+      <h1>🌤️ upcoming weather</h1>
       <ul id="weather-list"></ul>
     </div>
   </body>

@@ -1,4 +1,4 @@
-import { MANTRAS } from './mantra.js';
+import { MANTRAS, getConditionalMantras } from './mantra.js';
 
 const TAGS = [
   'penne',
@@ -57,7 +57,14 @@ export function getRandomName(tagCount = 2) {
 // todo: make this show everyone the same mantra
 // see: github.com/pastagang/dotcool
 export function getCurrentMantra() {
-  const randomIndex = Math.floor((Date.now() / 1000 / 60 / 60) % MANTRAS.length);
-  const randomMantra = MANTRAS[randomIndex];
-  return randomMantra;
+  const conditionalMantras = getConditionalMantras();
+  // conditional mantras are 2x as likely to be picked (when they can be)
+  let randomIndex = Math.floor((Date.now() / 1000 / 60 / 60) % (MANTRAS.length + conditionalMantras.length * 2));
+  if (randomIndex < MANTRAS.length) {
+    var mantra = MANTRAS[randomIndex];
+  } else {
+    randomIndex = (randomIndex - MANTRAS.length) % conditionalMantras.length;
+    var mantra = conditionalMantras[randomIndex];
+  }
+  return mantra;
 }

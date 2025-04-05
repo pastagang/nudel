@@ -26,6 +26,10 @@ body {
   padding: 4px 4px;
 }
 
+.hidden {
+  display: none !important;
+}
+
 @media screen and (max-width: 750px) {
   .slots {
     grid-template-columns: minmax(0, 1fr);
