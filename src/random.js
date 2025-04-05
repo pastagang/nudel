@@ -59,13 +59,13 @@ function getCoarseTime(frequency=1000, offset=0) {
   return Math.floor((t + offset) / frequency);
 }
 
-async function scrambleInt(input, domain) {
+function scrambleInt(input, domain="") {
   // DO NOT USE FOR SECURITY PURPOSES
   // turn a number into another number
   // change domain to change what number you get from a given number
   // returns a 32 bit unsigned integer
   const buffer = new TextEncoder().encode(input.toString().concat(";",domain));
-  const hash = await crypto.subtle.digest("SHA-1", buffer);
+  const hash = (async () => await crypto.subtle.digest("SHA-1", buffer));
   const result = new DataView(hash).getUint32(0,true);
   return result;
 }
@@ -79,7 +79,7 @@ function getTimedSeed(frequency=1000, offset=0, domain="") {
 export function getCurrentMantra() {
   const conditionalMantras = getConditionalMantras();
   // conditional mantras are 2x as likely to be picked (when they can be)
-  let randomIndex = Math.floor((Date.now() / 1000 / 60 / 60) % (MANTRAS.length + conditionalMantras.length * 2));
+  let randomIndex = getTimedSeed(1000,0,"mantra") % (MANTRAS.length + conditionalMantras.length * 2));
   if (randomIndex < MANTRAS.length) {
     var mantra = MANTRAS[randomIndex];
   } else {
