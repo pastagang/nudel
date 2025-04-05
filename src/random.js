@@ -54,6 +54,26 @@ export function getRandomName(tagCount = 2) {
   return name;
 }
 
+function getCoarseTime(frequency=1000, offset=0) {
+  let t = Date.now();
+  return Math.floor((t + offset) / frequency);
+}
+
+async function scrambleInt(input, domain) {
+  // DO NOT USE FOR SECURITY PURPOSES
+  // turn a number into another number
+  // change domain to change what number you get from a given number
+  // returns a 32 bit unsigned integer
+  const buffer = new TextEncoder().encode(input.toString().concat(";",domain));
+  const hash = await crypto.subtle.digest("SHA-1", buffer);
+  const result = new DataView(hash).getUint32(0,true);
+  return result;
+}
+
+function getTimedSeed(frequency=1000, offset=0, domain="") {
+  return scrambleInt(getCoarseTime(frequency, offset), domain)
+}
+
 // todo: make this show everyone the same mantra
 // see: github.com/pastagang/dotcool
 export function getCurrentMantra() {
