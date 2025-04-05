@@ -93,7 +93,7 @@ document.getElementById('add-pane-button')?.addEventListener('click', () => {
   const nextID = [1, 2, 3, 4, 5, 6, 7, 8].find((number) => !documents.find((doc) => Number(doc.id) === number));
   const newDocs = [
     ...documents.map((doc) => ({ id: doc.id, target: doc.target })),
-    { id: nextID + '', target: 'strudel' },
+                                                             { id: nextID + '', target: 'strudel' },
   ];
   session.setActiveDocuments(newDocs);
 });
@@ -104,18 +104,23 @@ document.getElementById('remove-pane-button')?.addEventListener('click', () => {
   session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
 });
 
-async function updateMantra() {
-  const [currentMantra, nextMantraTime] = await getCurrentMantra();
+function displayMantra(mantra) {
   const mantraElement = document.getElementById('mantra');
   if (mantraElement) {
-    mantraElement.innerHTML = currentMantra;
+    mantraElement.innerHTML = mantra;
   } else {
     console.error("Couldn't find mantra element");
   }
 
   if (getWeather().mantraName) {
-    getSession().user = currentMantra;
+    getSession().user = mantra;
   }
+}
+
+async function updateMantra() {
+  const [currentMantra, nextMantraTime] = await getCurrentMantra();
+
+  displayMantra(currentMantra);
 
   let next = nextMantraTime - Date.now();
   // should be way higher than 100 ms, but just in case
