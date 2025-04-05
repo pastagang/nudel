@@ -104,24 +104,30 @@ document.getElementById('remove-pane-button')?.addEventListener('click', () => {
   session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
 });
 
-let previousMantra = '';
-export function updateMantra() {
-  const currentMantra = getCurrentMantra();
-  if (previousMantra === currentMantra) return;
-  previousMantra = currentMantra;
+async function updateMantra() {
+  const [currentMantra, nextMantraTime] = await getCurrentMantra();
   const mantraElement = document.getElementById('mantra');
-  if (!mantraElement) throw Error("Couldn't find mantra element");
-  mantraElement.innerHTML = currentMantra;
+  if (mantraElement) {
+    mantraElement.innerHTML = currentMantra;
+  } else {
+    console.error("Couldn't find mantra element");
+  }
 
   if (getWeather().mantraName) {
     getSession().user = currentMantra;
   }
+
+  let next = nextMantraTime - Date.now();
+  // should be way higher than 100 ms, but just in case
+  if (next < 100) {
+    next = 100;
+  }
+  setTimeout(updateMantra, next);
 }
 
 updateMantra();
 applyWeather();
 
-setInterval(updateMantra, 10000);
 setInterval(applyWeather, 10000);
 
 // highlights
