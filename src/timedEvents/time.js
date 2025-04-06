@@ -48,7 +48,6 @@ export function getNudelWeek(time = Date.now()) {
 
 export function getMilliSecondsSinceNudelDayStart(time = Date.now()) {
   return getTimeSincePeriodStart(NUDEL_DAY);
-  return Date.now() % NUDEL_DAY;
 }
 
 globalThis.getMilliSecondsSinceNudelDayStart = getMilliSecondsSinceNudelDayStart;
