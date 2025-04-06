@@ -17,12 +17,12 @@ export const WEATHER_RULES = {
     when: (now) => getNudelDay(now) % 7 === 0,
   },
   grayScale: {
-    name: 'no colors',
+    name: 'greyscale',
     when: (now) => getNudelDay(now) % 13 === 12,
   },
   invertedColors: {
     name: 'inverted colors',
-    when: (now) => getNudelDay(now) % 13 === 5,
+    when: (now) => getNudelDay(now) % 15 === 5,
   },
   noNudel: {
     name: 'no nudel',
@@ -38,7 +38,7 @@ export const WEATHER_RULES = {
   },
   pixelated: {
     name: 'pixel land',
-    when: (now) => getNudelDay(now) % 14 === 3,
+    when: (now) => getNudelDay(now) % 19 === 3,
   },
   palindromeNames: {
     name: 'palindrome names',
