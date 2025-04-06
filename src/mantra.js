@@ -55,7 +55,7 @@ const CONDITIONAL_MANTRAS = [
   },
   {
     condition: () => getWeather().kaleidoscope,
-    mantras: ['thou shall'],
+    mantras: ['thou shalt use kaleidescope'],
   },
   {
     condition: () => getWeather().pixelated,
