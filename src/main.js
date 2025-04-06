@@ -4,10 +4,8 @@ import { PastaMirror } from './editor.js';
 import './style.css';
 import { updateMiniLocations } from '@strudel/codemirror';
 import { getSession } from './session.js';
-import { getCurrentMantra } from './random.js';
-import { getNudelDay, getNudelWeek, getWeather } from './weather.js';
+import { initializeTimedEvents } from './timedEvents/update.js';
 import { showSongText } from './song.js';
-import { applyWeather } from './applyWeather.js';
 import { getSyncOffset } from './sync-nonsense.js';
 
 export const pastamirror = new PastaMirror();
@@ -104,36 +102,7 @@ document.getElementById('remove-pane-button')?.addEventListener('click', () => {
   session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
 });
 
-function applyMantra(mantra) {
-  const mantraElement = document.getElementById('mantra');
-  if (mantraElement) {
-    mantraElement.innerHTML = mantra;
-  } else {
-    console.error("Couldn't find mantra element");
-  }
-
-  if (getWeather().mantraName) {
-    getSession().user = mantra;
-  }
-}
-
-async function updateMantra() {
-  const [currentMantra, nextMantraTime] = await getCurrentMantra();
-
-  applyMantra(currentMantra);
-
-  let next = nextMantraTime - Date.now();
-  // should be way higher than 100 ms, but just in case
-  if (next < 100) {
-    next = 100;
-  }
-  setTimeout(updateMantra, next);
-}
-
-updateMantra();
-applyWeather();
-
-setInterval(applyWeather, 10000);
+initializeTimedEvents();
 
 // highlights
 export function clearStrudelHighlights() {

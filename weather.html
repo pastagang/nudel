@@ -36,7 +36,8 @@
 
   <body>
     <script type="module">
-      import { getNudelHour, getWeather, NUDEL_HOUR_IN_A_NUDEL_DAY, WEATHER_RULES } from './src/weather.js';
+      import { getWeather, WEATHER_RULES } from './src/timedEvents/weather.js';
+      import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY, getNudelDay, getNudelDayStart } from './src/timedEvents/time.js';
 
       const list = document.getElementById('weather-list');
       const currentTime = document.getElementById('current-time');
@@ -54,12 +55,12 @@
         hour: 'numeric',
         minute: '2-digit'
       }
-      for (let hours = 0; hours < 7 * 24; hours++) {
-        const date = new Date();
-        date.setHours(0, 1, 0, 0);
-        date.setHours(hours);
-        if (getNudelHour(date) % NUDEL_HOUR_IN_A_NUDEL_DAY === 0) {
-          const weather = getWeather(date);
+      const currentDay = getNudelDay();
+      for (let days = 0; days < 6; days++){
+        const forecastDay = currentDay + days;
+        const dayStart = getNudelDayStart(forecastDay);
+        const weather = getWeather(dayStart);
+        const date = new Date(dayStart);
           console.log(weather);
           const appliedWeather = Object.entries(WEATHER_RULES)
             .filter(([key]) => weather[key])
@@ -69,7 +70,6 @@
             'beforeend',
             `<li class=${currentDate > date ? "current" : ""}>starting on ${date.toLocaleString([], localeStringOptions)} its gonna be ${appliedWeatherString}</li>`,
           );
-        }
       }
     </script>
     <div class="weather-container" id="weather-dialog-container">
