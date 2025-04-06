@@ -51,3 +51,7 @@ export function getMilliSecondsSinceNudelDayStart(time = Date.now()) {
 }
 
 globalThis.getMilliSecondsSinceNudelDayStart = getMilliSecondsSinceNudelDayStart;
+
+export function getNudelDayStart(coarseTime = getNudelDay()) {
+  return getStartTime(coarseTime, NUDEL_DAY)
+}
