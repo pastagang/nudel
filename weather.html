@@ -36,7 +36,8 @@
 
   <body>
     <script type="module">
-      import { getNudelHour, getWeather, NUDEL_HOUR_IN_A_NUDEL_DAY, WEATHER_RULES } from './src/weather.js';
+      import { getWeather, WEATHER_RULES } from './src/timedEvents/weather.js';
+      import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY } from './src/timedEvents/time.js';
 
       const list = document.getElementById('weather-list');
       const currentTime = document.getElementById('current-time');
