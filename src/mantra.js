@@ -10,7 +10,7 @@ export const MANTRAS = [
   'normalise sharing scrappy fiddles',
   'embrace death',
   'let code die',
-  'just let go of what you know',
+  'let go of what you know',
   'move',
   'make space',
   'you must delete',
@@ -19,12 +19,10 @@ export const MANTRAS = [
   'embrace spaghetti code',
   'all day every day',
   "we'll never release, but we already have",
-  'there is only live, no testing',
-  'i was told to add a mantra and i did',
+  'test in the room',
   'question mantras',
   'you are not dead yet',
   'connect',
-  'make new connections',
   'mantras are code',
 ];
 
