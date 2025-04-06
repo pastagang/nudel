@@ -104,7 +104,7 @@ document.getElementById('remove-pane-button')?.addEventListener('click', () => {
   session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
 });
 
-function displayMantra(mantra) {
+function applyMantra(mantra) {
   const mantraElement = document.getElementById('mantra');
   if (mantraElement) {
     mantraElement.innerHTML = mantra;
@@ -120,7 +120,7 @@ function displayMantra(mantra) {
 async function updateMantra() {
   const [currentMantra, nextMantraTime] = await getCurrentMantra();
 
-  displayMantra(currentMantra);
+  applyMantra(currentMantra);
 
   let next = nextMantraTime - Date.now();
   // should be way higher than 100 ms, but just in case
