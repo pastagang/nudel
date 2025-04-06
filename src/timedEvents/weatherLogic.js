@@ -1,5 +1,6 @@
 import { getWeather, WEATHER_RULES } from './weather.js';
 import { getFormattedUserName, getSession } from '../session.js';
+import { getNudelDay, getNudelDayStart } from './time.js';
 
 // This is in an extra file, so weather.js doesn't load the session,
 // so it can  be used in other places
@@ -63,9 +64,12 @@ export function applyWeather(weather) {
 }
 
 export function updateWeather() {
-  const weather = getWeather();
+  const now = Date.now();
+  const weather = getWeather(now);
   // so we can access it from other places without having ciruclar dependencies
   // we cant do this cos the weather could change
   // window.weather = weather;
   applyWeather(weather);
+  const nextDay = getNudelDayStart(getNudelDay(now) + 1);
+  return nextDay;
 }
