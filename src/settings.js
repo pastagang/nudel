@@ -1,9 +1,9 @@
 import { nudelAlert } from './alert.js';
 import { nudelConfirm } from './confirm.js';
 import { clearStrudelHighlights, Frame, pastamirror } from './main.js';
-import { getCurrentMantra, getRandomName } from './random.js';
+import { getRandomName } from './random.js';
 import { getFormattedUserName, getSession, refreshSession } from './session.js';
-import { getWeather } from './weather.js';
+import { getWeather } from './timedEvents/weather.js';
 
 //=====//
 // API //

@@ -1,4 +1,4 @@
-import { getMilliSecondsSinceNudelDayStart } from './weather.js';
+import { getMilliSecondsSinceNudelDayStart } from './timedEvents/time.js';
 
 let syncOrigin;
 export function initSync(ctxTime) {
