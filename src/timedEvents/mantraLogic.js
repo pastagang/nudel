@@ -7,8 +7,8 @@ const MANTRA_INTERVAL = 1000 * 60; // mantra change rate in miliseconds
 export async function getCurrentMantra() {
   const conditionalMantras = getConditionalMantras();
   const time = getCoarseTime(MANTRA_INTERVAL);
-  // conditional mantras are 2x as likely to be picked (when they can be)
-  let randomIndex = await scrambleInt(time, 'mantra') % (MANTRAS.length + conditionalMantras.length * 2);
+  // conditional mantras are Nx as likely to be picked (when they can be)
+  let randomIndex = await scrambleInt(time, 'mantra') % (MANTRAS.length + conditionalMantras.length * 1);
   if (randomIndex < MANTRAS.length) {
     var mantra = MANTRAS[randomIndex];
   } else {
