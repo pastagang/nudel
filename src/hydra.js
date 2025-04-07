@@ -130,8 +130,8 @@ export class HydraSession {
       // if (typeof args[0] === 'string') {
       //   optionsArg = { analyzerId: args[0] };
       // } else {
-      index = args[0] ?? 1;
-      buckets = args[1] ?? 8;
+      index = args[0] ?? 0;
+      buckets = args[1] ?? 1;
       optionsArg = args[2] ?? {};
       // }
 
