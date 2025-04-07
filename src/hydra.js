@@ -3,7 +3,6 @@ import HydraRenderer from 'hydra-synth';
 import { getWeather } from './timedEvents/weather.js';
 import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY } from './timedEvents/time.js';
 
-
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
     this.initialized = false;
@@ -182,6 +181,37 @@ export class HydraSession {
       }
       hydraOut.bind(afterTransform)(_output);
     };
+
+    /**
+     * This whole block is only to work around problems in the rendering pipeline of hydra like this:
+     * https://github.com/hydra-synth/hydra-synth/issues/150
+     * It will stop hydra, and re-init it.
+     * It will cause a black canvas immediatly, once the problem is fixed, hydra will work again
+     *
+     * Idealy we would not cause black screens, but could somehow ignore the problematic code, but
+     * that might be a problem Hydra needs to tackle
+     */
+    const HydraOutput = this._hydra.o[0].constructor;
+    const self = this;
+    for (let i = 0; i < this._hydra.o.length; i++) {
+      const originTick = this._hydra.o[i]?.tick;
+      const _hydra = this._hydra;
+      function nudelHydraOutputTick(args) {
+        if (self.stopped) return;
+        try {
+          originTick.bind(_hydra.o[i])(args);
+        } catch (e) {
+          console.error('Error in Hyrdra tick');
+          console.error(e);
+          console.log('clearing output');
+          self.initialized = false;
+          self.init();
+          self.onError(`Hydra crashed with ${e.message}\n restarted hydra`);
+        }
+      }
+      this._hydra.o[i].tick = nudelHydraOutputTick.bind(this._hydra.o[i]);
+    }
+
     this.initialized = true;
     console.log('Hydra initialized');
   }

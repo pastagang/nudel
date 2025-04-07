@@ -1,4 +1,3 @@
-
 // generic coarse time functions
 // a period of coarse time starts at any multiple of the given interval
 // examples:
@@ -7,18 +6,18 @@
 // interval=30000, offset=15000
 // the period starts at 15th and 45th second of every minute
 
-export function getCoarseTime(interval=1000, offset=0, time=Date.now()) {
+export function getCoarseTime(interval = 1000, offset = 0, time = Date.now()) {
   return Math.floor((time + offset) / interval);
 }
 
-export function getTimeSincePeriodStart(interval=1000, offset=0, time=Date.now()) {
+export function getTimeSincePeriodStart(interval = 1000, offset = 0, time = Date.now()) {
   // time in miliseconds since given period of coarse time started
   return (time + offset) % interval;
 }
 
-export function getStartTime (coarseTime, interval=1000, offset=0) {
+export function getStartTime(coarseTime, interval = 1000, offset = 0) {
   // exact timestamp (in miliseconds) when a given period of coarse time starts
-  return (coarseTime * interval) - offset
+  return coarseTime * interval - offset;
 }
 
 // nudel hours, days, weeks
@@ -53,5 +52,5 @@ export function getMilliSecondsSinceNudelDayStart(time = Date.now()) {
 globalThis.getMilliSecondsSinceNudelDayStart = getMilliSecondsSinceNudelDayStart;
 
 export function getNudelDayStart(coarseTime = getNudelDay()) {
-  return getStartTime(coarseTime, NUDEL_DAY)
+  return getStartTime(coarseTime, NUDEL_DAY);
 }

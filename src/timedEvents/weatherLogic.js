@@ -48,8 +48,8 @@ export function applyWeather(weather) {
   console.log('APPLYING WEATHER', weather);
 
   const enabledWeatherNames = Object.entries(weather)
-  .filter(([_, enabled]) => enabled)
-  .map(([name, _]) => WEATHER_RULES[name].name);
+    .filter(([_, enabled]) => enabled)
+    .map(([name, _]) => WEATHER_RULES[name].name);
 
   const footerParagraph = document.querySelector('#global-footer p');
   if (footerParagraph) {

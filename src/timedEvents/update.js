@@ -9,7 +9,7 @@ async function runOnSchedule(fn) {
   if (interval < 100) {
     interval = 100;
   }
-  setTimeout((() => runOnSchedule(fn)), interval);
+  setTimeout(() => runOnSchedule(fn), interval);
 }
 
 export function initializeTimedEvents() {

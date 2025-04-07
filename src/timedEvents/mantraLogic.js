@@ -8,14 +8,14 @@ export async function getCurrentMantra() {
   const conditionalMantras = getConditionalMantras();
   const time = getCoarseTime(MANTRA_INTERVAL);
   // conditional mantras are Nx as likely to be picked (when they can be)
-  let randomIndex = await scrambleInt(time, 'mantra') % (MANTRAS.length + conditionalMantras.length * 1);
+  let randomIndex = (await scrambleInt(time, 'mantra')) % (MANTRAS.length + conditionalMantras.length * 1);
   if (randomIndex < MANTRAS.length) {
     var mantra = MANTRAS[randomIndex];
   } else {
     randomIndex = (randomIndex - MANTRAS.length) % conditionalMantras.length;
     var mantra = conditionalMantras[randomIndex];
   }
-  const nextMantraTime = getStartTime(time + 1, MANTRA_INTERVAL)
+  const nextMantraTime = getStartTime(time + 1, MANTRA_INTERVAL);
   return [mantra, nextMantraTime];
 }
 
