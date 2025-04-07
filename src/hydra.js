@@ -191,22 +191,18 @@ export class HydraSession {
      * Idealy we would not cause black screens, but could somehow ignore the problematic code, but
      * that might be a problem Hydra needs to tackle
      */
-    const HydraOutput = this._hydra.o[0].constructor;
     const self = this;
     for (let i = 0; i < this._hydra.o.length; i++) {
       const originTick = this._hydra.o[i]?.tick;
       const _hydra = this._hydra;
       function nudelHydraOutputTick(args) {
-        if (self.stopped) return;
         try {
           originTick.bind(_hydra.o[i])(args);
         } catch (e) {
-          console.error('Error in Hyrdra tick');
+          console.error('Error in Hydra tick, hard refresshing the iframe!');
           console.error(e);
-          console.log('clearing output');
-          self.initialized = false;
-          self.init();
-          self.onError(`Hydra crashed with ${e.message}\n restarted hydra`);
+          self.onError(`Hydra crashed with ${e.message.slice(0, 50)}\n restarted hydra`, self.lastDocId);
+          window.location.reload();
         }
       }
       this._hydra.o[i].tick = nudelHydraOutputTick.bind(this._hydra.o[i]);
@@ -219,6 +215,7 @@ export class HydraSession {
   async eval(msg, conversational = false) {
     if (!this.initialized) await this.init();
     const { body: code, docId } = msg;
+    this.lastDocId = docId;
 
     try {
       await eval?.(`(async () => {
