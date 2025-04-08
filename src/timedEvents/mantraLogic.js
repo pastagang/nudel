@@ -44,5 +44,3 @@ export async function updateMantra() {
   applyMantra(newMantra);
   return nextMantraTime;
 }
-
-await refreshMantra();
