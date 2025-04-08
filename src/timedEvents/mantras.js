@@ -3,8 +3,8 @@ import { getWeather } from './weather.js';
 export const MANTRAS = [
   //'no stars',
   //'we love repetition',
-  //'there is only one room',
-  'BAD CODE ONLY',
+  'there is only one mantra',
+  //'BAD CODE ONLY',
   // 'energy YES. quality NO.',
   // 'be brave',
   // 'normalise sharing scrappy fiddles',
