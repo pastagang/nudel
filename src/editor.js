@@ -202,6 +202,9 @@ export class PastaMirror {
             {
               // CHAT everything!
               any: (view, key) => {
+                // i think this kills slow laptops? 
+                // disabling for the algorave. re-enable partway through the algorave for fun
+                return false
                 let from = view.state.selection.main.from;
 
                 if (key.key.length > 1) {
