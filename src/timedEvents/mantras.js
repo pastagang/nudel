@@ -20,7 +20,7 @@ export const MANTRAS = [
   // 'all day every day',
   // "we'll never release, but we already have",
   //  'test in the room',
-  // 'question mantras',
+  'question mantras',
   //'you are not dead yet',
   // 'connect',
   // 'mantras are code',
