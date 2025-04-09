@@ -14,6 +14,10 @@ export const WEATHER_RULES = {
       return true;
     },
   },
+  londonAlgorave: {
+    name: 'london algorave',
+    when: () => true,
+  },
   mantraName: {
     name: 'everyone is mantra',
     when: (now) => getNudelDay(now) % 7 === 0,
