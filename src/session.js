@@ -7,7 +7,7 @@ import { subscribeToChat, unsubscribeFromChat } from './chat.js';
 import { getCurrentMantra } from './timedEvents/mantraLogic.js';
 import { getWeather } from './timedEvents/weather.js';
 
-const PASTAGANG_ROOM_NAME = 'pastagang4';
+const PASTAGANG_ROOM_NAME = 'pastagang5';
 
 /** @type {Session | null} */
 let _session = null;
