@@ -2,7 +2,7 @@ import { getWeather } from './weather.js';
 
 export const MANTRAS = [
   // cherry picking some mantras for the algorave tonight
-  
+
   'upload photos and videos to spag.cc',
   //'no stars',
   //'we love repetition',
@@ -12,9 +12,9 @@ export const MANTRAS = [
   // 'be brave',
   'normalise sharing scrappy fiddles',
   //'embrace death',
-   'let code die',
+  'let code die',
   // 'let go of what you know',
-   'move',
+  'move',
   'make space',
   'make room for others',
   'you must delete',
@@ -36,7 +36,7 @@ const CONDITIONAL_MANTRAS = [
     condition: () => !getWeather().clearSkies,
     mantras: [
       //'maybe you like the weather', 'BAD WEATHER ONLY'
-      ],
+    ],
   },
   {
     condition: () => getWeather().mantraName,

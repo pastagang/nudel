@@ -64,6 +64,7 @@ const defaultSettings = {
   customRoomEnabled: false,
   customRoomName: getRandomName(3),
   docsURL: 'https://strudel.cc/workshop/getting-started/',
+  cameraIndex: 'none',
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -93,6 +94,7 @@ const usernamePreview = document.querySelector('#username-preview');
 const userHueRange = document.querySelector('#settings-color');
 const docsURLPicker = document.querySelector('#docs-selector');
 const docsFrame = document.querySelector('#docs-frame');
+const cameraIndexSelector = document.querySelector('#settings-camera-index-0');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -118,6 +120,11 @@ function inferSettingsFromDom() {
     customRoomEnabled: customRoomEnabledRadio?.checked ?? defaultSettings.customRoomEnabled,
     customRoomName: customRoomNameInput?.value ?? defaultSettings.customRoomName,
     docsURL: docsURLPicker?.value ?? defaultSettings.docsURL,
+    cameraIndex: (() => {
+      if (cameraIndexSelector?.value === null) return defaultSettings.cameraIndex;
+      if (cameraIndexSelector?.value === 'none') return 'none';
+      return parseInt(cameraIndexSelector.value);
+    })(),
   };
   return inferredSettings;
 }
@@ -143,6 +150,7 @@ function inferSettingsFromDom() {
   roomPickerFieldset,
   customRoomNameInput,
   docsURLPicker,
+  cameraIndexSelector,
   // userHueRange,
 ].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
 [usernameInput, userHueRange].forEach((v) => v?.addEventListener('input', setSettingsFromDom));
@@ -170,6 +178,26 @@ function removeFrame(key) {
 function isSettingChanged(settingName, { previous, next }) {
   return previous?.[settingName] !== next?.[settingName];
 }
+
+async function initCameras() {
+  const cameras = await navigator.mediaDevices.enumerateDevices();
+
+  cameraIndexSelector.innerHTML = '';
+  cameras
+    .filter((device) => device.kind === 'videoinput')
+    .forEach((camera, index) => {
+      cameraIndexSelector.insertAdjacentHTML('beforeend', `<option value="${index}">${camera.label}</option>`);
+    });
+
+  cameraIndexSelector.insertAdjacentHTML('beforeend', `<option value="none">default camera from browser</option>`);
+  const settings = getSettings();
+  if (settings.cameraIndex != null) {
+    console.log(settings.cameraIndex);
+    cameraIndexSelector.value = settings.cameraIndex.toString();
+  }
+}
+
+initCameras();
 
 export async function applySettingsToNudel(settings = getSettings()) {
   const previous = appliedSettings;
@@ -239,6 +267,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   customRoomEnabledRadio && (customRoomEnabledRadio.checked = next.customRoomEnabled);
   customRoomNameInput && (customRoomNameInput.value = next.customRoomName);
   docsURLPicker && (docsURLPicker.value = next.docsURL);
+  cameraIndexSelector && (cameraIndexSelector.value = next.cameraIndex.toString());
 
   if (isSettingChanged('customRoomEnabled', diff)) {
     customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);

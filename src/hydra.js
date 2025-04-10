@@ -91,6 +91,15 @@ export class HydraSession {
       };
     }
 
+    const originCam = HydraSource.prototype.initCam;
+    HydraSource.prototype.initCam = function (index, params) {
+      const self = this;
+      const settings = parent.getSettings();
+      const chosenIndex = index != null ? index : settings.cameraIndex !== 'none' ? settings.cameraIndex : 0;
+
+      return originCam.bind(this)(chosenIndex, params);
+    };
+
     HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
       throw Error("Sorry 'initCanvas' has been temporarily disabled");
       // if (contexts[this.label] == undefined) {
