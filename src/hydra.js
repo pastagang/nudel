@@ -100,6 +100,23 @@ export class HydraSession {
       return originCam.bind(this)(chosenIndex, params);
     };
 
+    let screenOptions = 'non-init';
+    const originScreen = HydraSource.prototype.initScreen;
+    let screenIsInit = false;
+    HydraSource.prototype.initScreen = function (options) {
+      const self = this;
+      console.dir(options);
+      console.dir(screenOptions);
+      console.log(screenIsInit);
+      if (screenOptions !== options) {
+        originScreen.bind(this)(options);
+      } else if (!screenIsInit) {
+        originScreen.bind(this)(options);
+      }
+      screenIsInit = true;
+      screenOptions = options;
+    };
+
     HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
       throw Error("Sorry 'initCanvas' has been temporarily disabled");
       // if (contexts[this.label] == undefined) {
