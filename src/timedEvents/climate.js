@@ -1,13 +1,15 @@
 import { getNudelDay } from './time.js';
 
-export const WEATHER_RULES = {
+// Climate is what determines the weather you get
+// any change to it should be called "manmade climate change" (unless you're not human)
+export const CLIMATE = {
   clearSkies: {
     name: 'clear skies',
     when: (now) => {
       // Check all OTHER weather rules
       // Only apply if not any other weather rule is active
-      for (const rule of Object.values(WEATHER_RULES)) {
-        if (rule !== WEATHER_RULES.clearSkies && rule.when(now)) {
+      for (const rule of Object.values(CLIMATE)) {
+        if (rule !== CLIMATE.clearSkies && rule.when(now)) {
           return false;
         }
       }
@@ -56,7 +58,7 @@ export function getWeather(now = Date.now()) {
   const params = new URLSearchParams(window.location.search);
   const isSong = params.has('song');
   const weather = {};
-  for (const [key, rule] of Object.entries(WEATHER_RULES)) {
+  for (const [key, rule] of Object.entries(CLIMATE)) {
     weather[key] = rule.when(now) && !isSong;
   }
   return weather;

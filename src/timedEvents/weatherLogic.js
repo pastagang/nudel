@@ -1,8 +1,8 @@
-import { getWeather, WEATHER_RULES } from './weather.js';
+import { getWeather, CLIMATE } from './climate.js';
 import { getFormattedUserName, getSession } from '../session.js';
 import { getNudelDay, getNudelDayStart } from './time.js';
 
-// This is in an extra file, so weather.js doesn't load the session,
+// This is in an extra file, so climate.js doesn't load the session,
 // so it can  be used in other places
 let appliedWeatherHash = '';
 
@@ -49,7 +49,7 @@ export function applyWeather(weather) {
 
   const enabledWeatherNames = Object.entries(weather)
     .filter(([_, enabled]) => enabled)
-    .map(([name, _]) => WEATHER_RULES[name].name);
+    .map(([name, _]) => CLIMATE[name].name);
 
   const footerParagraph = document.querySelector('#global-footer p');
   if (footerParagraph) {

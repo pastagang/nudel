@@ -2,8 +2,7 @@ import { nudelAlert } from './alert.js';
 import { nudelPrompt } from './prompt.js';
 import { changeSettings, getSettings } from './settings.js';
 import { getNudelHour } from './timedEvents/time.js';
-import { getWeather } from './timedEvents/weather.js';
-import { WEATHER_RULES } from './timedEvents/weather.js';
+import { getWeather, CLIMATE } from './timedEvents/climate.js';
 
 const menuButton = document.querySelector('#menu-button');
 const menuContainer = document.querySelector('#menu-container');
@@ -49,7 +48,7 @@ weatherButton?.addEventListener('click', () => {
   if (!list) return;
   list.innerHTML = '';
   const weather = getWeather();
-  Object.entries(WEATHER_RULES)
+  Object.entries(CLIMATE)
     .filter(([key]) => weather[key])
     .forEach(([_, it]) => {
       list.insertAdjacentHTML('beforeend', `<li>${it.name}</li>`);

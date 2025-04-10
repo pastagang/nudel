@@ -1,4 +1,4 @@
-import { getWeather } from './weather.js';
+import { getWeather } from './climate.js';
 
 export const MANTRAS = [
   // cherry picking some mantras for the algorave tonight

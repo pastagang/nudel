@@ -36,7 +36,7 @@
 
   <body>
     <script type="module">
-      import { getWeather, WEATHER_RULES } from './src/timedEvents/weather.js';
+      import { getWeather, CLIMATE } from './src/timedEvents/climate.js';
       import {
         getNudelHour,
         NUDEL_HOUR_IN_A_NUDEL_DAY,
@@ -67,7 +67,7 @@
         const weather = getWeather(dayStart);
         const date = new Date(dayStart);
         console.log(weather);
-        const appliedWeather = Object.entries(WEATHER_RULES)
+        const appliedWeather = Object.entries(CLIMATE)
           .filter(([key]) => weather[key])
           .map((it) => it[1].name);
         const appliedWeatherString = appliedWeather.length > 0 ? appliedWeather.join(', ') : '-';

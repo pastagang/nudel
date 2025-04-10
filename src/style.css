@@ -72,9 +72,11 @@ body {
     }
 
     .slots {
-      display: grid;
+      /*display: grid;
       grid-template-areas: 'left right';
-      grid-template-columns: 50% 50%;
+      grid-template-columns: 50% 50%;*/
+      display: flex;
+      flex-wrap: wrap;
       height: calc(100vh - 24px);
       gap: 0;
     }
@@ -88,6 +90,8 @@ body {
     }
 
     .slot {
+      flex-grow: 1;
+      flex-basis: max(40%, 25rem);
       opacity: 0.5;
       transform: scale(0.95);
       filter: blur(1.5px);
