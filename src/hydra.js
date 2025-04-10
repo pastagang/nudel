@@ -104,21 +104,13 @@ export class HydraSession {
 
     // Patching initScreen
     // to only init screen once
-    let screenOptions = 'non-init';
     const originScreen = HydraSource.prototype.initScreen;
     let screenIsInit = false;
-    HydraSource.prototype.initScreen = function (options) {
-      const self = this;
-      console.dir(options);
-      console.dir(screenOptions);
-      console.log(screenIsInit);
-      if (screenOptions !== options) {
-        originScreen.bind(this)(options);
-      } else if (!screenIsInit) {
-        originScreen.bind(this)(options);
+    HydraSource.prototype.initScreen = function () {
+      if (!screenIsInit) {
+        originScreen.bind(this)();
       }
       screenIsInit = true;
-      screenOptions = options;
     };
 
     HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
