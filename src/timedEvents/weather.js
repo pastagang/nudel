@@ -16,7 +16,7 @@ export const WEATHER_RULES = {
   },
   londonAlgorave: {
     name: 'london algorave',
-    when: () => true,
+    when: () => false,
   },
   mantraName: {
     name: 'everyone is mantra',
