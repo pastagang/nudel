@@ -91,6 +91,8 @@ export class HydraSession {
       };
     }
 
+    // Patching initCam
+    // so we can override the default camera index with a setting
     const originCam = HydraSource.prototype.initCam;
     HydraSource.prototype.initCam = function (index, params) {
       const self = this;
@@ -100,6 +102,8 @@ export class HydraSession {
       return originCam.bind(this)(chosenIndex, params);
     };
 
+    // Patching initScreen
+    // to only init screen once
     let screenOptions = 'non-init';
     const originScreen = HydraSource.prototype.initScreen;
     let screenIsInit = false;
