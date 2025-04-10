@@ -55,6 +55,7 @@ export const CLIMATE = {
 };
 
 export function getWeather(now = Date.now()) {
+  // get the weather based on climate
   const params = new URLSearchParams(window.location.search);
   const isSong = params.has('song');
   const weather = {};
