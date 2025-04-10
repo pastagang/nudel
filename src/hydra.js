@@ -112,7 +112,6 @@ export class HydraSession {
         originScreen.bind(this)();
       }
       screenIsInit = true;
-    };
 
     HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
       throw Error("Sorry 'initCanvas' has been temporarily disabled");
