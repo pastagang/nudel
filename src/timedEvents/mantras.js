@@ -29,6 +29,7 @@ export const MANTRAS = [
   //'you are not dead yet',
   // 'connect',
   // 'mantras are code',
+  'climate is what determines the weather',
 ];
 
 const CONDITIONAL_MANTRAS = [
