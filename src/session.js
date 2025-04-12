@@ -5,7 +5,7 @@ import { clearGlobalError, setError, clearLocalError } from './error.js';
 import { getSettings, getUserColorFromUserHue } from './settings.js';
 import { subscribeToChat, unsubscribeFromChat } from './chat.js';
 import { getCurrentMantra } from './timedEvents/mantraLogic.js';
-import { getWeather } from './timedEvents/climate.js';
+import { getWeather, getWeatherModifiesNames } from './timedEvents/climate.js';
 
 const PASTAGANG_ROOM_NAME = 'pastagang5';
 
@@ -128,11 +128,32 @@ export function getFormattedUserName() {
   const weather = getWeather();
   const settings = getSettings();
   let name = settings.username?.trim() || 'anonymous nudelfan';
-  if (weather.mantraName) {
-    name = getCurrentMantra();
+
+  if(getWeatherModifiesNames())
+  {
+    name = "";
   }
+
+  //this doesn't actually work!
+  if (weather.mantraName) {
+    name += getCurrentMantra();
+  }
+
+  if(weather.emoticons)
+  {
+    let emoticon = ":3";
+    const emoticons = 
+       [":-)", ":')", ":3", "xD", ":-O", ";)",
+        ":-]", ":^)", ":))", ":-D", ">_<", "UwU",
+        "( ͡° ͜ʖ ͡°)", "<:‑|", "(-_-;)","ಠ__ಠ",
+        "(=ʘᆽʘ=)∫	", "ʕ •ᴥ•ʔ","OwO", "(ΘεΘ;)"
+       ];
+    name += emoticons[Math.floor(Math.random() * emoticons.length)];
+  }
+
   if (weather.palindromeNames) {
     name += name.split('').reverse().splice(1).join('');
   }
+
   return name;
 }

@@ -2,6 +2,7 @@ import { MANTRAS, getConditionalMantras } from './mantras.js';
 import { getCoarseTime, getStartTime } from './time.js';
 import { scrambleInt } from './scramble.js';
 import { getSession } from '../session.js';
+import { getWeatherModifiesNames } from './climate.js';
 
 const MANTRA_INTERVAL = 1000 * 60; // mantra change rate in miliseconds
 let CURRENT_MANTRA = '';
