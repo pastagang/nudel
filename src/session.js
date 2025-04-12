@@ -134,7 +134,6 @@ export function getFormattedUserName() {
     name = "";
   }
 
-  //this doesn't actually work!
   if (weather.mantraName) {
     name += getCurrentMantra();
   }
