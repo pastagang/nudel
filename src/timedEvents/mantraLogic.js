@@ -2,13 +2,18 @@ import { MANTRAS, getConditionalMantras } from './mantras.js';
 import { getCoarseTime, getStartTime } from './time.js';
 import { scrambleInt } from './scramble.js';
 import { getSession, getFormattedUserName } from '../session.js';
-import { getWeatherModifiesNames } from './climate.js';
+import { getWeather, getWeatherModifiesNames } from './climate.js';
 
-const MANTRA_INTERVAL = 1000 * 60; // mantra change rate in miliseconds
+const MANTRA_INTERVAL = 1000 * 60 * 60;
 let CURRENT_MANTRA = '';
 
 export function getCurrentMantra() {
   return CURRENT_MANTRA;
+}
+
+export function getAllPossibleMantras() {
+  const conditionalMantras = getConditionalMantras();
+  return [...MANTRAS, ...conditionalMantras];
 }
 
 async function refreshMantra() {
@@ -16,11 +21,12 @@ async function refreshMantra() {
   const time = getCoarseTime(MANTRA_INTERVAL);
   // conditional mantras are Nx as likely to be picked (when they can be)
   let randomIndex = (await scrambleInt(time, 'mantra')) % (MANTRAS.length + conditionalMantras.length * 1);
+  let mantra = '';
   if (randomIndex < MANTRAS.length) {
-    var mantra = MANTRAS[randomIndex];
+    mantra = MANTRAS[randomIndex];
   } else {
     randomIndex = (randomIndex - MANTRAS.length) % conditionalMantras.length;
-    var mantra = conditionalMantras[randomIndex];
+    mantra = conditionalMantras[randomIndex];
   }
   CURRENT_MANTRA = mantra;
   const nextMantraTime = getStartTime(time + 1, MANTRA_INTERVAL);

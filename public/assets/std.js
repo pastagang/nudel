@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 
-
 // If you edit this file, please also minify it
 // and place the minified version in std-min.js
 
