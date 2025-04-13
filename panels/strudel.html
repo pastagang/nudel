@@ -12,7 +12,7 @@
       // + we can sandbox the evaluation
       // the js here is only for plumbing postMessages
       // + creating the strudel session
-      import { StrudelSession } from '/src/strudel';
+      import { StrudelSession } from '/src/strudel-panel.js';
       function send(type, msg) {
         window.parent.postMessage({ type, msg });
       }

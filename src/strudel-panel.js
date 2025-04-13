@@ -15,7 +15,7 @@ import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 import { setInterval, clearInterval } from 'worker-timers';
-import { Cyclist } from './strudel-cyclist.js';
+import { NudelCyclist } from './strudel-cyclist.js';
 
 controls.createParam('docId');
 
@@ -132,7 +132,7 @@ export class StrudelSession {
       return time;
     };
     // @ts-expect-error
-    this.scheduler = new Cyclist({
+    this.scheduler = new NudelCyclist({
       onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
       getTime,
       setInterval: this.settings.workerTimers2 ? setInterval : globalThis.setInterval,

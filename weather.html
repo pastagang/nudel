@@ -36,13 +36,8 @@
 
   <body>
     <script type="module">
-      import { getWeather, CLIMATE } from './src/timedEvents/climate.js';
-      import {
-        getNudelHour,
-        NUDEL_HOUR_IN_A_NUDEL_DAY,
-        getNudelDay,
-        getNudelDayStart,
-      } from './src/timedEvents/time.js';
+      import { getWeather, CLIMATE } from '/src/timedEvents/climate.js';
+      import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY, getNudelDay, getNudelDayStart } from '/src/timedEvents/time.js';
 
       const list = document.getElementById('weather-list');
       const currentTime = document.getElementById('current-time');

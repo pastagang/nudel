@@ -61,7 +61,7 @@ function createClock(
 }
 export default createClock;
 
-export class Cyclist {
+export class NudelCyclist {
   constructor({
     interval,
     onTrigger,

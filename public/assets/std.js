@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 
-import { samples } from "@strudel/webaudio";
 
 // If you edit this file, please also minify it
 // and place the minified version in std-min.js
@@ -32,7 +31,7 @@ async function spagda(nameList) {
   for (const name of names) {
     map[name] = spag(name);
   }
-  samples(map);
+  window.samples(map);
 }
 
 async function speechda(
@@ -61,7 +60,7 @@ async function speechda(
   if (words.length === 0) {
     return;
   }
-  samples('shabda/speech/' + locale + '/' + gender + ':' + words.join(','));
+  window.samples('shabda/speech/' + locale + '/' + gender + ':' + words.join(','));
 }
 
 async function hubda(orgList, repoList = '') {
@@ -88,7 +87,7 @@ async function hubda(orgList, repoList = '') {
 
   const addresses = orgRepos.map(({ org, repo }) => 'github:' + org + '/' + repo);
   for (const address of addresses) {
-    samples(address);
+    window.samples(address);
   }
 }
 
