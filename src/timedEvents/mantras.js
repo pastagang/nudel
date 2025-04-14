@@ -1,6 +1,27 @@
 import { getWeather } from './climate.js';
 
-export const MANTRAS = ['make another flok client'];
+export const MANTRAS = [
+  'make another flok client'
+  /*
+Here are five ways of making a flok client: 
+1. Fork flok.
+   https://github.com/munshkr/flok
+
+2. Fork nudel.
+   https://github.com/pastagang/nudel
+
+3. Fork dotcool.
+   https://github.com/pastagang/dotcool
+
+4. Copy the vanilla example. 
+   https://github.com/munshkr/flok/tree/main/packages/example-vanilla-js
+
+5. Start completely from scratch
+   https://github.com/pastagang/??????
+
+   If you need admin access to anything, please contact pastagang.
+  */
+];
 
 const CONDITIONAL_MANTRAS = [
   {
