@@ -1,6 +1,7 @@
 import { getWeather, CLIMATE } from './climate.js';
 import { getUserName, getSession } from '../session.js';
 import { getNudelDay, getNudelDayStart } from './time.js';
+import { nudelAlert } from '../alert.js';
 
 // This is in an extra file, so climate.js doesn't load the session,
 // so it can  be used in other places
@@ -30,17 +31,7 @@ export function applyWeatherRules(weather) {
 
   // === No nudel =====================================//
   if (weather.noNudel) {
-    document.body.innerHTML = '';
-    document.body.insertAdjacentHTML(
-      'beforeend',
-      `
-      <div class="dialog-container">
-      <dialog open>
-      <h1>nudel is not available today ⛈️</h1>
-      </dialog>
-      </div>
-      `,
-    );
+    nudelAlert('nudel is not available today ⛈️');
   }
 }
 
