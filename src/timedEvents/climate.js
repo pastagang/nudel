@@ -69,16 +69,4 @@ export function getWeather(now = Date.now()) {
   return weather;
 }
 
-export function getWeatherModifiesNames()
-{
-  let weather = getWeather();
-  if(weather.emoticons)
-    return true;
-
-  //this is applied during mantra applyMantra which is highly non-standard!
-  if(weather.mantraName)
-    return true;
-  return false;
-}
-
 window.getWeather = getWeather;

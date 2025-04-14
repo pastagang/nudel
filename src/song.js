@@ -1,5 +1,6 @@
 import { Session } from '@flok-editor/session';
 import { getRandomName } from './random.js';
+import { base64ToUnicode, unicodeToBase64 } from '@strudel/core';
 
 export function showSongText() {
   const footer = document.querySelector('#global-footer');
@@ -10,22 +11,6 @@ export function showSongText() {
       '<h3>⚠️ You are viewing a song! ⚠️ go <a href="/">back to nudeling</a></h3>',
     );
   }
-}
-
-export function unicodeToBase64(text) {
-  const utf8Bytes = new TextEncoder().encode(text);
-  const base64String = btoa(String.fromCharCode(...utf8Bytes));
-  return base64String;
-}
-
-export function base64ToUnicode(str) {
-  const base64Encoded = str.replace(/-/g, '+').replace(/_/g, '/');
-  const padding = str.length % 4 === 0 ? '' : '='.repeat(4 - (str.length % 4));
-  const base64WithPadding = base64Encoded + padding;
-  return atob(base64WithPadding)
-    .split('')
-    .map((char) => String.fromCharCode(char.charCodeAt(0)))
-    .join('');
 }
 
 export function createNewRoomFromSongData(songData) {

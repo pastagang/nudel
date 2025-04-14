@@ -1,8 +1,9 @@
 import { nudelAlert } from './alert.js';
 import { nudelConfirm } from './confirm.js';
-import { clearStrudelHighlights, Frame, pastamirror } from './main.js';
+import { clearStrudelHighlights } from './highlight.js';
+import { Frame, pastamirror } from './main.js';
 import { getRandomName } from './random.js';
-import { getFormattedUserName, getSession, refreshSession } from './session.js';
+import { getUserName, getSession, refreshSession } from './session.js';
 import { getWeather } from './timedEvents/climate.js';
 
 //=====//
@@ -123,7 +124,7 @@ function inferSettingsFromDom() {
     cameraIndex: (() => {
       if (cameraIndexSelector?.value === null) return defaultSettings.cameraIndex;
       if (cameraIndexSelector?.value === 'none') return 'none';
-      return parseInt(cameraIndexSelector.value);
+      return parseInt(cameraIndexSelector?.value ?? defaultSettings.cameraIndex);
     })(),
   };
   return inferredSettings;
@@ -155,10 +156,12 @@ function inferSettingsFromDom() {
 ].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
 [usernameInput, userHueRange].forEach((v) => v?.addEventListener('input', setSettingsFromDom));
 
-hideAllCodeButton.onclick = () => {
-  document.querySelector('.slots').classList.toggle('hidden');
-  document.querySelector('.tabs').classList.toggle('hidden');
-};
+if (hideAllCodeButton) {
+  hideAllCodeButton.onclick = () => {
+    document.querySelector('.slots')?.classList.toggle('hidden');
+    document.querySelector('.tabs')?.classList.toggle('hidden');
+  };
+}
 let appliedSettings = null;
 
 function addFrame(key) {
@@ -182,6 +185,7 @@ function isSettingChanged(settingName, { previous, next }) {
 async function initCameras() {
   const cameras = await navigator.mediaDevices.enumerateDevices();
 
+  if (!cameraIndexSelector) return;
   cameraIndexSelector.innerHTML = '';
   cameras
     .filter((device) => device.kind === 'videoinput')
@@ -283,7 +287,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   const session = getSession();
 
   if (isSettingChanged('username', diff)) {
-    session.user = getFormattedUserName();
+    session.user = getUserName();
   }
 
   if (isSettingChanged('username', diff) || isSettingChanged('userHue', diff)) {

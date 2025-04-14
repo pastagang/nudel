@@ -1,8 +1,8 @@
 import { MANTRAS, getConditionalMantras } from './mantras.js';
 import { getCoarseTime, getStartTime } from './time.js';
 import { scrambleInt } from './scramble.js';
-import { getSession, getFormattedUserName } from '../session.js';
-import { getWeather, getWeatherModifiesNames } from './climate.js';
+import { getSession, getUserName } from '../session.js';
+import { getWeather } from './climate.js';
 
 const MANTRA_INTERVAL = 1000 * 60 * 60;
 let CURRENT_MANTRA = '';
@@ -42,7 +42,7 @@ function applyMantra(mantra) {
   }
 
   if (getWeather().mantraName) {
-    getSession().user = getFormattedUserName();
+    getSession().user = getUserName();
   }
 }
 

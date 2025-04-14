@@ -1,15 +1,18 @@
 import { getWeather, CLIMATE } from './climate.js';
-import { getFormattedUserName, getSession } from '../session.js';
+import { getUserName, getSession } from '../session.js';
 import { getNudelDay, getNudelDayStart } from './time.js';
 
 // This is in an extra file, so climate.js doesn't load the session,
 // so it can  be used in other places
 let appliedWeatherHash = '';
 
+// TODO: change the param to `changedWeather` which is an object whose keys are all changed weathers.
+// it lets us do changes more minimally - similar to how settings work.
+// in fact........... oh damn we could probably let this code die and move weather to settings, then [just] auto set/unset them
 export function applyWeatherRules(weather) {
   //=== Name weathers ===================================//
   const session = getSession();
-  session.user = getFormattedUserName();
+  session.user = getUserName();
 
   //=== Grayscale =====================================//
   if (weather.grayScale) {

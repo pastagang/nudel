@@ -40,6 +40,7 @@ export class HydraSession {
 
     window.H = this._hydra;
     const HydraSource = this._hydra.s?.[0].constructor;
+    // @ts-expect-error - i swear osc exists.
     const GlslSource = osc().constructor;
 
     // Enable using strudel style mini-patterns for argument control on Hydra.
@@ -214,20 +215,22 @@ export class HydraSession {
      * that might be a problem Hydra needs to tackle
      */
     const self = this;
-    for (let i = 0; i < this._hydra.o.length; i++) {
-      const originTick = this._hydra.o[i]?.tick;
-      const _hydra = this._hydra;
+    const o = this._hydra.o;
+    if (!o) throw new Error('Hydra output not found');
+    for (let i = 0; i < o.length; i++) {
+      const originTick = o[i]?.tick;
       function nudelHydraOutputTick(args) {
         try {
-          originTick.bind(_hydra.o[i])(args);
+          originTick.bind(o?.[i])(args);
         } catch (e) {
           console.error('Error in Hydra tick, hard refresshing the iframe!');
           console.error(e);
+          // @ts-expect-error - chill out its fine
           self.onError(`Hydra crashed with ${e.message.slice(0, 50)}\n restarted hydra`, self.lastDocId);
           window.location.reload();
         }
       }
-      this._hydra.o[i].tick = nudelHydraOutputTick.bind(this._hydra.o[i]);
+      o[i].tick = nudelHydraOutputTick.bind(o[i]);
     }
 
     this.initialized = true;

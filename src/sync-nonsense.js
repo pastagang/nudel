@@ -1,8 +1,8 @@
 import { getMilliSecondsSinceNudelDayStart } from './timedEvents/time.js';
 
 let syncOrigin;
-export function initSync(ctxTime) {
-  syncOrigin = getMilliSecondsSinceNudelDayStart() / 1000; //- ctxTime;
+export function initSync() {
+  syncOrigin = getMilliSecondsSinceNudelDayStart() / 1000;
   globalThis.syncOrigin = syncOrigin;
 }
 globalThis.initSync = initSync;

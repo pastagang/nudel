@@ -5,28 +5,23 @@ import { clearGlobalError, setError, clearLocalError } from './error.js';
 import { getSettings, getUserColorFromUserHue } from './settings.js';
 import { subscribeToChat, unsubscribeFromChat } from './chat.js';
 import { getCurrentMantra } from './timedEvents/mantra.js';
-import { getWeather, getWeatherModifiesNames } from './timedEvents/climate.js';
+import { getWeather } from './timedEvents/climate.js';
+import { EMOTICONS } from './random.js';
 
 const PASTAGANG_ROOM_NAME = 'pastagang5';
-
-/** @type {Session | null} */
-let _session = null;
-
 export function getRoomName() {
   const params = new URLSearchParams(window.location.search);
-  if (params.has('song')) {
-    return params.get('song');
-  }
+  if (params.has('song')) return params.get('song');
 
   const settings = getSettings();
   if (!settings.customRoomEnabled) return PASTAGANG_ROOM_NAME;
   return settings.customRoomName;
 }
 
+/** @type {Session | null} */
+let _session = null;
 export function getSession() {
-  if (!_session) {
-    _session = makeSession();
-  }
+  if (!_session) _session = makeSession();
   return _session;
 }
 
@@ -52,7 +47,7 @@ function makeSession() {
   });
 
   session.on('sync', () => {
-    // If session is empty, create two documents
+    // If session is empty, create documents
     const documents = session.getDocuments();
     if (documents.length === 0) {
       session.setActiveDocuments([{ id: '1', target: 'strudel' }]);
@@ -118,55 +113,30 @@ function makeSession() {
   session.initialize();
 
   const settings = getSettings();
-  session.user = getFormattedUserName();
+  session.user = getUserName();
   session.userColor = getUserColorFromUserHue(settings.userHue);
 
   return session;
 }
 
-export function getFormattedUserName() {
+export function getUserName() {
   const weather = getWeather();
   const settings = getSettings();
-  let name = settings.username?.trim() || 'anonymous nudelfan';
 
-  if (getWeatherModifiesNames()) {
-    name = '';
-  }
+  let customName = '';
 
   if (weather.mantraName) {
-    name += getCurrentMantra();
+    customName += getCurrentMantra();
   }
 
   if (weather.emoticons) {
-    let emoticon = ':3';
-    const emoticons = [
-      ':-)',
-      ":')",
-      ':3',
-      'xD',
-      ':-O',
-      ';)',
-      ':-]',
-      ':^)',
-      ':))',
-      ':-D',
-      '>_<',
-      'UwU',
-      '( ͡° ͜ʖ ͡°)',
-      '<:‑|',
-      '(-_-;)',
-      'ಠ__ಠ',
-      '(=ʘᆽʘ=)∫	',
-      'ʕ •ᴥ•ʔ',
-      'OwO',
-      '(ΘεΘ;)',
-    ];
-    name += emoticons[Math.floor(Math.random() * emoticons.length)];
+    customName += EMOTICONS[Math.floor(Math.random() * EMOTICONS.length)];
   }
 
   if (weather.palindromeNames) {
-    name += name.split('').reverse().splice(1).join('');
+    customName += customName.split('').reverse().splice(1).join('');
   }
 
-  return name;
+  if (customName) return customName;
+  return settings.username?.trim() || 'anonymous nudelfan';
 }

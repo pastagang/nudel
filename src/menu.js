@@ -3,6 +3,7 @@ import { nudelPrompt } from './prompt.js';
 import { changeSettings, getSettings } from './settings.js';
 import { getNudelHour } from './timedEvents/time.js';
 import { getWeather, CLIMATE } from './timedEvents/climate.js';
+import { getSession } from './session.js';
 
 const menuButton = document.querySelector('#menu-button');
 const menuContainer = document.querySelector('#menu-container');
@@ -62,6 +63,29 @@ docsButton?.addEventListener('click', () => {
   } else {
     root?.classList.add('sidebarOpen');
   }
+});
+
+// add / remove panes
+document.getElementById('add-pane-button')?.addEventListener('click', () => {
+  const session = getSession();
+  if (!session) return;
+  const documents = session.getDocuments();
+  if (documents.length >= 8) {
+    console.error('cannot add more than 8 panes');
+    return;
+  }
+  const nextID = [1, 2, 3, 4, 5, 6, 7, 8].find((number) => !documents.find((doc) => Number(doc.id) === number));
+  const newDocs = [
+    ...documents.map((doc) => ({ id: doc.id, target: doc.target })),
+    { id: nextID + '', target: 'strudel' },
+  ];
+  session.setActiveDocuments(newDocs);
+});
+document.getElementById('remove-pane-button')?.addEventListener('click', () => {
+  const session = getSession();
+  if (!session) return;
+  const documents = session.getDocuments();
+  session.setActiveDocuments([...documents.map((doc) => ({ id: doc.id, target: doc.target })).slice(0, -1)]);
 });
 
 const html = document.documentElement;

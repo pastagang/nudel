@@ -39,6 +39,29 @@ const TAGS = [
   'pollo',
 ];
 
+export const EMOTICONS = [
+  ':-)',
+  ":')",
+  ':3',
+  'xD',
+  ':-O',
+  ';)',
+  ':-]',
+  ':^)',
+  ':))',
+  ':-D',
+  '>_<',
+  'UwU',
+  '( ͡° ͜ʖ ͡°)',
+  '<:‑|',
+  '(-_-;)',
+  'ಠ__ಠ',
+  '(=ʘᆽʘ=)∫	',
+  'ʕ •ᴥ•ʔ',
+  'OwO',
+  '(ΘεΘ;)',
+];
+
 export function getRandomName(tagCount = 2) {
   let name = '';
   for (let i = 0; i < tagCount; i++) {

@@ -2,6 +2,7 @@ import { pastamirror } from './main.js';
 import { getSession } from './session.js';
 import { nudelToast } from './toast.js';
 import { createShortNameFromSongData } from './song.js';
+import { unicodeToBase64 } from '@strudel/core';
 
 const exportButton = document.querySelector('#export-button');
 const exportDialog = document.querySelector('#export-dialog');
@@ -97,9 +98,7 @@ export function getCode(filter) {
 
 // Array<{type: string, content: string}>
 export function getSongData() {
-  const prettyDate = getPrettyDate();
-  const headline = `// "nudel ${prettyDate}" @by pastagang\n`;
-  let documents = getSession().getDocuments();
+  const documents = getSession().getDocuments();
   return documents.map((doc) => ({ type: doc.target, content: doc.content ?? '' }));
 }
 
@@ -113,12 +112,7 @@ exportDownloadButton?.addEventListener('click', () => {
   downloadAsFile(txt);
 });
 
-export function unicodeToBase64(text) {
-  const utf8Bytes = new TextEncoder().encode(text);
-  const base64String = btoa(String.fromCharCode(...utf8Bytes));
-  return base64String;
-}
-export function code2hash(code) {
+function code2hash(code) {
   return encodeURIComponent(unicodeToBase64(code));
 }
 

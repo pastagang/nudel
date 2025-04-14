@@ -20,8 +20,7 @@ import { sendChatMessage } from './chat.js';
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
 window.updateMiniLocations = updateMiniLocations; // we cannot import this for some reason
 
-// dynamic codemirror extensions
-
+// Gets around an issue with chat positioning
 let backspaceWasPressed = false;
 addEventListener('keyup', (e) => {
   if (e.key === 'Backspace') {
@@ -41,7 +40,7 @@ export class PastaMirror {
       // @ts-expect-error
       on ? autocompletion({ override: [strudelAutocomplete] }) : autocompletion({ override: [] }),
   };
-  strudelOnlyExtensions = ['strudelAutocomplete']; // these extension keys are only active for strudel panes
+  strudelOnlyExtensions = ['strudelAutocomplete'];
   compartments = {};
 
   constructor() {
@@ -51,12 +50,10 @@ export class PastaMirror {
   createEditor(doc) {
     const initialSettings = Object.keys(this.compartments).map((key) => {
       const isStrudelOnly = this.strudelOnlyExtensions.includes(key);
-      // disable strudel only extensions for other pane types
       const enabled = getSettings()[key] && (!isStrudelOnly || doc.target === 'strudel');
       const extension = this.extensions[key](enabled);
       return this.compartments[key].of(extension);
     });
-    // console.log('createEditor', doc);
     if (!['1', '2', '3', '4', '5', '6', '7', '8'].includes(doc.id)) {
       console.warn(`ignoring doc with id "${doc.id}"`);
       return;

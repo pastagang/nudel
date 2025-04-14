@@ -91,7 +91,7 @@ export class NudelCyclist {
       (phase, duration) => {
         if (this.num_ticks_since_cps_change === 0) {
           // @ts-ignore
-          parent.initSync(getTime());
+          parent.initSync();
           this.num_cycles_at_cps_change = this.lastEnd;
           this.seconds_at_cps_change = phase;
         }
