@@ -9,7 +9,7 @@ import { highlightExtension, highlightMiniLocations, updateMiniLocations } from 
 import { EditorView, minimalSetup } from 'codemirror';
 import { yCollab } from 'y-codemirror.next';
 import './style.css';
-import theme from './themes/strudel-theme.js';
+import theme from './strudel-theme.js';
 import { getSettings } from './settings.js';
 import { insertNewline } from '@codemirror/commands';
 import { nudelAlert } from './alert.js';

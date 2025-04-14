@@ -4,7 +4,7 @@ import { pastamirror, Frame } from './main.js';
 import { clearGlobalError, setError, clearLocalError } from './error.js';
 import { getSettings, getUserColorFromUserHue } from './settings.js';
 import { subscribeToChat, unsubscribeFromChat } from './chat.js';
-import { getCurrentMantra } from './timedEvents/mantraLogic.js';
+import { getCurrentMantra } from './timedEvents/mantra.js';
 import { getWeather, getWeatherModifiesNames } from './timedEvents/climate.js';
 
 const PASTAGANG_ROOM_NAME = 'pastagang5';
@@ -129,24 +129,38 @@ export function getFormattedUserName() {
   const settings = getSettings();
   let name = settings.username?.trim() || 'anonymous nudelfan';
 
-  if(getWeatherModifiesNames())
-  {
-    name = "";
+  if (getWeatherModifiesNames()) {
+    name = '';
   }
 
   if (weather.mantraName) {
     name += getCurrentMantra();
   }
 
-  if(weather.emoticons)
-  {
-    let emoticon = ":3";
-    const emoticons = 
-       [":-)", ":')", ":3", "xD", ":-O", ";)",
-        ":-]", ":^)", ":))", ":-D", ">_<", "UwU",
-        "( ͡° ͜ʖ ͡°)", "<:‑|", "(-_-;)","ಠ__ಠ",
-        "(=ʘᆽʘ=)∫	", "ʕ •ᴥ•ʔ","OwO", "(ΘεΘ;)"
-       ];
+  if (weather.emoticons) {
+    let emoticon = ':3';
+    const emoticons = [
+      ':-)',
+      ":')",
+      ':3',
+      'xD',
+      ':-O',
+      ';)',
+      ':-]',
+      ':^)',
+      ':))',
+      ':-D',
+      '>_<',
+      'UwU',
+      '( ͡° ͜ʖ ͡°)',
+      '<:‑|',
+      '(-_-;)',
+      'ಠ__ಠ',
+      '(=ʘᆽʘ=)∫	',
+      'ʕ •ᴥ•ʔ',
+      'OwO',
+      '(ΘεΘ;)',
+    ];
     name += emoticons[Math.floor(Math.random() * emoticons.length)];
   }
 

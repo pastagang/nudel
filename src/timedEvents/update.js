@@ -1,5 +1,5 @@
 import { updateWeather } from './weatherLogic.js';
-import { updateMantra } from './mantraLogic.js';
+import { updateMantra } from './mantra.js';
 
 async function runOnSchedule(fn) {
   // run the function based on the time it returns
