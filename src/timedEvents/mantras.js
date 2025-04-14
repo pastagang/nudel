@@ -46,6 +46,10 @@ const CONDITIONAL_MANTRAS = [
     condition: () => getWeather().kaleidoscope,
     mantras: ['thou shalt not use kaleidescope'],
   },
+  {
+    condition: () => getWeather().palindromeNames,
+    mantras: ['use kaleidoscope to make palindrome visuals'],
+  },
 ];
 
 export function getConditionalMantras() {
