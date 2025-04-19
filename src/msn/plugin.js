@@ -44,6 +44,7 @@ const replacements = [
   ['reckter', '/msn/reckter.gif'],
   ['pastagang', '/msn/pastagang.gif'],
   ['trans', '/msn/trans.gif'],
+  ['hh', '/msn/hi-hat.webp'],
 ];
 
 function replaceTextWithMsn(view) {
