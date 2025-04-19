@@ -43,6 +43,7 @@ const replacements = [
   ['.jux\\(rev\\)', '/msn/thx_yaxu.gif'],
   ['reckter', '/msn/reckter.gif'],
   ['pastagang', '/msn/pastagang.gif'],
+  ['trans', '/msn/trans.gif'],
 ];
 
 function replaceTextWithMsn(view) {
