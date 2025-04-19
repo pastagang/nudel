@@ -22,7 +22,7 @@ export const CLIMATE = {
   },
   mantraName: {
     name: 'everyone is mantra',
-    when: (now) => getNudelDay(now) % 7 === 0,
+    when: (now) => getNudelDay(now) % 14 === 0,
   },
   grayScale: {
     name: 'greyscale',
@@ -54,7 +54,7 @@ export const CLIMATE = {
   },
   emoticons: {
     name: 'everyone is emoticons',
-    when: (now) => getNudelDay(now) % 22 === 0 && getNudelDay(now) % 7 !== 0,
+    when: (now) => getNudelDay(now) % 14 === 7,
   },
 };
 
