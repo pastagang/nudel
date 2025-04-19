@@ -112,6 +112,7 @@ export class HydraSession {
         originScreen.bind(this)();
       }
       screenIsInit = true;
+    };
 
     HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
       throw Error("Sorry 'initCanvas' has been temporarily disabled");
@@ -218,6 +219,7 @@ export class HydraSession {
     if (!o) throw new Error('Hydra output not found');
     for (let i = 0; i < o.length; i++) {
       const originTick = o[i]?.tick;
+
       function nudelHydraOutputTick(args) {
         try {
           originTick.bind(o?.[i])(args);
@@ -229,6 +231,7 @@ export class HydraSession {
           window.location.reload();
         }
       }
+
       o[i].tick = nudelHydraOutputTick.bind(o[i]);
     }
 
