@@ -34,7 +34,7 @@ const replacements = [
   ['hi', '/msn/hi.gif'],
   ['hello', '/msn/hello.gif'],
   ['cool', '/msn/cool.png'],
-  ['pasta', '/msn/pasta.gif'],
+  ['pasta', '/msn/pasta.png'],
   ['omg', '/msn/omg.gif'],
   ['(?!\\\\)n', '/msn/n.gif'],
   ['e', '/msn/e.gif'],
