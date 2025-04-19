@@ -39,6 +39,10 @@ const replacements = [
   ['(?!\\\\)n', '/msn/n.gif'],
   ['e', '/msn/e.gif'],
   ['//', '/msn/comment.gif'],
+  ['kaleid', '/msn/kaleid.gif'],
+  ['.jux\\(rev\\)', '/msn/thx_yaxu.gif'],
+  ['reckter', '/msn/reckter.gif'],
+  ['pastagang', '/msn/pastagang.gif'],
 ];
 
 function replaceTextWithMsn(view) {
