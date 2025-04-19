@@ -20,6 +20,9 @@ importers:
       '@codemirror/language':
         specifier: ^6.10.8
         version: 6.10.8
+      '@codemirror/search':
+        specifier: ^6.5.10
+        version: 6.5.10
       '@codemirror/state':
         specifier: ^6.2.0
         version: 6.5.0
@@ -40,7 +43,7 @@ importers:
         version: 1.2.1
       '@replit/codemirror-vim':
         specifier: ^6.2.1
-        version: 6.2.1(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/search@6.5.8)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)
+        version: 6.2.1(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/search@6.5.10)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)
       '@strudel/codemirror':
         specifier: ^1.1.0
         version: 1.1.0(@codemirror/lint@6.8.4)
@@ -127,8 +130,8 @@ packages:
   '@codemirror/lint@6.8.4':
     resolution: {integrity: sha512-u4q7PnZlJUojeRe8FJa/njJcMctISGgPQ4PnWsd9268R4ZTtU+tfFYmwkBvgcrK2+QQ8tYFVALVb5fVJykKc5A==}
 
-  '@codemirror/search@6.5.8':
-    resolution: {integrity: sha512-PoWtZvo7c1XFeZWmmyaOp2G0XVbOnm+fJzvghqGAktBW3cufwJUWvSCcNG0ppXiBEM05mZu6RhMtXPv2hpllig==}
+  '@codemirror/search@6.5.10':
+    resolution: {integrity: sha512-RMdPdmsrUf53pb2VwflKGHEe1XVM07hI7vV2ntgw1dmqhimpatSJKva4VA9h4TLUDOD4EIF02201oZurpnEFsg==}
 
   '@codemirror/state@6.5.0':
     resolution: {integrity: sha512-MwBHVK60IiIHDcoMet78lxt6iw5gJOGSbNbOIVBHWVXIH4/Nq1+GQgLLGgI1KlnN86WDXsPudVaqYHKBIx7Eyw==}
@@ -1291,7 +1294,7 @@ snapshots:
       '@codemirror/view': 6.36.1
       crelt: 1.0.6
 
-  '@codemirror/search@6.5.8':
+  '@codemirror/search@6.5.10':
     dependencies:
       '@codemirror/state': 6.5.0
       '@codemirror/view': 6.36.1
@@ -1445,29 +1448,29 @@ snapshots:
     dependencies:
       nanostores: 0.9.5
 
-  '@replit/codemirror-emacs@6.1.0(@codemirror/autocomplete@6.18.4)(@codemirror/commands@6.8.0)(@codemirror/search@6.5.8)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)':
+  '@replit/codemirror-emacs@6.1.0(@codemirror/autocomplete@6.18.4)(@codemirror/commands@6.8.0)(@codemirror/search@6.5.10)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)':
     dependencies:
       '@codemirror/autocomplete': 6.18.4
       '@codemirror/commands': 6.8.0
-      '@codemirror/search': 6.5.8
+      '@codemirror/search': 6.5.10
       '@codemirror/state': 6.5.0
       '@codemirror/view': 6.36.1
 
-  '@replit/codemirror-vim@6.2.1(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/search@6.5.8)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)':
+  '@replit/codemirror-vim@6.2.1(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/search@6.5.10)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)':
     dependencies:
       '@codemirror/commands': 6.8.0
       '@codemirror/language': 6.10.8
-      '@codemirror/search': 6.5.8
+      '@codemirror/search': 6.5.10
       '@codemirror/state': 6.5.0
       '@codemirror/view': 6.36.1
 
-  '@replit/codemirror-vscode-keymap@6.0.2(@codemirror/autocomplete@6.18.4)(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/lint@6.8.4)(@codemirror/search@6.5.8)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)':
+  '@replit/codemirror-vscode-keymap@6.0.2(@codemirror/autocomplete@6.18.4)(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/lint@6.8.4)(@codemirror/search@6.5.10)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)':
     dependencies:
       '@codemirror/autocomplete': 6.18.4
       '@codemirror/commands': 6.8.0
       '@codemirror/language': 6.10.8
       '@codemirror/lint': 6.8.4
-      '@codemirror/search': 6.5.8
+      '@codemirror/search': 6.5.10
       '@codemirror/state': 6.5.0
       '@codemirror/view': 6.36.1
 
@@ -1552,14 +1555,14 @@ snapshots:
       '@codemirror/commands': 6.8.0
       '@codemirror/lang-javascript': 6.2.2
       '@codemirror/language': 6.10.8
-      '@codemirror/search': 6.5.8
+      '@codemirror/search': 6.5.10
       '@codemirror/state': 6.5.0
       '@codemirror/view': 6.36.1
       '@lezer/highlight': 1.2.1
       '@nanostores/persistent': 0.9.1(nanostores@0.9.5)
-      '@replit/codemirror-emacs': 6.1.0(@codemirror/autocomplete@6.18.4)(@codemirror/commands@6.8.0)(@codemirror/search@6.5.8)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)
-      '@replit/codemirror-vim': 6.2.1(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/search@6.5.8)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)
-      '@replit/codemirror-vscode-keymap': 6.0.2(@codemirror/autocomplete@6.18.4)(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/lint@6.8.4)(@codemirror/search@6.5.8)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)
+      '@replit/codemirror-emacs': 6.1.0(@codemirror/autocomplete@6.18.4)(@codemirror/commands@6.8.0)(@codemirror/search@6.5.10)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)
+      '@replit/codemirror-vim': 6.2.1(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/search@6.5.10)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)
+      '@replit/codemirror-vscode-keymap': 6.0.2(@codemirror/autocomplete@6.18.4)(@codemirror/commands@6.8.0)(@codemirror/language@6.10.8)(@codemirror/lint@6.8.4)(@codemirror/search@6.5.10)(@codemirror/state@6.5.0)(@codemirror/view@6.36.1)
       '@strudel/core': 1.1.0
       '@strudel/draw': 1.1.0
       '@strudel/transpiler': 1.1.0
@@ -2207,7 +2210,7 @@ snapshots:
       '@codemirror/commands': 6.8.0
       '@codemirror/language': 6.10.8
       '@codemirror/lint': 6.8.4
-      '@codemirror/search': 6.5.8
+      '@codemirror/search': 6.5.10
       '@codemirror/state': 6.5.0
       '@codemirror/view': 6.36.1
 

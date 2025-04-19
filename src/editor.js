@@ -15,6 +15,7 @@ import { insertNewline } from '@codemirror/commands';
 import { nudelAlert } from './alert.js';
 import { strudelAutocomplete } from './strudel-autocomplete.js';
 import { sendChatMessage } from './chat.js';
+import { msnPlugin } from './msn/plugin.js';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
@@ -58,12 +59,14 @@ export class PastaMirror {
       console.warn(`ignoring doc with id "${doc.id}"`);
       return;
     }
+    const weather = getWeather();
 
     const state = EditorState.create({
       doc: doc.content,
       extensions: [
         minimalSetup,
         theme,
+        weather.msn ? msnPlugin : [],
         this.flokBasicSetup(doc),
         javascript(),
         getSettings().vimMode ? vim() : [],
