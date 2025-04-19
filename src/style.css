@@ -669,3 +669,9 @@ input:disabled {
 .inverted-colors {
   filter: invert(1);
 }
+
+
+.msn-replacement {
+  max-height: 3em;
+  max-width: 3em;
+}
