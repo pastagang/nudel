@@ -123,20 +123,21 @@ export function getUserName() {
   const weather = getWeather();
   const settings = getSettings();
 
-  let customName = '';
+  let name = settings.username?.trim() ?? 'anonymous nudelfan';
 
   if (weather.mantraName) {
-    customName += getCurrentMantra();
+    name += getCurrentMantra();
   }
 
   if (weather.emoticons) {
-    customName += EMOTICONS[Math.floor(Math.random() * EMOTICONS.length)];
+    name += EMOTICONS[Math.floor(Math.random() * EMOTICONS.length)];
   }
 
   if (weather.palindromeNames) {
-    customName += customName.split('').reverse().splice(1).join('');
+    name += name.split('').reverse().splice(1).join('');
   }
 
-  if (customName) return customName;
-  return settings.username?.trim() || 'anonymous nudelfan';
+  if (name) return name;
+
+  return name;
 }
