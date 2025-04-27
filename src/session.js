@@ -126,11 +126,13 @@ export function getUserName() {
   let name = settings.username?.trim() ?? 'anonymous nudelfan';
 
   if (weather.mantraName) {
-    name += getCurrentMantra();
+    // we can replace, because mantra and emotions are never at the same day
+    name = getCurrentMantra();
   }
 
   if (weather.emoticons) {
-    name += EMOTICONS[Math.floor(Math.random() * EMOTICONS.length)];
+    // we can replace, because mantra and emotions are never at the same day
+    name = EMOTICONS[Math.floor(Math.random() * EMOTICONS.length)];
   }
 
   if (weather.palindromeNames) {

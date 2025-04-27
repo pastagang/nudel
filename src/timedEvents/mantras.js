@@ -1,7 +1,7 @@
 import { getWeather } from './climate.js';
 
 export const MANTRAS = [
-  'contribute code upstream', 
+  'contribute code upstream',
   'make another flok client',
   /*
 Here are five ways of making a flok client: 
