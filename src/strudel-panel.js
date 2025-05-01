@@ -13,7 +13,7 @@ import {
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
-import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
+import { aliasBank, getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 import { setInterval, clearInterval } from 'worker-timers';
 import { NudelCyclist } from './strudel-cyclist.js';
 
@@ -86,15 +86,17 @@ export class StrudelSession {
     // console.log(lines.join('\n'));
   }
 
-  loadSamples() {
+  async loadSamples() {
     const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main/';
-    return Promise.all([
+    const ts = 'https://raw.githubusercontent.com/todepond/samples/main/';
+    await Promise.all([
       samples(`${ds}/tidal-drum-machines.json`),
       samples(`${ds}/piano.json`),
       samples(`${ds}/Dirt-Samples.json`),
       samples(`${ds}/EmuSP12.json`),
       samples(`${ds}/vcsl.json`),
     ]);
+    aliasBank(`${ts}/tidal-drum-machines-alias.json`);
   }
 
   async init() {
