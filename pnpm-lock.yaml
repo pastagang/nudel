@@ -63,8 +63,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       '@strudel/soundfonts':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.2.1
+        version: 1.2.1
       '@strudel/tonal':
         specifier: ^1.2.0
         version: 1.2.0
@@ -72,8 +72,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       '@strudel/webaudio':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.2.1
+        version: 1.2.1
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1
@@ -488,8 +488,8 @@ packages:
   '@strudel/reference@1.2.0':
     resolution: {integrity: sha512-gKFdcIoYsvIOIKKqNOIwemVfOSaJUK0i7yOUCqMYzLIyE3+m2zaOdyaHoZxgQVCfBRpKyrU+nlwEben+/C7bQA==}
 
-  '@strudel/soundfonts@1.2.0':
-    resolution: {integrity: sha512-d5n4mN7J477l0TO9d3ugBGtDBT20cwSmRVOcf7Z72NU3opVGJQeTTArWPPdl8zjQHYqT6OiPsjcorqkyt4+pug==}
+  '@strudel/soundfonts@1.2.1':
+    resolution: {integrity: sha512-EsI26wC6afGhD/WcLq9TzpW3/98EmjwtM7VbdrUD5OP/8E86Hmn1UImsVIWK246u7j5uZs0eT3HoZH8CEvvwAg==}
 
   '@strudel/tonal@1.2.0':
     resolution: {integrity: sha512-EjSJlcHx6CUKHdb88UjxdizCJhAMD7VhiioLZdi5A2VDYy/vFTu5UW9R/tTYVSUe4as76REVfWcKAu8ziD2/Hw==}
@@ -499,6 +499,9 @@ packages:
 
   '@strudel/webaudio@1.2.0':
     resolution: {integrity: sha512-tkc1952Z6Qojc2auJ2s6zJPULLZqpVclS5rGmcSOB/xpObxKgBoYW2WA1ToIHwtlFCVqRlq604CdG0A7ZD8hGw==}
+
+  '@strudel/webaudio@1.2.1':
+    resolution: {integrity: sha512-G03CdnnnxyipU8a7Y4hIa35Xcw6DKpfjCYaBZEgOppRwZ3NgRelqF0RucNRwiyVnW33Ixg1EL5d+SqYsMrF8BQ==}
 
   '@tonaljs/abc-notation@4.9.0':
     resolution: {integrity: sha512-G52FHXNcIbZldoY1LlkXshD5nZqh/VylLCxPlXkx3Fikbn2UZqQ1uK+me8PjJltCCKmNI7M+DkHdh5oBK5CzVw==}
@@ -1000,6 +1003,9 @@ packages:
   superdough@1.2.0:
     resolution: {integrity: sha512-cJBCafny6E7MncXvWtjIuZaSSZzxPpuGhM7JtR7CQHP5K+0LHXSj2z+wZ6ad0/9fIwqfrFcBmw7cspmOHhFipg==}
 
+  superdough@1.2.1:
+    resolution: {integrity: sha512-Dy/8R293vf3+wu2iZydEIDk9JW8PtwlOFtcV//AYn+Vao31Mqye9TrlyLtzt8Wh+AHLOGNv24ZlWTDRgYE6JvA==}
+
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
@@ -1479,10 +1485,10 @@ snapshots:
 
   '@strudel/reference@1.2.0': {}
 
-  '@strudel/soundfonts@1.2.0':
+  '@strudel/soundfonts@1.2.1':
     dependencies:
       '@strudel/core': 1.2.0
-      '@strudel/webaudio': 1.2.0
+      '@strudel/webaudio': 1.2.1
       sfumato: 0.1.2
       soundfont2: 0.5.0
 
@@ -1506,6 +1512,12 @@ snapshots:
       '@strudel/core': 1.2.0
       '@strudel/draw': 1.2.0
       superdough: 1.2.0
+
+  '@strudel/webaudio@1.2.1':
+    dependencies:
+      '@strudel/core': 1.2.0
+      '@strudel/draw': 1.2.0
+      superdough: 1.2.1
 
   '@tonaljs/abc-notation@4.9.0':
     dependencies:
@@ -2152,6 +2164,10 @@ snapshots:
   style-mod@4.1.2: {}
 
   superdough@1.2.0:
+    dependencies:
+      nanostores: 0.11.4
+
+  superdough@1.2.1:
     dependencies:
       nanostores: 0.11.4
 
