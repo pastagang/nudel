@@ -24,7 +24,7 @@
     "@codemirror/view": "^6.36.2",
     "@flok-editor/cm-eval": "^1.3.0",
     "@flok-editor/session": "^1.1.0",
-    "@kabelsalat/web": "^0.3.2",
+    "@kabelsalat/web": "^0.4.0",
     "@lezer/highlight": "^1.2.1",
     "@replit/codemirror-vim": "^6.2.1",
     "@strudel/codemirror": "^1.2.0",

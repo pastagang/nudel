@@ -36,8 +36,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(y-indexeddb@9.0.12(yjs@13.6.21))(y-protocols@1.0.6(yjs@13.6.21))(y-webrtc@10.3.0(bufferutil@4.0.9)(utf-8-validate@6.0.5)(yjs@13.6.21))(y-websocket@1.5.4(bufferutil@4.0.9)(utf-8-validate@6.0.5)(yjs@13.6.21))(yjs@13.6.21)
       '@kabelsalat/web':
-        specifier: ^0.3.2
-        version: 0.3.2
+        specifier: ^0.4.0
+        version: 0.4.0
       '@lezer/highlight':
         specifier: ^1.2.1
         version: 1.2.1
@@ -298,14 +298,14 @@ packages:
       y-websocket: ^1.5.0
       yjs: ^13.5.50
 
-  '@kabelsalat/core@0.3.0':
-    resolution: {integrity: sha512-NgDgWIOtomtiAUPrri9+8Q/5a8RS1OscTaP0PR3xvN35490sdGduVeFNP9RdZx1f9aEoFoTeFr/48ObAV68mJg==}
+  '@kabelsalat/core@0.3.1':
+    resolution: {integrity: sha512-y2wHZyKnwbhJdGuwXvkaIb5vqbNTW6rMDnBslHGxQHTFX5xYyxJLOcuF2/EOB698t09kOVhmmpLXKbyokf3pOA==}
 
-  '@kabelsalat/lib@0.3.1':
-    resolution: {integrity: sha512-WNgUX/DgzzcKvG2+88yhUG88D6OEcIqE7gVHUhnp20cuhsIOYV1WLfYMVGqgkmuHbQyJPGuf6/l9deDD0PY2ug==}
+  '@kabelsalat/lib@0.4.0':
+    resolution: {integrity: sha512-UoOUhYOFShDjYCTne1edevCHHxSC07FsxG9tQ5GGOOzNoKMUpGVY8Ecq9X1GVyseQFvQBgz3aqAC6K8FPZp4ZQ==}
 
-  '@kabelsalat/web@0.3.2':
-    resolution: {integrity: sha512-BuVYv5re1QugaF3fSwRnuurP/nT8FecPIwBS82eZxEEBNMxDGJhcvVxh1Y2pJ+/Cr3tN27oxiDM5vkvyhrgMjQ==}
+  '@kabelsalat/web@0.4.0':
+    resolution: {integrity: sha512-uvcOJjpKf8PG6KrgY0QEpoV4IAbIPDXh73bPtFSdDcXApbkSyEEyeNE8IoqIlqfcjIX926IOCAx9nM6FsFp6DA==}
 
   '@lezer/common@1.2.3':
     resolution: {integrity: sha512-w7ojc8ejBqr2REPsWxJjrMFsA/ysDCFICn8zEOR9mrqzOu2amhITYuLD8ag6XZf0CFXDrhKqw7+tW8cX66NaDA==}
@@ -1310,16 +1310,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@kabelsalat/core@0.3.0': {}
+  '@kabelsalat/core@0.3.1': {}
 
-  '@kabelsalat/lib@0.3.1':
+  '@kabelsalat/lib@0.4.0':
     dependencies:
-      '@kabelsalat/core': 0.3.0
+      '@kabelsalat/core': 0.3.1
 
-  '@kabelsalat/web@0.3.2':
+  '@kabelsalat/web@0.4.0':
     dependencies:
-      '@kabelsalat/core': 0.3.0
-      '@kabelsalat/lib': 0.3.1
+      '@kabelsalat/core': 0.3.1
+      '@kabelsalat/lib': 0.4.0
 
   '@lezer/common@1.2.3': {}
 
