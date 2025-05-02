@@ -30,7 +30,7 @@ addEventListener('keyup', (e) => {
 });
 
 export class PastaMirror {
-  supportedTargets = ['strudel', 'hydra', 'shader', 'kabelsalat'];
+  supportedTargets = ['strudel', 'hydra', 'shader', 'kabelsalat', 'mondo'];
   editorViews = new Map();
   currentEditors = new Map();
   extensions = {
@@ -90,6 +90,8 @@ export class PastaMirror {
               run: () => {
                 if (doc.target === 'strudel') {
                   doc.evaluate('$: silence', { from: null, to: null });
+                } else if (doc.target === 'mondo') {
+                  doc.evaluate('$ silence', { from: null, to: null });
                 } else if (doc.target === 'kabelsalat') {
                   doc.evaluate('n(0).out()', { from: null, to: null });
                   if (window.strudel) {

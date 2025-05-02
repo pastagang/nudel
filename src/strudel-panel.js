@@ -16,6 +16,9 @@ import { transpiler } from '@strudel/transpiler';
 import { aliasBank, getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 import { setInterval, clearInterval } from 'worker-timers';
 import { NudelCyclist } from './strudel-cyclist.js';
+import { mondo } from './strudel-mondo.js';
+
+globalThis.mondo = mondo;
 
 controls.createParam('docId');
 

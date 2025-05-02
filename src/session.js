@@ -104,6 +104,11 @@ function makeSession() {
     msg.body += '\n\n\n' + getStdSource();
     return Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg });
   });
+  // mondo
+  session.on('eval:mondo', (msg) => {
+    msg.body = `$: mondo\`${msg.body}\``;
+    Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg });
+  });
   // kabelsalat
   session.on('eval:kabelsalat', (msg) => Frame.kabelsalat?.contentWindow.postMessage({ type: 'eval', msg }));
 
