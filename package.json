@@ -39,6 +39,7 @@
     "@strudel/webaudio": "^1.2.1",
     "codemirror": "^6.0.1",
     "hydra-synth": "^1.3.29",
+    "p5": "^2.0.1",
     "worker-timers": "^8.0.13",
     "y-codemirror.next": "github:felixroos/y-codemirror.next#a75a1cbfddf6968d4ced07f6e47c314e4fd7c72f",
     "y-indexeddb": "^9.0.9",
