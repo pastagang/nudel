@@ -166,7 +166,7 @@ let appliedSettings = null;
 
 function addFrame(key) {
   Frame[key] = document.createElement('iframe');
-  Frame[key].src = `/panels/${key}`;
+  Frame[key].src = `/panels/${key}.html`;
   Frame[key].id = key;
   Frame[key].sandbox = 'allow-scripts allow-same-origin';
   Frame[key].setAttribute('scrolling', 'no');
