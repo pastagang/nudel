@@ -58,7 +58,7 @@ export const CLIMATE = {
   },
   msn: {
     name: 'msn',
-    when: (now) => getNudelDay(now) % 17 === 10,
+    when: (now) => getNudelDay(now) % 19 === 10,
   },
 };
 
