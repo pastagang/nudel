@@ -1,5 +1,4 @@
-import { MANTRAS } from '../../mantras.js';
-import { CONDITIONAL_MANTRAS } from './mantras.js';
+import { CONDITIONAL_MANTRAS, MANTRAS } from '../../mantras.js';
 import { repeatRepeatRepeatRepeat } from './update.js';
 
 // bad code only

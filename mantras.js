@@ -23,7 +23,7 @@ Here are five ways of making a flok client:
   */
 ];
 
-const CONDITIONAL_MANTRAS = [
+export const CONDITIONAL_MANTRAS = [
   {
     condition: () => getWeather().mantraName,
     mantras: ['pastagang'],
