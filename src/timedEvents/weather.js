@@ -4,7 +4,7 @@ import { nudelAlert } from '../alert.js';
 import { repeatRepeatRepeatRepeat } from './update.js';
 //bad code only
 
-export function applyWeatherRules(weather) {
+function applyWeather(weather) {
   //=== Name weathers ===================================//
   const session = getSession();
   session.user = getUserName();
@@ -30,11 +30,11 @@ export function applyWeatherRules(weather) {
 }
 
 let appliedWeatherHash = '';
-function applyWeather(weather) {
+function updateWeather() {
+  const weather = getWeather(Date.now());
   const weatherHash = JSON.stringify(weather);
   if (appliedWeatherHash === weatherHash) return;
   appliedWeatherHash = weatherHash;
-  console.log('APPLYING WEATHER', weather);
 
   const enabledWeatherNames = Object.entries(weather)
     .filter(([_, enabled]) => enabled)
@@ -49,12 +49,6 @@ function applyWeather(weather) {
     }
   }
 
-  applyWeatherRules(weather);
-}
-
-function updateWeather() {
-  const weather = getWeather(Date.now());
-  console.log('WEATHER', weather);
   applyWeather(weather);
 }
 
