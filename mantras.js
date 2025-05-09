@@ -1,4 +1,4 @@
-import { getWeather } from './src/timedEvents/climate.js';
+import { getWeather } from './climate.js';
 
 export const MANTRAS = [
   'make another flok client',
@@ -51,13 +51,3 @@ const CONDITIONAL_MANTRAS = [
     mantras: ['use kaleidoscope to make palindrome visuals'],
   },
 ];
-
-export function getConditionalMantras() {
-  let mantras = [];
-  for (let i in CONDITIONAL_MANTRAS) {
-    if (CONDITIONAL_MANTRAS[i].condition()) {
-      mantras = mantras.concat(CONDITIONAL_MANTRAS[i].mantras);
-    }
-  }
-  return mantras;
-}

@@ -5,7 +5,7 @@ import { clearGlobalError, setError, clearLocalError } from './error.js';
 import { getSettings, getUserColorFromUserHue } from './settings.js';
 import { subscribeToChat, unsubscribeFromChat } from './chat.js';
 import { getCurrentMantra } from './timedEvents/mantra.js';
-import { getWeather } from './timedEvents/climate.js';
+import { getWeather } from '../climate.js';
 import { EMOTICONS } from './random.js';
 
 const PASTAGANG_ROOM_NAME = 'pastagang5';

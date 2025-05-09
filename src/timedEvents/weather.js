@@ -1,4 +1,4 @@
-import { getWeather, CLIMATE } from './climate.js';
+import { getWeather, CLIMATE } from '../../climate.js';
 import { getUserName, getSession } from '../session.js';
 import { nudelAlert } from '../alert.js';
 import { repeatRepeatRepeatRepeat } from './update.js';

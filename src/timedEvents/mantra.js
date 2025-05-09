@@ -1,4 +1,5 @@
-import { MANTRAS, getConditionalMantras } from '../../mantras.js';
+import { MANTRAS } from '../../mantras.js';
+import { CONDITIONAL_MANTRAS } from './mantras.js';
 import { repeatRepeatRepeatRepeat } from './update.js';
 
 // bad code only
@@ -24,6 +25,16 @@ function applyMantra(mantra) {
 export function updateMantra() {
   const mantra = getCurrentMantra();
   applyMantra(mantra);
+}
+
+function getConditionalMantras() {
+  let mantras = [];
+  for (let i in CONDITIONAL_MANTRAS) {
+    if (CONDITIONAL_MANTRAS[i].condition()) {
+      mantras = mantras.concat(CONDITIONAL_MANTRAS[i].mantras);
+    }
+  }
+  return mantras;
 }
 
 repeatRepeatRepeatRepeat(updateMantra);

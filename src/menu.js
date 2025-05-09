@@ -2,7 +2,7 @@ import { nudelAlert } from './alert.js';
 import { nudelPrompt } from './prompt.js';
 import { changeSettings, getSettings } from './settings.js';
 import { getNudelHour } from './timedEvents/time.js';
-import { getWeather, CLIMATE } from './timedEvents/climate.js';
+import { getWeather, CLIMATE } from '../climate.js';
 import { getSession } from './session.js';
 
 const menuButton = document.querySelector('#menu-button');

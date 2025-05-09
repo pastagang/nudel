@@ -1,4 +1,4 @@
-import { getNudelDay } from './time.js';
+import { getNudelDay } from './src/timedEvents/time.js';
 
 // Climate is what determines the weather you get
 // any change to it should be called "manmade climate change" (unless you're not human)

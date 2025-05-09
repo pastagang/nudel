@@ -1,6 +1,6 @@
 import HydraRenderer from 'hydra-synth';
 
-import { getWeather } from './timedEvents/climate.js';
+import { getWeather } from '../climate.js';
 import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY } from './timedEvents/time.js';
 
 export class HydraSession {

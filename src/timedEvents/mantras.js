@@ -1,4 +1,4 @@
-import { getWeather } from './climate.js';
+import { getWeather } from '../../climate.js';
 
 export const MANTRAS = [
   'contribute code upstream',
@@ -24,7 +24,7 @@ Here are five ways of making a flok client:
   */
 ];
 
-const CONDITIONAL_MANTRAS = [
+export const CONDITIONAL_MANTRAS = [
   {
     condition: () => getWeather().mantraName,
     mantras: ['pastagang'],
