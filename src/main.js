@@ -4,7 +4,7 @@ import { PastaMirror } from './editor.js';
 import './style.css';
 import { updateMiniLocations } from '@strudel/codemirror';
 import { getSession } from './session.js';
-import { initializeTimedEvents } from './timedEvents/update.js';
+import { repeatRepeatRepeatRepeat } from './timedEvents/update.js';
 import { showSongText } from './song.js';
 import { getSyncOffset } from './sync-nonsense.js';
 
@@ -21,7 +21,6 @@ window.editorViews = pastamirror.editorViews;
 window.getSyncOffset = getSyncOffset;
 
 applySettingsToNudel();
-initializeTimedEvents();
 
 // Reveal all development elements in development
 if (window.location.hostname === 'localhost') {

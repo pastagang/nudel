@@ -1,15 +1,9 @@
 import { getWeather, CLIMATE } from './climate.js';
 import { getUserName, getSession } from '../session.js';
-import { getNudelDay, getNudelDayStart } from './time.js';
 import { nudelAlert } from '../alert.js';
+import { repeatRepeatRepeatRepeat } from './update.js';
+//bad code only
 
-// This is in an extra file, so climate.js doesn't load the session,
-// so it can  be used in other places
-let appliedWeatherHash = '';
-
-// TODO: change the param to `changedWeather` which is an object whose keys are all changed weathers.
-// it lets us do changes more minimally - similar to how settings work.
-// in fact........... oh damn we could probably let this code die and move weather to settings, then [just] auto set/unset them
 export function applyWeatherRules(weather) {
   //=== Name weathers ===================================//
   const session = getSession();
@@ -35,7 +29,8 @@ export function applyWeatherRules(weather) {
   }
 }
 
-export function applyWeather(weather) {
+let appliedWeatherHash = '';
+function applyWeather(weather) {
   const weatherHash = JSON.stringify(weather);
   if (appliedWeatherHash === weatherHash) return;
   appliedWeatherHash = weatherHash;
@@ -57,13 +52,10 @@ export function applyWeather(weather) {
   applyWeatherRules(weather);
 }
 
-export function updateWeather() {
-  const now = Date.now();
-  const weather = getWeather(now);
-  // so we can access it from other places without having ciruclar dependencies
-  // we cant do this cos the weather could change
-  // window.weather = weather;
+function updateWeather() {
+  const weather = getWeather(Date.now());
+  console.log('WEATHER', weather);
   applyWeather(weather);
-  const nextDay = getNudelDayStart(getNudelDay(now) + 1);
-  return nextDay;
 }
+
+repeatRepeatRepeatRepeat(updateWeather);
