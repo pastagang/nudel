@@ -91,7 +91,8 @@ function makeSession() {
     // lets try (?)
     unsubscribeFromChat();
   });
-
+  // js
+  session.on('eval:js', (msg) => new Function(msg.body)());
   // hydra
   session.on('eval:hydra', (msg) => {
     msg.body += '\n\n\n' + getStdSource();
