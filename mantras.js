@@ -35,6 +35,6 @@ export const CONDITIONAL_MANTRAS = [
   },
   {
     condition: () => getWeather().kaleidoscope,
-    mantras: ['thou shalt not use kaleidescope'],
+    mantras: ['thou shalt not slander the kaleidescope'],
   },
 ];
