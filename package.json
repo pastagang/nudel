@@ -41,7 +41,7 @@
     "hydra-synth": "^1.3.29",
     "p5": "^1.11.5",
     "worker-timers": "^8.0.13",
-    "y-codemirror.next": "github:felixroos/y-codemirror.next#a75a1cbfddf6968d4ced07f6e47c314e4fd7c72f",
+    "y-codemirror.next": "github:pastagang/y-codemirror.next",
     "y-indexeddb": "^9.0.9",
     "y-protocols": "^1.0.5",
     "y-webrtc": "^10.2.5",

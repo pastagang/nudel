@@ -16,6 +16,7 @@ import { nudelAlert } from './alert.js';
 import { strudelAutocomplete } from './strudel-autocomplete.js';
 import { sendChatMessage } from './chat.js';
 import { msnPlugin } from './msn/plugin.js';
+import { getWeather } from '../climate.js';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
@@ -38,7 +39,6 @@ export class PastaMirror {
     lineNumbers: (on) => (on ? lineNumbers() : []),
     closeBrackets: (on) => (on ? closeBrackets() : []),
     strudelAutocomplete: (on) =>
-      // @ts-expect-error
       on ? autocompletion({ override: [strudelAutocomplete] }) : autocompletion({ override: [] }),
   };
   strudelOnlyExtensions = ['strudelAutocomplete'];
