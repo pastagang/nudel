@@ -87,8 +87,8 @@ importers:
         specifier: ^8.0.13
         version: 8.0.13
       y-codemirror.next:
-        specifier: github:felixroos/y-codemirror.next#a75a1cbfddf6968d4ced07f6e47c314e4fd7c72f
-        version: https://codeload.github.com/felixroos/y-codemirror.next/tar.gz/a75a1cbfddf6968d4ced07f6e47c314e4fd7c72f(@codemirror/state@6.5.2)(@codemirror/view@6.36.6)(yjs@13.6.21)
+        specifier: github:pastagang/y-codemirror.next#e1f38cc6c4f224aae476853043641c074889a71f
+        version: https://codeload.github.com/pastagang/y-codemirror.next/tar.gz/e1f38cc6c4f224aae476853043641c074889a71f(@codemirror/state@6.5.2)(@codemirror/view@6.36.6)(yjs@13.6.21)
       y-indexeddb:
         specifier: ^9.0.9
         version: 9.0.12(yjs@13.6.21)
@@ -1107,8 +1107,8 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
 
-  y-codemirror.next@https://codeload.github.com/felixroos/y-codemirror.next/tar.gz/a75a1cbfddf6968d4ced07f6e47c314e4fd7c72f:
-    resolution: {tarball: https://codeload.github.com/felixroos/y-codemirror.next/tar.gz/a75a1cbfddf6968d4ced07f6e47c314e4fd7c72f}
+  y-codemirror.next@https://codeload.github.com/pastagang/y-codemirror.next/tar.gz/e1f38cc6c4f224aae476853043641c074889a71f:
+    resolution: {tarball: https://codeload.github.com/pastagang/y-codemirror.next/tar.gz/e1f38cc6c4f224aae476853043641c074889a71f}
     version: 0.3.2
     peerDependencies:
       '@codemirror/state': ^6.0.0
@@ -2252,7 +2252,7 @@ snapshots:
   xtend@4.0.2:
     optional: true
 
-  y-codemirror.next@https://codeload.github.com/felixroos/y-codemirror.next/tar.gz/a75a1cbfddf6968d4ced07f6e47c314e4fd7c72f(@codemirror/state@6.5.2)(@codemirror/view@6.36.6)(yjs@13.6.21):
+  y-codemirror.next@https://codeload.github.com/pastagang/y-codemirror.next/tar.gz/e1f38cc6c4f224aae476853043641c074889a71f(@codemirror/state@6.5.2)(@codemirror/view@6.36.6)(yjs@13.6.21):
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.36.6
