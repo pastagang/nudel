@@ -92,6 +92,15 @@ export class HydraSession {
       };
     }
 
+    if (window.parent.getWeather().noImages) {
+      HydraSource.prototype.initImage = () => {
+        throw Error('no images today');
+      };
+      HydraSource.prototype.initVideo = () => {
+        throw Error('no images today');
+      };
+    }
+
     // Patching initCam
     // so we can override the default camera index with a setting
     const originCam = HydraSource.prototype.initCam;
