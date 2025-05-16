@@ -8,7 +8,7 @@ import { getCurrentMantra } from './timedEvents/mantra.js';
 import { getWeather } from '../climate.js';
 import { EMOTICONS } from './random.js';
 
-const PASTAGANG_ROOM_NAME = 'pastagang5';
+const PASTAGANG_ROOM_NAME = 'pastagang6';
 export function getRoomName() {
   const params = new URLSearchParams(window.location.search);
   if (params.has('song')) return params.get('song');
