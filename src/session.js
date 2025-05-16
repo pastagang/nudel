@@ -7,8 +7,9 @@ import { subscribeToChat, unsubscribeFromChat } from './chat.js';
 import { getCurrentMantra } from './timedEvents/mantra.js';
 import { getWeather } from '../climate.js';
 import { EMOTICONS } from './random.js';
+// @ts-ignore
+import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
 
-const PASTAGANG_ROOM_NAME = 'pastagang6';
 export function getRoomName() {
   const params = new URLSearchParams(window.location.search);
   if (params.has('song')) return params.get('song');
