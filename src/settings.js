@@ -271,7 +271,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   customRoomEnabledRadio && (customRoomEnabledRadio.checked = next.customRoomEnabled);
   customRoomNameInput && (customRoomNameInput.value = next.customRoomName);
   docsURLPicker && (docsURLPicker.value = next.docsURL);
-  cameraIndexSelector && (cameraIndexSelector.value = next.cameraIndex.toString());
+  cameraIndexSelector && next.cameraIndex && (cameraIndexSelector.value = next.cameraIndex.toString());
 
   if (isSettingChanged('customRoomEnabled', diff)) {
     customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);
