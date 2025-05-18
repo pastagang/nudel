@@ -107,7 +107,7 @@ export class HydraSession {
     HydraSource.prototype.initCam = function (index, params) {
       const self = this;
       const settings = parent.getSettings();
-      const chosenIndex = index != null ? index : settings.cameraIndex !== 'none' ? settings.cameraIndex : 0;
+      const chosenIndex = index != null ? index : settings?.cameraIndex !== 'none' ? settings?.cameraIndex : 0;
 
       return originCam.bind(this)(chosenIndex, params);
     };
