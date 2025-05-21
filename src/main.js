@@ -61,11 +61,8 @@ addEventListener(
   //~~~~~~~~~~~~~~~~~~~~~~~
   'paste',
   (e) => {
-    if (getSettings().pastingMode) return;
-    e.preventDefault();
     nudelAlert(
-      '<h2>pasting is disabled</h2><p>to enable pasting, turn on <strong>PASTING MODE</strong> in the settings.</p>',
+      '<h2>hhhhhhhhhhhhhhhhhhhh</p>',
     );
   },
-  { passive: false, capture: true },
 );
