@@ -2,28 +2,36 @@ import { Session } from '@flok-editor/session';
 import { getStdSource } from './export.js';
 import { pastamirror, Frame } from './main.js';
 import { clearGlobalError, setError, clearLocalError } from './error.js';
-import { getSettings } from './settings.js';
-
-const PASTAGANG_ROOM_NAME = 'pastagang2';
-
-/** @type {Session | null} */
-let _session = null;
+import { getSettings, getUserColorFromUserHue } from './settings.js';
+import { subscribeToChat, unsubscribeFromChat } from './chat.js';
+import { getCurrentMantra } from './timedEvents/mantra.js';
+import { getWeather } from '../climate.js';
+import { EMOTICONS } from './random.js';
+// @ts-ignore
+import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
 
 export function getRoomName() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('song')) return params.get('song');
+
   const settings = getSettings();
   if (!settings.customRoomEnabled) return PASTAGANG_ROOM_NAME;
   return settings.customRoomName;
 }
 
+/** @type {Session | null} */
+let _session = null;
 export function getSession() {
-  if (!_session) {
-    _session = makeSession();
-  }
+  if (!_session) _session = makeSession();
   return _session;
 }
 
 export function refreshSession() {
-  pastamirror.currentEditors.keys().forEach((key) => pastamirror.deleteEditor(key));
+  // https://github.com/pastagang/nudel/issues/102
+  const keysIterator = pastamirror.currentEditors?.keys();
+  for (const key of keysIterator) {
+    pastamirror.deleteEditor(key);
+  }
   _session = makeSession();
   return _session;
 }
@@ -56,7 +64,7 @@ function makeSession() {
   const session = new Session(roomName, sessionConfig);
 
   session.on('sync', () => {
-    // If session is empty, create two documents
+    // If session is empty, create documents
     const documents = session.getDocuments();
     if (documents.length === 0) {
       session.setActiveDocuments([{ id: '1', target: 'strudel' }]);
@@ -77,12 +85,13 @@ function makeSession() {
         pastamirror.createEditor(doc);
       }
     });
-
-    pastamirror.currentEditors.keys().forEach((key) => {
+    // https://github.com/pastagang/nudel/issues/102 ???
+    const keysIterator = pastamirror.currentEditors?.keys();
+    for (const key of keysIterator) {
       if (!documents.find((doc) => doc.id === key)) {
         pastamirror.deleteEditor(key);
       }
-    });
+    }
   });
 
   session.on('pubsub:open', () => {
@@ -90,14 +99,17 @@ function makeSession() {
     // session._pubSubClient seems to take a while to be defined..
     // this might or might not be a good place to make sure its ready
     // the event might call multiple times so... do i need to unsub???
-    session._pubSubClient.subscribe(`session:pastagang:chat`, (args) => pastamirror.chat(args.message));
+    subscribeToChat();
   });
   session.on('pubsub:close', () => {
     // untested
     setError('Disconnected from Server...');
     // unsub session:pastagang:chat here?
+    // lets try (?)
+    unsubscribeFromChat();
   });
-
+  // js
+  session.on('eval:js', (msg) => new Function(msg.body)());
   // hydra
   session.on('eval:hydra', (msg) => {
     msg.body += '\n\n\n' + getStdSource();
@@ -118,5 +130,34 @@ function makeSession() {
 
   session.initialize();
 
+  const settings = getSettings();
+  session.user = getUserName();
+  session.userColor = getUserColorFromUserHue(settings.userHue);
+
   return session;
+}
+
+export function getUserName() {
+  const weather = getWeather();
+  const settings = getSettings();
+
+  let name = settings.username?.trim() ?? 'anonymous nudelfan';
+
+  if (weather.mantraName) {
+    // we can replace, because mantra and emotions are never at the same day
+    name = getCurrentMantra();
+  }
+
+  if (weather.emoticons) {
+    // we can replace, because mantra and emotions are never at the same day
+    name = EMOTICONS[Math.floor(Math.random() * EMOTICONS.length)];
+  }
+
+  if (weather.palindromeNames) {
+    name += name.split('').reverse().splice(1).join('');
+  }
+
+  if (name) return name;
+
+  return name;
 }

@@ -5,25 +5,33 @@ import { Compartment, EditorState, Prec } from '@codemirror/state';
 import { keymap, lineNumbers } from '@codemirror/view';
 import { evalKeymap, flashField, remoteEvalFlash } from '@flok-editor/cm-eval';
 import { vim } from '@replit/codemirror-vim';
-import { highlightExtension } from '@strudel/codemirror';
+import { highlightExtension, highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
 import { EditorView, minimalSetup } from 'codemirror';
 import { yCollab } from 'y-codemirror.next';
 import './style.css';
-import theme from './themes/strudel-theme.js';
-import { highlightMiniLocations, updateMiniLocations } from '@strudel/codemirror';
+import theme from './strudel-theme.js';
 import { getSettings } from './settings.js';
 import { insertNewline } from '@codemirror/commands';
 import { nudelAlert } from './alert.js';
 import { strudelAutocomplete } from './strudel-autocomplete.js';
+import { sendChatMessage } from './chat.js';
+import { msnPlugin } from './msn/plugin.js';
+import { getWeather } from '../climate.js';
 
 // we need to access these variables from the strudel iframe:
 window.highlightMiniLocations = highlightMiniLocations; // we cannot import this for some reason
 window.updateMiniLocations = updateMiniLocations; // we cannot import this for some reason
 
-// dynamic codemirror extensions
+// Gets around an issue with chat positioning
+let backspaceWasPressed = false;
+addEventListener('keyup', (e) => {
+  if (e.key === 'Backspace') {
+    backspaceWasPressed = false;
+  }
+});
 
 export class PastaMirror {
-  supportedTargets = ['strudel', 'hydra', 'shader', 'kabelsalat'];
+  supportedTargets = ['strudel', 'hydra', 'shader', 'kabelsalat', 'js'];
   editorViews = new Map();
   currentEditors = new Map();
   extensions = {
@@ -31,33 +39,34 @@ export class PastaMirror {
     lineNumbers: (on) => (on ? lineNumbers() : []),
     closeBrackets: (on) => (on ? closeBrackets() : []),
     strudelAutocomplete: (on) =>
-      // @ts-expect-error
       on ? autocompletion({ override: [strudelAutocomplete] }) : autocompletion({ override: [] }),
   };
-  strudelOnlyExtensions = ['strudelAutocomplete']; // these extension keys are only active for strudel panes
+  strudelOnlyExtensions = ['strudelAutocomplete'];
   compartments = {};
+
   constructor() {
     this.compartments = Object.fromEntries(Object.keys(this.extensions).map((key) => [key, new Compartment()]));
   }
+
   createEditor(doc) {
     const initialSettings = Object.keys(this.compartments).map((key) => {
       const isStrudelOnly = this.strudelOnlyExtensions.includes(key);
-      // disable strudel only extensions for other pane types
       const enabled = getSettings()[key] && (!isStrudelOnly || doc.target === 'strudel');
       const extension = this.extensions[key](enabled);
       return this.compartments[key].of(extension);
     });
-    // console.log('createEditor', doc);
     if (!['1', '2', '3', '4', '5', '6', '7', '8'].includes(doc.id)) {
       console.warn(`ignoring doc with id "${doc.id}"`);
       return;
     }
+    const weather = getWeather();
 
     const state = EditorState.create({
       doc: doc.content,
       extensions: [
         minimalSetup,
         theme,
+        weather.msn ? msnPlugin : [],
         this.flokBasicSetup(doc),
         javascript(),
         getSettings().vimMode ? vim() : [],
@@ -66,6 +75,12 @@ export class PastaMirror {
         Prec.highest(
           keymap.of([
             // Disable Undo/Redo
+            //~~~~~~~~~~~~~~~~~~~~~~~
+            // Try keeping undo disabled in your algorave!
+            // Set yourself free. The results may surprise you.
+            //
+            // https://www.youtube.com/watch?v=mKE-aMVR0E4
+            //~~~~~~~~~~~~~~~~~~~~~~~
             { key: 'Mod-z', preventDefault: true, run: () => true }, // Disable Undo (Ctrl+Z / Cmd+Z)
             { key: 'Mod-Shift-z', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Shift+Z / Cmd+Shift+Z)
             { key: 'Mod-y', preventDefault: true, run: () => true }, // Disable Redo (Ctrl+Y)
@@ -86,8 +101,56 @@ export class PastaMirror {
                 return true;
               },
             })),
+            ...[
+              // no idea if these are right lol
+              // just guessing
+              'Backspace',
+              'Shift-Backspace',
+              'Ctrl-Backspace',
+              'Mod-Backspace',
+              'Meta-Backspace',
+              'Cmd-Backspace',
+            ].map((key) => ({
+              key,
+              run: () => {
+                let from = view.state.selection.main.from;
+                let to = view.state.selection.main.to;
+
+                // if there is no selection, send the character before the caret to the chat
+                if (view.state.selection.main.empty) {
+                  from -= 1;
+                  const char = view.state.sliceDoc(from, to).trim();
+                  if (char === '') return false;
+                  if (backspaceWasPressed) {
+                    from -= 1;
+                  }
+                  backspaceWasPressed = true;
+                  sendChatMessage({
+                    docId: doc.id,
+                    message: char,
+                    from,
+                    user: doc.session.user,
+                    color: doc.session.userColor.color,
+                  });
+
+                  return false;
+                }
+
+                const message = view.state.sliceDoc(from, to).trim();
+                sendChatMessage({
+                  docId: doc.id,
+                  message,
+                  from,
+                  user: doc.session.user,
+                  color: doc.session.userColor.color,
+                });
+
+                return false;
+              },
+            })),
+            // Disable Backspace
             // chat current line..
-            ...['Shift-Enter'].map((key) => ({
+            ...['Shift-Enter', 'Ctrl-x', 'Mod-x'].map((key) => ({
               key,
               run: (view) => {
                 let from = view.state.selection.main.from;
@@ -106,18 +169,24 @@ export class PastaMirror {
                 // see: #80
                 to = Math.min(to, view.state.doc.length);
                 const message = view.state.sliceDoc(from, to).trim();
-                doc.session._pubSubClient.publish(`session:pastagang:chat`, {
+
+                sendChatMessage({
                   docId: doc.id,
                   message,
-                  user: doc.session.user,
                   from,
+                  user: doc.session.user,
+                  color: doc.session.userColor.color,
                 });
 
-                const transaction = view.state.update({
-                  changes: { from, to, insert: '' },
-                });
-                view.dispatch(transaction);
-                return true;
+                if (key === 'Shift-Enter') {
+                  const transaction = view.state.update({
+                    changes: { from, to, insert: '' },
+                  });
+                  view.dispatch(transaction);
+                  return true;
+                }
+
+                return false;
               },
             })),
             // overrides Enter to disable auto indenting..
@@ -128,6 +197,26 @@ export class PastaMirror {
               run: (view) => {
                 insertNewline(view);
                 return true;
+              },
+            },
+            {
+              // CHAT everything!
+              any: (view, key) => {
+                let from = view.state.selection.main.from;
+
+                if (key.key.length > 1) {
+                  // ignore everything, that is not just a single character
+                  return false;
+                }
+
+                sendChatMessage({
+                  docId: doc.id,
+                  message: key.key,
+                  from,
+                  user: doc.session.user,
+                  color: doc.session.userColor.lightChat,
+                });
+                return false;
               },
             },
             {
@@ -248,6 +337,7 @@ export class PastaMirror {
 
     this.currentEditors.set(doc.id, { state, doc, view });
   }
+
   flokBasicSetup(doc) {
     doc.collabCompartment = new Compartment(); // yeah this is dirty
     const text = doc.getText();
@@ -270,16 +360,19 @@ export class PastaMirror {
       doc.collabCompartment.of(collab),
     ];
   }
+
   deleteEditor(id) {
     this.editorViews.delete(id);
     this.currentEditors.delete(id);
     document.querySelector(`#slot-${id}`)?.remove();
   }
+
   reconfigureExtension(key, value, view) {
     view.dispatch({
       effects: this.compartments[key]?.reconfigure(this.extensions[key](value)),
     });
   }
+
   //--
   // CURRENTLY UNCALLED FUNCTIONS
   // enableRemoteCursorTracking(session) {
@@ -323,25 +416,6 @@ export class PastaMirror {
           this.reconfigureExtension(key, settings[key], view);
         }
       }
-    }
-  }
-
-  chat(message) {
-    const view = this.editorViews.get(message.docId);
-    const pos = view.coordsAtPos(message.from);
-    const chatContainer = document.querySelector('.chat-container');
-    if (pos) {
-      const messageContainer = document.createElement('div');
-      messageContainer.innerText = message.message;
-      messageContainer.style = `position:fixed;top:${pos.top}px;left:${pos.left}px`;
-      messageContainer.classList.add('rising-animation');
-      messageContainer.classList.add('message-container');
-      chatContainer?.appendChild(messageContainer);
-      setTimeout(() => {
-        messageContainer.remove();
-      }, 7000);
-    } else {
-      console.warn('could not get line position');
     }
   }
 }

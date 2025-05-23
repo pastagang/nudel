@@ -1,7 +1,10 @@
+import { nudelAlert } from './alert.js';
 import { nudelConfirm } from './confirm.js';
-import { clearStrudelHighlights, Frame, pastamirror } from './main.js';
+import { clearStrudelHighlights } from './highlight.js';
+import { Frame, pastamirror } from './main.js';
 import { getRandomName } from './random.js';
-import { getSession, refreshSession } from './session.js';
+import { getUserName, getSession, refreshSession } from './session.js';
+import { getWeather } from '../climate.js';
 
 //=====//
 // API //
@@ -61,6 +64,8 @@ const defaultSettings = {
   workerTimers2: true,
   customRoomEnabled: false,
   customRoomName: getRandomName(3),
+  docsURL: 'https://strudel.cc/workshop/getting-started/',
+  cameraIndex: 'none',
 };
 
 const usernameInput = document.querySelector('#settings-username');
@@ -69,6 +74,7 @@ const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const shaderCheckbox = document.querySelector('#settings-shader-enabled');
 const kabelsalatCheckbox = document.querySelector('#settings-kabelsalat-enabled');
 const zenModeCheckbox = document.querySelector('#settings-zen-mode');
+const hideAllCodeButton = document.querySelector('#settings-hide-code');
 const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
@@ -87,6 +93,9 @@ const customRoomNameInput = document.querySelector('#settings-room-name');
 const roomPickerFieldset = document.querySelector('#room-picker');
 const usernamePreview = document.querySelector('#username-preview');
 const userHueRange = document.querySelector('#settings-color');
+const docsURLPicker = document.querySelector('#docs-selector');
+const docsFrame = document.querySelector('#docs-frame');
+const cameraIndexSelector = document.querySelector('#settings-camera-index-0');
 
 function inferSettingsFromDom() {
   const inferredSettings = {
@@ -111,6 +120,12 @@ function inferSettingsFromDom() {
     strudelHighlightsEnabled: strudelHighlightsEnabledCheckbox?.checked ?? defaultSettings.strudelHighlightsEnabled,
     customRoomEnabled: customRoomEnabledRadio?.checked ?? defaultSettings.customRoomEnabled,
     customRoomName: customRoomNameInput?.value ?? defaultSettings.customRoomName,
+    docsURL: docsURLPicker?.value ?? defaultSettings.docsURL,
+    cameraIndex: (() => {
+      if (cameraIndexSelector?.value === null) return defaultSettings.cameraIndex;
+      if (cameraIndexSelector?.value === 'none') return 'none';
+      return parseInt(cameraIndexSelector?.value ?? defaultSettings.cameraIndex);
+    })(),
   };
   return inferredSettings;
 }
@@ -135,15 +150,23 @@ function inferSettingsFromDom() {
   strudelHighlightsEnabledCheckbox,
   roomPickerFieldset,
   customRoomNameInput,
+  docsURLPicker,
+  cameraIndexSelector,
   // userHueRange,
 ].forEach((v) => v?.addEventListener('change', setSettingsFromDom));
 [usernameInput, userHueRange].forEach((v) => v?.addEventListener('input', setSettingsFromDom));
 
+if (hideAllCodeButton) {
+  hideAllCodeButton.onclick = () => {
+    document.querySelector('.slots')?.classList.toggle('hidden');
+    document.querySelector('.tabs')?.classList.toggle('hidden');
+  };
+}
 let appliedSettings = null;
 
 function addFrame(key) {
   Frame[key] = document.createElement('iframe');
-  Frame[key].src = `/panels/${key}`;
+  Frame[key].src = `/panels/${key}.html`;
   Frame[key].id = key;
   Frame[key].sandbox = 'allow-scripts allow-same-origin';
   Frame[key].setAttribute('scrolling', 'no');
@@ -158,6 +181,27 @@ function removeFrame(key) {
 function isSettingChanged(settingName, { previous, next }) {
   return previous?.[settingName] !== next?.[settingName];
 }
+
+async function initCameras() {
+  const cameras = await navigator.mediaDevices.enumerateDevices();
+
+  if (!cameraIndexSelector) return;
+  cameraIndexSelector.innerHTML = '';
+  cameras
+    .filter((device) => device.kind === 'videoinput')
+    .forEach((camera, index) => {
+      cameraIndexSelector.insertAdjacentHTML('beforeend', `<option value="${index}">${camera.label}</option>`);
+    });
+
+  cameraIndexSelector.insertAdjacentHTML('beforeend', `<option value="none">default camera from browser</option>`);
+  const settings = getSettings();
+  if (settings.cameraIndex != null) {
+    console.log(settings.cameraIndex);
+    cameraIndexSelector.value = settings.cameraIndex.toString();
+  }
+}
+
+initCameras();
 
 export async function applySettingsToNudel(settings = getSettings()) {
   const previous = appliedSettings;
@@ -191,6 +235,17 @@ export async function applySettingsToNudel(settings = getSettings()) {
       if (confirmed) window.location.reload();
       else next.workerTimers2 = previous.workerTimers2;
     }
+
+    if (isSettingChanged('customRoomEnabled', diff)) {
+      if (next.customRoomEnabled) {
+        const confirmed = await nudelConfirm(
+          `You're leaving the jam. Every time you do this, the power of pastagang fades a little bit. Are you sure you want to continue?`,
+        );
+        if (!confirmed) next.customRoomEnabled = false;
+      } else {
+        nudelAlert('Welcome home.');
+      }
+    }
   }
 
   zenModeCheckbox && (zenModeCheckbox.checked = next.zenMode);
@@ -215,6 +270,8 @@ export async function applySettingsToNudel(settings = getSettings()) {
   customRoomDisabledRadio && (customRoomDisabledRadio.checked = !next.customRoomEnabled);
   customRoomEnabledRadio && (customRoomEnabledRadio.checked = next.customRoomEnabled);
   customRoomNameInput && (customRoomNameInput.value = next.customRoomName);
+  docsURLPicker && (docsURLPicker.value = next.docsURL);
+  cameraIndexSelector && next.cameraIndex && (cameraIndexSelector.value = next.cameraIndex.toString());
 
   if (isSettingChanged('customRoomEnabled', diff)) {
     customRoomNameInput?.toggleAttribute('disabled', !next.customRoomEnabled);
@@ -230,11 +287,11 @@ export async function applySettingsToNudel(settings = getSettings()) {
   const session = getSession();
 
   if (isSettingChanged('username', diff)) {
-    session.user = next.username.trim() || 'anonymous nudelfan';
+    session.user = getUserName();
   }
 
   if (isSettingChanged('username', diff) || isSettingChanged('userHue', diff)) {
-    session.userColor = { color: `hsl(${next.userHue}, 100%, 75%)`, light: `hsla(${next.userHue}, 100%, 75%, 0.1875)` };
+    session.userColor = getUserColorFromUserHue(next.userHue);
     usernamePreview?.style.setProperty('background-color', session.userColor.color);
     usernamePreview && (usernamePreview.textContent = session.user);
   }
@@ -313,6 +370,10 @@ export async function applySettingsToNudel(settings = getSettings()) {
     document.documentElement.style.cssText = `--font-family: ${next.fontFamily}`;
   }
 
+  if (isSettingChanged('docsURL', diff)) {
+    docsFrame?.setAttribute('src', next.docsURL);
+  }
+
   pastamirror.updateExtensions(diff);
   appliedSettings = { ...next };
 
@@ -363,4 +424,16 @@ resetButton?.addEventListener('click', async () => {
 
 function getRandomUserHue() {
   return Math.floor(Math.random() * 360);
+}
+
+export function getColorFromUserHue(hue) {
+  return `hsl(${hue}, 100%, 75%)`;
+}
+
+export function getUserColorFromUserHue(hue) {
+  return {
+    color: getColorFromUserHue(hue),
+    light: `hsla(${hue}, 100%, 75%, 0.1875)`,
+    lightChat: `hsla(${hue}, 100%, 75%, 0.575)`,
+  };
 }

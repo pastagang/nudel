@@ -10,7 +10,10 @@
 
   <body style="background-color: black">
     <!----------- MANTRA ----------->
-    <marquee id="mantra" scrollamount="2" class="fade-in">you don't need it</marquee>
+    <marquee id="mantra" scrollamount="2" class="fade-in">
+      <!---->
+      this gets updated by the list in mantras.js
+    </marquee>
 
     <!----------- MENU ----------->
     <div id="menu-container">
@@ -20,9 +23,21 @@
         <button id="add-pane-button">+ add Pane</button>
         <button id="remove-pane-button">- scrap Pane</button>
         <button id="export-button">⇓ Export</button>
+        <button id="docs-button">🕮 Docs</button>
         <a class="button" href="https://github.com/pastagang/nudel" target="_blank">♨ Source</a>
         <button id="about-button">? About</button>
+        <button id="weather-button">🌤️ Weather</button>
       </div>
+    </div>
+
+    <!----------- SIDEBAR ----------->
+    <div id="sidebar-container">
+      <select id="docs-selector">
+        <option value="https://strudel.cc/workshop/getting-started/">strudel</option>
+        <option value="https://hydra.ojack.xyz/docs/">hydra</option>
+        <option value="https://kabel.salat.dev/learn/">kabelsalat</option>
+      </select>
+      <!-- <iframe src="about:blank" height="100%" width="100%" id="docs-frame"></iframe> -->
     </div>
 
     <!----------- TABS ----------->
@@ -113,6 +128,19 @@
       </dialog>
     </div>
 
+    <!----------- WEATHER DIALOG ----------->
+    <div class="weather-container" id="weather-dialog-container">
+      <dialog id="weather-dialog">
+        <form method="dialog">
+          <h1>🌤️ weather</h1>
+          <p>It's currently <span id="weather-hour"></span>h in nudel time</p>
+          <ul id="weather-list"></ul>
+          <p>See the weather forecast at <a href="/weather" target="_blank">nudel.cc/weather</a></p>
+          <button id="weather-close-button" class="loading">close</button>
+        </form>
+      </dialog>
+    </div>
+
     <!----------- EXPORT DIALOG ----------->
     <div class="dialog-container">
       <dialog id="export-dialog">
@@ -123,7 +151,10 @@
             <button type="button" id="export-download-button">Download code</button>
             <a class="button" href="#" id="export-open-flok-button" target="_blank">Open in flok</a>
             <button type="button" id="export-open-strudel-button" target="_blank">Open in strudel</button>
-            <button type="button" id="export-open-hydra-button" target="_blank">Open in hydra</button>
+            <!-- <button type="button" id="export-open-hydra-button" target="_blank">Open in hydra</button> -->
+            <button type="button" id="export-copy-hydra-button" target="_blank">Copy hydra code</button>
+            <button type="button" id="export-nudel-button" target="_blank">Copy nudel song link</button>
+            <button type="button" id="export-short-nudel-button" target="_blank">Copy short nudel song link</button>
           </section>
           <button id="export-close-button">close</button>
         </form>
@@ -195,6 +226,9 @@
                   <input type="checkbox" id="settings-zen-mode" />
                   Minimal user interface
                 </label>
+              </p>
+              <p>
+                <button id="settings-hide-code" type="button">Hide all code</button>
               </p>
             </section>
             <hr />
@@ -295,6 +329,13 @@
                 </label>
               </p>
             </section>
+            <section>
+              <h2>Visual Settings</h2>
+              <p>
+                <label>Camera to use for default in in .initCam()</label>
+                <select id="settings-camera-index-0"></select>
+              </p>
+            </section>
             <section class="development">
               <hr />
               <br />
@@ -334,5 +375,10 @@
 
     <!----------- CHAT CONTAINER ----------->
     <div class="chat-container"></div>
+
+    <!----------- FOOTER ----------->
+    <footer id="global-footer" style="position: fixed; bottom: 0; left: 0; right: 0; pointer-events: none">
+      <p></p>
+    </footer>
   </body>
 </html>

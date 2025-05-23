@@ -1,6 +1,8 @@
 import { pastamirror } from './main.js';
 import { getSession } from './session.js';
 import { nudelToast } from './toast.js';
+import { createShortNameFromSongData } from './song.js';
+import { unicodeToBase64 } from '@strudel/core';
 
 const exportButton = document.querySelector('#export-button');
 const exportDialog = document.querySelector('#export-dialog');
@@ -11,6 +13,9 @@ const exportDownloadButton = document.querySelector('#export-download-button');
 const exportOpenFlokButton = document.querySelector('#export-open-flok-button');
 const exportOpenStrudelButton = document.querySelector('#export-open-strudel-button');
 const exportOpenHydraButton = document.querySelector('#export-open-hydra-button');
+const exportCopyHydraButton = document.querySelector('#export-copy-hydra-button');
+const exportNudelButton = document.querySelector('#export-nudel-button');
+const exportShortNudelButton = document.querySelector('#export-short-nudel-button');
 
 if (!exportButton) throw new Error('export button not found');
 exportButton.addEventListener('click', () => {
@@ -91,6 +96,12 @@ export function getCode(filter) {
   );
 }
 
+// Array<{type: string, content: string}>
+export function getSongData() {
+  const documents = getSession().getDocuments();
+  return documents.map((doc) => ({ type: doc.target, content: doc.content ?? '' }));
+}
+
 exportCopyButton?.addEventListener('click', () => {
   const txt = getCode();
   copyToClipboard(txt, { message: 'code' });
@@ -101,12 +112,7 @@ exportDownloadButton?.addEventListener('click', () => {
   downloadAsFile(txt);
 });
 
-export function unicodeToBase64(text) {
-  const utf8Bytes = new TextEncoder().encode(text);
-  const base64String = btoa(String.fromCharCode(...utf8Bytes));
-  return base64String;
-}
-export function code2hash(code) {
+function code2hash(code) {
   return encodeURIComponent(unicodeToBase64(code));
 }
 
@@ -118,4 +124,25 @@ exportOpenStrudelButton?.addEventListener('click', () => {
 exportOpenHydraButton?.addEventListener('click', () => {
   const code = getCode((doc) => doc.target === 'hydra');
   window.open(`https://hydra.ojack.xyz/?code=${code2hash(code)}`);
+});
+
+exportCopyHydraButton?.addEventListener('click', () => {
+  const code = getCode((doc) => doc.target === 'hydra');
+  copyToClipboard(code, { message: 'hydra code' });
+});
+
+exportNudelButton?.addEventListener('click', () => {
+  const songData = getSongData();
+  const songDataStr = encodeURIComponent(unicodeToBase64(JSON.stringify(songData)));
+
+  const url = `https://nudel.cc/s?v=${songDataStr}`;
+  copyToClipboard(url, { message: 'nudel song link' });
+});
+
+exportShortNudelButton?.addEventListener('click', async () => {
+  const songData = getSongData();
+
+  const name = await createShortNameFromSongData(songData);
+  const url = `https://nudel.cc/s?r=${name}`;
+  copyToClipboard(url, { message: 'nudel short song link' });
 });

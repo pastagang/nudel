@@ -26,6 +26,10 @@ body {
   padding: 4px 4px;
 }
 
+.hidden {
+  display: none !important;
+}
+
 @media screen and (max-width: 750px) {
   .slots {
     grid-template-columns: minmax(0, 1fr);
@@ -401,6 +405,23 @@ iframe#kabelsalat {
     -1px 1px 0px black;
 }
 
+footer p {
+  text-shadow:
+    1px 1px 0px black,
+    -1px -1px 0px black,
+    1px -1px 0px black,
+    -1px 1px 0px black;
+  text-align: right;
+  /* line-height: 1; */
+  margin: 2px;
+}
+
+footer h3 {
+  text-align: center;
+  z-index: 1000;
+  pointer-events: all;
+}
+
 .fade-out {
   animation: fade-out 1s forwards;
 }
@@ -479,6 +500,7 @@ iframe#kabelsalat {
   z-index: 1000;
   top: 0;
   right: 0;
+  padding: 0.25em;
 }
 
 #menu-content {
@@ -500,6 +522,37 @@ iframe#kabelsalat {
 
 #menu-container.open #menu-content {
   display: flex;
+}
+
+#sidebar-container {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  width: 20%;
+  min-width: 350px;
+  visibility: hidden;
+}
+
+#docs-selector {
+  width: calc(100% - 0.5em);
+  margin: 0.25em;
+}
+
+#docs-frame {
+  border: none;
+}
+
+.sidebarOpen {
+  #sidebar-container {
+    visibility: visible;
+  }
+  .slots {
+    padding-left: calc(max(20%, 350px));
+  }
+  .tabs {
+    padding-left: calc(max(20%, 350px));
+  }
 }
 
 .development {
@@ -569,7 +622,6 @@ dialog {
 .message-container {
   position: fixed; /* top + left is set from code */
   background-color: #33333399;
-  color: white;
   opacity: 1;
   z-index: 1000;
   font-size: 16.8px;
@@ -608,4 +660,16 @@ input:disabled {
 
 #username-preview {
   padding: 2px;
+}
+
+.grayscale {
+  filter: grayscale(1);
+}
+
+.inverted-colors {
+  filter: invert(1);
+}
+
+.msn-replacement {
+  max-height: 3em;
 }

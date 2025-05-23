@@ -1,5 +1,8 @@
 import HydraRenderer from 'hydra-synth';
 
+import { getWeather } from '../climate.js';
+import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY } from './timedEvents/time.js';
+
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
     this.initialized = false;
@@ -28,6 +31,7 @@ export class HydraSession {
         canvas: this.canvas,
         enableAudio: false,
       });
+      this._hydra.synth.time = getMilliSecondsSinceNudelDayStart() / 1000;
     } catch (error) {
       console.error(error);
       this.onError(`${error}`);
@@ -36,6 +40,8 @@ export class HydraSession {
 
     window.H = this._hydra;
     const HydraSource = this._hydra.s?.[0].constructor;
+    // @ts-expect-error - i swear osc exists.
+    const GlslSource = osc().constructor;
 
     // Enable using strudel style mini-patterns for argument control on Hydra.
     // strudel needs to be loaded first, otherwise this will cause warnings, and rendering will not
@@ -76,6 +82,47 @@ export class HydraSession {
     };
 
     const contexts = {};
+
+    if (window.parent.getWeather().noSamples) {
+      HydraSource.prototype.initImage = () => {
+        throw Error('no samples today (images are samples)');
+      };
+      HydraSource.prototype.initVideo = () => {
+        throw Error('no samples today (videos are samples)');
+      };
+    }
+
+    if (window.parent.getWeather().noImages) {
+      HydraSource.prototype.initImage = () => {
+        throw Error('no images today');
+      };
+      HydraSource.prototype.initVideo = () => {
+        throw Error('no images today');
+      };
+    }
+
+    // Patching initCam
+    // so we can override the default camera index with a setting
+    const originCam = HydraSource.prototype.initCam;
+    HydraSource.prototype.initCam = function (index, params) {
+      const self = this;
+      const settings = parent.getSettings();
+      const chosenIndex = index != null ? index : settings?.cameraIndex !== 'none' ? settings?.cameraIndex : 0;
+
+      return originCam.bind(this)(chosenIndex, params);
+    };
+
+    // Patching initScreen
+    // to only init screen once
+    const originScreen = HydraSource.prototype.initScreen;
+    let screenIsInit = false;
+    HydraSource.prototype.initScreen = function () {
+      if (!screenIsInit) {
+        originScreen.bind(this)();
+      }
+      screenIsInit = true;
+    };
+
     HydraSource.prototype.initCanvas = function (width = 1000, height = 1000) {
       throw Error("Sorry 'initCanvas' has been temporarily disabled");
       // if (contexts[this.label] == undefined) {
@@ -114,8 +161,8 @@ export class HydraSession {
       // if (typeof args[0] === 'string') {
       //   optionsArg = { analyzerId: args[0] };
       // } else {
-      index = args[0] ?? 1;
-      buckets = args[1] ?? 8;
+      index = args[0] ?? 0;
+      buckets = args[1] ?? 1;
       optionsArg = args[2] ?? {};
       // }
 
@@ -127,7 +174,7 @@ export class HydraSession {
 
       const strudel = window.parent?.strudel;
       // Strudel is not initialized yet, so we just return a default value
-      if (strudel == undefined) return 0.5;
+      if (strudel?.webaudio?.analysers == undefined) return 0.5;
 
       // If display settings are not enabled, we just return a default value
       // if (!(this._displaySettings.enableFft ?? true)) return 0.5;
@@ -152,6 +199,51 @@ export class HydraSession {
       return normalized.slice(bucketSize * index, bucketSize * (index + 1)).reduce((a, b) => a + b, 0) / bucketSize;
     };
 
+    const hydraOut = GlslSource.prototype.out;
+    GlslSource.prototype.out = function (_output) {
+      let afterTransform = this;
+      const weather = getWeather();
+      if (weather.kaleidoscope) {
+        const amount = 2 + Math.floor((getNudelHour() % NUDEL_HOUR_IN_A_NUDEL_DAY) / 3);
+        afterTransform = afterTransform.kaleid(amount);
+      }
+      if (weather.pixelated) {
+        const pixel = (getNudelHour() % NUDEL_HOUR_IN_A_NUDEL_DAY) + 30;
+        afterTransform = afterTransform.pixelate(pixel, pixel);
+      }
+      hydraOut.bind(afterTransform)(_output);
+    };
+
+    /**
+     * This whole block is only to work around problems in the rendering pipeline of hydra like this:
+     * https://github.com/hydra-synth/hydra-synth/issues/150
+     * It will stop hydra, and re-init it.
+     * It will cause a black canvas immediatly, once the problem is fixed, hydra will work again
+     *
+     * Idealy we would not cause black screens, but could somehow ignore the problematic code, but
+     * that might be a problem Hydra needs to tackle
+     */
+    const self = this;
+    const o = this._hydra.o;
+    if (!o) throw new Error('Hydra output not found');
+    for (let i = 0; i < o.length; i++) {
+      const originTick = o[i]?.tick;
+
+      function nudelHydraOutputTick(args) {
+        try {
+          originTick.bind(o?.[i])(args);
+        } catch (e) {
+          console.error('Error in Hydra tick, hard refresshing the iframe!');
+          console.error(e);
+          // @ts-expect-error - chill out its fine
+          self.onError(`Hydra crashed with ${e.message.slice(0, 50)}\n restarted hydra`, self.lastDocId);
+          window.location.reload();
+        }
+      }
+
+      o[i].tick = nudelHydraOutputTick.bind(o[i]);
+    }
+
     this.initialized = true;
     console.log('Hydra initialized');
   }
@@ -159,6 +251,7 @@ export class HydraSession {
   async eval(msg, conversational = false) {
     if (!this.initialized) await this.init();
     const { body: code, docId } = msg;
+    this.lastDocId = docId;
 
     try {
       await eval?.(`(async () => {

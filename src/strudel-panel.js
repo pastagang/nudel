@@ -7,14 +7,15 @@ import {
   getTrigger,
   setTime,
   register,
-  Cyclist,
   Pattern,
+  fast,
 } from '@strudel/core';
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
-import { getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
+import { aliasBank, getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 import { setInterval, clearInterval } from 'worker-timers';
+import { NudelCyclist } from './strudel-cyclist.js';
 
 controls.createParam('docId');
 
@@ -31,6 +32,7 @@ window.kabel = register('kabel', (id, pat) => {
 });
 
 export class StrudelSession {
+  cps = 0.5;
   constructor({ onError, onHighlight, onUpdateMiniLocations, offlineMode }) {
     this.patterns = {};
     this.pPatterns = {};
@@ -43,8 +45,48 @@ export class StrudelSession {
     this.offlineMode = offlineMode;
     this.init();
   }
+  printSounds() {
+    const sounds = this.webaudio?.soundMap.get();
+    if (!sounds) {
+      throw new Error('sounds error');
+    }
+    let lines = [''];
+    let lastGroup;
+    Object.entries(sounds).forEach(([key, sound]) => {
+      if (key === '_base') {
+        return;
+      }
+      if (sound.data.baseUrl?.includes('tidal-drum-machines')) {
+        return;
+      }
+      const sounds = sound.data.samples;
+      const [group, ...rest] = key.split('_');
+      if (rest.length && group !== lastGroup) {
+        lines.push(`----- ${group} -----`);
+        lines.push('');
+        lastGroup = group;
+      } else if (!rest.length && lastGroup !== '') {
+        lines.push(`----------`);
+        lines.push('');
+        lastGroup = '';
+      }
+      let extra = '';
+      if (Array.isArray(sounds)) {
+        extra = `:${sounds.length}`;
+      }
 
-  loadSamples() {
+      let name = key;
+      /* if (group === lastGroup && key.length > group.length) {
+        name = key.slice(group.length + 1);
+      } */
+      lines[lines.length - 1] += ` ${name}${extra}`;
+      lines[lines.length - 1] = lines[lines.length - 1].trim();
+    });
+
+    // console.log(lines.join('\n'));
+  }
+
+  async loadSamples() {
     if (this.offlineMode) {
       // https://github.com/felixroos/dough-samples/?tab=readme-ov-file#going-offline
       const base = 'http://localhost:6543';
@@ -58,14 +100,29 @@ export class StrudelSession {
       ]);
     } else {
       const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main';
-      return Promise.all([
+      const ts = 'https://raw.githubusercontent.com/todepond/samples/main/';
+      await Promise.all([
         samples(`${ds}/tidal-drum-machines.json`),
         samples(`${ds}/piano.json`),
         samples(`${ds}/Dirt-Samples.json`),
         samples(`${ds}/EmuSP12.json`),
         samples(`${ds}/vcsl.json`),
       ]);
+      aliasBank(`${ts}/tidal-drum-machines-alias.json`);
     }
+  }
+
+  async loadSamplesOld() {
+    const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main/';
+    const ts = 'https://raw.githubusercontent.com/todepond/samples/main/';
+    await Promise.all([
+      samples(`${ds}/tidal-drum-machines.json`),
+      samples(`${ds}/piano.json`),
+      samples(`${ds}/Dirt-Samples.json`),
+      samples(`${ds}/EmuSP12.json`),
+      samples(`${ds}/vcsl.json`),
+    ]);
+    aliasBank(`${ts}/tidal-drum-machines-alias.json`);
   }
 
   async init() {
@@ -79,6 +136,7 @@ export class StrudelSession {
     this.mini = await import('@strudel/mini');
     this.webaudio = await import('@strudel/webaudio');
     this.draw = await import('@strudel/draw');
+    this.midi = await import('@strudel/midi');
 
     await evalScope(
       this.core,
@@ -87,16 +145,22 @@ export class StrudelSession {
       this.draw,
       import('@strudel/tonal'),
       import('@strudel/soundfonts'),
+      this.midi,
       controls,
     );
     try {
       await Promise.all([this.loadSamples(), registerSynthSounds(), registerSoundfonts()]);
+      this.printSounds();
     } catch (err) {
       this.onError(err);
     }
-    const getTime = () => getAudioContext().currentTime;
+    const getTime = () => {
+      const time = getAudioContext().currentTime;
+      // console.log(time);
+      return time;
+    };
     // @ts-expect-error
-    this.scheduler = new Cyclist({
+    this.scheduler = new NudelCyclist({
       onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
       getTime,
       setInterval: this.settings.workerTimers2 ? setInterval : globalThis.setInterval,
@@ -134,7 +198,7 @@ export class StrudelSession {
         );
         // filter out haps that are not active right now
         const currentFrame = allHaps.filter(
-          (hap) => hap.whole.begin && phase >= hap.whole.begin && phase <= hap.endClipped,
+          (hap) => hap.whole?.begin && phase >= hap.whole.begin && phase <= hap.endClipped,
         );
         // iterate over each strudel doc
         Object.keys(this.patterns).forEach((docId) => {
@@ -189,8 +253,14 @@ export class StrudelSession {
     const start = () => this.scheduler.start();
     const pause = () => this.scheduler.pause();
     const toggle = () => this.scheduler.toggle(); */
-    const setCps = (cps) => this.scheduler?.setCps(cps);
-    const setCpm = (cpm) => this.scheduler?.setCps(cpm / 60);
+    const setCps = (cps) => {
+      this.cps = cps;
+      //this.scheduler?.setCps(cps);
+    };
+    const setCpm = (cpm) => {
+      setCps(cpm / 60);
+      // this.scheduler?.setCps(cpm / 60);
+    };
     /* const cpm = register("cpm", function (cpm, pat) {
       return pat._fast(cpm / 60 / scheduler.cps);
     }); */
@@ -208,17 +278,55 @@ export class StrudelSession {
   async setDocPattern(docId, pattern) {
     this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
     //console.log("this.patterns", this.patterns);
-    const allPatterns = stack(...Object.values(this.patterns));
+    // this is cps with phase jump on purpose
+    // to preserve sync
+    const cpsFactor = this.cps * 2; // assumes scheduler to be fixed to 0.5cps
+    const allPatterns = fast(cpsFactor, stack(...Object.values(this.patterns)));
     await this.scheduler?.setPattern(allPatterns, true);
   }
 
+  static noSamplesInjection = `
+    function sample(a) { throw Error('no samples today'); };
+    function samples(a) { throw Error('no samples today'); };
+    function speechda(){ throw Error('no samples today'); };
+    function hubda(){ throw Error('no samples today'); };
+    function spagda(){ throw Error('no samples today'); };
+  `;
+
+  // static syncedCpmInjection = ``;
+
+  // TODO: make this apply to all panes, not just the current one
+  // TODO: make this somehow not compete with other flok clients
+  // static syncedCpmInjection = `
+  //   function setCpm(cpm) {
+  //     const f = (120/4/cpm);
+  //     console.log(f)
+  //     all(x=>x.slow(f));
+  //   }
+  //   function setCps(cps) {
+  //     const f = (0.5/cps);
+  //     all(x=>x.slow(f));
+  //   }
+  //   function setcpm(cpm) { setCpm(cpm); }
+  //   function setcps(cps) { setCps(cps); }
+  // `;
+
   async eval(msg, conversational = false) {
     const { body: code, docId } = msg;
+
+    let injection = '';
+    if (window.parent.getWeather().noSamples) {
+      injection += StrudelSession.noSamplesInjection;
+    }
+
+    // injection += StrudelSession.syncedCpmInjection;
+    injection += `\nsilence;`;
+
     try {
       !conversational && this.hush();
       // little hack that injects the docId at the end of the code to make it available in afterEval
-      let { pattern, meta } = await evaluate(
-        code,
+      let { pattern, meta, mode } = await evaluate(
+        code + injection,
         transpiler,
         // { id: '?' }
       );

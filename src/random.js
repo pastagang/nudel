@@ -12,7 +12,7 @@ const TAGS = [
   'gnocchi',
   'vermicelli',
   'rotini',
-  'angel hair',
+  'angel_hair',
   'bucatini',
   'cannelloni',
   'capellini',
@@ -37,6 +37,29 @@ const TAGS = [
   'vodka',
   'pescatore',
   'pollo',
+];
+
+export const EMOTICONS = [
+  ':-)',
+  ":')",
+  ':3',
+  'xD',
+  ':-O',
+  ';)',
+  ':-]',
+  ':^)',
+  ':))',
+  ':-D',
+  '>_<',
+  'UwU',
+  '( ͡° ͜ʖ ͡°)',
+  '<:‑|',
+  '(-_-;)',
+  'ಠ__ಠ',
+  '(=ʘᆽʘ=)∫	',
+  'ʕ •ᴥ•ʔ',
+  'OwO',
+  '(ΘεΘ;)',
 ];
 
 export function getRandomName(tagCount = 2) {

@@ -15,6 +15,13 @@ interface Window {
   kabel: any;
   kabelsalat: any;
   // session: any;
+  getWeather: any;
+  getSyncOffset: any;
+  samples: any;
+  speechda: any;
+  spagda: any;
+  spag: any;
+  hubda: any;
 }
 
 // Pattern.prototype.p
