@@ -8,7 +8,8 @@ import { getCurrentMantra } from './timedEvents/mantra.js';
 import { getWeather } from '../climate.js';
 import { EMOTICONS } from './random.js';
 // @ts-ignore
-import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
+// import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
+const PASTAGANG_ROOM_NAME = 'errorcamp';
 
 export function getRoomName() {
   const params = new URLSearchParams(window.location.search);
@@ -43,12 +44,15 @@ function makeSession() {
 
   const roomName = getRoomName();
 
-  const offlineMode = roomName.startsWith('http://');
+  // const offlineMode = false;
+  const offlineMode = true;
+  // const offlineMode = roomName.startsWith('http://');
   window['offlineMode'] = offlineMode;
 
   let sessionConfig;
   if (offlineMode) {
-    const hostname = roomName.split('http://')[1].split(':')[0] + ':3000';
+    const hostname = 'localhost:3000';
+    // const hostname = roomName.split('http://')[1].split(':')[0] + ':3000';
     console.log('hostname', hostname);
     sessionConfig = {
       // git clone https://github.com/munshkr/flok.git
