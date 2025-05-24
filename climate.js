@@ -36,10 +36,6 @@ export const CLIMATE = {
     name: 'no nudel',
     when: (now) => getNudelDay(now) % 37 === 9,
   },
-  noSamples: {
-    name: 'no samples',
-    when: (now) => getNudelDay(now) % 11 === 8,
-  },
   noImages: {
     name: 'no images',
     when: (now) => getNudelDay(now) % 15 === 5,
