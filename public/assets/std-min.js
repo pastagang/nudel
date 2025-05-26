@@ -1,3 +1,4 @@
+
 function spag(name){return'https://spag.cc/'+name}
 function listToArray(stringList){if(Array.isArray(stringList)){return stringList.map(listToArray).flat()}
 return stringList.replaceAll(' ',',').split(',').map((v)=>v.trim()).filter((v)=>v)}
@@ -12,4 +13,4 @@ samples('shabda/speech/'+locale+'/'+gender+':'+words.join(','))}
 async function hubda(orgList,repoList=''){const orgs=listToArray(orgList);const orgRepos=[];const orgChoices=[];for(const org of orgs){if(org.includes('/')){const[orgName,repoName]=org.split('/');orgRepos.push({org:orgName,repo:repoName})}else{orgChoices.push(org)}}
 const repoChoices=listToArray(repoList);for(const orgChoice of orgChoices){for(const repoChoice of repoChoices){orgRepos.push({org:orgChoice,repo:repoChoice})}}
 const addresses=orgRepos.map(({org,repo})=>'github:'+org+'/'+repo);for(const address of addresses){samples(address)}}
-window.speechda=speechda;window.spagda=spagda;window.spag=spag;window.hubda=hubda
+window.speechda=speechda;window.spagda=spagda;window.spag=spag;window.hubda=hubda;hubda('mot4i','garden');hubda('eddyflux','crate');hubda('yaxu','clean-breaks')

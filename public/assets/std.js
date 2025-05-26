@@ -90,6 +90,10 @@ async function hubda(orgList, repoList = '') {
   }
 }
 
+hubda('mot4i','garden')
+hubda('eddyflux','crate')
+hubda('yaxu','clean-breaks')
+
 window.speechda = speechda;
 window.spagda = spagda;
 window.spag = spag;
