@@ -85,9 +85,14 @@ export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()
   hiddenElement.click();
 }
 
-export function getCode(filter) {
+export async function getCode(filter) {
   const prettyDate = getPrettyDate();
-  const headline = `// "nudel ${prettyDate}" @by pastagang\n`;
+  let headline = `// "nudel ${prettyDate}" @by pastagang\n`;
+
+  if (filter != null) {
+    headline += '\n';
+    headline += `// See this in nudel: ${await createShortNudelLink()}`;
+  }
   let documents = getSession().getDocuments();
   if (filter) {
     documents = documents.filter(filter);
@@ -103,13 +108,13 @@ export function getSongData() {
   return documents.map((doc) => ({ type: doc.target, content: doc.content ?? '' }));
 }
 
-exportCopyButton?.addEventListener('click', () => {
-  const txt = getCode();
+exportCopyButton?.addEventListener('click', async () => {
+  const txt = await getCode();
   copyToClipboard(txt, { message: 'code' });
 });
 
-exportDownloadButton?.addEventListener('click', () => {
-  const txt = getCode();
+exportDownloadButton?.addEventListener('click', async () => {
+  const txt = await getCode();
   downloadAsFile(txt);
 });
 
@@ -125,7 +130,7 @@ exportOpenStrudelButton?.addEventListener('click', async () => {
   ) {
     return;
   }
-  const code = getCode((doc) => doc.target === 'strudel');
+  const code = await getCode((doc) => doc.target === 'strudel');
   window.open(`https://strudel.cc/#${code2hash(code)}`);
 });
 
@@ -137,7 +142,7 @@ exportOpenHydraButton?.addEventListener('click', async () => {
   ) {
     return;
   }
-  const code = getCode((doc) => doc.target === 'hydra');
+  const code = await getCode((doc) => doc.target === 'hydra');
   window.open(`https://hydra.ojack.xyz/?code=${code2hash(code)}`);
 });
 
@@ -149,7 +154,7 @@ exportCopyHydraButton?.addEventListener('click', async () => {
   ) {
     return;
   }
-  const code = getCode((doc) => doc.target === 'hydra');
+  const code = await getCode((doc) => doc.target === 'hydra');
   copyToClipboard(code, { message: 'hydra code' });
 });
 
@@ -161,10 +166,14 @@ exportNudelButton?.addEventListener('click', () => {
   copyToClipboard(url, { message: 'nudel song link' });
 });
 
-exportShortNudelButton?.addEventListener('click', async () => {
+async function createShortNudelLink() {
   const songData = getSongData();
 
   const name = await createShortNameFromSongData(songData);
-  const url = `https://nudel.cc/s?r=${name}`;
+  return `https://nudel.cc/s?r=${name}`;
+}
+
+exportShortNudelButton?.addEventListener('click', async () => {
+  const url = await createShortNudelLink();
   copyToClipboard(url, { message: 'nudel short song link' });
 });
