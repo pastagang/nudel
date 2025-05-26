@@ -1,9 +1,6 @@
 import { getWeather } from './climate.js';
 
-export const MANTRAS = [
-  'do it',
-  'anything can happen'
-]
+export const MANTRAS = ['do it', 'anything can happen'];
 
 export const OLD_MANTRAS = [
   'mantras repeat',

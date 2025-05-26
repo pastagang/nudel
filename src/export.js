@@ -3,6 +3,7 @@ import { getSession } from './session.js';
 import { nudelToast } from './toast.js';
 import { createShortNameFromSongData } from './song.js';
 import { unicodeToBase64 } from '@strudel/core';
+import { nudelConfirm } from './confirm.js';
 
 const exportButton = document.querySelector('#export-button');
 const exportDialog = document.querySelector('#export-dialog');
@@ -84,9 +85,14 @@ export function downloadAsFile(txt, { fileName = `nudel-export-${getPrettyDate()
   hiddenElement.click();
 }
 
-export function getCode(filter) {
+export async function getCode(filter) {
   const prettyDate = getPrettyDate();
-  const headline = `// "nudel ${prettyDate}" @by pastagang\n`;
+  let headline = `// "nudel ${prettyDate}" @by pastagang\n`;
+
+  if (filter != null) {
+    headline += '\n';
+    headline += `// See this in nudel: ${await createShortNudelLink()}`;
+  }
   let documents = getSession().getDocuments();
   if (filter) {
     documents = documents.filter(filter);
@@ -102,13 +108,13 @@ export function getSongData() {
   return documents.map((doc) => ({ type: doc.target, content: doc.content ?? '' }));
 }
 
-exportCopyButton?.addEventListener('click', () => {
-  const txt = getCode();
+exportCopyButton?.addEventListener('click', async () => {
+  const txt = await getCode();
   copyToClipboard(txt, { message: 'code' });
 });
 
-exportDownloadButton?.addEventListener('click', () => {
-  const txt = getCode();
+exportDownloadButton?.addEventListener('click', async () => {
+  const txt = await getCode();
   downloadAsFile(txt);
 });
 
@@ -116,18 +122,39 @@ function code2hash(code) {
   return encodeURIComponent(unicodeToBase64(code));
 }
 
-exportOpenStrudelButton?.addEventListener('click', () => {
-  const code = getCode((doc) => doc.target === 'strudel');
+exportOpenStrudelButton?.addEventListener('click', async () => {
+  if (
+    !(await nudelConfirm(
+      'Are you sure you want to only share the audio? Consider sharing a nudel song link instead, as to capture both visuals and audio!',
+    ))
+  ) {
+    return;
+  }
+  const code = await getCode((doc) => doc.target === 'strudel');
   window.open(`https://strudel.cc/#${code2hash(code)}`);
 });
 
-exportOpenHydraButton?.addEventListener('click', () => {
-  const code = getCode((doc) => doc.target === 'hydra');
+exportOpenHydraButton?.addEventListener('click', async () => {
+  if (
+    !(await nudelConfirm(
+      'Are you sure you want to only share the visuals? consider sharing a nudel song link instead, as to capture both visuals and audio!',
+    ))
+  ) {
+    return;
+  }
+  const code = await getCode((doc) => doc.target === 'hydra');
   window.open(`https://hydra.ojack.xyz/?code=${code2hash(code)}`);
 });
 
-exportCopyHydraButton?.addEventListener('click', () => {
-  const code = getCode((doc) => doc.target === 'hydra');
+exportCopyHydraButton?.addEventListener('click', async () => {
+  if (
+    !(await nudelConfirm(
+      'Are you sure you want to only share the visuals? consider sharing a nudel song link instead, as to capture both visuals and audio!',
+    ))
+  ) {
+    return;
+  }
+  const code = await getCode((doc) => doc.target === 'hydra');
   copyToClipboard(code, { message: 'hydra code' });
 });
 
@@ -139,10 +166,14 @@ exportNudelButton?.addEventListener('click', () => {
   copyToClipboard(url, { message: 'nudel song link' });
 });
 
-exportShortNudelButton?.addEventListener('click', async () => {
+async function createShortNudelLink() {
   const songData = getSongData();
 
   const name = await createShortNameFromSongData(songData);
-  const url = `https://nudel.cc/s?r=${name}`;
+  return `https://nudel.cc/s?r=${name}`;
+}
+
+exportShortNudelButton?.addEventListener('click', async () => {
+  const url = await createShortNudelLink();
   copyToClipboard(url, { message: 'nudel short song link' });
 });
