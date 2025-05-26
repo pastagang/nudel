@@ -89,8 +89,10 @@ export class StrudelSession {
   async loadSamples() {
     if (this.offlineMode) {
       // https://github.com/felixroos/dough-samples/?tab=readme-ov-file#going-offline
-      const base = 'http://localhost:6543';
-      return Promise.all([
+      // const base = 'http://localhost:6543';
+      const myIp = window.location.href.split('http://')[1].split(':')[0];
+      const base = `http://${myIp}:6543`;
+      await Promise.all([
         samples(base + '/tidal-drum-machines.json', base + '/tidal-drum-machines/machines/'),
         samples(base + '/piano.json', base + '/piano/'),
         samples(base + '/Dirt-Samples.json', base + '/Dirt-Samples/'),
@@ -98,6 +100,7 @@ export class StrudelSession {
         samples(base + '/vcsl.json', base + '/VCSL/'),
         samples(base + '/mridangam.json', base + '/mrid/'),
       ]);
+      aliasBank(base + '/tidal-drum-machines-alias.json');
     } else {
       const ds = 'https://raw.githubusercontent.com/felixroos/dough-samples/main';
       const ts = 'https://raw.githubusercontent.com/todepond/samples/main/';

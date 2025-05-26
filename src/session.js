@@ -51,7 +51,9 @@ function makeSession() {
 
   let sessionConfig;
   if (offlineMode) {
-    const hostname = 'localhost:3000';
+    const myIp = window.location.href.split('http://')[1].split(':')[0];
+    // console.log(myIp);
+    const hostname = myIp + ':3000';
     // const hostname = roomName.split('http://')[1].split(':')[0] + ':3000';
     console.log('hostname', hostname);
     sessionConfig = {
