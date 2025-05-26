@@ -8,7 +8,7 @@ export function showSongText() {
     console.log('showSongText');
     footer.insertAdjacentHTML(
       'beforeend',
-      '<h3>⚠️ You are viewing a song! ⚠️ go <a href="/">back to nudeling</a></h3>',
+      '<h3>✅ You are viewing a song! ✅ go <a href="/">back to jamming</a>?</h3>',
     );
   }
 }
