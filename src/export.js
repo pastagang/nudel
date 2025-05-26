@@ -3,6 +3,7 @@ import { getSession } from './session.js';
 import { nudelToast } from './toast.js';
 import { createShortNameFromSongData } from './song.js';
 import { unicodeToBase64 } from '@strudel/core';
+import {nudelConfirm} from "./confirm.js";
 
 const exportButton = document.querySelector('#export-button');
 const exportDialog = document.querySelector('#export-dialog');
@@ -116,17 +117,26 @@ function code2hash(code) {
   return encodeURIComponent(unicodeToBase64(code));
 }
 
-exportOpenStrudelButton?.addEventListener('click', () => {
+exportOpenStrudelButton?.addEventListener('click', async () => {
+  if(!await nudelConfirm("Are you sure you want to only share the audio? Consider sharing a nudel song link instead, as to capture both visuals and audio!")) {
+    return
+  }
   const code = getCode((doc) => doc.target === 'strudel');
   window.open(`https://strudel.cc/#${code2hash(code)}`);
 });
 
-exportOpenHydraButton?.addEventListener('click', () => {
+exportOpenHydraButton?.addEventListener('click', async () => {
+  if(!await nudelConfirm("Are you sure you want to only share the visuals? consider sharing a nudel song link instead, as to capture both visuals and audio!")) {
+    return
+  }
   const code = getCode((doc) => doc.target === 'hydra');
   window.open(`https://hydra.ojack.xyz/?code=${code2hash(code)}`);
 });
 
-exportCopyHydraButton?.addEventListener('click', () => {
+exportCopyHydraButton?.addEventListener('click', async () => {
+  if(!await nudelConfirm("Are you sure you want to only share the visuals? consider sharing a nudel song link instead, as to capture both visuals and audio!")) {
+    return
+  }
   const code = getCode((doc) => doc.target === 'hydra');
   copyToClipboard(code, { message: 'hydra code' });
 });
