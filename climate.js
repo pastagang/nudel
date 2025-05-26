@@ -16,9 +16,9 @@ export const CLIMATE = {
       return true;
     },
   },
-  londonAlgorave: {
-    name: 'london algorave',
-    when: () => false,
+  icl: {
+    name: 'iclc',
+    when: () => true,
   },
   mantraName: {
     name: 'everyone is mantra',
