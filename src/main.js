@@ -61,8 +61,6 @@ addEventListener(
   //~~~~~~~~~~~~~~~~~~~~~~~
   'paste',
   (e) => {
-    nudelAlert(
-      '<h2>hhhhhhhhhhhhhhhhhhhh</p>',
-    );
+    nudelAlert('<h2>hhhhhhhhhhhhhhhhhhhh</p>');
   },
 );

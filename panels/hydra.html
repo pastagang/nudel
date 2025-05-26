@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <script src="/assets/std.js"></script>
   </head>
   <body style="margin: 0">
@@ -25,36 +25,32 @@
 
       import p5 from 'p5';
       import { HydraSession } from '/src/hydra';
-      
+
       // Initialize P5 wrapper
       window.P5 = class extends p5 {
-        constructor({
-          width = window.innerWidth,
-          height = window.innerHeight,
-          mode = 'P2D'
-        } = {}) {
+        constructor({ width = window.innerWidth, height = window.innerHeight, mode = 'P2D' } = {}) {
           super((p) => {
-            p.setup = () => { 
+            p.setup = () => {
               p.createCanvas(width, height, p[mode]);
             };
-            p.draw = () => { };
+            p.draw = () => {};
           }, 'hydra-ui');
-          
+
           this.width = width;
           this.height = height;
           this.mode = mode;
-          this.canvas.style.position = "absolute";
-          this.canvas.style.top = "0px";
-          this.canvas.style.left = "0px";
+          this.canvas.style.position = 'absolute';
+          this.canvas.style.top = '0px';
+          this.canvas.style.left = '0px';
           this.canvas.style.zIndex = -1;
         }
 
         show() {
-          this.canvas.style.visibility = "visible";
+          this.canvas.style.visibility = 'visible';
         }
 
         hide() {
-          this.canvas.style.visibility = "hidden";
+          this.canvas.style.visibility = 'hidden';
         }
 
         clear() {
