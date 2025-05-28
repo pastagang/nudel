@@ -66,13 +66,15 @@ addEventListener(
     if (settings.pasteEnabled) {
       return;
     }
+
+    e.preventDefault();
     // Temporarily switching this on for the keynote
     nudelAlert(
       '<h2>pasting is disabled</h2><p>to enable pasting, turn on <strong>PASTING MODE</strong> in the settings.</p>',
     );
-    e.preventDefault();
 
     //===== HHHHHHH MODE =====
     // nudelAlert('<h2>hhhhhhhhhhhhhhhhhhhh</p>');
   },
+  { passive: false, capture: true },
 );
