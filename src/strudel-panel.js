@@ -8,14 +8,15 @@ import {
   setTime,
   register,
   Pattern,
-  fast,
+  // fast,  // for "global sync" mode
+  Cyclist,
 } from '@strudel/core';
 import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { aliasBank, getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 import { setInterval, clearInterval } from 'worker-timers';
-import { NudelCyclist } from './strudel-cyclist.js';
+// import { NudelCyclist } from './strudel-cyclist.js'; // for "global sync" mode
 
 controls.createParam('docId');
 
@@ -134,7 +135,9 @@ export class StrudelSession {
       return time;
     };
     // @ts-expect-error
-    this.scheduler = new NudelCyclist({
+    //this.scheduler = new NudelCyclist({  // for "global sync" mode
+    this.scheduler = new Cyclist({
+      // ^ for "fluid tempo change" mode
       onTrigger: getTrigger({ defaultOutput: webaudioOutput, getTime }),
       getTime,
       setInterval: this.settings.workerTimers2 ? setInterval : globalThis.setInterval,
@@ -228,8 +231,8 @@ export class StrudelSession {
     const pause = () => this.scheduler.pause();
     const toggle = () => this.scheduler.toggle(); */
     const setCps = (cps) => {
-      this.cps = cps;
-      //this.scheduler?.setCps(cps);
+      //this.cps = cps; // for "global sync" mode
+      this.scheduler?.setCps(cps); // for "fluid tempo change" mode
     };
     const setCpm = (cpm) => {
       setCps(cpm / 60);
@@ -254,8 +257,11 @@ export class StrudelSession {
     //console.log("this.patterns", this.patterns);
     // this is cps with phase jump on purpose
     // to preserve sync
-    const cpsFactor = this.cps * 2; // assumes scheduler to be fixed to 0.5cps
-    const allPatterns = fast(cpsFactor, stack(...Object.values(this.patterns)));
+    // following 2 lines are for "global sync" mode
+    //const cpsFactor = this.cps * 2; // assumes scheduler to be fixed to 0.5cps
+    //const allPatterns = fast(cpsFactor, stack(...Object.values(this.patterns)));
+    // the following line is for "fluid tempo change" mode
+    const allPatterns = stack(...Object.values(this.patterns));
     await this.scheduler?.setPattern(allPatterns, true);
   }
 
