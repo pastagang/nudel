@@ -62,17 +62,17 @@ addEventListener(
   'paste',
   (e) => {
     //===== PASTING MODE MODE =====
-    // const settings = getSettings();
-    // if (settings.pasteEnabled) {
-    //   return;
-    // }
-    // // Temporarily switching this on for the keynote
-    // nudelAlert(
-    //   '<h2>pasting is disabled</h2><p>to enable pasting, turn on <strong>PASTING MODE</strong> in the settings.</p>',
-    // );
-    // e.preventDefault();
+    const settings = getSettings();
+    if (settings.pasteEnabled) {
+      return;
+    }
+    // Temporarily switching this on for the keynote
+    nudelAlert(
+      '<h2>pasting is disabled</h2><p>to enable pasting, turn on <strong>PASTING MODE</strong> in the settings.</p>',
+    );
+    e.preventDefault();
 
     //===== HHHHHHH MODE =====
-    nudelAlert('<h2>hhhhhhhhhhhhhhhhhhhh</p>');
+    // nudelAlert('<h2>hhhhhhhhhhhhhhhhhhhh</p>');
   },
 );
