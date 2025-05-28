@@ -86,7 +86,7 @@ async function hubda(orgList, repoList = '') {
 
   const addresses = orgRepos.map(({ org, repo }) => 'github:' + org + '/' + repo);
   for (const address of addresses) {
-    window.samples(address);
+    window.samples(address); // this is throwing a lot of errors: window.samples is not a function
   }
 }
 
