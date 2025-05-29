@@ -56,10 +56,10 @@ export const CLIMATE = {
     name: 'everyone is emoticons',
     when: (now) => getNudelDay(now) % 14 === 7,
   },
-  msn: {
-    name: 'msn',
-    when: (now) => getNudelDay(now) % 19 === 10,
-  },
+  // msn: {
+  //   name: 'msn',
+  //   when: (now) => getNudelDay(now) % 19 === 10,
+  // },
 };
 
 export function getWeather(now = Date.now()) {
