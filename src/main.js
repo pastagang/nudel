@@ -63,7 +63,7 @@ addEventListener(
   (e) => {
     //===== PASTING MODE MODE =====
     const settings = getSettings();
-    if (settings.pasteEnabled) {
+    if (settings.pastingMode) {
       return;
     }
 
