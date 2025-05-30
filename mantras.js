@@ -14,7 +14,7 @@ export const OLD_MANTRAS = [
   'BAD CODE ONLY',
   'energy YES. quality NO.',
   'everyone sees the same mantra',
-  'shave your head. its pastagang time'
+  'shave your head. its pastagang time',
   'forget everything you know'
 ];
 
