@@ -203,10 +203,10 @@ export class HydraSession {
     GlslSource.prototype.out = function (_output) {
       let afterTransform = this;
       const weather = getWeather();
-      if (weather.kaleidoscope) {
-        const amount = 2 + Math.floor((getNudelHour() % NUDEL_HOUR_IN_A_NUDEL_DAY) / 3);
-        afterTransform = afterTransform.kaleid(amount);
-      }
+      // if (weather.kaleidoscope) {
+      //   const amount = 2 + Math.floor((getNudelHour() % NUDEL_HOUR_IN_A_NUDEL_DAY) / 3);
+      //   afterTransform = afterTransform.kaleid(amount);
+      // }
       if (weather.pixelated) {
         const pixel = (getNudelHour() % NUDEL_HOUR_IN_A_NUDEL_DAY) + 30;
         afterTransform = afterTransform.pixelate(pixel, pixel);

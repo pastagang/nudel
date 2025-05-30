@@ -1,10 +1,10 @@
 import { getWeather } from './climate.js';
 
 export const MANTRAS = [
-  'do it', 
+  'do it',
   'anything can happen',
-    'shave your head. its pastagang time',
-  'forget everything you know'
+  'shave your head. its pastagang time',
+  'forget everything you know',
 ];
 
 export const OLD_MANTRAS = [
@@ -20,7 +20,7 @@ export const OLD_MANTRAS = [
   'energy YES. quality NO.',
   'everyone sees the same mantra',
   'shave your head. its pastagang time',
-  'forget everything you know'
+  'forget everything you know',
 ];
 
 export const CONDITIONAL_MANTRAS = [
