@@ -40,10 +40,10 @@ export const CLIMATE = {
     name: 'no images',
     when: (now) => getNudelDay(now) % 15 === 5,
   },
-  kaleidoscope: {
-    name: 'kaleidoscope',
-    when: (now) => getNudelDay(now) % 12 === 1,
-  },
+  // kaleidoscope: {
+  //   name: 'kaleidoscope',
+  //   when: (now) => getNudelDay(now) % 12 === 1,
+  // },
   pixelated: {
     name: 'pixel land',
     when: (now) => getNudelDay(now) % 19 === 3,
