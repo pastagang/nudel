@@ -56,10 +56,10 @@ export const CLIMATE = {
   //   name: 'Tunderstorm',
   //   when: (now) => getNudelDay(now) % 37 == 5,
   // }
-  // msn: {
-  //   name: 'msn',
-  //   when: (now) => getNudelDay(now) % 19 === 10,
-  // },
+  msn: {
+    name: 'msn',
+    when: (now) => getNudelDay(now) % 19 === 10,
+  },
 };
 
 export function getWeather(now = Date.now()) {
