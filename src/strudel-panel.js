@@ -16,6 +16,7 @@ import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { aliasBank, getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 import { setInterval, clearInterval } from 'worker-timers';
+import { getWeather } from '../climate.js';
 // import { NudelCyclist } from './strudel-cyclist.js'; // for "global sync" mode
 
 controls.createParam('docId');
@@ -254,14 +255,25 @@ export class StrudelSession {
 
   async setDocPattern(docId, pattern) {
     this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
-    //console.log("this.patterns", this.patterns);
+    console.log("this.patterns", this.patterns);
     // this is cps with phase jump on purpose
     // to preserve sync
     // following 2 lines are for "global sync" mode
     //const cpsFactor = this.cps * 2; // assumes scheduler to be fixed to 0.5cps
     //const allPatterns = fast(cpsFactor, stack(...Object.values(this.patterns)));
     // the following line is for "fluid tempo change" mode
-    const allPatterns = stack(...Object.values(this.patterns));
+    let allPatterns = stack(...Object.values(this.patterns));
+
+    if(getWeather().donnertag) {
+        allPatterns = allPatterns.fmap((value) => {
+          // console.log(hap);
+          value.s = "garden_bd"
+          console.log(value);
+          return value;
+        });
+    }
+
+
     await this.scheduler?.setPattern(allPatterns, true);
   }
 
