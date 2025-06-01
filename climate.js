@@ -16,7 +16,7 @@ export const CLIMATE = {
       return true;
     },
   },
-  icl: {
+  iclc: {
     name: 'iclc afterparty!!!!!!!!!!!!!!!!!!!!',
     when: () => true,
   },
