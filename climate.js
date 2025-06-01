@@ -17,7 +17,7 @@ export const CLIMATE = {
     },
   },
   icl: {
-    name: 'iclc',
+    name: 'iclc afterparty!!!!!!!!!!!!!!!!!!!!',
     when: () => true,
   },
   mantraName: {
@@ -35,10 +35,6 @@ export const CLIMATE = {
   noNudel: {
     name: 'no nudel',
     when: (now) => getNudelDay(now) % 37 === 9,
-  },
-  noImages: {
-    name: 'no images',
-    when: (now) => getNudelDay(now) % 15 === 5,
   },
   // kaleidoscope: {
   //   name: 'kaleidoscope',
