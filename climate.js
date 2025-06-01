@@ -16,8 +16,8 @@ export const CLIMATE = {
       return true;
     },
   },
-  icl: {
-    name: 'iclc',
+  iclc: {
+    name: 'iclc afterparty!!!!!!!!!!!!!!!!!!!!',
     when: () => true,
   },
   mantraName: {
@@ -36,10 +36,6 @@ export const CLIMATE = {
     name: 'no nudel',
     when: (now) => getNudelDay(now) % 37 === 9,
   },
-  noImages: {
-    name: 'no images',
-    when: (now) => getNudelDay(now) % 15 === 5,
-  },
   // kaleidoscope: {
   //   name: 'kaleidoscope',
   //   when: (now) => getNudelDay(now) % 12 === 1,
@@ -56,10 +52,14 @@ export const CLIMATE = {
     name: 'everyone is emoticons',
     when: (now) => getNudelDay(now) % 14 === 7,
   },
-  // msn: {
-  //   name: 'msn',
-  //   when: (now) => getNudelDay(now) % 19 === 10,
-  // },
+  // donnertag: {
+  //   name: 'Tunderstorm',
+  //   when: (now) => getNudelDay(now) % 37 == 5,
+  // }
+  msn: {
+    name: 'msn',
+    when: (now) => getNudelDay(now) % 19 === 10,
+  },
 };
 
 export function getWeather(now = Date.now()) {
