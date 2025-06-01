@@ -8,7 +8,8 @@ import { getCurrentMantra } from './timedEvents/mantra.js';
 import { getWeather } from '../climate.js';
 import { EMOTICONS } from './random.js';
 // @ts-ignore
-import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
+// import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
+const PASTAGANG_ROOM_NAME = 'foo';
 
 export function getRoomName() {
   const params = new URLSearchParams(window.location.search);
@@ -94,6 +95,18 @@ function makeSession() {
   });
   // js
   session.on('eval:js', (msg) => new Function(msg.body)());
+  // css
+
+  const cssHoles = document.querySelectorAll('.css-hole');
+  const cssHolesMap = new Map();
+  cssHoles.forEach((v) => {
+    const id = v.id.slice('css-hole-'.length);
+    cssHolesMap.set(id, v);
+  });
+  session.on('eval:css', (msg) => {
+    const cssHole = cssHolesMap.get(msg.docId);
+    cssHole.textContent = msg.body;
+  });
   // hydra
   session.on('eval:hydra', (msg) => {
     msg.body += '\n\n\n' + getStdSource();

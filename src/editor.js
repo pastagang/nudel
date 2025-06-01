@@ -31,7 +31,7 @@ addEventListener('keyup', (e) => {
 });
 
 export class PastaMirror {
-  supportedTargets = ['strudel', 'hydra', 'shader', 'kabelsalat', 'js'];
+  supportedTargets = ['strudel', 'hydra', 'shader', 'kabelsalat', 'js', 'css'];
   editorViews = new Map();
   currentEditors = new Map();
   extensions = {
