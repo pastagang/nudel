@@ -52,10 +52,10 @@ export const CLIMATE = {
     name: 'everyone is emoticons',
     when: (now) => getNudelDay(now) % 14 === 7,
   },
-  donnertag: {
-    name: 'Tunderstorm',
-    when: (now) => getNudelDay(now) % 37 == 5,
-  }
+  // donnertag: {
+  //   name: 'Tunderstorm',
+  //   when: (now) => getNudelDay(now) % 37 == 5,
+  // }
   // msn: {
   //   name: 'msn',
   //   when: (now) => getNudelDay(now) % 19 === 10,
