@@ -23,6 +23,15 @@ function applyWeather(weather) {
     document.body.classList.remove('inverted-colors');
   }
 
+  if (weather.foggy) {
+    document.querySelector("#foggy")?.classList.add("active");
+    document.addEventListener('mousemove', (e) => {
+      const fog = document.querySelector("#foggy");
+      fog?.style.setProperty('--x', `${e.clientX}px`);
+      fog?.style.setProperty('--y', `${e.clientY}px`);
+    });
+  }
+
   // === No nudel =====================================//
   if (weather.noNudel) {
     nudelAlert('nudel is not available today ⛈️');

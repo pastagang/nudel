@@ -56,6 +56,10 @@ export const CLIMATE = {
     name: 'Tunderstorm',
     when: (now) => getNudelDay(now) % 37 == 5,
   },
+  foggy: {
+    name: 'foggy',
+    when: (now) => getNudelDay(now) % 23 == 3,
+  },
   msn: {
     name: 'msn',
     when: (now) => getNudelDay(now) % 19 === 10,
