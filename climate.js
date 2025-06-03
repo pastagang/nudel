@@ -16,10 +16,6 @@ export const CLIMATE = {
       return true;
     },
   },
-  iclc: {
-    name: 'iclc afterparty!!!!!!!!!!!!!!!!!!!!',
-    when: () => true,
-  },
   mantraName: {
     name: 'everyone is mantra',
     when: (now) => getNudelDay(now) % 14 === 0,
