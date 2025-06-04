@@ -8,8 +8,7 @@ import { getCurrentMantra } from './timedEvents/mantra.js';
 import { getWeather } from '../climate.js';
 import { EMOTICONS } from './random.js';
 // @ts-ignore
-// import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
-const PASTAGANG_ROOM_NAME = 'foo';
+import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
 
 export function getRoomName() {
   const params = new URLSearchParams(window.location.search);
