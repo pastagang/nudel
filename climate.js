@@ -20,10 +20,10 @@ export const CLIMATE = {
     name: 'everyone is mantra',
     when: (now) => getNudelDay(now) % 14 === 0,
   },
-  grayScale: {
-    name: 'greyscale',
-    when: (now) => getNudelDay(now) % 13 === 12,
-  },
+  // grayScale: {
+  //   name: 'greyscale',
+  //   when: (now) => getNudelDay(now) % 13 === 12,
+  // },
   invertedColors: {
     name: 'inverted colors',
     when: (now) => getNudelDay(now) % 15 === 6,
