@@ -1,15 +1,15 @@
-import {Session} from '@flok-editor/session';
-import {getStdSource} from './export.js';
-import {pastamirror, Frame} from './main.js';
-import {clearGlobalError, setError, clearLocalError} from './error.js';
-import {getSettings, getUserColorFromUserHue} from './settings.js';
-import {subscribeToChat, unsubscribeFromChat} from './chat.js';
-import {getCurrentMantra} from './timedEvents/mantra.js';
-import {getWeather} from '../climate.js';
-import {EMOTICONS} from './random.js';
+import { Session } from '@flok-editor/session';
+import { getStdSource } from './export.js';
+import { pastamirror, Frame } from './main.js';
+import { clearGlobalError, setError, clearLocalError } from './error.js';
+import { getSettings, getUserColorFromUserHue } from './settings.js';
+import { subscribeToChat, unsubscribeFromChat } from './chat.js';
+import { getCurrentMantra } from './timedEvents/mantra.js';
+import { getWeather } from '../climate.js';
+import { EMOTICONS } from './random.js';
 // @ts-ignore
-import {PASTAGANG_ROOM_NAME} from 'https://www.pastagang.cc/pastagang.js';
-import {initCss} from "./css-panels.js";
+import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
+import { initCss } from './css-panels.js';
 
 export function getRoomName() {
   const params = new URLSearchParams(window.location.search);
@@ -53,10 +53,10 @@ function makeSession() {
     // If session is empty, create documents
     const documents = session.getDocuments();
     if (documents.length === 0) {
-      session.setActiveDocuments([{id: '1', target: 'strudel'}]);
-      session.setActiveDocuments([{id: '2', target: 'strudel'}]);
-      session.setActiveDocuments([{id: '3', target: 'strudel'}]);
-      session.setActiveDocuments([{id: '4', target: 'strudel'}]);
+      session.setActiveDocuments([{ id: '1', target: 'strudel' }]);
+      session.setActiveDocuments([{ id: '2', target: 'strudel' }]);
+      session.setActiveDocuments([{ id: '3', target: 'strudel' }]);
+      session.setActiveDocuments([{ id: '4', target: 'strudel' }]);
     }
 
     // const playButton = document.getElementById('about-yes-button');
@@ -97,31 +97,31 @@ function makeSession() {
   // js
   session.on('eval:js', (msg) => new Function(msg.body)());
   // css
-
-  const cssHoles = document.querySelectorAll('.css-hole');
-  const cssHolesMap = new Map();
-  cssHoles.forEach((v) => {
-    const id = v.id.slice('css-hole-'.length);
-    cssHolesMap.set(id, v);
-  });
-  session.on('eval:css', (msg) => {
-    const cssHole = cssHolesMap.get(msg.docId);
-    cssHole.textContent = msg.body;
-  });
+  initCss(session);
   // hydra
   session.on('eval:hydra', (msg) => {
     msg.body += '\n\n\n' + getStdSource();
     Frame.hydra?.contentWindow.postMessage({ type: 'eval', msg });
   });
   // shader
-  session.on('eval:shader', (msg) => Frame.shader?.contentWindow.postMessage({ type: 'eval', msg }));
+  session.on('eval:shader', (msg) =>
+    Frame.shader?.contentWindow.postMessage({
+      type: 'eval',
+      msg,
+    }),
+  );
   // strudel
   session.on('eval:strudel', (msg) => {
     msg.body += '\n\n\n' + getStdSource();
     return Frame.strudel?.contentWindow.postMessage({ type: 'eval', msg });
   });
   // kabelsalat
-  session.on('eval:kabelsalat', (msg) => Frame.kabelsalat?.contentWindow.postMessage({ type: 'eval', msg }));
+  session.on('eval:kabelsalat', (msg) =>
+    Frame.kabelsalat?.contentWindow.postMessage({
+      type: 'eval',
+      msg,
+    }),
+  );
 
   // clear local error when new eval comes in
   session.on('eval', (msg) => clearLocalError(msg.docId));

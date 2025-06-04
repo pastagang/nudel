@@ -22,7 +22,7 @@ window.fft = (
   optionsArg = args[2] ?? {};
   // }
 
-  const options = typeof optionsArg === 'string' ? {analyzerId: optionsArg} : optionsArg;
+  const options = typeof optionsArg === 'string' ? { analyzerId: optionsArg } : optionsArg;
   const analyzerId = options?.analyzerId ?? 'flok-master';
   const min = options?.min ?? -150;
   const scale = options?.scale ?? 1;
@@ -53,7 +53,7 @@ window.fft = (
   });
 
   return normalized.slice(bucketSize * index, bucketSize * (index + 1)).reduce((a, b) => a + b, 0) / bucketSize;
-}
+};
 
 export function initCss(session) {
   const cssHoles = document.querySelectorAll('.css-hole');
@@ -72,14 +72,12 @@ export function initCss(session) {
   // this is not very performant probably (sooory)
   // maybe we could only do this when we need it
   function updateFftVariableInCss() {
-    const data = fft()
-    console.log(data)
+    const data = fft();
     cssVariablesElement.textContent = `:root {
       --fft: ${data};
     }`;
-    console.log(cssVariablesElement)
     requestAnimationFrame(updateFftVariableInCss);
   }
 
-  requestAnimationFrame(updateFftVariableInCss)
+  requestAnimationFrame(updateFftVariableInCss);
 }

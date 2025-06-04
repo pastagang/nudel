@@ -255,7 +255,7 @@ export class StrudelSession {
 
   async setDocPattern(docId, pattern) {
     this.patterns[docId] = pattern.docId(docId); // docId is needed for highlighting
-    console.log("this.patterns", this.patterns);
+    console.log('this.patterns', this.patterns);
     // this is cps with phase jump on purpose
     // to preserve sync
     // following 2 lines are for "global sync" mode
@@ -264,15 +264,14 @@ export class StrudelSession {
     // the following line is for "fluid tempo change" mode
     let allPatterns = stack(...Object.values(this.patterns));
 
-    if(getWeather().donnertag) {
-        allPatterns = allPatterns.fmap((value) => {
-          // console.log(hap);
-          value.s = "garden_bd"
-          console.log(value);
-          return value;
-        });
+    if (getWeather().donnertag) {
+      allPatterns = allPatterns.fmap((value) => {
+        // console.log(hap);
+        value.s = 'garden_bd';
+        console.log(value);
+        return value;
+      });
     }
-
 
     await this.scheduler?.setPattern(allPatterns, true);
   }

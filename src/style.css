@@ -681,19 +681,11 @@ input:disabled {
   pointer-events: none;
 
   backdrop-filter: blur(4px);
-  mask-image: radial-gradient(
-    circle at var(--x, 50%) var(--y, 50%),
-    transparent 10px,
-    black 20px
-  );
+  mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%), transparent 10px, black 20px);
 
   /* safari support stuff ? */
   -webkit-backdrop-filter: blur(8px);
-  -webkit-mask-image: radial-gradient(
-    circle at var(--x, 50%) var(--y, 50%),
-    transparent 10px,
-    black 120px
-  );
+  -webkit-mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%), transparent 10px, black 120px);
 
   background: radial-gradient(
     circle at var(--x, 50%) var(--y, 50%),
