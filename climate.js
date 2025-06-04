@@ -28,10 +28,10 @@ export const CLIMATE = {
     name: 'inverted colors',
     when: (now) => getNudelDay(now) % 15 === 6,
   },
-  noNudel: {
-    name: 'no nudel',
-    when: (now) => getNudelDay(now) % 37 === 9,
-  },
+  // noNudel: {
+  //   name: 'no nudel',
+  //   when: (now) => getNudelDay(now) % 37 === 9,
+  // },
   // kaleidoscope: {
   //   name: 'kaleidoscope',
   //   when: (now) => getNudelDay(now) % 12 === 1,
