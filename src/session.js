@@ -1,14 +1,15 @@
-import { Session } from '@flok-editor/session';
-import { getStdSource } from './export.js';
-import { pastamirror, Frame } from './main.js';
-import { clearGlobalError, setError, clearLocalError } from './error.js';
-import { getSettings, getUserColorFromUserHue } from './settings.js';
-import { subscribeToChat, unsubscribeFromChat } from './chat.js';
-import { getCurrentMantra } from './timedEvents/mantra.js';
-import { getWeather } from '../climate.js';
-import { EMOTICONS } from './random.js';
+import {Session} from '@flok-editor/session';
+import {getStdSource} from './export.js';
+import {pastamirror, Frame} from './main.js';
+import {clearGlobalError, setError, clearLocalError} from './error.js';
+import {getSettings, getUserColorFromUserHue} from './settings.js';
+import {subscribeToChat, unsubscribeFromChat} from './chat.js';
+import {getCurrentMantra} from './timedEvents/mantra.js';
+import {getWeather} from '../climate.js';
+import {EMOTICONS} from './random.js';
 // @ts-ignore
-import { PASTAGANG_ROOM_NAME } from 'https://www.pastagang.cc/pastagang.js';
+import {PASTAGANG_ROOM_NAME} from 'https://www.pastagang.cc/pastagang.js';
+import {initCss} from "./css-panels.js";
 
 export function getRoomName() {
   const params = new URLSearchParams(window.location.search);
@@ -21,6 +22,7 @@ export function getRoomName() {
 
 /** @type {Session | null} */
 let _session = null;
+
 export function getSession() {
   if (!_session) _session = makeSession();
   return _session;
@@ -51,10 +53,10 @@ function makeSession() {
     // If session is empty, create documents
     const documents = session.getDocuments();
     if (documents.length === 0) {
-      session.setActiveDocuments([{ id: '1', target: 'strudel' }]);
-      session.setActiveDocuments([{ id: '2', target: 'strudel' }]);
-      session.setActiveDocuments([{ id: '3', target: 'strudel' }]);
-      session.setActiveDocuments([{ id: '4', target: 'strudel' }]);
+      session.setActiveDocuments([{id: '1', target: 'strudel'}]);
+      session.setActiveDocuments([{id: '2', target: 'strudel'}]);
+      session.setActiveDocuments([{id: '3', target: 'strudel'}]);
+      session.setActiveDocuments([{id: '4', target: 'strudel'}]);
     }
 
     // const playButton = document.getElementById('about-yes-button');
