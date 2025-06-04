@@ -65,6 +65,9 @@ export function initCss(session) {
     cssHolesMap.set(id, v);
   });
   session.on('eval:css', (msg) => {
+    if(msg.body.contains("--fft")) {
+      requestAnimationFrame(updateFftVariableInCss)
+    }
     const cssHole = cssHolesMap.get(msg.docId);
     cssHole.textContent = msg.body;
   });
@@ -78,6 +81,4 @@ export function initCss(session) {
     }`;
     requestAnimationFrame(updateFftVariableInCss);
   }
-
-  requestAnimationFrame(updateFftVariableInCss);
 }
