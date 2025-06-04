@@ -65,7 +65,7 @@ export function initCss(session) {
     cssHolesMap.set(id, v);
   });
   session.on('eval:css', (msg) => {
-    if(msg.body.contains("--fft")) {
+    if(msg.body.includes("--fft")) {
       requestAnimationFrame(updateFftVariableInCss)
     }
     const cssHole = cssHolesMap.get(msg.docId);
