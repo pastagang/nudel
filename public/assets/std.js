@@ -90,6 +90,9 @@ async function hubda(orgList, repoList = '') {
   }
 }
 
+if (!window.samples) {
+  window.samples = function() {}
+}
 hubda('mot4i','garden')
 hubda('eddyflux','crate')
 hubda('yaxu','clean-breaks')

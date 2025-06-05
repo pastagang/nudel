@@ -71,6 +71,8 @@
       });
 
       window.parent.hydra = hydra;
+      console.log(window.parent);
+      window.qrcode = window.parent.qrcode;
 
       window.addEventListener('message', (event) => {
         if (event.origin !== window.location.origin) {
