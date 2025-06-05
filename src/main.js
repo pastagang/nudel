@@ -8,7 +8,7 @@ import { repeatRepeatRepeatRepeat } from './timedEvents/update.js';
 import { showSongText } from './song.js';
 import { getSyncOffset } from './sync-nonsense.js';
 
-intentional breakage
+// see its fine
 
 export const pastamirror = new PastaMirror();
 
