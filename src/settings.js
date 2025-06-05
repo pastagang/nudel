@@ -49,6 +49,14 @@ const defaultSettings = {
   hydraEnabled: true,
   shaderEnabled: true,
   kabelsalatEnabled: true,
+  jsEnabled: true,
+  cssEnabled: true,
+  strudelVisible: true,
+  hydraVisible: true,
+  shaderVisible: true,
+  kabelsalatVisible: true,
+  jsVisible: true,
+  cssVisible: true,
   zenMode: false,
   panelMode: 'scroll', // "scroll" | "boxed" | |tabbed
   vimMode: false,
@@ -69,12 +77,24 @@ const defaultSettings = {
 };
 
 const usernameInput = document.querySelector('#settings-username');
+
 const strudelCheckbox = document.querySelector('#settings-strudel-enabled');
 const hydraCheckbox = document.querySelector('#settings-hydra-enabled');
 const shaderCheckbox = document.querySelector('#settings-shader-enabled');
 const kabelsalatCheckbox = document.querySelector('#settings-kabelsalat-enabled');
-const zenModeCheckbox = document.querySelector('#settings-zen-mode');
+const jsCheckbox = document.querySelector('#settings-js-enabled');
+const cssCheckbox = document.querySelector('#settings-css-enabled');
+
+const strudelVisCheckbox = document.querySelector('#settings-strudel-visible');
+const hydraVisCheckbox = document.querySelector('#settings-hydra-visible');
+const shaderVisCheckbox = document.querySelector('#settings-shader-visible');
+const kabelsalatVisCheckbox = document.querySelector('#settings-kabelsalat-visible');
+const jsVisCheckbox = document.querySelector('#settings-js-visible');
+const cssVisCheckbox = document.querySelector('#settings-css-visible');
+
 const hideAllCodeButton = document.querySelector('#settings-hide-code');
+
+const zenModeCheckbox = document.querySelector('#settings-zen-mode');
 const panelModeSelect = document.querySelector('#settings-panel-mode');
 const vimModeCheckbox = document.querySelector('#settings-vim-mode');
 const lineWrappingCheckbox = document.querySelector('#settings-line-wrapping');
@@ -105,6 +125,16 @@ function inferSettingsFromDom() {
     hydraEnabled: hydraCheckbox?.checked ?? defaultSettings.hydraEnabled,
     shaderEnabled: shaderCheckbox?.checked ?? defaultSettings.shaderEnabled,
     kabelsalatEnabled: kabelsalatCheckbox?.checked ?? defaultSettings.kabelsalatEnabled,
+    jsEnabled: jsCheckbox?.checked ?? defaultSettings.jsEnabled,
+    cssEnabled: cssCheckbox?.checked ?? defaultSettings.cssEnabled,
+
+    strudelVisible: strudelVisCheckbox?.checked ?? defaultSettings.strudelVisible,
+    hydraVisible: hydraVisCheckbox?.checked ?? defaultSettings.hydraVisible,
+    shaderVisible: shaderVisCheckbox?.checked ?? defaultSettings.shaderVisible,
+    kabelsalatVisible: kabelsalatVisCheckbox?.checked ?? defaultSettings.kabelsalatVisible,
+    jsVisible: jsVisCheckbox?.checked ?? defaultSettings.jsVisible,
+    cssVisible: cssVisCheckbox?.checked ?? defaultSettings.cssVisible,
+
     zenMode: zenModeCheckbox?.checked ?? defaultSettings.zenMode,
     panelMode: panelModeSelect?.value ?? defaultSettings.panelMode,
     vimMode: vimModeCheckbox?.checked ?? defaultSettings.vimMode,
@@ -135,6 +165,16 @@ function inferSettingsFromDom() {
   hydraCheckbox,
   shaderCheckbox,
   kabelsalatCheckbox,
+  jsCheckbox,
+  cssCheckbox,
+
+  strudelVisCheckbox,
+  hydraVisCheckbox,
+  shaderVisCheckbox,
+  kabelsalatVisCheckbox,
+  jsVisCheckbox,
+  cssVisCheckbox,
+
   zenModeCheckbox,
   panelModeSelect,
   vimModeCheckbox,
@@ -259,10 +299,21 @@ export async function applySettingsToNudel(settings = getSettings()) {
   trackRemoteCursorsCheckbox && (trackRemoteCursorsCheckbox.checked = next.trackRemoteCursors2);
   usernameInput && (usernameInput.value = next.username);
   userHueRange && (userHueRange.value = next.userHue);
+
   strudelCheckbox && (strudelCheckbox.checked = next.strudelEnabled);
   hydraCheckbox && (hydraCheckbox.checked = next.hydraEnabled);
   shaderCheckbox && (shaderCheckbox.checked = next.shaderEnabled);
   kabelsalatCheckbox && (kabelsalatCheckbox.checked = next.kabelsalatEnabled);
+  jsCheckbox && (jsCheckbox.checked = next.jsEnabled);
+  cssCheckbox && (cssCheckbox.checked = next.cssEnabled);
+
+  strudelVisCheckbox && (strudelVisCheckbox.checked = next.strudelVisible);
+  hydraVisCheckbox && (hydraVisCheckbox.checked = next.hydraVisible);
+  shaderVisCheckbox && (shaderVisCheckbox.checked = next.shaderVisible);
+  kabelsalatVisCheckbox && (kabelsalatVisCheckbox.checked = next.kabelsalatVisible);
+  jsVisCheckbox && (jsVisCheckbox.checked = next.jsVisible);
+  cssVisCheckbox && (cssVisCheckbox.checked = next.cssVisible);
+
   welcomeMessageCheckbox && (welcomeMessageCheckbox.checked = next.welcomeMessage3);
   pastingModeCheckbox && (pastingModeCheckbox.checked = next.pastingMode);
   fontFamilySelect && (fontFamilySelect.value = next.fontFamily);
