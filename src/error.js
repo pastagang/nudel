@@ -107,6 +107,7 @@ function showLocalError(docId, message) {
 
 // error handling
 export function setError(message, docId) {
+  console.dir(message);
   console.error(message);
   if (!docId) {
     showGlobalError(message);

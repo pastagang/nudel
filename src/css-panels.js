@@ -1,3 +1,6 @@
+import { validate } from 'csstree-validator';
+import { InlineErrorMessage, setError } from './error.js';
+
 function clamp(v, min, max) {
   if (v < min) return min;
   if (v > max) return max;
@@ -64,9 +67,16 @@ export function initCss(session) {
     const id = v.id.slice('css-hole-'.length);
     cssHolesMap.set(id, v);
   });
+
   session.on('eval:css', (msg) => {
-    if(msg.body.includes("--fft")) {
-      requestAnimationFrame(updateFftVariableInCss)
+    const errors = validate(msg.body);
+
+    errors
+      .map((it) => new InlineErrorMessage(it.line, `${'-'.repeat(it.column)}^\n${it.message}`))
+      .forEach((it) => setError(it, msg.docId));
+
+    if (msg.body.includes('--fft')) {
+      requestAnimationFrame(updateFftVariableInCss);
     }
     const cssHole = cssHolesMap.get(msg.docId);
     cssHole.textContent = msg.body;
