@@ -2,6 +2,9 @@ import HydraRenderer from 'hydra-synth';
 
 import { getWeather } from '../climate.js';
 import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY } from './timedEvents/time.js';
+import * as stackTraceParser from 'stacktrace-parser';
+import {InlineErrorMessage} from "./error.js";
+
 
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
@@ -259,7 +262,18 @@ export class HydraSession {
       })()`);
     } catch (error) {
       console.error(error);
-      this.onError(`${error}`, docId);
+
+      const anonLocation =  error.stack
+          .split(`\n    at`)?.[1]
+          ?.split("(")?.[2]
+          ?.replace(/\)$/, "")
+          ?.split(",")?.[1]
+
+      const line = anonLocation?.split(":")[1]
+
+      const errorToThrow = line != null ?
+        new InlineErrorMessage(line, error.message): `${error}`
+      this.onError( errorToThrow, docId);
     }
   }
 }
