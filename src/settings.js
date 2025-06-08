@@ -275,8 +275,6 @@ function applycss(settings = getSettings()) {
   css.textContent = getPanelViscss(settings)
 }
 
-applycss();
-
 export async function applySettingsToNudel(settings = getSettings()) {
   const previous = appliedSettings;
   const next = settings;
@@ -462,7 +460,7 @@ export async function applySettingsToNudel(settings = getSettings()) {
   pastamirror.updateExtensions(diff);
   appliedSettings = { ...next };
 
-  applycss(settings)
+  applycss(settings);
 
   // console.log('APPLIED SETTINGS', getSettings());
 }
