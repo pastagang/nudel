@@ -243,6 +243,40 @@ async function initCameras() {
 
 initCameras();
 
+function getHidePanelcss(type) {
+    return `.slot-${type} { display:none !important; }`
+}
+
+function getPanelViscss(settings) {
+    let css = [];
+    if (!settings.strudelVisible) {
+        css.push(getHidePanelcss("strudel"));
+    }
+    if (!settings.hydraVisible) {
+        css.push(getHidePanelcss("hydra"));
+    }
+    if (!settings.strudelVisible) {
+        css.push(getHidePanelcss("shader"));
+    }
+    if (!settings.kabelsalatVisible) {
+        css.push(getHidePanelcss("kabelsalat"));
+    }
+    if (!settings.jsVisible) {
+        css.push(getHidePanelcss("js"));
+    }
+    if (!settings.cssVisible) {
+        css.push(getHidePanelcss("css"));
+    }
+    return css.join("\n")
+}
+
+function applycss(settings = getSettings()) {
+   let css = document.querySelector("#css-settings")
+  css.textContent = getPanelViscss(settings)
+}
+
+applycss();
+
 export async function applySettingsToNudel(settings = getSettings()) {
   const previous = appliedSettings;
   const next = settings;
@@ -427,6 +461,8 @@ export async function applySettingsToNudel(settings = getSettings()) {
 
   pastamirror.updateExtensions(diff);
   appliedSettings = { ...next };
+
+  applycss(settings)
 
   // console.log('APPLIED SETTINGS', getSettings());
 }
