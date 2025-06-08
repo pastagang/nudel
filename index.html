@@ -7,6 +7,7 @@
     <script type="module" src="/script.js"></script>
     <script src="/assets/qrcode.js"></script>
     <title>🍝 nudel</title>
+    <style id="css-settings"></style>
     <style id="css-variables"></style>
     <style id="css-hole-0" class="css-hole"></style>
     <style id="css-hole-1" class="css-hole"></style>
@@ -236,7 +237,7 @@
                   </select>
                 </label>
               </p>
-              <p>
+             <p>
                 <label>
                   <input type="checkbox" id="settings-zen-mode" />
                   Minimal user interface
@@ -268,32 +269,111 @@
                 </label>
               </p>
               <br />
-              <h3>Panel types</h3>
-              <p>These settings control which types of panels will run for you.</p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-strudel-enabled" />
-                  Enable strudel (sound) (off is faster)
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-kabelsalat-enabled" />
-                  Enable kabelsalat (sound) (off is faster)
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-hydra-enabled" />
-                  Enable hydra (visuals) (off is faster)
-                </label>
-              </p>
-              <p>
-                <label>
-                  <input type="checkbox" id="settings-shader-enabled" />
-                  Enable shader (visuals) (off is faster)
-                </label>
-              </p>
+            </section>
+            <section>
+              <h2>Panels</h3>
+              <p>These settings control which types of panels will display and run for you.</p>
+              <table>
+                <tr>
+                  <th colspan=2>
+                    audio
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-strudel-enabled" />
+                      Enable strudel
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-strudel-visible" />
+                      Show strudel panels
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-kabelsalat-enabled" />
+                      Enable kabelsalat
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-kabelsalat-visible" />
+                      Show kabelsalat panels
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan=2>
+                    visuals
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-hydra-enabled" />
+                      Enable hydra
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-hydra-visible" />
+                      Show hydra panels
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-shader-enabled" />
+                      Enable shader
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-shader-visible" />
+                      Show shader panels
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan=2>
+                    nudel
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-js-enabled" />
+                      Enable jam js
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-js-visible" />
+                      Show js panels
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-css-enabled" />
+                      Enable jam css
+                    </label>
+                  </td>
+                  <td>
+                    <label>
+                      <input type="checkbox" id="settings-css-visible" />
+                      Show css panels
+                    </label>
+                  </td>
+                </tr>
+              </table>
             </section>
             <hr />
             <section>

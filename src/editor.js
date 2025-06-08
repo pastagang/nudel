@@ -272,7 +272,7 @@ export class PastaMirror {
 
     slotsEl.insertAdjacentHTML(
       'beforeend',
-      `<div class="slot ${side}" id="slot-${doc.id}">
+      `<div class="slot slot-${doc.target} ${side}" id="slot-${doc.id}">
       <header>
         <select class="target">
           ${this.supportedTargets.map((target) => `<option value="${target}">${target}</option>`).join('\n')}
@@ -323,7 +323,10 @@ export class PastaMirror {
     targetEl.value = doc.target;
 
     targetEl.addEventListener('change', (e) => {
+      const old_target = doc.target;
       doc.target = e.target?.['value'];
+      const slot = document.querySelector(`#slot-${doc.id}`)
+      slot.classList.replace(`slot-${old_target}`, `slot-${doc.target}`)
     });
     doc.session.on(`change-target:${doc.id}`, () => {
       targetEl.value = doc.target;

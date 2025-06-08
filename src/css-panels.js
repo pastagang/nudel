@@ -79,7 +79,7 @@ export function initCss(session) {
       requestAnimationFrame(updateFftVariableInCss);
     }
     const cssHole = cssHolesMap.get(msg.docId);
-    cssHole.textContent = msg.body;
+    cssHole.textContent = getSettings().cssEnabled ? msg.body : "";
   });
 
   // this is not very performant probably (sooory)
