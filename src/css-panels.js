@@ -61,7 +61,6 @@ window.fft = (
 export function initCss(session) {
   const cssHoles = document.querySelectorAll('.css-hole');
   const cssHolesMap = new Map();
-  const cssVariablesElement = document.querySelector('#css-variables');
 
   cssHoles.forEach((v) => {
     const id = v.id.slice('css-hole-'.length);
@@ -85,10 +84,7 @@ export function initCss(session) {
   // this is not very performant probably (sooory)
   // maybe we could only do this when we need it
   function updateFftVariableInCss() {
-    const data = fft();
-    cssVariablesElement.textContent = `:root {
-      --fft: ${data};
-    }`;
+    document.documentElement.style.setProperty("--fft", fft())
     requestAnimationFrame(updateFftVariableInCss);
   }
 }
