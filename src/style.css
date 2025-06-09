@@ -674,26 +674,9 @@ input:disabled {
   max-height: 3em;
 }
 
-#foggy.active {
-  position: fixed;
-  inset: 0;
-  z-index: 400;
-  pointer-events: none;
-
-  backdrop-filter: blur(4px);
-  mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%), transparent 10px, black 20px);
+#slots.foggy {
+  mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%),black 100px,transparent 200px);
 
   /* safari support stuff ? */
-  -webkit-backdrop-filter: blur(8px);
-  -webkit-mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%), transparent 10px, black 120px);
-
-  background: radial-gradient(
-    circle at var(--x, 50%) var(--y, 50%),
-    transparent 0px,
-    rgba(220, 220, 220, 0.33) 80px,
-    rgba(160, 160, 160, 0.45) 140px,
-    rgba(120, 120, 120, 0.8) 220px,
-    rgba(100, 100, 100, 0.95) 320px,
-    rgba(90, 90, 90, 0.98) 420px
-  );
+  -webkit-mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%),black 100px,transparent 200px);
 }

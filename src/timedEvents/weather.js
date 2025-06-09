@@ -24,9 +24,9 @@ function applyWeather(weather) {
   }
 
   if (weather.foggy) {
-    document.querySelector('#foggy')?.classList.add('active');
+    document.querySelector('#slots')?.classList.add('foggy');
     document.addEventListener('mousemove', (e) => {
-      const fog = document.querySelector('#foggy');
+      const fog = document.querySelector('#slots');
       fog?.style.setProperty('--x', `${e.clientX}px`);
       fog?.style.setProperty('--y', `${e.clientY}px`);
     });
