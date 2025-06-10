@@ -260,7 +260,7 @@ export class HydraSession {
       })()`;
       await eval?.(c);
     } catch (error) {
-      tryToGetErrorWithLine({ error, code, docId, onError: this.onError });
+      tryToGetErrorWithLine({ error, code, docId, onError: this.onError, offset: 1 });
     }
   }
 }
