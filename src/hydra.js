@@ -278,7 +278,7 @@ export class HydraSession {
         code,
         docId,
         onError: this.onError,
-        offset: 1,
+        offset: 0,
       });
     }
   }

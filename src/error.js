@@ -148,7 +148,7 @@ export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
     }
 
     if ('loc' in error) {
-      return error.loc.line - offset;
+      return error.loc.line - offset + 1;
     }
 
     const anonLocation = error.stack.split(`\n    at`)?.[1]?.split('(')?.[2]?.replace(/\)$/, '')?.split(',')?.[1];
@@ -164,7 +164,7 @@ export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
   })();
 
   if (line != null) {
-    onError(new InlineErrorMessage(line, message), docId);
+    onError(new InlineErrorMessage(line - 1, '1:' + message), docId);
     return;
   }
 
@@ -177,7 +177,7 @@ export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
     (e) => {
       headElement.removeChild(scriptElem);
       const message = e.error.message.split('\n')[0]?.split(':')[1]?.trim();
-      onError(new InlineErrorMessage(e.lineno - (offset ?? 0) - 1, message), docId);
+      onError(new InlineErrorMessage(e.lineno - (offset ?? 0) - 1, '2:' + message), docId);
     },
     false,
   );
