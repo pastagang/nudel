@@ -141,7 +141,12 @@ window.addEventListener('message', (event) => {
 });
 
 export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
+  const isMiniError = error.message.includes('[mini]');
   const line = (() => {
+    if (isMiniError) {
+      return error.stack.replace('Error: [mini] parse error at line ', '').split(':')[0];
+    }
+
     if ('loc' in error) {
       return error.loc.line - offset;
     }
@@ -151,8 +156,15 @@ export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
     return anonLocation?.split(':')[1];
   })();
 
+  const message = (() => {
+    if (isMiniError) {
+      return '[mini]' + error.message.split(':')[1];
+    }
+    return error.message.split('\n')[0];
+  })();
+
   if (line != null) {
-    onError(new InlineErrorMessage(line, error.message.split('\n')[0]), docId);
+    onError(new InlineErrorMessage(line, message), docId);
     return;
   }
 
