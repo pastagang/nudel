@@ -125,6 +125,7 @@ export function clearLocalError(docId) {
   document.querySelector(`#slot-${docId} #error-${docId}`)?.remove();
   clearInlineErrors(docId);
 }
+
 export function clearGlobalError() {
   document.querySelector(`#global-error`)?.remove();
 }
@@ -138,3 +139,51 @@ window.addEventListener('message', (event) => {
     setError(err, docId);
   }
 });
+
+export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
+  const anonLocation = error.stack.split(`\n    at`)?.[1]?.split('(')?.[2]?.replace(/\)$/, '')?.split(',')?.[1];
+
+  const line = anonLocation?.split(':')[1];
+
+  const errorToThrow = line != null ? new InlineErrorMessage(line, error.message.split('\n')[0]) : `${error}`;
+
+  onError(errorToThrow, docId);
+
+  const headElement = document.getElementsByTagName('head')[0];
+  const scriptElem = document.createElement('script');
+  window.addEventListener(
+    'error',
+    (e) => {
+      console.log(
+        e.message,
+        '\n',
+        e.filename,
+        ':',
+        e.lineno,
+        e.colno ? ':' + e.colno : '',
+        e.error && e.error.stack ? '\n' : '',
+        e.error ? e.error.stack : undefined,
+      );
+
+      headElement.removeChild(scriptElem);
+      const message = e.error.message.split('\n')[0]?.split(':')[1]?.trim();
+      onError(new InlineErrorMessage(e.lineno - (offset ?? 0) - 1, message), docId);
+    },
+    false,
+  );
+
+  window.removeScript = () => {
+    headElement.removeChild(headElement);
+  };
+
+  scriptElem.addEventListener('load', (e) => {
+    headElement.removeChild(scriptElem);
+  });
+
+  scriptElem.innerHTML = `(async () => {
+          ${code}
+        removeScriptTag()
+      })()`;
+  headElement.appendChild(scriptElem);
+  // throw error;
+}

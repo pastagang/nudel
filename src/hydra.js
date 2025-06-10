@@ -2,6 +2,7 @@ import HydraRenderer from 'hydra-synth';
 
 import { getWeather } from '../climate.js';
 import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY } from './timedEvents/time.js';
+import { tryToGetErrorWithLine } from './error.js';
 
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
@@ -254,12 +255,12 @@ export class HydraSession {
     this.lastDocId = docId;
 
     try {
-      await eval?.(`(async () => {
-        ${code}
-      })()`);
+      const c = `(async () => {
+          ${code}
+      })()`;
+      await eval?.(c);
     } catch (error) {
-      console.error(error);
-      this.onError(`${error}`, docId);
+      tryToGetErrorWithLine({ error, code, docId, onError: this.onError });
     }
   }
 }

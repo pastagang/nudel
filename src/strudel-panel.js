@@ -17,6 +17,7 @@ import { transpiler } from '@strudel/transpiler';
 import { aliasBank, getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
 import { setInterval, clearInterval } from 'worker-timers';
 import { getWeather } from '../climate.js';
+import { tryToGetErrorWithLine } from './error.js';
 // import { NudelCyclist } from './strudel-cyclist.js'; // for "global sync" mode
 
 controls.createParam('docId');
@@ -35,6 +36,7 @@ window.kabel = register('kabel', (id, pat) => {
 
 export class StrudelSession {
   cps = 0.5;
+
   constructor({ onError, onHighlight, onUpdateMiniLocations }) {
     this.patterns = {};
     this.pPatterns = {};
@@ -46,6 +48,7 @@ export class StrudelSession {
     this.enableAutoAnalyze = true;
     this.init();
   }
+
   printSounds() {
     const sounds = this.webaudio?.soundMap.get();
     if (!sounds) {
@@ -150,6 +153,7 @@ export class StrudelSession {
 
     this.initHighlighting();
   }
+
   initAudio() {
     return initAudio();
   }
@@ -356,9 +360,16 @@ export class StrudelSession {
       await this.setDocPattern(docId, pattern);
 
       //console.log("afterEval", meta);
-    } catch (err) {
-      console.error(err);
-      this.onError(`${err}`, docId);
+    } catch (error) {
+      // console.error(err);
+      tryToGetErrorWithLine({
+        error,
+        code,
+        docId,
+        onError: this.onError,
+        offset: 2,
+      });
+      // this.onError(`${err}`, docId);
     }
   }
 }
