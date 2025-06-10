@@ -141,13 +141,22 @@ window.addEventListener('message', (event) => {
 });
 
 export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
-  const anonLocation = error.stack.split(`\n    at`)?.[1]?.split('(')?.[2]?.replace(/\)$/, '')?.split(',')?.[1];
+  const line = (() => {
+    if ('loc' in error) {
+      return error.loc.line - offset;
+    }
 
-  const line = anonLocation?.split(':')[1];
+    const anonLocation = error.stack.split(`\n    at`)?.[1]?.split('(')?.[2]?.replace(/\)$/, '')?.split(',')?.[1];
 
-  const errorToThrow = line != null ? new InlineErrorMessage(line, error.message.split('\n')[0]) : `${error}`;
+    return anonLocation?.split(':')[1];
+  })();
 
-  onError(errorToThrow, docId);
+  if (line != null) {
+    onError(new InlineErrorMessage(line, error.message.split('\n')[0]), docId);
+    return;
+  }
+
+  onError(`${error}`, docId);
 
   const headElement = document.getElementsByTagName('head')[0];
   const scriptElem = document.createElement('script');

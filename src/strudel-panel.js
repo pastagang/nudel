@@ -15,6 +15,7 @@ import { Framer } from '@strudel/draw';
 import { registerSoundfonts } from '@strudel/soundfonts';
 import { transpiler } from '@strudel/transpiler';
 import { aliasBank, getAudioContext, initAudio, registerSynthSounds, samples, webaudioOutput } from '@strudel/webaudio';
+
 import { setInterval, clearInterval } from 'worker-timers';
 import { getWeather } from '../climate.js';
 import { tryToGetErrorWithLine } from './error.js';
@@ -361,13 +362,14 @@ export class StrudelSession {
 
       //console.log("afterEval", meta);
     } catch (error) {
-      // console.error(err);
+      console.error(error);
+      debugger;
       tryToGetErrorWithLine({
         error,
         code,
         docId,
         onError: this.onError,
-        offset: 2,
+        offset: 1,
       });
       // this.onError(`${err}`, docId);
     }
