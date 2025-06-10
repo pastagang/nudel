@@ -1,5 +1,5 @@
-import { StateEffect, StateField, RangeSet } from '@codemirror/state';
-import { EditorView, Decoration, WidgetType } from '@codemirror/view';
+import { RangeSet, StateEffect, StateField } from '@codemirror/state';
+import { Decoration, EditorView, WidgetType } from '@codemirror/view';
 
 export class InlineErrorMessage {
   constructor(lineno, text) {

@@ -78,13 +78,13 @@ export function initCss(session) {
       requestAnimationFrame(updateFftVariableInCss);
     }
     const cssHole = cssHolesMap.get(msg.docId);
-    cssHole.textContent = getSettings().cssEnabled ? msg.body : "";
+    cssHole.textContent = getSettings().cssEnabled ? msg.body : '';
   });
 
   // this is not very performant probably (sooory)
   // maybe we could only do this when we need it
   function updateFftVariableInCss() {
-    document.documentElement.style.setProperty("--fft", fft())
+    document.documentElement.style.setProperty('--fft', fft());
     requestAnimationFrame(updateFftVariableInCss);
   }
 }

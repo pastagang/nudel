@@ -95,7 +95,7 @@ function makeSession() {
     unsubscribeFromChat();
   });
   // js
-  session.on('eval:js', (msg) => getSettings().jsEnabled ? new Function(msg.body)() : () => {});
+  session.on('eval:js', (msg) => (getSettings().jsEnabled ? new Function(msg.body)() : () => {}));
   // css
   initCss(session);
   // hydra

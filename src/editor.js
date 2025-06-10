@@ -325,8 +325,8 @@ export class PastaMirror {
     targetEl.addEventListener('change', (e) => {
       const old_target = doc.target;
       doc.target = e.target?.['value'];
-      const slot = document.querySelector(`#slot-${doc.id}`)
-      slot.classList.replace(`slot-${old_target}`, `slot-${doc.target}`)
+      const slot = document.querySelector(`#slot-${doc.id}`);
+      slot.classList.replace(`slot-${old_target}`, `slot-${doc.target}`);
     });
     doc.session.on(`change-target:${doc.id}`, () => {
       targetEl.value = doc.target;

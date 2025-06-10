@@ -675,8 +675,8 @@ input:disabled {
 }
 
 #slots.foggy {
-  mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%),black 100px,transparent 200px);
+  mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%), black 100px, transparent 200px);
 
   /* safari support stuff ? */
-  -webkit-mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%),black 100px,transparent 200px);
+  -webkit-mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%), black 100px, transparent 200px);
 }
