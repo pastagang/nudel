@@ -69,11 +69,10 @@ export class HydraSession {
             .find((it) => it.includes('<anonymous>:'))
             ?.split('<anonymous>')[1]
             .split(':')[1];
-          debugger;
 
           const message = '[mini]' + error.message.replace(/^\[mini] parse error at line \d+:/, '');
 
-          this.onError(line != undefined ? new InlineErrorMessage(line - 1, message) : message, this.lastDocId);
+          this.onError(message, this.lastDocId);
         }
       };
     };
