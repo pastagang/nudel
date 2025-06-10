@@ -175,17 +175,6 @@ export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
   window.addEventListener(
     'error',
     (e) => {
-      console.log(
-        e.message,
-        '\n',
-        e.filename,
-        ':',
-        e.lineno,
-        e.colno ? ':' + e.colno : '',
-        e.error && e.error.stack ? '\n' : '',
-        e.error ? e.error.stack : undefined,
-      );
-
       headElement.removeChild(scriptElem);
       const message = e.error.message.split('\n')[0]?.split(':')[1]?.trim();
       onError(new InlineErrorMessage(e.lineno - (offset ?? 0) - 1, message), docId);

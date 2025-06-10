@@ -2,7 +2,7 @@ import HydraRenderer from 'hydra-synth';
 
 import { getWeather } from '../climate.js';
 import { getNudelHour, NUDEL_HOUR_IN_A_NUDEL_DAY } from './timedEvents/time.js';
-import { tryToGetErrorWithLine } from './error.js';
+import { InlineErrorMessage, tryToGetErrorWithLine } from './error.js';
 
 export class HydraSession {
   constructor({ onError, canvas, onHighlight }) {
@@ -52,15 +52,29 @@ export class HydraSession {
     // - https://github.com/tidalcycles/strudel/blob/26cc7e2920e32ec01bf22e1dae8ced716462a158/packages/hydra/hydra.mjs#L50
     window.P = (pattern) => {
       return () => {
-        if (window.parent.strudel == undefined) return 1;
-        // parse using the strudel mini parser
-        const reified = window.parent.strudel.mini.minify(pattern);
+        try {
+          if (window.parent.strudel == undefined) return 1;
+          // parse using the strudel mini parser
+          const reified = window.parent.strudel.mini.minify(pattern);
+          console.dir(reified);
 
-        const now = window.parent.strudel.core.getTime();
+          const now = window.parent.strudel.core.getTime();
 
-        // query the current value
-        const arc = reified.queryArc(now, now);
-        return arc[0].value;
+          // query the current value
+          const arc = reified.queryArc(now, now);
+          return arc[0].value;
+        } catch (error) {
+          const line = error.stack
+            .split('\n')
+            .find((it) => it.includes('<anonymous>:'))
+            ?.split('<anonymous>')[1]
+            .split(':')[1];
+          debugger;
+
+          const message = '[mini]' + error.message.replace(/^\[mini] parse error at line \d+:/, '');
+
+          this.onError(line != undefined ? new InlineErrorMessage(line - 1, message) : message, this.lastDocId);
+        }
       };
     };
 
@@ -260,7 +274,13 @@ export class HydraSession {
       })()`;
       await eval?.(c);
     } catch (error) {
-      tryToGetErrorWithLine({ error, code, docId, onError: this.onError, offset: 1 });
+      tryToGetErrorWithLine({
+        error,
+        code,
+        docId,
+        onError: this.onError,
+        offset: 1,
+      });
     }
   }
 }
