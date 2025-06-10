@@ -363,7 +363,6 @@ export class StrudelSession {
       //console.log("afterEval", meta);
     } catch (error) {
       console.error(error);
-      debugger;
       tryToGetErrorWithLine({
         error,
         code,
@@ -371,7 +370,6 @@ export class StrudelSession {
         onError: this.onError,
         offset: 1,
       });
-      // this.onError(`${err}`, docId);
     }
   }
 }

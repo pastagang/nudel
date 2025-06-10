@@ -144,7 +144,7 @@ export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
   const isMiniError = error.message.includes('[mini]');
   const line = (() => {
     if (isMiniError) {
-      return error.stack.replace('Error: [mini] parse error at line ', '').split(':')[0];
+      return parseInt(error.stack.replace('Error: [mini] parse error at line ', '').split(':')[0]);
     }
 
     if ('loc' in error) {
@@ -158,7 +158,7 @@ export function tryToGetErrorWithLine({ error, code, docId, onError, offset }) {
 
   const message = (() => {
     if (isMiniError) {
-      return '[mini]' + error.message.split(':')[1];
+      return '[mini]' + error.message.replace(/^\[mini] parse error at line \d+:/, '');
     }
     return error.message.split('\n')[0];
   })();
